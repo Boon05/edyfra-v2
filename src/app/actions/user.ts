@@ -6,6 +6,20 @@ import { revalidatePath } from "next/cache";
 
 const prisma = new PrismaClient();
 
+export async function getUserData() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return null;
+
+  return await prisma.user.findUnique({
+    where: { id: user.id },
+    include: {
+      studentProfile: true,
+      tutorProfile: true
+    }
+  });
+}
+
 export async function updateUserRole(role: "STUDENT" | "TUTOR") {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
