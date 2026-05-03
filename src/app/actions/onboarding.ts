@@ -16,6 +16,7 @@ interface OnboardingData {
   subjects: string[];
   weakTopics: string[];
   studyStyle: string;
+  bio?: string;
   verificationPath?: string;
   hourlyRate?: string;
 }
@@ -41,7 +42,7 @@ export async function completeOnboarding(data: OnboardingData) {
     throw new Error("Unauthorized");
   }
 
-  const { role, educationLevel, formYear, county, subjects, weakTopics, studyStyle, verificationPath, hourlyRate } = data;
+  const { role, educationLevel, formYear, county, subjects, weakTopics, studyStyle, bio, verificationPath, hourlyRate } = data;
 
   // 1. Update Supabase Auth Metadata (for middleware)
   await supabase.auth.updateUser({
@@ -83,7 +84,7 @@ export async function completeOnboarding(data: OnboardingData) {
             levelsTaught: [],
             verificationPath: verificationPath === "GRADES" ? VerifPath.GRADES : VerifPath.POINTS,
             hourlyRate: parseInt(hourlyRate!) || 0,
-            bio: "",
+            bio: bio || "",
             availability: {}
           }
         }

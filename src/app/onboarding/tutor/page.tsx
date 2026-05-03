@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { createClient } from "@/utils/supabase/client";
+import { completeOnboarding } from "@/app/actions/onboarding";
 
 export default function TutorOnboardingPage() {
   const router = useRouter();
@@ -32,14 +33,21 @@ export default function TutorOnboardingPage() {
     if (!user) return;
 
     try {
-      // In a real app, call a server action to create the TutorProfile in Prisma
-      // For now, we'll simulate the completion and redirect
-      
-      // We'll use a fetch call to a mock internal API or just simulate
-      await new Promise(r => setTimeout(r, 1500));
+      await completeOnboarding({
+        role: "TUTOR",
+        educationLevel: "UNIVERSITY",
+        formYear: "1",
+        county: "Nairobi",
+        subjects: formData.subjects.split(",").map(s => s.trim()),
+        weakTopics: [],
+        studyStyle: "solo",
+        bio: formData.bio,
+        verificationPath: "GRADES",
+        hourlyRate: formData.hourlyRate,
+      });
 
-      toast.success("Application submitted! An admin will review your profile shortly.");
-      router.push("/tutor"); // Tutors land in their dashboard (it handles the pending state)
+      toast.success("Application submitted! Welcome to the Expert Team.");
+      router.push("/tutor");
     } catch (error) {
       toast.error("Failed to save profile.");
     } finally {
