@@ -157,3 +157,27 @@ export async function forceAIFallback(requestId: string) {
 
   return { success: true, sessionId: session.id };
 }
+
+export async function sweepUnmatchedRequests() {
+  try {
+    // Find requests older than 1 minute that haven't been resolved
+    const oneMinuteAgo = new Date(Date.now() - 60 * 1000);
+    
+    const unmatchedRequests = await prisma.matchRequest.findMany({
+      where: {
+        sessionId: null,
+        createdAt: { lt: oneMinuteAgo }
+      }
+    });
+
+    for (const request of unmatchedRequests) {
+      console.log(`Auto-matching stale request ${request.id} with AI`);
+      await forceAIFallback(request.id);
+    }
+
+    return { success: true, swept: unmatchedRequests.length };
+  } catch (error) {
+    console.error("Error sweeping unmatched requests:", error);
+    return { success: false };
+  }
+}

@@ -15,6 +15,11 @@ export default async function DashboardLayout({
     redirect("/login");
   }
 
+  // Proactively sweep for any unmatched requests that have timed out
+  // This ensures students are automatically connected to Mash AI if no tutor responds
+  const { sweepUnmatchedRequests } = await import("@/app/actions/match");
+  await sweepUnmatchedRequests();
+
   return (
     <div className="flex min-h-screen bg-background">
       <DashboardSidebar user={user} />
