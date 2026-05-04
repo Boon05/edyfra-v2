@@ -112,7 +112,7 @@ export default function ArticlePage() {
                         Standard learning systems focus on storage. Edyfra focuses on connection. By leveraging our proprietary AI discovery engine, we ensure that every scholar is matched with the exact resources and mentors needed for their current mission. This removes the legacy friction that has plagued Kenyan education for decades.
                      </p>
                      <blockquote className="border-l-4 border-primary pl-8 py-4 italic text-foreground text-2xl font-bold tracking-tight">
-                        "The future of education isn't about more content; it's about more synchronization."
+                        &quot;The future of education isn&apos;t about more content; it&apos;s about more synchronization.&quot;
                      </blockquote>
                      <p>
                         As we move into the next phase of our mission, we are doubling down on our institutional verification protocols. Every expert on our platform is hand-audited to ensure they meet the institutional grade standards our community demands.

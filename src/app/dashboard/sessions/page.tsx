@@ -12,9 +12,9 @@ import { format } from "date-fns";
 
 export default function SessionsPage() {
   const supabase = createClient();
-  const [sessions, setSessions] = useState<any[]>([]);
+  const [sessions, setSessions] = useState<unknown[]>([]);
   const [loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState<any>(null);
+  const [userData, setUserData] = useState<unknown>(null);
 
   useEffect(() => {
     fetchSessions();

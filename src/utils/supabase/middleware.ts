@@ -35,19 +35,38 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const isAuthRoute = request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/signup');
-  const isProtectedRoute = request.nextUrl.pathname.startsWith('/dashboard') || request.nextUrl.pathname.startsWith('/study-room') || request.nextUrl.pathname.startsWith('/onboarding');
+  const isStudentRoute = request.nextUrl.pathname.startsWith('/dashboard');
+  const isTutorRoute = request.nextUrl.pathname.startsWith('/tutor');
+  const isProtectedRoute = isStudentRoute || isTutorRoute || request.nextUrl.pathname.startsWith('/study-room') || request.nextUrl.pathname.startsWith('/onboarding');
 
   if (!user && isProtectedRoute) {
-    // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone();
     url.pathname = '/login';
     return NextResponse.redirect(url);
   }
 
-  if (user && isAuthRoute) {
-    const url = request.nextUrl.clone();
-    url.pathname = '/dashboard';
-    return NextResponse.redirect(url);
+  if (user) {
+    const role = user.user_metadata?.role;
+
+    // Redirect already logged in users away from auth pages
+    if (isAuthRoute) {
+      const url = request.nextUrl.clone();
+      url.pathname = role === 'TUTOR' ? '/tutor' : '/dashboard';
+      return NextResponse.redirect(url);
+    }
+
+    // Role-based access control
+    if (role === 'TUTOR' && isStudentRoute) {
+      const url = request.nextUrl.clone();
+      url.pathname = '/tutor';
+      return NextResponse.redirect(url);
+    }
+
+    if (role !== 'TUTOR' && isTutorRoute) {
+      const url = request.nextUrl.clone();
+      url.pathname = '/dashboard';
+      return NextResponse.redirect(url);
+    }
   }
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is. If you're

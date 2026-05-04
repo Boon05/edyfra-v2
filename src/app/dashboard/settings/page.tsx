@@ -31,7 +31,7 @@ export default function SettingsPage() {
   const { theme, setTheme } = useTheme();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [userData, setUserData] = useState<any>(null);
+  const [userData, setUserData] = useState<unknown>(null);
   const [formData, setFormData] = useState({
     name: "",
     bio: "",
@@ -42,7 +42,7 @@ export default function SettingsPage() {
   }, []);
 
   const loadUserData = async () => {
-    const data: any = await getUserData();
+    const data: unknown = await getUserData();
     if (data) {
       setUserData(data);
       setFormData({
@@ -65,7 +65,7 @@ export default function SettingsPage() {
     }
   };
 
-  const handleUpdateSettings = async (newSettings: any) => {
+  const handleUpdateSettings = async (newSettings: unknown) => {
     const updatedSettings = { ...userData?.settings, ...newSettings };
     
     // Dispatch instant update event

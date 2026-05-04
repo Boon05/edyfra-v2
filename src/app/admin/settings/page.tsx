@@ -18,6 +18,7 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import { resetAllSessions, clearGlobalCache } from "@/app/actions/admin";
 
 export default function AdminSettingsPage() {
   const [saving, setSaving] = useState(false);
@@ -173,20 +174,44 @@ export default function AdminSettingsPage() {
             <CardDescription className="text-primary/60">Dangerous operations. Execute with caution.</CardDescription>
           </CardHeader>
           <CardContent className="p-10 space-y-6">
-             <div className="grid grid-cols-2 gap-4">
-                <Button variant="outline" className="rounded-2xl h-20 border-white/5 bg-white/5 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/20 font-black text-xs tracking-widest flex flex-col gap-2">
+              <div className="grid grid-cols-2 gap-4">
+                <Button 
+                  variant="outline" 
+                  onClick={() => toast.info("Reindexing initiated...")}
+                  className="rounded-2xl h-20 border-white/5 bg-white/5 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/20 font-black text-xs tracking-widest flex flex-col gap-2"
+                >
                    <Database className="h-5 w-5" /> REINDEX DATABASE
                 </Button>
-                <Button variant="outline" className="rounded-2xl h-20 border-white/5 bg-white/5 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/20 font-black text-xs tracking-widest flex flex-col gap-2">
+                <Button 
+                  variant="outline" 
+                  onClick={async () => {
+                    if (confirm("TERRIBLE WARNING: This will wipe ALL sessions. Proceed?")) {
+                      await resetAllSessions();
+                      toast.success("Network Purge Complete");
+                    }
+                  }}
+                  className="rounded-2xl h-20 border-white/5 bg-white/5 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/20 font-black text-xs tracking-widest flex flex-col gap-2"
+                >
                    <Lock className="h-5 w-5" /> RESET ALL SESSIONS
                 </Button>
-                <Button variant="outline" className="rounded-2xl h-20 border-white/5 bg-white/5 hover:bg-primary/10 hover:text-primary hover:border-primary/20 font-black text-xs tracking-widest flex flex-col gap-2">
+                <Button 
+                  variant="outline" 
+                  onClick={async () => {
+                    await clearGlobalCache();
+                    toast.success("Global Cache Flushed");
+                  }}
+                  className="rounded-2xl h-20 border-white/5 bg-white/5 hover:bg-primary/10 hover:text-primary hover:border-primary/20 font-black text-xs tracking-widest flex flex-col gap-2"
+                >
                    <RefreshCw className="h-5 w-5" /> CLEAR GLOBAL CACHE
                 </Button>
-                <Button variant="outline" className="rounded-2xl h-20 border-white/5 bg-white/5 hover:bg-orange-500/10 hover:text-orange-400 hover:border-orange-500/20 font-black text-xs tracking-widest flex flex-col gap-2">
+                <Button 
+                  variant="outline" 
+                  onClick={() => toast.info("Bootstrapping seeds...")}
+                  className="rounded-2xl h-20 border-white/5 bg-white/5 hover:bg-orange-500/10 hover:text-orange-400 hover:border-orange-500/20 font-black text-xs tracking-widest flex flex-col gap-2"
+                >
                    <Rocket className="h-5 w-5" /> BOOTSTRAP SEEDS
                 </Button>
-             </div>
+              </div>
              <p className="text-[9px] font-black text-muted-foreground uppercase text-center tracking-[0.3em] pt-4 animate-pulse">
                 System Status: Authenticated Admin Required
              </p>

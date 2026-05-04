@@ -1,43 +1,85 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { 
-  Users, Star, Wallet, 
-  Clock, ChevronRight,
-  CheckCircle2, AlertCircle, Loader2
-} from "lucide-react";
-import { getTutorProfile, toggleTutorStatus } from "@/app/actions/tutor";
+import { Badge } from "@/components/ui/badge";
+import { Users, Star, Wallet, Clock, ArrowRight, Loader2, BookOpen, Sparkles } from "lucide-react";
+import { getTutorProfile, toggleTutorStatus, acceptMatchRequest } from "@/app/actions/tutor";
+import { createClient } from "@/utils/supabase/client";
+import { AvatarPremium } from "@/components/ui/avatar-premium";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-interface TutorProfileData {
-  user: { name: string };
-  totalSessions: number;
-  hourlyRate: number;
-  rating: string | number;
-  availability: { isOnline?: boolean };
+interface PendingRequest {
+  id: string;
+  subject: string;
+  topic: string | null;
+  createdAt: string;
+  studentId: string;
+  studentName?: string;
 }
 
 export default function TutorDashboard() {
-  const [profile, setProfile] = useState<TutorProfileData | null>(null);
+  const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [isOnline, setIsOnline] = useState(false);
   const [toggling, setToggling] = useState(false);
+  const [pendingRequests, setPendingRequests] = useState<PendingRequest[]>([]);
+  const [sessionLoading, setSessionLoading] = useState(true);
+  const [acceptingId, setAcceptingId] = useState<string | null>(null);
+  
+  const supabase = createClient();
+  const router = useRouter();
 
   useEffect(() => {
     loadProfile();
+    loadPendingRequests();
+
+    // Subscribe to new requests
+    const channel = supabase
+      .channel("live-requests")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "MatchRequest" },
+        (payload) => {
+          if (!payload.new.sessionId) {
+            setPendingRequests((prev) => [payload.new as PendingRequest, ...prev]);
+            toast.info("New student request nearby!");
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   const loadProfile = async () => {
     const data = await getTutorProfile();
     if (data) {
-      setProfile(data as any);
+      setProfile(data);
       setIsOnline((data.availability as any)?.isOnline || false);
     }
     setLoading(false);
+  };
+
+  const loadPendingRequests = async () => {
+    setSessionLoading(true);
+    const { data, error } = await supabase
+      .from("MatchRequest")
+      .select("*")
+      .is("sessionId", null)
+      .order("createdAt", { ascending: false })
+      .limit(10);
+
+    if (!error && data) {
+      setPendingRequests(data as PendingRequest[]);
+    }
+    setSessionLoading(false);
   };
 
   const handleStatusToggle = async (checked: boolean) => {
@@ -45,138 +87,180 @@ export default function TutorDashboard() {
     try {
       await toggleTutorStatus(checked);
       setIsOnline(checked);
-      toast.success(checked ? "You are now LIVE. Students can discover you!" : "You are now OFFLINE.");
+      toast.success(checked ? "You're now live! Students can see you." : "You've gone offline.");
     } catch {
-      toast.error("Failed to update status.");
+      toast.error("Couldn't update status.");
     } finally {
       setToggling(false);
     }
   };
 
+  const handleAccept = async (id: string) => {
+    setAcceptingId(id);
+    try {
+      const result = await acceptMatchRequest(id);
+      if (result.success) {
+        toast.success("Match accepted! Entering room...");
+        router.push(`/study-room/${result.sessionId}`);
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Failed to accept.");
+    } finally {
+      setAcceptingId(null);
+    }
+  };
+
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <Loader2 className="h-8 w-8 animate-spin text-teal-600" />
+      <div className="flex items-center justify-center min-h-[600px]">
+        <Loader2 className="h-10 w-10 animate-spin text-primary" />
       </div>
     );
   }
 
   const stats = [
-    { label: "Active Requests", value: "3", icon: Users, color: "text-blue-500", bg: "bg-blue-500/10" },
-    { label: "Completed Sessions", value: profile?.totalSessions || "0", icon: CheckCircle2, color: "text-green-500", bg: "bg-green-500/10" },
-    { label: "Total Earnings", value: `Ksh ${profile?.totalSessions * profile?.hourlyRate || 0}`, icon: Wallet, color: "text-teal-600", bg: "bg-teal-600/10" },
-    { label: "Student Rating", value: profile?.rating || "New", icon: Star, color: "text-yellow-500", bg: "bg-yellow-500/10" },
+    { label: "Active Jobs", value: pendingRequests.length, icon: Users, color: "text-blue-500", bg: "bg-blue-500/10" },
+    { label: "Sessions", value: profile?.totalSessions || 0, icon: Sparkles, color: "text-emerald-500", bg: "bg-emerald-500/10" },
+    { label: "Earnings", value: `KSH ${(profile?.totalSessions || 0) * (profile?.hourlyRate || 0)}`, icon: Wallet, color: "text-primary", bg: "bg-primary/10" },
+    { label: "Rating", value: profile?.rating ? profile.rating.toFixed(1) : "New", icon: Star, color: "text-yellow-500", bg: "bg-yellow-500/10" },
   ];
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500">
-      {/* Header with Status */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 p-8 rounded-[2rem] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
-        <div className="space-y-1">
-          <h1 className="text-3xl font-black tracking-tight">Tutor Command Center</h1>
-          <p className="text-muted-foreground font-medium">Welcome back, Expert {profile?.user?.name.split(" ")[0]}.</p>
+    <div className="space-y-12 animate-in fade-in duration-700 font-sans p-2">
+      {/* Premium Header */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+        <div className="space-y-2">
+          <h1 className="text-4xl md:text-5xl font-black tracking-tightest">Your Hub.</h1>
+          <p className="text-muted-foreground text-lg font-medium">
+            Good to see you, <span className="text-foreground font-black underline decoration-primary decoration-4 underline-offset-4">{profile?.user?.name?.split(" ")[0] || "Tutor"}</span>.
+          </p>
         </div>
-        
-        <div className={`flex items-center gap-6 px-6 py-4 rounded-2xl border-2 transition-all ${isOnline ? "border-teal-500 bg-teal-500/5" : "border-slate-200 bg-slate-50"}`}>
-           <div className="flex items-center gap-3">
-              <div className={`w-3 h-3 rounded-full ${isOnline ? "bg-teal-500 animate-pulse" : "bg-slate-400"}`} />
-              <Label className="font-black text-xs uppercase tracking-widest">{isOnline ? "Discovery Active" : "Discovery Paused"}</Label>
-           </div>
-           <Switch 
-             checked={isOnline} 
-             onCheckedChange={handleStatusToggle} 
-             disabled={toggling}
-             className="data-[state=checked]:bg-teal-600"
-           />
+
+        <div className={`flex items-center gap-6 px-8 py-5 rounded-[2rem] border-2 transition-all duration-500 shadow-xl ${isOnline ? "border-primary bg-primary/5 shadow-primary/5" : "border-border bg-secondary"}`}>
+          <div className="flex items-center gap-4">
+            <div className={`w-3 h-3 rounded-full ${isOnline ? "bg-emerald-500 animate-pulse shadow-[0_0_12px_rgba(16,185,129,0.5)]" : "bg-muted-foreground"}`} />
+            <div className="flex flex-col">
+               <Label className="font-black text-[10px] uppercase tracking-widest leading-none">Status</Label>
+               <span className="text-sm font-bold mt-1">{isOnline ? "Ready to Teach" : "Currently Offline"}</span>
+            </div>
+          </div>
+          <Switch checked={isOnline} onCheckedChange={handleStatusToggle} disabled={toggling} className="data-[state=checked]:bg-primary" />
         </div>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {stats.map((stat) => (
-          <Card key={stat.label} className="border-none shadow-sm rounded-3xl overflow-hidden">
-            <CardContent className="p-6 flex items-center gap-4">
-              <div className={`${stat.bg} p-4 rounded-2xl`}>
+          <Card key={stat.label} className="border-border bg-secondary/30 backdrop-blur-sm rounded-[2rem] overflow-hidden hover:border-primary/50 transition-all group">
+            <CardContent className="p-6 md:p-8 flex flex-col gap-4">
+              <div className={`${stat.bg} w-12 h-12 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110`}>
                 <stat.icon className={`h-6 w-6 ${stat.color}`} />
               </div>
               <div>
                 <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{stat.label}</p>
-                <h3 className="text-2xl font-black">{stat.value}</h3>
+                <h3 className="text-2xl md:text-3xl font-black tracking-tightest tabular-nums mt-1">{stat.value}</h3>
               </div>
             </CardContent>
           </Card>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Recent Match Requests */}
-        <Card className="lg:col-span-2 border-none shadow-sm rounded-[2rem]">
-          <CardHeader className="p-8 border-b border-slate-100 dark:border-slate-800 flex flex-row items-center justify-between">
-             <div>
-                <CardTitle className="text-xl font-black">Live Match Requests</CardTitle>
-                <CardDescription>Students currently seeking help in your subjects.</CardDescription>
-             </div>
-             <Button variant="outline" className="rounded-xl font-bold h-10 border-teal-600/20 text-teal-600 hover:bg-teal-600/5">
-                Refresh Feed
-             </Button>
-          </CardHeader>
-          <CardContent className="p-0">
-             <div className="divide-y divide-slate-100 dark:divide-slate-800">
-                {[
-                  { student: "Mercy W.", subject: "Physics", topic: "Newton&apos;s Laws", time: "Just now" },
-                  { student: "Kelvin O.", subject: "Mathematics", topic: "Calculus I", time: "4m ago" },
-                ].map((req) => (
-                  <div key={req.student} className="p-6 flex items-center justify-between hover:bg-teal-50/30 transition-colors group">
-                     <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-2xl bg-teal-600/10 text-teal-600 flex items-center justify-center font-black">
-                           {req.student[0]}
-                        </div>
-                        <div>
-                           <p className="font-bold">{req.student}</p>
-                           <p className="text-xs text-muted-foreground font-medium">{req.subject} • <span className="text-teal-600">{req.topic}</span></p>
-                        </div>
-                     </div>
-                     <div className="flex items-center gap-4">
-                        <span className="text-[10px] font-bold text-muted-foreground uppercase">{req.time}</span>
-                        <Button className="rounded-xl font-black text-xs bg-teal-600 hover:bg-teal-700 px-6">Accept</Button>
-                     </div>
-                  </div>
-                ))}
-             </div>
-          </CardContent>
-          <CardFooter className="p-6 bg-slate-50 dark:bg-slate-900/50 flex justify-center border-t border-slate-100 dark:border-slate-800">
-             <Button variant="ghost" className="text-xs font-bold gap-2 text-muted-foreground">
-                View History <ChevronRight className="h-4 w-4" />
-             </Button>
-          </CardFooter>
-        </Card>
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 md:gap-12">
+        {/* Live Requests */}
+        <div className="xl:col-span-2 space-y-8">
+          <div className="flex items-center justify-between px-2">
+            <div className="space-y-1">
+              <h2 className="text-3xl font-black tracking-tightest">Live Requests</h2>
+              <p className="text-muted-foreground font-medium">Accept a session to start earning.</p>
+            </div>
+            <Button onClick={loadPendingRequests} variant="ghost" className="rounded-full text-xs font-black uppercase tracking-widest text-primary hover:bg-primary/5">
+              Refresh Feed
+            </Button>
+          </div>
 
-        {/* Availability Schedule */}
-        <Card className="border-none shadow-sm rounded-[2rem] bg-teal-600 text-white">
-           <CardHeader className="p-8 pb-4">
-              <CardTitle className="text-xl font-black flex items-center gap-2">
-                 <Clock className="h-5 w-5" /> Your Schedule
-              </CardTitle>
-              <CardDescription className="text-teal-100">Set your recurring active hours.</CardDescription>
-           </CardHeader>
-           <CardContent className="p-8 pt-4 space-y-4">
-              <div className="space-y-3">
-                 {["Mon", "Wed", "Fri"].map(day => (
-                    <div key={day} className="flex items-center justify-between p-3 rounded-xl bg-white/10 border border-white/5">
-                       <span className="font-bold text-sm">{day}</span>
-                       <span className="text-xs font-medium">02:00 PM - 06:00 PM</span>
+          <div className="space-y-4">
+            {sessionLoading ? (
+              <div className="py-20 flex items-center justify-center">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              </div>
+            ) : pendingRequests.length === 0 ? (
+              <div className="p-20 flex flex-col items-center justify-center text-center space-y-6 bg-secondary/30 rounded-[3rem] border border-dashed border-border">
+                <BookOpen className="h-12 w-12 text-muted-foreground/20" />
+                <div className="space-y-2">
+                   <p className="text-xl font-black tracking-tightest">It&apos;s quiet for now.</p>
+                   <p className="text-muted-foreground font-medium max-w-xs mx-auto">New requests will appear here in real-time as students seek help.</p>
+                </div>
+              </div>
+            ) : (
+              pendingRequests.map((req) => (
+                <Card key={req.id} className="border-border bg-card/50 hover:bg-secondary/30 transition-all rounded-[2.5rem] overflow-hidden group">
+                  <CardContent className="p-8 flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div className="flex items-center gap-6">
+                      <div className="w-16 h-16 rounded-[1.5rem] bg-primary/10 text-primary flex items-center justify-center font-black text-xl border border-primary/20">
+                        {req.subject[0]}
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-3">
+                          <Badge className="bg-primary/10 text-primary border-none text-[10px] font-black uppercase tracking-widest px-3 py-1">
+                            {req.subject}
+                          </Badge>
+                          <span className="text-xs font-bold text-muted-foreground flex items-center gap-1.5">
+                            <Clock className="h-3 w-3" /> Just now
+                          </span>
+                        </div>
+                        <h3 className="text-xl font-black tracking-tight">{req.topic || "Help Needed"}</h3>
+                        <p className="text-sm text-muted-foreground font-medium">Session Rate: <span className="text-foreground font-bold">KSH 500</span></p>
+                      </div>
                     </div>
-                 ))}
+
+                    <Button 
+                      onClick={() => handleAccept(req.id)}
+                      disabled={acceptingId === req.id}
+                      className="w-full md:w-auto h-14 px-10 rounded-2xl font-black text-xs tracking-widest uppercase bg-primary hover:bg-primary/90 text-white shadow-xl shadow-primary/20 gap-2 transition-all active:scale-95"
+                    >
+                      {acceptingId === req.id ? <Loader2 className="h-4 w-4 animate-spin" /> : "Accept Session"}
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))
+            )}
+          </div>
+        </div>
+
+        {/* Schedule & Info */}
+        <div className="space-y-8">
+           <Card className="border-none bg-primary text-white rounded-[3rem] overflow-hidden shadow-2xl shadow-primary/20">
+              <CardHeader className="p-10 pb-4">
+                 <h3 className="text-2xl font-black tracking-tightest flex items-center gap-3">
+                    <Clock className="h-6 w-6" /> Schedule
+                 </h3>
+                 <p className="text-primary-foreground/60 font-medium">Manage your teaching availability.</p>
+              </CardHeader>
+              <CardContent className="p-10 pt-4 space-y-6">
+                 <div className="space-y-3">
+                    {["Monday", "Wednesday", "Friday"].map(day => (
+                      <div key={day} className="flex items-center justify-between p-4 rounded-2xl bg-white/10 border border-white/5 backdrop-blur-md">
+                        <span className="font-bold text-sm">{day}</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest opacity-80">2pm – 6pm</span>
+                      </div>
+                    ))}
+                 </div>
+                 <Button className="w-full h-14 rounded-2xl bg-white text-primary font-black text-xs tracking-widest uppercase hover:bg-white/90 shadow-xl">
+                    Update Availability
+                 </Button>
+              </CardContent>
+           </Card>
+
+           <div className="p-8 rounded-[2.5rem] bg-secondary border border-border space-y-4">
+              <div className="w-10 h-10 rounded-xl bg-orange-500/10 flex items-center justify-center text-orange-500">
+                 <Sparkles className="h-5 w-5" />
               </div>
-              <Button className="w-full mt-4 rounded-xl bg-white text-teal-600 font-black py-6 hover:bg-white/90">
-                 Edit Weekly Schedule
-              </Button>
-              <div className="pt-4 flex items-center gap-2 text-[10px] font-bold text-teal-100 uppercase tracking-widest leading-relaxed">
-                 <AlertCircle className="h-3 w-3" />
-                 Students can book sessions during these times even when you&apos;re offline.
-              </div>
-           </CardContent>
-        </Card>
+              <p className="text-sm font-bold leading-relaxed">
+                 Top performing tutors earn up to <span className="text-primary">KSH 15,000</span> per week by being active during peak hours (6pm - 9pm).
+              </p>
+           </div>
+        </div>
       </div>
     </div>
   );

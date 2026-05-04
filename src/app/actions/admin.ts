@@ -1,158 +1,197 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/prisma";
+import { Role } from "@prisma/client";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 
-const prisma = new PrismaClient();
-const ADMIN_SECRET_KEY = "EDYFRA_MASTER_2024"; // In production, move this to .env
+const ADMIN_SECRET_KEY = process.env.ADMIN_SECRET_KEY || "EDYFRA_MASTER_2024";
+
+// --- AUTH & SETUP ---
 
 export async function registerAdmin(formData: any) {
   const { email, password, name, securityKey } = formData;
-
-  if (securityKey !== ADMIN_SECRET_KEY) {
-    return { error: "Invalid Security Key. Unauthorized access attempt logged." };
-  }
+  if (securityKey !== ADMIN_SECRET_KEY) return { error: "Invalid Key." };
 
   const supabase = await createClient();
-
-  // 1. Create Auth User
   const { data: authData, error: authError } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      data: {
-        full_name: name,
-        role: "ADMIN",
-      },
-    },
+    email, password, options: { data: { name, role: "ADMIN" } }
   });
 
   if (authError) return { error: authError.message };
-  if (!authData.user) return { error: "Signup failed." };
-
-  // 2. Create Prisma User with ADMIN role
+  
   try {
-    await prisma.user.create({
-      data: {
-        id: authData.user.id,
-        email: email,
-        name: name,
-        role: "ADMIN",
-        educationLevel: "UNIVERSITY", // Admins default to University or NA
+    await prisma.user.upsert({
+      where: { id: authData.user!.id },
+      update: { role: Role.ADMIN },
+      create: {
+        id: authData.user!.id,
+        email, name, role: Role.ADMIN,
+        educationLevel: "UNIVERSITY",
         county: "Nairobi",
-        points: 0,
-        tier: "BRONZE",
-      },
+      }
     });
-
     return { success: true };
-  } catch (err: any) {
-    console.error("Prisma Error:", err);
-    return { error: "Failed to create admin profile." };
+  } catch (err) {
+    return { error: "Prisma creation failed." };
   }
 }
+
+// --- USER MANAGEMENT ---
+
+export async function getAllUsers() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user || user.user_metadata?.role !== "ADMIN") throw new Error("Unauthorized");
+
+  return await prisma.user.findMany({
+    orderBy: { createdAt: "desc" },
+    include: {
+      studentProfile: true,
+      tutorProfile: true
+    }
+  });
+}
+
+export async function deleteUser(userId: string) {
+  const supabase = await createClient();
+  const { data: { user: admin } } = await supabase.auth.getUser();
+  if (!admin || admin.user_metadata?.role !== "ADMIN") throw new Error("Unauthorized");
+
+  // 1. Wipe from Prisma
+  await prisma.user.delete({ where: { id: userId } });
+
+  // 2. Try to wipe from Supabase Auth (Requires Service Role Key)
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (serviceRoleKey) {
+    const { createClient: createAdminClient } = await import("@supabase/supabase-js");
+    const adminClient = createAdminClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      serviceRoleKey,
+      { auth: { autoRefreshToken: false, persistSession: false } }
+    );
+    await adminClient.auth.admin.deleteUser(userId);
+  }
+
+  revalidatePath("/admin/users");
+  return { success: true };
+}
+
+export async function updateUserRoleAdmin(userId: string, role: Role) {
+  const supabase = await createClient();
+  const { data: { user: admin } } = await supabase.auth.getUser();
+  if (!admin || admin.user_metadata?.role !== "ADMIN") throw new Error("Unauthorized");
+
+  await prisma.user.update({
+    where: { id: userId },
+    data: { role }
+  });
+  revalidatePath("/admin/users");
+  return { success: true };
+}
+
+// --- SESSION MANAGEMENT ---
+
+export async function getActiveSessions() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user || user.user_metadata?.role !== "ADMIN") throw new Error("Unauthorized");
+
+  return await prisma.session.findMany({
+    where: { status: "ACTIVE" },
+    orderBy: { startedAt: "desc" }
+  });
+}
+
+export async function closeSession(sessionId: string) {
+  const supabase = await createClient();
+  const { data: { user: admin } } = await supabase.auth.getUser();
+  if (!admin || admin.user_metadata?.role !== "ADMIN") throw new Error("Unauthorized");
+
+  await prisma.session.update({
+    where: { id: sessionId },
+    data: { 
+      status: "COMPLETED",
+      endedAt: new Date()
+    }
+  });
+  revalidatePath("/admin/sessions");
+  return { success: true };
+}
+
+// --- TUTOR VERIFICATION ---
 
 export async function getTutorApplications() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user || user.user_metadata?.role !== "ADMIN") throw new Error("Unauthorized");
 
-  return await prisma.tutorApplication.findMany({
-    include: {
-      user: true
-    },
+  return await (prisma.tutorApplication as any).findMany({
+    where: { status: "PENDING" },
+    include: { user: true },
     orderBy: { createdAt: "desc" }
   });
 }
 
 export async function approveTutorApplication(applicationId: string) {
   const supabase = await createClient();
-  const { data: { user: adminUser } } = await supabase.auth.getUser();
-  if (!adminUser || adminUser.user_metadata?.role !== "ADMIN") throw new Error("Unauthorized");
+  const { data: { user: admin } } = await supabase.auth.getUser();
+  if (!admin || admin.user_metadata?.role !== "ADMIN") throw new Error("Unauthorized");
 
-  // 1. Get Application Details
-  const app = await prisma.tutorApplication.findUnique({
-    where: { id: applicationId },
-    include: { user: true }
-  });
+  const app = await prisma.tutorApplication.findUnique({ where: { id: applicationId } });
+  if (!app) throw new Error("App not found");
 
-  if (!app) throw new Error("Application not found");
-
-  // 2. Update User Role in Prisma
-  await prisma.user.update({
-    where: { id: app.userId },
-    data: { role: Role.TUTOR }
-  });
-
-  // 3. Create/Update TutorProfile
+  await prisma.user.update({ where: { id: app.userId }, data: { role: Role.TUTOR } });
   await prisma.tutorProfile.upsert({
     where: { userId: app.userId },
     create: {
-      userId: app.userId,
-      subjects: app.subjects,
-      verificationPath: app.path,
-      hourlyRate: 500, // Default rate
-      bio: app.notes || "",
-      isVerified: true,
-      verifiedAt: new Date(),
-      availability: {}
+      userId: app.userId, subjects: app.subjects, verificationPath: app.path,
+      hourlyRate: 500, bio: app.notes || "", isVerified: true, verifiedAt: new Date(),
+      availability: { isOnline: false }
     },
-    update: {
-      isVerified: true,
-      verifiedAt: new Date(),
-      subjects: app.subjects,
-    }
+    update: { isVerified: true, verifiedAt: new Date() }
   });
 
-  // 4. Update Application Status
-  await prisma.tutorApplication.update({
-    where: { id: applicationId },
-    data: {
-      status: "APPROVED",
-      reviewedBy: adminUser.id,
-      reviewedAt: new Date()
-    }
-  });
+  await (prisma.tutorApplication as any).update({ where: { id: applicationId }, data: { status: "APPROVED" } });
 
-  // 5. Create Notification for the Tutor
-  await prisma.notification.create({
-    data: {
-      userId: app.userId,
-      type: "TUTOR_APPROVED",
-      title: "Application Approved!",
-      body: "Congratulations! Your expert dashboard has been activated.",
-      actionUrl: "/tutor"
-    }
-  });
-
-  // 6. Update Supabase Metadata (Requires Admin Client or Service Role usually, 
-  // but since we are using SSR client, we might only be able to update OUR OWN metadata.
-  // HOWEVER, the next time the user logs in or their session refreshes, we want them to have the role.
-  // In a production app, this would be handled by a Supabase Edge Function or a Service Role client.
-  // For now, we rely on the Prisma role which the middleware should check.
+  // Add Notification
+  try {
+    await (prisma.notification as any).create({
+      data: {
+        userId: app.userId,
+        type: "TUTOR_APPROVED",
+        title: "Application Approved!",
+        body: "Congratulations! Your expert dashboard has been activated.",
+        actionUrl: "/tutor"
+      }
+    });
+  } catch (e) {
+    console.error("Failed to send notification:", e);
+  }
 
   revalidatePath("/admin/tutors");
-  revalidatePath("/dashboard/tutors");
-  
   return { success: true };
 }
 
-export async function rejectTutorApplication(applicationId: string, notes: string) {
+// --- ADVANCED TERMINAL ---
+
+export async function resetAllSessions() {
   const supabase = await createClient();
-  const { data: { user: adminUser } } = await supabase.auth.getUser();
-  if (!adminUser || adminUser.user_metadata?.role !== "ADMIN") throw new Error("Unauthorized");
+  const { data: { user: admin } } = await supabase.auth.getUser();
+  if (!admin || admin.user_metadata?.role !== "ADMIN") throw new Error("Unauthorized");
 
-  await prisma.tutorApplication.update({
-    where: { id: applicationId },
-    data: {
-      status: "REJECTED",
-      reviewedBy: adminUser.id,
-      reviewedAt: new Date(),
-      notes: notes
-    }
-  });
+  await prisma.session.deleteMany({});
+  revalidatePath("/admin/sessions");
+  return { success: true };
+}
 
-  revalidatePath("/admin/tutors");
+export async function clearGlobalCache() {
+  const supabase = await createClient();
+  const { data: { user: admin } } = await supabase.auth.getUser();
+  if (!admin || admin.user_metadata?.role !== "ADMIN") throw new Error("Unauthorized");
+
+  // In a real app, this would clear Redis or Vercel Data Cache
+  // For now, we'll revalidate all main paths
+  revalidatePath("/", "layout");
   return { success: true };
 }

@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { GraduationCap, Mail, Globe, MessageCircle, ArrowRight } from "lucide-react";
+import { useState } from "react";
+import { GraduationCap, Mail, Globe, MessageCircle, ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 
 const footerLinks = [
   {
@@ -19,18 +21,18 @@ const footerLinks = [
     title: "Company",
     links: [
       { name: "About", href: "/about" },
-      { name: "Careers", href: "/careers" },
-      { name: "Press", href: "/press" },
+      { name: "Careers", href: "/protocol-pending" },
+      { name: "Press", href: "/protocol-pending" },
       { name: "Contact", href: "/contact" },
     ],
   },
   {
     title: "Resources",
     links: [
-      { name: "Help Center", href: "/help" },
-      { name: "Blog", href: "/blog" },
-      { name: "Guides", href: "/guides" },
-      { name: "API", href: "/api" },
+      { name: "Help Center", href: "/protocol-pending" },
+      { name: "Blog", href: "/protocol-pending" },
+      { name: "Guides", href: "/protocol-pending" },
+      { name: "API", href: "/protocol-pending" },
     ],
   },
   {
@@ -38,31 +40,51 @@ const footerLinks = [
     links: [
       { name: "Privacy", href: "/privacy" },
       { name: "Terms", href: "/terms" },
-      { name: "Cookies", href: "/cookies" },
-      { name: "Security", href: "/security" },
+      { name: "Cookies", href: "/protocol-pending" },
+      { name: "Security", href: "/protocol-pending" },
     ],
   },
 ];
 
 export function Footer() {
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    setSubscribed(true);
+    toast.success("Synchronized! You're now on the elite update list.");
+    setEmail("");
+  };
+
   return (
-    <footer className="bg-background border-t border-border pt-24 pb-12">
+    <footer className="bg-background border-t border-border pt-24 pb-12 relative overflow-hidden">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+      
       <div className="container-max">
         {/* Newsletter Section */}
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 mb-24">
           <div className="space-y-2">
-            <h3 className="text-2xl font-black tracking-tight">Stay in the loop.</h3>
-            <p className="text-muted-foreground font-medium">Get the latest ecosystem updates directly to your inbox.</p>
+            <h3 className="text-3xl font-black tracking-tightest">Stay in the loop.</h3>
+            <p className="text-muted-foreground font-medium text-lg">Get the latest ecosystem updates directly to your inbox.</p>
           </div>
-          <div className="flex w-full lg:w-auto gap-2">
+          <form onSubmit={handleSubscribe} className="flex w-full lg:w-auto gap-2">
             <Input 
-              placeholder="Email address" 
-              className="h-12 rounded-full px-6 border-border bg-secondary min-w-[300px] focus-visible:ring-primary"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter institutional email" 
+              className="h-14 rounded-2xl px-6 border-border bg-secondary min-w-[300px] focus-visible:ring-primary shadow-sm"
             />
-            <Button size="icon" className="h-12 w-12 rounded-full bg-foreground text-background hover:bg-foreground/90 shrink-0">
-              <ArrowRight className="h-5 w-5" />
+            <Button 
+              type="submit"
+              disabled={subscribed}
+              size="icon" 
+              className="h-14 w-14 rounded-2xl bg-foreground text-background hover:bg-foreground/90 shrink-0 transition-all active:scale-95"
+            >
+              {subscribed ? <CheckCircle2 className="h-6 w-6 text-emerald-500" /> : <ArrowRight className="h-6 w-6" />}
             </Button>
-          </div>
+          </form>
         </div>
 
         {/* Links Grid */}

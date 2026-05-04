@@ -22,9 +22,9 @@ export default function RoleChoicePage() {
       
       if (result.success) {
         if (role === "TUTOR") {
-          router.push("/onboarding/tutor");
+          window.location.href = "/onboarding/tutor";
         } else {
-          router.push("/onboarding/student");
+          window.location.href = "/onboarding/student";
         }
       }
     } catch (error) {
@@ -42,9 +42,9 @@ export default function RoleChoicePage() {
           animate={{ opacity: 1, y: 0 }}
           className="space-y-4"
         >
-          <Badge className="bg-primary/10 text-primary border-none px-4 py-1 text-xs font-black uppercase tracking-widest">The Edyfra Journey</Badge>
+          <Badge className="bg-primary/10 text-primary border-none px-4 py-1 text-xs font-black uppercase tracking-widest">Your Journey Starts Here</Badge>
           <h1 className="text-5xl md:text-6xl font-black tracking-tighter">Choose Your Path</h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-medium">Are you here to master new knowledge or to share your expertise with the world?</p>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-medium">Are you here to learn something new, or are you ready to share your knowledge as a tutor?</p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -62,13 +62,13 @@ export default function RoleChoicePage() {
                   <Users className="h-10 w-10" />
                 </div>
                 <div className="space-y-2">
-                  <h3 className="text-3xl font-black">I am a Scholar</h3>
-                  <p className="text-muted-foreground font-medium">Access tutors, join study groups, and climb the leaderboard.</p>
+                  <h3 className="text-3xl font-black">I am a Student</h3>
+                  <p className="text-muted-foreground font-medium">Find tutors, join study groups, and track your academic growth.</p>
                 </div>
                 <ul className="text-sm text-left space-y-3 font-bold text-slate-500 py-6">
-                  <li className="flex items-center gap-2"><Sparkles className="h-4 w-4 text-blue-500" /> Personalized Study Plans</li>
-                  <li className="flex items-center gap-2"><Sparkles className="h-4 w-4 text-blue-500" /> 24/7 AI Tutor Access</li>
-                  <li className="flex items-center gap-2"><Sparkles className="h-4 w-4 text-blue-500" /> Daily Academic Challenges</li>
+                  <li className="flex items-center gap-2"><Sparkles className="h-4 w-4 text-blue-500" /> Personalized Study Help</li>
+                  <li className="flex items-center gap-2"><Sparkles className="h-4 w-4 text-blue-500" /> 24/7 Support from Mash AI</li>
+                  <li className="flex items-center gap-2"><Sparkles className="h-4 w-4 text-blue-500" /> Connect with Peer Mentors</li>
                 </ul>
                 <Button className="w-full h-14 rounded-2xl font-black text-sm tracking-widest bg-blue-600 hover:bg-blue-700">
                   START LEARNING <ArrowRight className="h-4 w-4 ml-2" />
@@ -91,13 +91,13 @@ export default function RoleChoicePage() {
                   <GraduationCap className="h-10 w-10" />
                 </div>
                 <div className="space-y-2">
-                  <h3 className="text-3xl font-black">I am an Expert</h3>
-                  <p className="text-muted-foreground font-medium">Monetize your knowledge and help the next generation succeed.</p>
+                  <h3 className="text-3xl font-black">I am a Tutor</h3>
+                  <p className="text-muted-foreground font-medium">Share your knowledge and earn as you help others succeed.</p>
                 </div>
                 <ul className="text-sm text-left space-y-3 font-bold text-slate-500 py-6">
-                  <li className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-teal-600" /> Earn Ksh for Every Session</li>
-                  <li className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-teal-600" /> Flexible Working Hours</li>
-                  <li className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-teal-600" /> Verified Expert Profile</li>
+                  <li className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-teal-600" /> Earn for Every Session</li>
+                  <li className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-teal-600" /> Choose Your Own Hours</li>
+                  <li className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-teal-600" /> Verified Expert Badge</li>
                 </ul>
                 <Button className="w-full h-14 rounded-2xl font-black text-sm tracking-widest bg-teal-600 hover:bg-teal-700">
                   BECOME A TUTOR <ArrowRight className="h-4 w-4 ml-2" />

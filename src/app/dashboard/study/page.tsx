@@ -30,10 +30,12 @@ export default function StudyPage() {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    getUserData().then(setUserData);
+    getUserData().then((data) => {
+      setUserData(data);
+    });
   }, []);
 
-  const subjects = getSubjectsByLevel(userData?.educationLevel);
+  const subjects = getSubjectsByLevel(userData?.educationLevel || "HIGH_SCHOOL");
 
   const handleMatchMe = async () => {
     if (!formData.subject) {
@@ -66,8 +68,7 @@ export default function StudyPage() {
           });
         }
       }
-    } catch (err) {
-      console.error(err);
+    } catch {
       toast.error("Failed to start matching. Please try again.");
       setIsMatching(false);
     }
@@ -83,8 +84,7 @@ export default function StudyPage() {
         toast.info("Connecting you to Mash AI...");
         router.push(`/study-room/${result.sessionId}`);
       }
-    } catch (err) {
-      console.error(err);
+    } catch {
       toast.error("AI fallback failed. Please try again.");
       setIsMatching(false);
     }

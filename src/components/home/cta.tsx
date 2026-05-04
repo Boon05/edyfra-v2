@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
 export function HomeCTA() {
   return (
@@ -31,7 +30,7 @@ export function HomeCTA() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-8">
               <Link href="/signup" className="w-full sm:w-auto">
                 <Button className="w-full h-16 px-12 rounded-full bg-primary hover:bg-primary/90 text-white font-black text-xs tracking-widest uppercase shadow-2xl transition-all active:scale-95">
-                  Join Edyfra — it's free
+                  Join Edyfra &mdash; it&apos;s free
                 </Button>
               </Link>
               <Link href="/contact" className="w-full sm:w-auto">

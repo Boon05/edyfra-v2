@@ -4,87 +4,63 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { AvatarPremium } from "@/components/ui/avatar-premium";
 import { Badge } from "@/components/ui/badge";
-import { Send, LogOut, MessageSquare, Cpu, Loader2 } from "lucide-react";
+import { Send, LogOut, MessageSquare, Cpu, Loader2, Sparkles, Zap, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
-
-interface Message {
-  id: string;
-  content: string;
-  senderId: string | null;
-  isMash: boolean;
-  createdAt: string;
-  sender: {
-    name: string;
-    avatar: string | null;
-  } | null;
-}
+import { motion, AnimatePresence } from "framer-motion";
 
 interface SessionData {
   id: string;
   tier: string;
   subject: string;
-  topic: string | null;
-  student: {
-    name: string;
-    avatar: string | null;
-  };
-  partner: {
-    name: string;
-    avatar: string | null;
-  } | null;
+  topic?: string;
+  status: string;
+  studentId: string;
+  partnerId?: string;
+  student: { name: string; avatar?: string };
+  partner?: { name: string; avatar?: string };
 }
 
-interface UserData {
+interface MessageData {
   id: string;
-  email?: string;
-  user_metadata?: {
-    name?: string;
-    avatar_url?: string;
-  };
+  content: string;
+  senderId?: string;
+  isMash: boolean;
+  createdAt: string;
+  sender?: { name: string; avatar?: string };
 }
 
 export default function StudyRoomPage() {
-  const { id: sessionId } = useParams();
+  const params = useParams();
+  const sessionId = params.id as string;
   const router = useRouter();
   const supabase = createClient();
+  
   const [session, setSession] = useState<SessionData | null>(null);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<MessageData[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(true);
-  const [currentUser, setCurrentUser] = useState<UserData | null>(null);
+  const [currentUser, setCurrentUser] = useState<{ id: string } | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const getCurrentUser = useCallback(async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      setCurrentUser({
-        id: user.id,
-        email: user.email,
-        user_metadata: user.user_metadata
-      });
+  const scrollToBottom = useCallback(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [supabase]);
+  }, []);
 
-  const fetchMessages = useCallback(async () => {
-    const { data, error } = await supabase
-      .from("Message")
-      .select(`
-        *,
-        sender:senderId(name, avatar)
-      `)
-      .eq("sessionId", sessionId)
-      .order("createdAt", { ascending: true });
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, scrollToBottom]);
 
-    if (error) console.error(error);
-    if (data) setMessages(data);
-  }, [sessionId, supabase]);
+  useEffect(() => {
+    getCurrentUser();
+    fetchSession();
+  }, [sessionId]);
 
-  const subscribeToMessages = useCallback(() => {
+  useEffect(() => {
     const channel = supabase
       .channel(`session-${sessionId}`)
       .on(
@@ -101,8 +77,13 @@ export default function StudyRoomPage() {
             .select(`*, sender:senderId(name, avatar)`)
             .eq("id", payload.new.id)
             .single();
-          
-          if (data) setMessages((prev) => [...prev, data]);
+
+          if (data) {
+            setMessages((prev) => {
+              if (prev.some((m) => m.id === data.id)) return prev;
+              return [...prev, data];
+            });
+          }
         }
       )
       .subscribe();
@@ -112,204 +93,209 @@ export default function StudyRoomPage() {
     };
   }, [sessionId, supabase]);
 
-  const fetchSession = useCallback(async () => {
+  const getCurrentUser = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) setCurrentUser({ id: user.id });
+  };
+
+  const fetchSession = async () => {
     const { data, error } = await supabase
       .from("Session")
-      .select(`
-        *,
-        student:studentId(name, avatar),
-        partner:partnerId(name, avatar)
-      `)
+      .select(`*, student:studentId(name, avatar), partner:partnerId(name, avatar)`)
       .eq("id", sessionId)
       .single();
 
-    if (error) {
-      console.error(error);
+    if (error || !data) {
       toast.error("Session not found");
       router.push("/dashboard");
       return;
     }
-
     setSession(data);
     fetchMessages();
-    subscribeToMessages();
     setLoading(false);
-  }, [sessionId, supabase, router, fetchMessages, subscribeToMessages]);
+  };
 
-  useEffect(() => {
-    fetchSession();
-    getCurrentUser();
-  }, [sessionId, fetchSession, getCurrentUser]);
-
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [messages]);
+  const fetchMessages = async () => {
+    const { data } = await supabase
+      .from("Message")
+      .select(`*, sender:senderId(name, avatar)`)
+      .eq("sessionId", sessionId)
+      .order("createdAt", { ascending: true });
+    if (data) setMessages(data);
+  };
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || !currentUser) return;
 
-    const messageContent = input.trim();
-    setInput("");
-
     const { error } = await supabase.from("Message").insert({
       sessionId,
       senderId: currentUser.id,
-      content: messageContent,
+      content: input,
       isMash: false,
     });
 
-    if (error) {
-      toast.error("Failed to send message");
-    } else {
-      // If AI session, trigger AI response
-      if (session?.tier === "MASH") {
-        handleAIResponse(messageContent);
-      }
-    }
+    if (error) toast.error("Failed to send message");
+    else setInput("");
   };
 
-  const handleAIResponse = useCallback(async (userMessage: string) => {
+  const handleEndSession = async () => {
     if (!session) return;
-    try {
-        await fetch("/api/ai/chat", {
-            method: "POST",
-            body: JSON.stringify({
-                sessionId,
-                message: userMessage,
-                subject: session.subject,
-                topic: session.topic
-            })
-        });
-    } catch (err) {
-        console.error("AI response error", err);
-    }
-  }, [sessionId, session]);
+    await supabase
+      .from("Session")
+      .update({ status: "COMPLETED", endedAt: new Date().toISOString() })
+      .eq("id", sessionId);
+    toast.success("Session finished!");
+    router.push("/dashboard");
+  };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    );
-  }
+  if (loading) return (
+    <div className="h-screen flex flex-col items-center justify-center space-y-4 bg-background">
+      <Loader2 className="h-12 w-12 animate-spin text-primary" />
+      <p className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground">Opening your study room...</p>
+    </div>
+  );
+
+  if (!session) return null;
 
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)] p-4 md:p-8 gap-4">
-      <div className="flex items-center justify-between">
+    <div className="h-screen bg-background text-foreground flex flex-col overflow-hidden font-sans">
+      {/* Header */}
+      <header className="h-20 border-b border-border/50 px-8 flex items-center justify-between bg-background/80 backdrop-blur-2xl z-50">
+        <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3">
+             <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/20">
+                <Sparkles className="h-5 w-5" />
+             </div>
+             <div>
+                <h1 className="text-sm font-black uppercase tracking-widest">{session.subject}</h1>
+                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{session.topic || "Study Session"}</p>
+             </div>
+          </div>
+          <div className="h-8 w-[1px] bg-border" />
+          <div className="flex items-center gap-2">
+             <Badge className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20 text-[9px] font-black tracking-widest uppercase">
+               {session.status === "ACTIVE" ? "Live" : session.status}
+             </Badge>
+             <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">ID: {sessionId.slice(0,8)}</span>
+          </div>
+        </div>
+
         <div className="flex items-center gap-4">
-          <Badge variant="outline" className="px-3 py-1">
-            {session?.tier} SESSION
-          </Badge>
-          <h1 className="text-xl font-bold">{session?.subject}</h1>
-          <span className="text-muted-foreground">•</span>
-          <span className="text-muted-foreground">{session?.topic || "General Study"}</span>
+           <div className="hidden md:flex -space-x-3">
+              <AvatarPremium seed={session.student?.name} size="sm" className="border-2 border-background" />
+              {session.partner && (
+                <AvatarPremium seed={session.partner.name} size="sm" className="border-2 border-background" />
+              )}
+           </div>
+           <Button onClick={handleEndSession} variant="ghost" className="h-10 px-6 rounded-xl border border-border/50 font-black text-[10px] tracking-widest uppercase hover:bg-red-500/10 hover:text-red-500 transition-all">
+              Leave Session
+           </Button>
         </div>
-        <Button variant="ghost" onClick={() => router.push("/dashboard")} className="gap-2">
-          <LogOut className="h-4 w-4" />
-          Leave Room
-        </Button>
-      </div>
+      </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 flex-1 overflow-hidden">
-        {/* Left Side: Session Info */}
-        <div className="lg:col-span-1 space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-sm font-medium">Participants</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center gap-3">
-                <Avatar className="h-8 w-8">
-                  <AvatarFallback>{session?.student?.name?.[0]}</AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="text-sm font-medium">{session?.student?.name}</p>
-                  <p className="text-xs text-muted-foreground">Student (You)</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src={session?.tier === "MASH" ? "/mash-avatar.png" : ""} />
-                  <AvatarFallback>
-                    {session?.tier === "MASH" ? <Cpu className="h-4 w-4" /> : session?.partner?.name?.[0] || "?"}
-                  </AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="text-sm font-medium">
-                    {session?.tier === "MASH" ? "Mash AI" : session?.partner?.name || "Waiting..."}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {session?.tier === "TUTOR" ? "Verified Tutor" : session?.tier === "PEER" ? "Study Peer" : "Instant AI Assistant"}
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-sm font-medium">Study Goals</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Working on {session?.subject} {session?.topic ? `topic: ${session.topic}` : ""}.
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Right Side: Chat Room */}
-        <Card className="lg:col-span-3 flex flex-col overflow-hidden">
-          <CardHeader className="border-b bg-muted/50 py-3">
-            <div className="flex items-center gap-2">
-              <MessageSquare className="h-4 w-4 text-primary" />
-              <CardTitle className="text-sm font-medium">Live Discussion</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent className="flex-1 overflow-hidden p-0 flex flex-col">
-            <ScrollArea className="flex-1 p-4" ref={scrollRef}>
-              <div className="space-y-4">
-                {messages.map((msg) => (
-                  <div
-                    key={msg.id}
-                    className={`flex flex-col ${msg.senderId === currentUser?.id ? "items-end" : "items-start"}`}
-                  >
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[10px] text-muted-foreground font-medium">
-                        {msg.isMash ? "Mash AI" : msg.sender?.name}
-                      </span>
+      <main className="flex-1 flex overflow-hidden">
+        {/* Sidebar */}
+        <aside className="w-80 border-r border-border/50 bg-secondary/30 hidden xl:flex flex-col p-8 space-y-8">
+           <div className="space-y-4">
+              <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Session Info</p>
+              <div className="space-y-3">
+                 <div className="p-4 rounded-2xl bg-background border border-border/50 space-y-2">
+                    <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary">
+                       <Zap className="h-3 w-3" /> Connection
                     </div>
-                    <div
-                      className={`max-w-[80%] rounded-2xl px-4 py-2 text-sm ${
-                        msg.senderId === currentUser?.id
-                          ? "bg-primary text-primary-foreground rounded-tr-none"
-                          : "bg-muted text-foreground rounded-tl-none"
-                      }`}
-                    >
-                      {msg.content}
+                    <p className="text-xs font-medium text-muted-foreground leading-relaxed">
+                      {session.partner 
+                        ? `Studying with ${session.partner.name}` 
+                        : "Waiting for a partner to join..."}
+                    </p>
+                 </div>
+                 <div className="p-4 rounded-2xl bg-background border border-border/50 space-y-2">
+                    <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-emerald-500">
+                       <ShieldCheck className="h-3 w-3" /> Secure
                     </div>
-                  </div>
-                ))}
+                    <p className="text-xs font-medium text-muted-foreground leading-relaxed">Your session is private and encrypted.</p>
+                 </div>
               </div>
-            </ScrollArea>
-            <form onSubmit={handleSendMessage} className="p-4 border-t flex gap-2">
-              <Input
-                placeholder="Type your message..."
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                className="flex-1"
-              />
-              <Button type="submit" size="icon">
-                <Send className="h-4 w-4" />
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
-      </div>
+           </div>
+
+           <div className="flex-1" />
+
+           <div className="p-6 rounded-[2rem] bg-primary/10 border border-primary/20 space-y-4">
+              <p className="text-[10px] font-black uppercase tracking-widest text-primary">Member Tier</p>
+              <h4 className="text-xl font-black tracking-tightest">{session.tier}</h4>
+           </div>
+        </aside>
+
+        {/* Chat */}
+        <section className="flex-1 flex flex-col bg-background relative">
+           <div ref={scrollRef} className="flex-1 overflow-y-auto p-8 md:p-12 space-y-12 scroll-smooth">
+              <div className="flex flex-col items-center justify-center py-12 text-center space-y-4">
+                 <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center text-muted-foreground/30">
+                    <GraduationCap className="h-8 w-8" />
+                 </div>
+                 <div className="space-y-1">
+                    <h3 className="text-xl font-black tracking-tight">Session Started.</h3>
+                    <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
+                      {session.subject} • {session.topic || "General"} • {new Date().toLocaleDateString()}
+                    </p>
+                 </div>
+              </div>
+
+              <div className="max-w-4xl mx-auto space-y-8">
+                 {messages.length === 0 && (
+                   <div className="text-center py-12">
+                     <p className="text-muted-foreground font-medium">Say hello to get started!</p>
+                   </div>
+                 )}
+                 {messages.map((msg) => {
+                    const isMe = currentUser && msg.senderId === currentUser.id;
+                    return (
+                       <motion.div
+                         key={msg.id}
+                         initial={{ opacity: 0, x: isMe ? 20 : -20 }}
+                         animate={{ opacity: 1, x: 0 }}
+                         className={`flex items-start gap-4 ${isMe ? "flex-row-reverse" : "flex-row"}`}
+                       >
+                          <AvatarPremium seed={msg.sender?.name || "User"} size="md" />
+                          <div className={`space-y-2 max-w-[80%] ${isMe ? "items-end" : "items-start"}`}>
+                             <div className={`px-6 py-4 rounded-[2rem] text-sm md:text-base font-medium leading-relaxed shadow-sm border ${
+                               isMe ? "bg-primary text-white border-primary/20 rounded-tr-none" : "bg-secondary text-foreground border-border/50 rounded-tl-none"
+                             }`}>
+                                {msg.content}
+                             </div>
+                             <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground px-2">
+                               {msg.sender?.name || "User"} • {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                             </p>
+                          </div>
+                       </motion.div>
+                    );
+                 })}
+              </div>
+           </div>
+
+           {/* Input */}
+           <div className="p-8 bg-background/50 backdrop-blur-xl border-t border-border/50">
+              <form onSubmit={handleSendMessage} className="max-w-4xl mx-auto flex gap-4">
+                 <div className="relative flex-1 group">
+                    <Input 
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      placeholder="Type a message..." 
+                      className="h-16 pl-8 pr-16 rounded-[2rem] border-border bg-secondary shadow-inner focus-visible:ring-primary text-lg font-medium"
+                    />
+                 </div>
+                 <Button type="submit" size="icon" className="h-16 w-16 rounded-[2rem] bg-foreground text-background hover:bg-foreground/90 transition-all active:scale-90 shadow-xl">
+                    <Send className="h-6 w-6" />
+                 </Button>
+              </form>
+           </div>
+        </section>
+      </main>
     </div>
   );
 }
 
+const GraduationCap = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+);

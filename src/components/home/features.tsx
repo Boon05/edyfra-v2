@@ -3,51 +3,114 @@
 import { motion } from "framer-motion";
 import { ChevronRight, Target, Users, Zap } from "lucide-react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
+
+const FeatureVisuals = [
+  // Smart Matching visual
+  <div key="discovery" className="w-full h-full bg-gradient-to-br from-primary/5 to-background flex flex-col items-center justify-center gap-6 p-8">
+    <div className="w-full max-w-xs space-y-3">
+      <div className="h-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center px-5 gap-3">
+        <Target className="h-4 w-4 text-primary flex-shrink-0" />
+        <div className="flex-1 h-2 rounded-full bg-primary/20" />
+      </div>
+      {["Physics — Dr. Mash", "Calculus — Kennedy M.", "Biology — Anita C."].map((r, i) => (
+        <motion.div
+          key={r}
+          initial={{ opacity: 0, x: -10 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ delay: i * 0.15 }}
+          className="h-14 rounded-2xl bg-secondary border border-border flex items-center px-5 gap-4"
+        >
+          <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
+            <span className="text-[10px] font-black text-primary">{r[0]}</span>
+          </div>
+          <span className="text-sm font-bold text-foreground/80">{r}</span>
+          <div className="ml-auto w-2 h-2 rounded-full bg-emerald-500" />
+        </motion.div>
+      ))}
+    </div>
+  </div>,
+
+  // Community visual
+  <div key="community" className="w-full h-full bg-gradient-to-br from-blue-500/5 to-background flex flex-col gap-4 p-8 justify-center">
+    {[
+      { name: "Kennedy M.", msg: "Just finished a great Calculus session! 🎯", color: "bg-blue-500/10" },
+      { name: "Anita C.", msg: "Uploaded my new physics notes to the feed.", color: "bg-primary/10" },
+      { name: "Brian O.", msg: "Anyone free to discuss organic chemistry?", color: "bg-purple-500/10" },
+    ].map((p, i) => (
+      <motion.div key={p.name} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
+        className={`p-4 rounded-2xl border border-border ${p.color} flex items-start gap-3`}>
+        <div className="w-8 h-8 rounded-xl bg-foreground/10 flex items-center justify-center font-black text-[11px] flex-shrink-0">{p.name[0]}</div>
+        <div>
+          <p className="text-[10px] font-black text-primary uppercase tracking-widest">{p.name}</p>
+          <p className="text-sm font-medium mt-0.5">{p.msg}</p>
+        </div>
+      </motion.div>
+    ))}
+  </div>,
+
+  // Progress visual
+  <div key="analytics" className="w-full h-full bg-gradient-to-br from-emerald-500/5 to-background flex flex-col gap-6 p-8 justify-center">
+    {[
+      { label: "Physics", pct: 82, color: "bg-primary" },
+      { label: "Mathematics", pct: 65, color: "bg-blue-500" },
+      { label: "Biology", pct: 91, color: "bg-emerald-500" },
+      { label: "Chemistry", pct: 48, color: "bg-orange-500" },
+    ].map((s, i) => (
+      <div key={s.label} className="space-y-2">
+        <div className="flex justify-between text-[10px] font-black uppercase tracking-widest">
+          <span className="text-muted-foreground">{s.label}</span>
+          <span className="text-foreground">{s.pct}%</span>
+        </div>
+        <div className="h-2 rounded-full bg-secondary overflow-hidden">
+          <motion.div initial={{ width: 0 }} whileInView={{ width: `${s.pct}%` }} transition={{ duration: 1, delay: i * 0.1 }}
+            className={`h-full rounded-full ${s.color}`} />
+        </div>
+      </div>
+    ))}
+  </div>,
+];
 
 const features = [
   {
-    title: "Smart Discovery",
-    description: "Find your ideal peers, mentors, and mission-critical courses using our proprietary AI matching engine. Synchronize with the best in the ecosystem.",
-    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2671&auto=format&fit=crop",
+    title: "Smart Matching",
+    description: "Connect with the perfect tutors and study partners using our intelligent system. Learn from the best students and experts in the community.",
     icon: Target,
-    link: "/features/discovery",
+    link: "/features",
+    visualIndex: 0,
   },
   {
-    title: "Real-time Community",
-    description: "Collaborate, chat, and share discoveries in a high-fidelity institutional feed. Connect with scholars who share your academic trajectory.",
-    image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=2670&auto=format&fit=crop",
+    title: "Live Community",
+    description: "Collaborate, chat, and share what you've learned in a vibrant student feed. Connect with people on the same academic journey as you.",
     icon: Users,
-    link: "/features/community",
+    link: "/community",
+    visualIndex: 1,
   },
   {
     title: "Track Your Growth",
-    description: "Visualize your academic potential with beautiful, high-performance analytics. Measure your progress across the entire Edyfra network.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2670&auto=format&fit=crop",
+    description: "Visualize your academic progress with beautiful, easy-to-read analytics. Stay motivated by seeing how far you've come every day.",
     icon: Zap,
-    link: "/features/analytics",
+    link: "/dashboard",
+    visualIndex: 2,
   },
 ];
 
 export function HomeFeatures() {
   return (
-    <section className="py-32 md:py-48 space-y-32 md:space-y-48">
+    <section className="py-32 md:py-48 space-y-32 md:space-y-48 font-sans">
       <div className="container-max text-center space-y-6">
         <h2 className="text-4xl md:text-6xl font-black tracking-tightest leading-none">
           Built for the way students <br className="hidden md:block" /> actually learn.
         </h2>
         <p className="text-muted-foreground text-lg md:text-xl font-medium max-w-2xl mx-auto">
-          We stripped away the clutter to build the OS for the elite scholar.
+          We stripped away the clutter to build a platform for ambitious students.
         </p>
       </div>
 
       <div className="space-y-32 md:space-y-48">
         {features.map((feature, i) => (
           <div key={feature.title} className="container-max">
-            <div className={cn(
-              "flex flex-col gap-12 md:gap-24 items-center",
-              i % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"
-            )}>
-              {/* Image Side */}
+            <div className={cn("flex flex-col gap-12 md:gap-24 items-center", i % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row")}>
               <motion.div
                 initial={{ opacity: 0, x: i % 2 === 1 ? 50 : -50 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -55,17 +118,11 @@ export function HomeFeatures() {
                 transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                 className="w-full md:w-1/2"
               >
-                <div className="aspect-[4/3] rounded-[2.5rem] bg-secondary border border-border overflow-hidden shadow-2xl relative group">
-                   <img 
-                     src={feature.image} 
-                     alt={feature.title} 
-                     className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000"
-                   />
-                   <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent" />
+                <div className="aspect-[4/3] rounded-[2.5rem] bg-secondary border border-border overflow-hidden shadow-2xl relative">
+                  {FeatureVisuals[feature.visualIndex]}
                 </div>
               </motion.div>
 
-              {/* Text Side */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -73,17 +130,15 @@ export function HomeFeatures() {
                 transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
                 className="w-full md:w-1/2 space-y-8"
               >
-                <div className="w-16 h-16 rounded-2xl bg-secondary flex items-center justify-center text-primary">
+                <div className="w-16 h-16 rounded-2xl bg-secondary flex items-center justify-center text-primary shadow-sm border border-border">
                   <feature.icon className="h-8 w-8" />
                 </div>
                 <div className="space-y-4">
-                   <h3 className="text-4xl md:text-5xl font-black tracking-tightest">{feature.title}</h3>
-                   <p className="text-lg md:text-xl text-muted-foreground font-medium leading-relaxed">
-                     {feature.description}
-                   </p>
+                  <h3 className="text-4xl md:text-5xl font-black tracking-tightest">{feature.title}</h3>
+                  <p className="text-lg md:text-xl text-muted-foreground font-medium leading-relaxed">{feature.description}</p>
                 </div>
                 <Link href={feature.link} className="inline-flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[10px] group">
-                   Learn more <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  Learn more <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </motion.div>
             </div>
@@ -92,9 +147,4 @@ export function HomeFeatures() {
       </div>
     </section>
   );
-}
-
-// Helper for classNames
-function cn(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
 }

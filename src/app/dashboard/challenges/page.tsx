@@ -12,7 +12,7 @@ import { getUserData } from "@/app/actions/user";
 
 export default function ChallengesPage() {
   const supabase = createClient();
-  const [challenge, setChallenge] = useState<any>(null);
+  const [challenge, setChallenge] = useState<unknown>(null);
   const [loading, setLoading] = useState(true);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);

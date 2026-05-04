@@ -16,8 +16,7 @@ export async function createPost(content: string, subject?: string, image?: stri
   });
 
   if (!userData) throw new Error("User not found");
-
-  // @ts-ignore - FeedPost might not be in the generated client yet
+  
   const post = await prisma.feedPost.create({
     data: {
       userId: user.id,
@@ -43,7 +42,7 @@ export async function getPosts() {
 
   if (!userData) throw new Error("User not found");
 
-  // @ts-ignore
+  
   return await prisma.feedPost.findMany({
     where: {
       level: userData.educationLevel
@@ -68,7 +67,7 @@ export async function likePost(postId: string) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error("Unauthorized");
 
-  // @ts-ignore
+  
   const existingLike = await prisma.postLike.findUnique({
     where: {
       postId_userId: {
@@ -79,24 +78,24 @@ export async function likePost(postId: string) {
   });
 
   if (existingLike) {
-    // @ts-ignore
+    
     await prisma.postLike.delete({
       where: { id: existingLike.id }
     });
-    // @ts-ignore
+    
     await prisma.feedPost.update({
       where: { id: postId },
       data: { likes: { decrement: 1 } }
     });
   } else {
-    // @ts-ignore
+    
     await prisma.postLike.create({
       data: {
         postId,
         userId: user.id
       }
     });
-    // @ts-ignore
+    
     await prisma.feedPost.update({
       where: { id: postId },
       data: { likes: { increment: 1 } }
@@ -111,7 +110,7 @@ export async function addComment(postId: string, content: string) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error("Unauthorized");
 
-  // @ts-ignore
+  
   await prisma.comment.create({
     data: {
       postId,

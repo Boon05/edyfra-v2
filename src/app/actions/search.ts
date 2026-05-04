@@ -17,22 +17,19 @@ export async function searchStudents(query: string) {
   const supabase = await createClient();
 
   const { data, error } = await supabase
-    .from("User")
-    .select("id, name, educationLevel, county")
-    .or(`name.ilike.%${query}%,county.ilike.%${query}%`)
-    .limit(20);
+    .rpc("search_users", { search_term: query });
 
   if (error) {
     console.error("Search error:", error);
-    throw new Error("Search failed");
+    return [];
   }
 
-  return data.map((user: any) => ({
+  return data.map((user: unknown) => ({
     id: user.id,
     name: user.name,
-    school: user.county,
-    course: user.educationLevel,
+    school: user.school,
+    course: user.role,
     username: user.name.toLowerCase().replace(/\s/g, "_"),
-    avatar_url: `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.id}`
+    avatar_url: user.avatar || `https://api.dicebear.com/7.x/notionists/svg?seed=${user.id}`
   }));
 }

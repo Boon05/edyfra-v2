@@ -16,6 +16,7 @@ model User {
   avatar            String?
   role              Role                    @default(STUDENT)
   educationLevel    EduLevel
+  curriculum        String?                 @default("8-4-4")
   formYear          Int?
   county            String
   points            Int                     @default(0)
@@ -40,6 +41,7 @@ model User {
   sessionsAsStudent Session[]               @relation("StudentSessions")
   studentProfile    StudentProfile?
   tutorProfile      TutorProfile?
+  tutorApplication  TutorApplication?
 }
 
 model StudentProfile {
@@ -177,6 +179,7 @@ model TutorApplication {
   reviewedAt DateTime?
   notes      String?
   createdAt  DateTime  @default(now())
+  user       User      @relation(fields: [userId], references: [id])
 }
 
 model Notification {

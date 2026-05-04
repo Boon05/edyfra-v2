@@ -16,7 +16,7 @@ import { toast } from "sonner";
 
 export default function AdminContentPage() {
   const supabase = createClient();
-  const [challenges, setChallenges] = useState<any[]>([]);
+  const [challenges, setChallenges] = useState<unknown[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

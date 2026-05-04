@@ -10,6 +10,9 @@ import {
   Clock, ArrowRight,
   Loader2, Zap, Filter
 } from "lucide-react";
+import { createClient } from "@/utils/supabase/client";
+import { toast } from "sonner";
+import { acceptMatchRequest } from "@/app/actions/tutor";
 
 interface MatchRequest {
   id: string;
@@ -29,20 +32,43 @@ export default function TutorRequestsPage() {
   useEffect(() => {
     fetchRequests();
     
-    const channel = supabase
+    const dbChannel = supabase
       .channel("new-requests")
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "MatchRequest" },
         (payload) => {
-          setRequests((prev) => [payload.new as MatchRequest, ...prev]);
+          const newReq = payload.new as MatchRequest;
+          setRequests((prev) => {
+            if (prev.find(r => r.id === newReq.id)) return prev;
+            return [newReq, ...prev];
+          });
           toast.info("New study request detected!");
         }
       )
       .subscribe();
 
+    const broadcastChannel = supabase
+      .channel('global-matches')
+      .on('broadcast', { event: 'new-request' }, (payload) => {
+        const newReq = {
+          id: payload.payload.requestId,
+          subject: payload.payload.subject,
+          topic: payload.payload.topic,
+          createdAt: new Date().toISOString()
+        } as MatchRequest;
+        
+        setRequests((prev) => {
+          if (prev.find(r => r.id === newReq.id)) return prev;
+          return [newReq, ...prev];
+        });
+        toast.info(`Match Request: ${newReq.subject}`);
+      })
+      .subscribe();
+
     return () => {
-      supabase.removeChannel(channel);
+      supabase.removeChannel(dbChannel);
+      supabase.removeChannel(broadcastChannel);
     };
   }, [supabase]);
 
@@ -61,14 +87,14 @@ export default function TutorRequestsPage() {
   const handleAccept = async (id: string) => {
     setAcceptingId(id);
     try {
-      const { acceptMatchRequest } = await import("@/app/actions/tutor");
       const result = await acceptMatchRequest(id);
       if (result.success) {
         toast.success("Match accepted! Entering room...");
         router.push(`/study-room/${result.sessionId}`);
       }
-    } catch (err: any) {
-      toast.error(err.message || "Failed to accept request.");
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Failed to accept request.";
+      toast.error(msg);
     } finally {
       setAcceptingId(null);
     }

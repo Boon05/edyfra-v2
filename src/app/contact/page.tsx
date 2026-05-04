@@ -77,12 +77,12 @@ export default function ContactPage() {
                  <h3 className="text-2xl font-black tracking-tight">Institutional Hubs</h3>
                  <div className="space-y-6">
                     {[
-                      { icon: Mail, label: "Synchronize", value: "missions@edyfra.com" },
-                      { icon: MessageSquare, label: "Ecosystem Support", value: "+254 700 000 000" },
-                      { icon: MapPin, label: "HQ Operations", value: "Nairobi, Kenya" },
+                      { icon: Mail, label: "Official Support", value: "edyfraplatform@gmail.com" },
+                      { icon: MessageSquare, label: "WhatsApp Channel", value: "Join Community" },
+                      { icon: MapPin, label: "Operational Hub", value: "Nairobi, Kenya" },
                     ].map((info) => (
-                      <div key={info.label} className="flex items-center gap-6 p-6 bg-secondary rounded-[2rem] border border-border/50">
-                         <div className="w-12 h-12 rounded-xl bg-background flex items-center justify-center text-primary shadow-sm border border-border">
+                      <div key={info.label} className="flex items-center gap-6 p-6 bg-secondary rounded-[2rem] border border-border/50 hover:border-primary/30 transition-all cursor-pointer group">
+                         <div className="w-12 h-12 rounded-xl bg-background flex items-center justify-center text-primary shadow-sm border border-border group-hover:bg-primary group-hover:text-white transition-all">
                             <info.icon className="h-6 w-6" />
                          </div>
                          <div>

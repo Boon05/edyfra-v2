@@ -5,12 +5,12 @@ import { useRouter, usePathname } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { 
   LayoutDashboard, Users, GraduationCap, 
-  Clock, Wallet, MessageSquare, Settings,
-  LogOut, Bell, Calendar, Zap
+  Settings, LogOut, Zap, Calendar, Wallet
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function TutorLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -30,6 +30,7 @@ export default function TutorLayout({ children }: { children: React.ReactNode })
       return;
     }
 
+    // Role check
     if (user.user_metadata?.role !== "TUTOR") {
       router.push("/dashboard");
       return;
@@ -39,40 +40,47 @@ export default function TutorLayout({ children }: { children: React.ReactNode })
     setLoading(false);
   };
 
-  if (loading) return null;
+  if (loading) return (
+    <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+    </div>
+  );
 
   const navItems = [
-    { href: "/tutor", label: "Tutor Desk", icon: LayoutDashboard },
-    { href: "/tutor/requests", label: "Student Requests", icon: Users },
-    { href: "/tutor/sessions", label: "Active Sessions", icon: Zap },
-    { href: "/tutor/schedule", label: "Availability", icon: Calendar },
+    { href: "/tutor", label: "Hub", icon: LayoutDashboard },
+    { href: "/tutor/requests", label: "Requests", icon: Users },
+    { href: "/tutor/sessions", label: "Sessions", icon: Zap },
+    { href: "/tutor/schedule", label: "Schedule", icon: Calendar },
     { href: "/tutor/earnings", label: "Earnings", icon: Wallet },
-    { href: "/tutor/settings", label: "Profile Settings", icon: Settings },
+    { href: "/tutor/settings", label: "Settings", icon: Settings },
   ];
 
   return (
-    <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
-      {/* Tutor Sidebar */}
-      <aside className="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col fixed h-full z-50">
-        <div className="p-6 border-b border-slate-100 dark:border-slate-800">
-          <Link href="/tutor" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-teal-600 flex items-center justify-center">
-              <GraduationCap className="text-white h-5 w-5" />
+    <div className="flex min-h-screen bg-background font-sans">
+      {/* Premium Sidebar */}
+      <aside className="w-72 bg-card border-r border-border flex flex-col fixed h-full z-50">
+        <div className="p-8 border-b border-border/50">
+          <Link href="/tutor" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20 transition-transform group-hover:scale-110">
+              <GraduationCap className="text-white h-6 w-6" />
             </div>
-            <span className="text-xl font-bold tracking-tight">Edyfra <span className="text-teal-600 font-black">Expert</span></span>
+            <div className="flex flex-col">
+               <span className="text-2xl font-black text-foreground tracking-tighter leading-none">Edyfra</span>
+               <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mt-1">Tutor Hub</span>
+            </div>
           </Link>
         </div>
 
-        <nav className="flex-1 p-4 space-y-1">
+        <nav className="flex-1 p-6 space-y-2 overflow-y-auto">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold transition-all",
+                "flex items-center gap-4 px-5 py-4 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all duration-300",
                 pathname === item.href
-                  ? "bg-teal-600 text-white shadow-lg shadow-teal-600/20"
-                  : "text-muted-foreground hover:text-teal-600 hover:bg-teal-50 dark:hover:bg-teal-950/30"
+                  ? "bg-primary text-white shadow-xl shadow-primary/10"
+                  : "text-muted-foreground hover:text-primary hover:bg-primary/5"
               )}
             >
               <item.icon className="h-4 w-4" />
@@ -81,29 +89,37 @@ export default function TutorLayout({ children }: { children: React.ReactNode })
           ))}
         </nav>
 
-        <div className="p-4 border-t border-slate-100 dark:border-slate-800 space-y-1">
-          <button 
-            onClick={() => supabase.auth.signOut().then(() => router.push("/login"))}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all"
-          >
-            <LogOut className="h-4 w-4" /> Sign Out
-          </button>
+        <div className="p-6 border-t border-border/50 space-y-6 bg-secondary/20">
+          <div className="flex items-center justify-between px-2">
+             <ThemeToggle />
+             <button 
+                onClick={() => supabase.auth.signOut().then(() => router.push("/login"))}
+                className="p-3 rounded-xl text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all"
+             >
+                <LogOut className="h-5 w-5" />
+             </button>
+          </div>
           
-          <div className="flex items-center gap-3 px-3 py-3 mt-2 rounded-2xl bg-teal-50 dark:bg-teal-950/20 border border-teal-100 dark:border-teal-900">
-            <div className="w-10 h-10 rounded-xl bg-teal-600 text-white flex items-center justify-center font-bold">
+          <div className="p-4 rounded-[1.5rem] bg-card border border-border flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-primary text-white flex items-center justify-center font-black text-lg shadow-lg shadow-primary/20">
               {user.email?.[0].toUpperCase()}
             </div>
-            <div className="min-w-0">
-              <p className="text-sm font-bold truncate">{user.user_metadata?.full_name || "Expert"}</p>
-              <Badge className="bg-teal-600/10 text-teal-600 border-none text-[8px] h-4 font-black">VERIFIED TUTOR</Badge>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-black truncate text-foreground uppercase tracking-tight">{user.user_metadata?.name || "Tutor"}</p>
+              <Badge className="bg-primary/10 text-primary border-none text-[8px] h-4 font-black uppercase tracking-widest mt-1">Verified Expert</Badge>
             </div>
           </div>
+          <Link href="/dashboard" className="flex items-center gap-2 justify-center w-full py-3 rounded-xl bg-secondary text-muted-foreground text-[10px] font-black uppercase tracking-widest border border-border hover:bg-primary/5 hover:text-primary transition-all">
+             <LayoutDashboard className="h-3.5 w-3.5" /> Student Dashboard
+          </Link>
         </div>
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 ml-64 p-8">
-        {children}
+      <main className="flex-1 ml-72 p-10 lg:p-16">
+        <div className="max-w-6xl mx-auto">
+           {children}
+        </div>
       </main>
     </div>
   );

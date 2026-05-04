@@ -1,16 +1,15 @@
 "use server";
 
-import { PrismaClient, Role, EduLevel, Tier, VerifPath } from "@prisma/client";
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
+import { Role, EduLevel, Tier, VerifPath } from "@prisma/client";
+import prisma from "@/lib/prisma";
+import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
-import { sendWelcomeEmail, sendTutorWelcomeEmail } from "@/lib/email";
-
-const prisma = new PrismaClient();
+import { sendWelcomeEmail } from "@/lib/email";
 
 interface OnboardingData {
   role: string;
   educationLevel: string;
+  curriculum?: string;
   formYear: string;
   county: string;
   subjects: string[];
@@ -22,136 +21,118 @@ interface OnboardingData {
 }
 
 export async function completeOnboarding(data: OnboardingData) {
-  const cookieStore = await cookies();
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() { return cookieStore.getAll(); },
-        setAll(cookiesToSet) {
-          try { cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options)); } catch {}
-        },
-      },
-    }
-  );
-
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
     throw new Error("Unauthorized");
   }
 
-  const { role, educationLevel, formYear, county, subjects, weakTopics, studyStyle, bio, verificationPath, hourlyRate } = data;
+  const { 
+    role, educationLevel, curriculum, formYear, 
+    county, subjects, weakTopics, studyStyle, 
+    bio, verificationPath, hourlyRate 
+  } = data;
+  
+  const isTutor = role === "TUTOR";
+  const isHS = educationLevel === "HIGH_SCHOOL";
+  const prismaRole = isTutor ? Role.TUTOR : Role.STUDENT;
 
-  // 1. Update Supabase Auth Metadata (for middleware)
-  // Even if they apply as a tutor, we keep them as a student role in metadata
-  // until an admin activates their tutor dashboard.
+  // 1. Update Supabase Auth Metadata
   await supabase.auth.updateUser({
     data: { 
-      role: "STUDENT", 
+      role: isTutor ? "TUTOR" : "STUDENT", 
       onboarding_completed: true,
-      pending_tutor_application: role === "TUTOR"
     }
   });
 
-  const isHS = educationLevel === "HIGH_SCHOOL";
+  // 2. EXPLICIT SYNC WITH HEALING (ID or Email)
+  const existingUser = await prisma.user.findFirst({
+    where: {
+      OR: [
+        { id: user.id },
+        { email: user.email! }
+      ]
+    }
+  });
 
-  // 2. Upsert User in Prisma
-  await prisma.user.upsert({
-    where: { id: user.id },
-    update: {
-      name: user.user_metadata.full_name || "New User",
-      role: Role.STUDENT, // Everyone starts as a student
-      educationLevel: isHS ? EduLevel.HIGH_SCHOOL : EduLevel.UNIVERSITY,
-      formYear: parseInt(formYear),
-      county,
-      isUnder18: isHS,
-      
-      studentProfile: {
-        upsert: {
-          create: {
-            subjects: subjects || [],
-            weakTopics: weakTopics || [],
-            studyStyle: studyStyle || "solo",
-            preferredTimes: {},
-            goals: []
-          },
-          update: {
-            subjects: subjects || [],
-            weakTopics: weakTopics || [],
-            studyStyle: studyStyle || "solo",
-          }
-        }
+  const baseData = {
+    email: user.email!,
+    name: user.user_metadata.name || user.user_metadata.full_name || "New User",
+    role: prismaRole,
+    educationLevel: isHS ? EduLevel.HIGH_SCHOOL : EduLevel.UNIVERSITY,
+    curriculum: curriculum || "8-4-4",
+    formYear: parseInt(formYear) || null,
+    county: county || "Nairobi",
+    isUnder18: isHS,
+    bio: bio || "",
+  };
+
+  if (existingUser) {
+    // CRITICAL: DO NOT update 'id' in data block
+    await prisma.user.update({
+      where: { id: existingUser.id },
+      data: baseData
+    });
+  } else {
+    await prisma.user.create({
+      data: {
+        ...baseData,
+        id: user.id, // Only set ID on creation
+        tier: Tier.BRONZE,
       }
-    },
+    });
+  }
+
+  // 3. Create Student Profile
+  await prisma.studentProfile.upsert({
+    where: { userId: user.id },
     create: {
-      id: user.id,
-      email: user.email!,
-      name: user.user_metadata.full_name || "New User",
-      role: Role.STUDENT,
-      educationLevel: isHS ? EduLevel.HIGH_SCHOOL : EduLevel.UNIVERSITY,
-      formYear: parseInt(formYear),
-      county,
-      tier: Tier.BRONZE,
-      isUnder18: isHS,
-      
-      studentProfile: {
-        create: {
-          subjects: subjects || [],
-          weakTopics: weakTopics || [],
-          studyStyle: studyStyle || "solo",
-          preferredTimes: {},
-          goals: []
-        }
-      }
+      userId: user.id,
+      subjects: subjects || [],
+      weakTopics: weakTopics || [],
+      studyStyle: studyStyle || "solo",
+      preferredTimes: {},
+      goals: []
+    },
+    update: {
+      subjects: subjects || [],
+      weakTopics: weakTopics || [],
+      studyStyle: studyStyle || "solo",
     }
   });
 
-  // 3. If applying as TUTOR, create the application record
-  if (role === "TUTOR") {
-    await prisma.tutorApplication.upsert({
+  // 4. If TUTOR, Create Tutor Profile
+  if (isTutor) {
+    await prisma.tutorProfile.upsert({
       where: { userId: user.id },
       create: {
         userId: user.id,
         subjects: subjects || [],
-        path: verificationPath === "GRADES" ? VerifPath.GRADES : VerifPath.POINTS,
-        notes: bio || "",
+        levelsTaught: [educationLevel],
+        verificationPath: verificationPath === "GRADES" ? VerifPath.GRADES : VerifPath.POINTS,
+        hourlyRate: parseInt(hourlyRate || "500"),
+        bio: bio || "Professional Academic Mentor",
+        isVerified: true,
+        availability: { isOnline: false }
       },
       update: {
         subjects: subjects || [],
-        path: verificationPath === "GRADES" ? VerifPath.GRADES : VerifPath.POINTS,
-        notes: bio || "",
-        status: "PENDING"
+        bio: bio || "Professional Academic Mentor",
+        isVerified: true
       }
     });
-
-    // Notify Admins (find all admins or just create a generic admin notification)
-    const admins = await prisma.user.findMany({ where: { role: "ADMIN" } });
-    for (const admin of admins) {
-      await prisma.notification.create({
-        data: {
-          userId: admin.id,
-          type: "NEW_TUTOR_APPLICATION",
-          title: "New Tutor Application",
-          body: `${user.user_metadata.full_name} has applied to be a tutor.`,
-          actionUrl: "/admin/tutors"
-        }
-      });
-    }
   }
 
   revalidatePath("/");
   revalidatePath("/dashboard");
-  revalidatePath("/admin/tutors");
+  revalidatePath("/tutor");
 
-  // 4. Send Emails
-  if (role === "TUTOR") {
-    // Custom email for application received
-    // await sendTutorApplicationEmail(user.email!, user.user_metadata.full_name || "Expert");
-    await sendWelcomeEmail(user.email!, user.user_metadata.full_name || "Scholar");
-  } else {
-    await sendWelcomeEmail(user.email!, user.user_metadata.full_name || "Scholar");
+  // 5. Send Welcome Email
+  try {
+    await sendWelcomeEmail(user.email!, user.user_metadata.name || "Scholar");
+  } catch (e) {
+    console.error("Welcome email failed:", e);
   }
 
   return { success: true };

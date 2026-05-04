@@ -3,11 +3,9 @@
 import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-const team = [
-  { name: "Dr. Mash", role: "Mission Lead", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mash" },
-  { name: "Sarah Omondi", role: "Product Architecture", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" },
-  { name: "Kennedy Mutua", role: "Ecosystem Operations", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Kennedy" },
-  { name: "Anita Chebet", role: "Growth Sync", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Anita" },
+const team: { name: string; role: string; image: string }[] = [
+  // Add your real team members here
+  // { name: "Name", role: "Role", image: "https://..." },
 ];
 
 export default function AboutPage() {
@@ -16,9 +14,9 @@ export default function AboutPage() {
       <div className="container-max space-y-32">
         {/* Mission */}
         <div className="max-w-4xl space-y-12">
-           <p className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">The Mission</p>
+           <p className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">The Future of Learning</p>
            <h1 className="text-6xl md:text-8xl font-black tracking-tightest leading-[0.9]">
-             Synchronizing <br /> <span className="text-muted-foreground">Distributed Intelligence.</span>
+             Learn together. <br /> <span className="text-muted-foreground">Go further.</span>
            </h1>
            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-12 border-t border-border">
               <p className="text-xl md:text-2xl font-medium leading-relaxed">
@@ -36,7 +34,7 @@ export default function AboutPage() {
              { title: "Institutional Focus", desc: "Every pixel is engineered for the serious scholar." },
              { title: "Zero Friction", desc: "Removing the legacy barriers to academic discovery." },
              { title: "Community Driven", desc: "Powered by the collective intelligence of thousands." },
-           ].map((value) => (
+           ].map((value: { title: string; desc: string }) => (
              <div key={value.title} className="p-12 bg-secondary rounded-[3rem] space-y-6">
                 <h3 className="text-3xl font-black tracking-tight">{value.title}</h3>
                 <p className="text-lg text-muted-foreground font-medium">{value.desc}</p>

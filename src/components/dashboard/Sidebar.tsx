@@ -7,22 +7,22 @@ import { User } from "@supabase/supabase-js";
 import { 
   LayoutDashboard, BookOpen, GraduationCap,
   Bell, Settings, LogOut, Zap, Flame, Trophy,
-  Sparkles, Share2, Search, UserSearch
+  Sparkles, Share2, UserSearch, Terminal
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const navItems = [
-  { href: "/dashboard", label: "Academic Desk", icon: LayoutDashboard },
-  { href: "/dashboard/feed", label: "Knowledge Desk", icon: Share2 },
-  { href: "/dashboard/search", label: "Find Me", icon: UserSearch },
-  { href: "/dashboard/study", label: "Study Desk", icon: Zap },
-  { href: "/dashboard/sessions", label: "Study Log", icon: BookOpen },
-  { href: "/dashboard/tutors", label: "Scholars", icon: GraduationCap },
-  { href: "/dashboard/challenges", label: "Daily Quest", icon: Flame },
-  { href: "/dashboard/leaderboard", label: "Rankings", icon: Trophy },
-  { href: "/dashboard/achievements", label: "Honors", icon: Sparkles },
+  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/dashboard/feed", label: "Community", icon: Share2 },
+  { href: "/dashboard/search", label: "Smart Match", icon: UserSearch },
+  { href: "/dashboard/study", label: "Start Study", icon: Zap },
+  { href: "/dashboard/sessions", label: "My Sessions", icon: BookOpen },
+  { href: "/dashboard/tutors", label: "Tutors", icon: GraduationCap },
+  { href: "/dashboard/challenges", label: "Daily Goals", icon: Flame },
+  { href: "/dashboard/leaderboard", label: "Leaderboard", icon: Trophy },
+  { href: "/dashboard/achievements", label: "Achievements", icon: Sparkles },
 ];
 
 export default function DashboardSidebar({ user }: { user: User }) {
@@ -84,10 +84,20 @@ export default function DashboardSidebar({ user }: { user: User }) {
            </Link>
         </div>
         
-        <div className="px-2">
+        <div className="px-2 space-y-2">
            <Badge variant="outline" className="w-full justify-center py-1 bg-secondary border-border text-[10px] text-muted-foreground font-black uppercase tracking-widest">
-              {user.user_metadata?.education_level?.replace("_", " ") || "STUDENT"}
+              {user.user_metadata?.role || "STUDENT"}
            </Badge>
+           {user.user_metadata?.role === "TUTOR" && (
+             <Link href="/tutor" className="flex items-center gap-2 justify-center w-full py-2 rounded-xl bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest border border-primary/20 hover:bg-primary hover:text-white transition-all">
+                <GraduationCap className="h-3 w-3" /> Switch to Tutor Hub
+             </Link>
+           )}
+           {user.user_metadata?.role === "ADMIN" && (
+             <Link href="/admin" className="flex items-center gap-2 justify-center w-full py-2 rounded-xl bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest border border-slate-800 hover:bg-black transition-all">
+                <Terminal className="h-3 w-3" /> Core Admin OS
+             </Link>
+           )}
         </div>
 
         <div className="flex items-center gap-3 px-3 py-3 rounded-2xl bg-secondary border border-border">
@@ -95,7 +105,7 @@ export default function DashboardSidebar({ user }: { user: User }) {
             {user.email?.[0].toUpperCase()}
           </div>
           <div className="min-w-0">
-            <p className="text-[11px] font-black truncate text-foreground uppercase tracking-tight">{user.user_metadata?.full_name || "Scholar"}</p>
+            <p className="text-[11px] font-black truncate text-foreground uppercase tracking-tight">{user.user_metadata?.name || "Student"}</p>
             <button onClick={handleLogout} className="text-[9px] font-black text-muted-foreground hover:text-destructive flex items-center gap-1 transition-colors uppercase tracking-widest">
                <LogOut className="h-3 w-3" /> Sign Out
             </button>

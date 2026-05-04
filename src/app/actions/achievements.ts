@@ -11,7 +11,7 @@ export async function getAchievements() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error("Unauthorized");
 
-  // @ts-ignore
+  
   return await prisma.achievement.findMany({
     where: { userId: user.id },
     orderBy: { unlockedAt: 'desc' }
@@ -59,7 +59,7 @@ export async function checkAndAwardAchievements() {
 
   for (const ach of possibleAchievements) {
     if (ach.check()) {
-      // @ts-ignore
+      
       await prisma.achievement.upsert({
         where: {
           userId_type: {

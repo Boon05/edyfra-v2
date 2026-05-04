@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 import { getTutorApplications, approveTutorApplication, rejectTutorApplication } from "@/app/actions/admin";
 
 export default function AdminTutorsPage() {
-  const [applications, setApplications] = useState<any[]>([]);
+  const [applications, setApplications] = useState<unknown[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
 
@@ -123,7 +123,7 @@ export default function AdminTutorsPage() {
                     </div>
                     <div className="hidden md:block">
                        <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">Applicant Notes</p>
-                       <p className="text-xs text-muted-foreground italic line-clamp-2">"{app.notes || "No additional notes provided."}"</p>
+                       <p className="text-xs text-muted-foreground italic line-clamp-2">&quot;{app.notes || "No additional notes provided."}&quot;</p>
                     </div>
                  </div>
 

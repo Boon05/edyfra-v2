@@ -10,7 +10,7 @@ import {
 import { getAchievements, checkAndAwardAchievements } from "@/app/actions/achievements";
 import { toast } from "sonner";
 
-const ICON_MAP: any = {
+const ICON_MAP: unknown = {
   Zap: Zap,
   GraduationCap: GraduationCap,
   Flame: Flame,
@@ -22,7 +22,7 @@ const ICON_MAP: any = {
 };
 
 export default function AchievementsPage() {
-  const [achievements, setAchievements] = useState<any[]>([]);
+  const [achievements, setAchievements] = useState<unknown[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

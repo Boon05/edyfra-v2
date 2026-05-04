@@ -7,7 +7,7 @@ import {
   LayoutDashboard, Users, GraduationCap, 
   Settings, Award, MessageSquare, BarChart3, 
   ShieldCheck, LogOut, Bell, Search,
-  Activity, Globe, Terminal
+  Activity, Globe, Terminal, Zap
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -61,8 +61,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { href: "/admin", label: "Overview", icon: LayoutDashboard },
     { href: "/admin/users", label: "Scholars", icon: Users },
     { href: "/admin/tutors", label: "Verifications", icon: ShieldCheck },
+    { href: "/admin/sessions", label: "Live Rooms", icon: Zap },
+    { href: "/admin/reviews", label: "Reviews", icon: MessageSquare },
     { href: "/admin/content", label: "Challenge CMS", icon: Award },
-    { href: "/admin/sessions", label: "Sessions", icon: MessageSquare },
     { href: "/admin/settings", label: "System Config", icon: Settings },
   ];
 

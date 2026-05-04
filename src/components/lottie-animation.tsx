@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Lottie from "lottie-react";
 
 interface LottieAnimationProps {
-  animationData: any;
+  animationData: unknown;
   className?: string;
   loop?: boolean;
 }

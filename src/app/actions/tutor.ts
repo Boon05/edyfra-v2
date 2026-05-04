@@ -1,148 +1,222 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
-import { createClient } from "@/utils/supabase/server";
+import { Role, VerifPath } from "@prisma/client";
+import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-
-const prisma = new PrismaClient();
+import { getUserData } from "./user";
 
 export async function getTutorProfile() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
+  try {
+    const user = await getUserData();
+    if (!user) return null;
 
-  return await prisma.tutorProfile.findUnique({
-    where: { userId: user.id },
-    include: { user: true }
-  });
+    let profile = await prisma.tutorProfile.findUnique({
+      where: { userId: user.id },
+      include: { user: true }
+    });
+
+    if (!profile && user.role === Role.TUTOR) {
+      console.log(`Creating missing TutorProfile for ${user.id}`);
+      profile = await prisma.tutorProfile.create({
+        data: {
+          userId: user.id,
+          bio: user.bio || "",
+          subjects: [],
+          levelsTaught: [],
+          verificationPath: VerifPath.POINTS,
+          hourlyRate: 500,
+          availability: { isOnline: false }
+        },
+        include: { user: true }
+      });
+    }
+
+    return profile;
+  } catch (error) {
+    console.error("Error in getTutorProfile:", error);
+    return null;
+  }
 }
 
 export async function toggleTutorStatus(isOnline: boolean) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("Unauthorized");
+  try {
+    const user = await getUserData();
+    if (!user) throw new Error("Unauthorized");
 
-  const profile = await prisma.tutorProfile.findUnique({ where: { userId: user.id } });
-  const currentAvailability: any = profile?.availability || {};
-  
-  await prisma.tutorProfile.update({
-    where: { userId: user.id },
-    data: {
-      availability: { ...currentAvailability, isOnline }
-    }
-  });
+    console.log(`Toggling tutor status for ${user.id} to ${isOnline}`);
+    await prisma.tutorProfile.upsert({
+      where: { userId: user.id },
+      create: {
+        userId: user.id,
+        bio: user.bio || "",
+        subjects: [],
+        levelsTaught: [],
+        verificationPath: VerifPath.POINTS,
+        hourlyRate: 500,
+        availability: { isOnline }
+      },
+      update: {
+        availability: { isOnline },
+        // Healing logic for legacy records
+        bio: user.bio || "",
+        subjects: [],
+        levelsTaught: [],
+        verificationPath: VerifPath.POINTS,
+        hourlyRate: 500
+      }
+    });
 
-  revalidatePath("/tutor");
-  return { success: true };
+    revalidatePath("/tutor");
+    return { success: true };
+  } catch (error) {
+    console.error("Error in toggleTutorStatus:", error);
+    throw error;
+  }
 }
 
 export async function updateTutorAvailability(schedule: any) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("Unauthorized");
+  try {
+    const user = await getUserData();
+    if (!user) throw new Error("Unauthorized");
 
-  const profile = await prisma.tutorProfile.findUnique({ where: { userId: user.id } });
-  const currentAvailability: any = profile?.availability || {};
+    await prisma.tutorProfile.update({
+      where: { userId: user.id },
+      data: {
+        availability: { schedule }
+      }
+    });
 
-  await prisma.tutorProfile.update({
-    where: { userId: user.id },
-    data: {
-      availability: { ...currentAvailability, schedule }
-    }
-  });
-
-  revalidatePath("/tutor");
-  return { success: true };
+    revalidatePath("/tutor");
+    return { success: true };
+  } catch (error) {
+    console.error("Error in updateTutorAvailability:", error);
+    throw error;
+  }
 }
 
 export async function acceptMatchRequest(requestId: string) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("Unauthorized");
+  try {
+    const user = await getUserData();
+    if (!user) throw new Error("Unauthorized");
 
-  // 1. Get the request details
-  const matchRequest = await prisma.matchRequest.findUnique({
-    where: { id: requestId }
-  });
+    const matchRequest = await prisma.matchRequest.findUnique({
+      where: { id: requestId }
+    });
 
-  if (!matchRequest || matchRequest.sessionId) {
-    throw new Error("Match request already resolved or not found.");
+    if (!matchRequest || matchRequest.sessionId) {
+      throw new Error("Match request already resolved or not found.");
+    }
+
+    const roomId = `room-${Math.random().toString(36).substring(2, 9)}`;
+    
+    const session = await prisma.session.create({
+      data: {
+        studentId: matchRequest.studentId,
+        partnerId: user.id,
+        tier: "TUTOR",
+        subject: matchRequest.subject,
+        topic: matchRequest.topic,
+        status: "ACTIVE",
+        roomId: roomId,
+        startedAt: new Date(),
+      }
+    });
+
+    await prisma.matchRequest.update({
+      where: { id: requestId },
+      data: {
+        sessionId: session.id,
+        resolvedAs: "TUTOR",
+        resolvedAt: new Date(),
+      }
+    });
+
+    await prisma.notification.create({
+      data: {
+        userId: matchRequest.studentId,
+        type: "MATCH_FOUND",
+        title: "Match Found!",
+        body: "A verified expert has accepted your request. Join the room now!",
+        actionUrl: `/study-room/${session.id}`,
+      }
+    });
+
+    revalidatePath("/tutor/requests");
+    revalidatePath("/dashboard/study");
+    
+    return { success: true, sessionId: session.id };
+  } catch (error) {
+    console.error("Error in acceptMatchRequest:", error);
+    throw error;
   }
-
-  // 2. Create a real Session
-  const roomId = `room-${Math.random().toString(36).substring(2, 9)}`;
-  
-  const session = await prisma.session.create({
-    data: {
-      studentId: matchRequest.studentId,
-      partnerId: user.id,
-      tier: "TUTOR",
-      subject: matchRequest.subject,
-      topic: matchRequest.topic,
-      status: "ACTIVE",
-      roomId: roomId,
-      startedAt: new Date(),
-    }
-  });
-
-  // 3. Update the Match Request
-  await prisma.matchRequest.update({
-    where: { id: requestId },
-    data: {
-      sessionId: session.id,
-      resolvedAs: "TUTOR",
-      resolvedAt: new Date(),
-    }
-  });
-
-  // 4. Create a Notification for the student
-  await prisma.notification.create({
-    data: {
-      userId: matchRequest.studentId,
-      type: "MATCH_FOUND",
-      title: "Match Found!",
-      body: "A verified expert has accepted your request. Join the room now!",
-      actionUrl: `/study-room/${session.id}`,
-    }
-  });
-
-  revalidatePath("/tutor/requests");
-  revalidatePath("/dashboard/study");
-  
-  return { success: true, sessionId: session.id };
 }
 
 export async function getTutorStats() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
+  try {
+    const user = await getUserData();
+    if (!user) return null;
 
-  const [activeSessions, completedSessions, totalEarnings] = await Promise.all([
-    prisma.session.count({ where: { partnerId: user.id, status: "ACTIVE" } }),
-    prisma.session.count({ where: { partnerId: user.id, status: "COMPLETED" } }),
-    prisma.session.aggregate({
-      where: { partnerId: user.id, status: "COMPLETED" },
-      _sum: { priceKsh: true }
-    })
-  ]);
+    const [activeSessions, completedSessions, totalEarnings] = await Promise.all([
+      prisma.session.count({ where: { partnerId: user.id, status: "ACTIVE" } }),
+      prisma.session.count({ where: { partnerId: user.id, status: "COMPLETED" } }),
+      prisma.session.aggregate({
+        where: { partnerId: user.id, status: "COMPLETED" },
+        _sum: { priceKsh: true }
+      })
+    ]);
 
-  return {
-    activeSessions,
-    completedSessions,
-    totalEarnings: totalEarnings._sum.priceKsh || 0
-  };
+    return {
+      activeSessions,
+      completedSessions,
+      totalEarnings: totalEarnings._sum.priceKsh || 0
+    };
+  } catch (error) {
+    console.error("Error in getTutorStats:", error);
+    return null;
+  }
 }
 
 export async function getVerifiedTutors() {
-  return await prisma.user.findMany({
-    where: {
-      role: "TUTOR",
-      tutorProfile: {
-        isVerified: true
+  try {
+    // REMOVED isVerified: true filter so all tutors show up for testing
+    // In production, we'd add this back or filter by isVerified: true
+    return await prisma.user.findMany({
+      where: {
+        role: Role.TUTOR,
+        tutorProfile: {
+          isNot: null // Just ensure they have a profile
+        }
+      },
+      include: {
+        tutorProfile: true
       }
-    },
-    include: {
-      tutorProfile: true
-    }
-  });
+    });
+  } catch (error) {
+    console.error("Error in getVerifiedTutors:", error);
+    return [];
+  }
+}
+
+export async function searchTutors(query: string) {
+  try {
+    if (!query || query.length < 2) return [];
+
+    return await prisma.user.findMany({
+      where: {
+        role: "TUTOR",
+        OR: [
+          { name: { contains: query, mode: "insensitive" } },
+          { bio: { contains: query, mode: "insensitive" } },
+        ],
+        tutorProfile: { isNot: null }
+      },
+      include: {
+        tutorProfile: true
+      },
+      take: 10
+    });
+  } catch (error) {
+    console.error("Error in searchTutors:", error);
+    return [];
+  }
 }

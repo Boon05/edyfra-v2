@@ -31,10 +31,10 @@ export default function DashboardPage() {
   };
 
   const stats = [
-    { label: "Points", value: userData?.points?.toLocaleString() || "0", icon: Trophy },
-    { label: "Streak", value: `${userData?.streakDays || 0} Days`, icon: Flame },
-    { label: "Sessions", value: sessionCount.toString(), icon: BookOpen },
-    { label: "Tier", value: userData?.tier || "BRONZE", icon: TrendingUp },
+    { label: "Total Points", value: userData?.points?.toLocaleString() || "0", icon: Trophy },
+    { label: "Study Streak", value: `${userData?.streakDays || 0} Days`, icon: Flame },
+    { label: "Total Sessions", value: sessionCount.toString(), icon: BookOpen },
+    { label: "Current Rank", value: userData?.tier || "BRONZE", icon: TrendingUp },
   ];
 
   return (
@@ -44,16 +44,16 @@ export default function DashboardPage() {
         <div className="space-y-4">
            <h1 className="text-4xl md:text-6xl font-black tracking-tightest leading-none">
              Welcome back, <br />
-             <span className="text-primary">{userData?.name?.split(" ")[0] || "Scholar"}.</span>
+             <span className="text-primary">{userData?.name?.split(" ")[0] || "there"}.</span>
            </h1>
            <p className="text-muted-foreground text-lg md:text-xl font-medium max-w-xl">
-             Ready to synchronize your academic potential today? Your mission-critical workspace is active.
+             Ready to dive back in? Your personal workspace is ready for you.
            </p>
         </div>
         <Link href="/dashboard/study">
           <Button className="bg-foreground text-background hover:bg-foreground/90 font-black text-xs tracking-widest px-12 h-16 rounded-full uppercase shadow-2xl transition-all active:scale-95 gap-3">
             <Zap className="h-4 w-4 fill-current text-primary" />
-            Initialize Protocol
+            Start Studying
           </Button>
         </Link>
       </div>
@@ -78,15 +78,15 @@ export default function DashboardPage() {
         {/* Activity Log */}
         <div className="lg:col-span-2 p-10 md:p-16 rounded-[3rem] bg-secondary border border-border/50 space-y-8 relative overflow-hidden group">
            <div className="relative z-10 space-y-2">
-              <h3 className="text-3xl font-black tracking-tightest">Institutional Log</h3>
-              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">Recent Activity & Progress Synchronization</p>
+              <h3 className="text-3xl font-black tracking-tightest">Your Activity</h3>
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">Keep track of your study progress and sessions</p>
            </div>
            <div className="relative z-10 min-h-[300px] flex flex-col items-center justify-center text-center p-12 space-y-6 bg-background rounded-[2rem] border border-border/50">
               <div className="bg-secondary p-6 rounded-[2rem] shadow-sm">
                  <BookOpen className="h-12 w-12 text-muted-foreground/20" />
               </div>
               <p className="text-muted-foreground font-medium text-lg max-w-sm">
-                No active session logs detected. Begin a matching protocol to populate your trajectory data.
+                No recent activity found. Start a session to see your progress here.
               </p>
            </div>
            {/* Background Decoration */}
@@ -97,18 +97,18 @@ export default function DashboardPage() {
         <div className="p-10 rounded-[3rem] bg-black text-white space-y-10 relative overflow-hidden group shadow-2xl">
            <div className="relative z-10 space-y-2">
               <h3 className="text-3xl font-black tracking-tightest flex items-center gap-3">
-                Daily Quest
+                Daily Goal
                 <Flame className="h-8 w-8 text-primary animate-pulse" />
               </h3>
-              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">Scholar Incentive Protocol</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">Keep your streak alive</p>
            </div>
            <div className="relative z-10 p-8 bg-white/5 rounded-[2rem] border border-white/10 space-y-8">
               <p className="text-lg font-medium leading-relaxed opacity-80">
-                Synchronize with the advanced Calculus challenge to maintain your institutional streak and earn +50 PTS.
+                Complete a session today to keep your streak going and earn a bonus +50 points.
               </p>
               <Link href="/dashboard/challenges" className="block w-full">
                 <Button className="w-full h-14 bg-primary hover:bg-primary/90 text-white font-black text-xs tracking-widest uppercase rounded-full shadow-2xl transition-all active:scale-95">
-                  Execute Quest <ArrowRight className="h-4 w-4 ml-2" />
+                  View Challenges <ArrowRight className="h-4 w-4 ml-2" />
                 </Button>
               </Link>
            </div>
@@ -124,12 +124,12 @@ export default function DashboardPage() {
          <div className="flex-1 space-y-4 text-center md:text-left">
             <h3 className="text-3xl md:text-4xl font-black tracking-tightest leading-tight">Verified Expert Network.</h3>
             <p className="text-muted-foreground font-medium text-lg md:text-xl">
-               Synchronize with top-tier tutors for mission-critical academic assistance and trajectory correction.
+               Connect with top tutors for 1-on-1 help when you need it most.
             </p>
          </div>
          <Link href="/dashboard/tutors" className="w-full md:w-auto">
             <Button className="w-full md:w-auto h-16 px-12 rounded-full bg-foreground text-background font-black text-xs tracking-widest uppercase shadow-xl hover:bg-foreground/90 transition-all active:scale-95">
-              Browse Network
+              Browse Tutors
             </Button>
          </Link>
       </div>

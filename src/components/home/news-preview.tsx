@@ -3,15 +3,23 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ChevronRight, Calendar, User } from "lucide-react";
+import { ChevronRight, Calendar } from "lucide-react";
 import { getLatestNews, NewsArticle } from "@/app/actions/news";
 import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/ui/empty-state";
+import { BookOpen } from "lucide-react";
 
 export function HomeNews() {
   const [news, setNews] = useState<NewsArticle[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getLatestNews().then(setNews);
+    async function loadNews() {
+      const data = await getLatestNews();
+      setNews(data);
+      setIsLoading(false);
+    }
+    loadNews();
   }, []);
 
   return (
@@ -31,44 +39,60 @@ export function HomeNews() {
            </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {news.map((item, i) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="group cursor-pointer"
-            >
-              <Link href={`/news/${item.slug}`} className="space-y-6 block">
-                 <div className="aspect-[16/10] rounded-3xl overflow-hidden border border-border shadow-sm group-hover:shadow-2xl group-hover:translate-y-[-4px] transition-all duration-500">
-                    <img 
-                      src={item.cover_image} 
-                      alt={item.title} 
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
-                    />
-                 </div>
-                 <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                       <span className="px-3 py-1 rounded-full bg-secondary text-[10px] font-black uppercase tracking-widest text-primary">
-                          {item.category}
-                       </span>
-                       <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-1">
-                          <Calendar className="h-3 w-3" /> {new Date(item.published_at).toLocaleDateString()}
-                       </span>
-                    </div>
-                    <h3 className="text-xl md:text-2xl font-black tracking-tight leading-tight group-hover:text-primary transition-colors">
-                       {item.title}
-                    </h3>
-                    <p className="text-muted-foreground text-sm font-medium leading-relaxed line-clamp-2">
-                       {item.excerpt}
-                    </p>
-                 </div>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="aspect-[16/10] rounded-3xl bg-secondary animate-pulse" />
+            ))}
+          </div>
+        ) : news.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {news.map((item, i) => (
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="group cursor-pointer"
+              >
+                <Link href={`/news/${item.slug}`} className="space-y-6 block">
+                  <div className="aspect-[16/10] rounded-3xl overflow-hidden border border-border shadow-sm group-hover:shadow-2xl group-hover:translate-y-[-4px] transition-all duration-500">
+                      <img 
+                        src={item.cover_image} 
+                        alt={item.title} 
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+                      />
+                  </div>
+                  <div className="space-y-4">
+                      <div className="flex items-center gap-3">
+                        <span className="px-3 py-1 rounded-full bg-secondary text-[10px] font-black uppercase tracking-widest text-primary">
+                            {item.category}
+                        </span>
+                        <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-1">
+                            <Calendar className="h-3 w-3" /> {new Date(item.published_at).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <h3 className="text-xl md:text-2xl font-black tracking-tight leading-tight group-hover:text-primary transition-colors">
+                        {item.title}
+                      </h3>
+                      <p className="text-muted-foreground text-sm font-medium leading-relaxed line-clamp-2">
+                        {item.excerpt}
+                      </p>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        ) : (
+          <EmptyState 
+            icon={BookOpen}
+            title="Intelligence Feed Active"
+            description="Our synchronization engine is currently indexing the latest academic protocols. Check back shortly for real-time updates."
+            actionText="Refresh Feed"
+            onAction={() => window.location.reload()}
+          />
+        )}
       </div>
     </section>
   );

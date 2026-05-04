@@ -25,7 +25,7 @@ export function HomeHero() {
             <span className="text-primary">reimagined.</span>
           </h1>
           <p className="text-lg md:text-2xl text-muted-foreground font-medium max-w-2xl mx-auto leading-relaxed">
-            The all-in-one platform where students discover, connect, and grow. Designed for the mission-critical scholar.
+            Everything you need to discover, connect, and excel. Built for the modern student who wants more from their education.
           </p>
         </motion.div>
 
@@ -65,9 +65,9 @@ export function HomeHero() {
         <div className="relative aspect-[16/9] rounded-[2.5rem] bg-secondary border-8 border-background shadow-[0_40px_100px_-20px_rgba(0,0,0,0.2)] overflow-hidden group">
            <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-primary/5" />
            <img 
-             src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=2574&auto=format&fit=crop" 
-             alt="Dashboard Preview" 
-             className="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000"
+             src="/C:/Users/Mash/.gemini/antigravity/brain/7f7dfd7f-736e-4bdf-9882-1542f2017516/edyfra_premium_dashboard_mockup_1777836001047.png" 
+             alt="Edyfra Premium Dashboard" 
+             className="w-full h-full object-cover group-hover:scale-105 transition-all duration-1000"
            />
            <div className="absolute inset-0 flex items-center justify-center">
               <div className="w-24 h-24 bg-white/20 backdrop-blur-2xl rounded-full flex items-center justify-center border border-white/30 shadow-2xl scale-0 group-hover:scale-100 transition-transform duration-500">

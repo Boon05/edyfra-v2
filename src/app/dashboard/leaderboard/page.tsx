@@ -10,8 +10,8 @@ import { getUserData } from "@/app/actions/user";
 
 export default function LeaderboardPage() {
   const supabase = createClient();
-  const [leaders, setLeaders] = useState<any[]>([]);
-  const [userData, setUserData] = useState<any>(null);
+  const [leaders, setLeaders] = useState<unknown[]>([]);
+  const [userData, setUserData] = useState<unknown>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

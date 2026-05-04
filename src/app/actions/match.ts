@@ -1,10 +1,9 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/prisma";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
-
-const prisma = new PrismaClient();
+import { revalidatePath } from "next/cache";
 
 export async function createMatchRequest(data: { subject: string; topic: string }) {
   const cookieStore = await cookies();
@@ -27,7 +26,7 @@ export async function createMatchRequest(data: { subject: string; topic: string 
     throw new Error("Unauthorized");
   }
 
-  // Create the request
+  // Create the request in Prisma
   const matchRequest = await prisma.matchRequest.create({
     data: {
       studentId: user.id,
@@ -36,6 +35,7 @@ export async function createMatchRequest(data: { subject: string; topic: string 
     },
   });
 
+  revalidatePath("/tutor/requests");
   return { success: true, matchRequestId: matchRequest.id };
 }
 
@@ -68,19 +68,24 @@ export async function acceptMatchRequest(requestId: string) {
     throw new Error("Request already matched or not found");
   }
 
-  const userData = await prisma.user.findUnique({ where: { id: user.id } });
+  const userData = await prisma.user.findUnique({ 
+    where: { id: user.id },
+    include: { tutorProfile: true }
+  });
+  
   const tier = userData?.role === "TUTOR" ? "TUTOR" : "PEER";
 
-  // Create the session
+  // Create the session with a UNIQUE room ID
+  const roomId = `room-${requestId}-${Math.random().toString(36).substring(2, 7)}`;
   const session = await prisma.session.create({
     data: {
       studentId: matchRequest.studentId,
       partnerId: user.id,
-      tier: tier,
+      tier: tier === "TUTOR" ? "TUTOR" : "PEER",
       subject: matchRequest.subject,
       topic: matchRequest.topic,
       status: "ACTIVE",
-      roomId: `room-${requestId}`,
+      roomId: roomId,
       startedAt: new Date(),
     },
   });
@@ -90,11 +95,30 @@ export async function acceptMatchRequest(requestId: string) {
     where: { id: requestId },
     data: {
       sessionId: session.id,
-      resolvedAs: tier,
+      resolvedAs: tier === "TUTOR" ? "TUTOR" : "PEER",
       resolvedAt: new Date(),
-    },
+    }
   });
 
+  // Notify the student
+  try {
+    await prisma.notification.create({
+      data: {
+        userId: matchRequest.studentId,
+        type: "MATCH_FOUND",
+        title: "Expert Connected!",
+        body: `${userData?.name || 'An expert'} has accepted your request. Entering room...`,
+        actionUrl: `/study-room/${session.id}`,
+      }
+    });
+  } catch (e) {
+    console.error("Failed to notify student:", e);
+  }
+
+  revalidatePath("/tutor/requests");
+  revalidatePath("/dashboard/study");
+  revalidatePath("/dashboard/sessions");
+  
   return { success: true, sessionId: session.id };
 }
 
@@ -128,7 +152,7 @@ export async function forceAIFallback(requestId: string) {
       sessionId: session.id,
       resolvedAs: "MASH",
       resolvedAt: new Date(),
-    },
+    }
   });
 
   return { success: true, sessionId: session.id };
