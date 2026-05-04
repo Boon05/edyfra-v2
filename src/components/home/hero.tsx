@@ -45,14 +45,7 @@ export function HomeHero() {
           </Button>
         </motion.div>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.4 }}
-          transition={{ duration: 1, delay: 1 }}
-          className="text-[10px] font-black uppercase tracking-[0.3em] text-foreground pt-8"
-        >
-          Trusted by 10,000+ students across Africa
-        </motion.p>
+        {/* Trust badge removed as per request to clear demo data */}
       </div>
 
       {/* Floating Product Mockup */}
@@ -65,7 +58,7 @@ export function HomeHero() {
         <div className="relative aspect-[16/9] rounded-[2.5rem] bg-secondary border-8 border-background shadow-[0_40px_100px_-20px_rgba(0,0,0,0.2)] overflow-hidden group">
            <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-primary/5" />
            <img 
-             src="/C:/Users/Mash/.gemini/antigravity/brain/7f7dfd7f-736e-4bdf-9882-1542f2017516/edyfra_premium_dashboard_mockup_1777836001047.png" 
+             src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop" 
              alt="Edyfra Premium Dashboard" 
              className="w-full h-full object-cover group-hover:scale-105 transition-all duration-1000"
            />

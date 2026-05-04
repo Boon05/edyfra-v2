@@ -13,19 +13,19 @@ const FeatureVisuals = [
         <Target className="h-4 w-4 text-primary flex-shrink-0" />
         <div className="flex-1 h-2 rounded-full bg-primary/20" />
       </div>
-      {["Physics — Dr. Mash", "Calculus — Kennedy M.", "Biology — Anita C."].map((r, i) => (
+      {["...", "...", "..."].map((r, i) => (
         <motion.div
-          key={r}
+          key={i}
           initial={{ opacity: 0, x: -10 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ delay: i * 0.15 }}
           className="h-14 rounded-2xl bg-secondary border border-border flex items-center px-5 gap-4"
         >
           <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
-            <span className="text-[10px] font-black text-primary">{r[0]}</span>
+            <span className="text-[10px] font-black text-primary">?</span>
           </div>
-          <span className="text-sm font-bold text-foreground/80">{r}</span>
-          <div className="ml-auto w-2 h-2 rounded-full bg-emerald-500" />
+          <span className="text-sm font-bold text-foreground/40 italic">Pending Discovery...</span>
+          <div className="ml-auto w-2 h-2 rounded-full bg-muted" />
         </motion.div>
       ))}
     </div>
@@ -33,17 +33,13 @@ const FeatureVisuals = [
 
   // Community visual
   <div key="community" className="w-full h-full bg-gradient-to-br from-blue-500/5 to-background flex flex-col gap-4 p-8 justify-center">
-    {[
-      { name: "Kennedy M.", msg: "Just finished a great Calculus session! 🎯", color: "bg-blue-500/10" },
-      { name: "Anita C.", msg: "Uploaded my new physics notes to the feed.", color: "bg-primary/10" },
-      { name: "Brian O.", msg: "Anyone free to discuss organic chemistry?", color: "bg-purple-500/10" },
-    ].map((p, i) => (
-      <motion.div key={p.name} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
-        className={`p-4 rounded-2xl border border-border ${p.color} flex items-start gap-3`}>
-        <div className="w-8 h-8 rounded-xl bg-foreground/10 flex items-center justify-center font-black text-[11px] flex-shrink-0">{p.name[0]}</div>
+    {[1, 2, 3].map((p, i) => (
+      <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
+        className={`p-4 rounded-2xl border border-border bg-secondary/30 flex items-start gap-3 opacity-50`}>
+        <div className="w-8 h-8 rounded-xl bg-foreground/10 flex items-center justify-center font-black text-[11px] flex-shrink-0">?</div>
         <div>
-          <p className="text-[10px] font-black text-primary uppercase tracking-widest">{p.name}</p>
-          <p className="text-sm font-medium mt-0.5">{p.msg}</p>
+          <p className="text-[10px] font-black text-primary uppercase tracking-widest">Scholar</p>
+          <p className="text-sm font-medium mt-0.5 text-muted-foreground italic">Joining the feed...</p>
         </div>
       </motion.div>
     ))}

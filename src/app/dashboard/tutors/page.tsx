@@ -13,11 +13,14 @@ import { getUserData } from "@/app/actions/user";
 import { getVerifiedTutors } from "@/app/actions/tutor";
 import { searchStudents } from "@/app/actions/search";
 import { toggleFollow, trackProfileView } from "@/app/actions/social";
+import { User, TutorProfile } from "@prisma/client";
+
+type TutorWithProfile = User & { tutorProfile: TutorProfile | null };
 
 export default function TutorsPage() {
-  const [tutors, setTutors] = useState<unknown[]>([]);
+  const [tutors, setTutors] = useState<TutorWithProfile[]>([]);
   const [loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState<unknown>(null);
+  const [userData, setUserData] = useState<User | null>(null);
   const [search, setSearch] = useState("");
   const [subject, setSubject] = useState("all");
 
@@ -63,7 +66,7 @@ export default function TutorsPage() {
     }
   };
 
-  const subjects = getSubjectsByLevel(userData?.educationLevel);
+  const subjects = getSubjectsByLevel(userData?.educationLevel || "HIGH_SCHOOL");
 
   return (
     <div className="p-8 max-w-7xl mx-auto space-y-12 animate-in fade-in duration-700">
@@ -125,7 +128,7 @@ export default function TutorsPage() {
                   <h3 className="text-2xl font-black tracking-tight group-hover:text-primary transition-colors">{tutor.name}</h3>
                   <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
                     <GraduationCap className="h-3 w-3" />
-                    {tutor.school || tutor.county || "Kenya National Hub"}
+                    {tutor.school || tutor.county || ""}
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -136,7 +139,7 @@ export default function TutorsPage() {
                   ))}
                 </div>
                 <p className="text-sm text-muted-foreground font-medium leading-relaxed italic line-clamp-3">
-                  &quot;{tutor.tutorProfile?.bio || "Committed to high-fidelity academic excellence and institutional synchronization."}&quot;
+                  &quot;{tutor.tutorProfile?.bio || ""}&quot;
                 </p>
               </div>
 

@@ -197,7 +197,7 @@ export async function getGlobalStats() {
       { value: studentCount, label: "Students" },
       { value: tutorCount, label: "Verified Mentors" },
       { value: sessionCount, label: "Study Sessions" },
-      { value: studentCount + tutorCount + sessionCount > 0 ? 99 : 0, label: "Uptime %" },
+      { value: 0, label: "Uptime %" },
     ];
   } catch (error) {
     console.error("Error in getGlobalStats:", error);

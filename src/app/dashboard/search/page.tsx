@@ -143,7 +143,7 @@ export default function SearchPage() {
                         <div className="space-y-1">
                           <h3 className="font-black text-lg tracking-tight group-hover:text-primary transition-colors">{student.name}</h3>
                           <div className="flex flex-col gap-1 text-xs font-bold text-muted-foreground uppercase tracking-widest">
-                            <span className="flex items-center gap-1.5"><GraduationCap className="h-3 w-3" /> {student.school || "National School"}</span>
+                            <span className="flex items-center gap-1.5"><GraduationCap className="h-3 w-3" /> {student.school || ""}</span>
                             <span className="flex items-center gap-1.5"><MapPin className="h-3 w-3" /> {student.course?.replace("_", " ")}</span>
                           </div>
                         </div>
