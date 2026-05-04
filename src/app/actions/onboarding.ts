@@ -18,6 +18,7 @@ interface OnboardingData {
   bio?: string;
   verificationPath?: string;
   hourlyRate?: string;
+  mpesaNumber?: string;
 }
 
 export async function completeOnboarding(data: OnboardingData) {
@@ -31,7 +32,7 @@ export async function completeOnboarding(data: OnboardingData) {
   const { 
     role, educationLevel, curriculum, formYear, 
     county, subjects, weakTopics, studyStyle, 
-    bio, verificationPath, hourlyRate 
+    bio, verificationPath, hourlyRate, mpesaNumber 
   } = data;
   
   const isTutor = role === "TUTOR";
@@ -113,12 +114,15 @@ export async function completeOnboarding(data: OnboardingData) {
         verificationPath: verificationPath === "GRADES" ? VerifPath.GRADES : VerifPath.POINTS,
         hourlyRate: parseInt(hourlyRate || "500"),
         bio: bio || "Professional Academic Mentor",
+        mpesaNumber: mpesaNumber || "",
         isVerified: true,
         availability: { isOnline: false }
       },
       update: {
         subjects: subjects || [],
         bio: bio || "Professional Academic Mentor",
+        hourlyRate: parseInt(hourlyRate || "500"),
+        mpesaNumber: mpesaNumber || "",
         isVerified: true
       }
     });
