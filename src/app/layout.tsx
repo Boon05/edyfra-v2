@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -62,6 +64,8 @@ export default function RootLayout({
           <ThemeColorManager />
           <ConditionalShell>{children}</ConditionalShell>
           <Toaster richColors position="top-right" />
+          <Analytics />
+          <SpeedInsights />
         </ThemeProvider>
       </body>
     </html>

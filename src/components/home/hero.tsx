@@ -5,7 +5,12 @@ import { ArrowRight, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
+import { LottieAnimation } from "@/components/lottie-animation";
+import { MessageCircle } from "lucide-react";
+
 export function HomeHero() {
+  const WHATSAPP_CHANNEL = "https://whatsapp.com/channel/0029Vb7GgdmHLHQfoNgSjo1P";
+
   return (
     <section className="relative min-h-[90vh] flex flex-col items-center justify-center text-center px-6 overflow-hidden pt-20">
       {/* Background Polish */}
@@ -40,34 +45,29 @@ export function HomeHero() {
               Get Started Free
             </Button>
           </Link>
+          <a href={WHATSAPP_CHANNEL} target="_blank" rel="noopener noreferrer">
+            <Button variant="outline" className="h-16 px-10 rounded-full border-2 border-emerald-500/30 text-emerald-500 hover:bg-emerald-500/10 font-black text-xs tracking-widest uppercase transition-all flex items-center gap-3">
+              <MessageCircle className="h-5 w-5" />
+              Join WhatsApp Channel
+            </Button>
+          </a>
         </motion.div>
-
-        {/* Trust badge removed as per request to clear demo data */}
       </div>
 
-      {/* Floating Animation Mockup */}
+      {/* Real Lottie Animation Section */}
       <motion.div
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 40 }}
         transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
         className="relative mt-24 w-full max-w-4xl mx-auto px-4"
       >
-        <div className="relative aspect-[16/9] rounded-[2.5rem] bg-secondary border-8 border-background shadow-[0_40px_100px_-20px_rgba(0,0,0,0.2)] overflow-hidden flex items-center justify-center group">
-           <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-primary/5" />
+        <div className="relative aspect-[16/9] rounded-[2.5rem] bg-secondary/30 backdrop-blur-sm border-8 border-background shadow-[0_40px_100px_-20px_rgba(0,0,0,0.2)] overflow-hidden flex items-center justify-center group">
+           <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-primary/5" />
            
-           {/* 
-             TODO: To use a Lottie JSON here:
-             1. Add your JSON file (e.g., hero-animation.json) to the project.
-             2. Import the component: import { LottieAnimation } from "@/components/lottie-animation";
-             3. Import the data: import animationData from "@/hero-animation.json";
-             4. Replace this div with: <LottieAnimation animationData={animationData} className="w-full h-full object-cover" />
-           */}
-           <div className="text-center space-y-4 relative z-10 p-8">
-              <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto animate-pulse">
-                 <Play className="h-8 w-8 text-primary" />
-              </div>
-              <p className="text-muted-foreground font-medium text-sm">Interactive JSON Animation Goes Here</p>
-           </div>
+           <LottieAnimation 
+             url="https://lottie.host/703660a9-1738-4e89-a22c-a0e665181b8d/k7m6vK4U7v.json" 
+             className="w-full h-full max-w-md"
+           />
         </div>
       </motion.div>
     </section>

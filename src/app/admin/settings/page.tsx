@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -19,15 +19,34 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { toast } from "sonner";
-import { resetAllSessions, clearGlobalCache, deleteUser } from "@/app/actions/admin";
+import { resetAllSessions, clearGlobalCache, deleteUser, saveAdminGlobalSettings, getAdminGlobalSettings } from "@/app/actions/admin";
 import { updateUserSettings } from "@/app/actions/user";
-import { Palette, Trash2, Skull } from "lucide-react";
+import { Palette, Trash2, Skull, Eye, EyeOff } from "lucide-react";
 
 export default function AdminSettingsPage() {
-  const [accentColor, setAccentColor] = useState("#8b5cf6"); // Default violet
+  const [accentColor, setAccentColor] = useState("#8b5cf6");
+  const [googleAiKey, setGoogleAiKey] = useState("");
+  const [showKey, setShowKey] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [userToDelete, setUserToDelete] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
+  const loadSettings = async () => {
+    try {
+      const settings = await getAdminGlobalSettings() as any;
+      if (settings.googleAiKey) setGoogleAiKey(settings.googleAiKey);
+      if (settings.accentColor) setAccentColor(settings.accentColor);
+    } catch (err) {
+      console.error("Failed to load settings:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleDeleteUser = async () => {
     if (!userToDelete) return;
@@ -48,7 +67,15 @@ export default function AdminSettingsPage() {
   const handleSave = async () => {
     setSaving(true);
     try {
+      // 1. Save to User Settings (Local)
       await updateUserSettings({ accentColor });
+      
+      // 2. Save to Global Settings (API Keys, etc)
+      await saveAdminGlobalSettings({ 
+        googleAiKey,
+        accentColor,
+        updatedAt: new Date().toISOString()
+      });
       
       // Dispatch event for instant preview
       if (typeof window !== "undefined") {
@@ -62,6 +89,14 @@ export default function AdminSettingsPage() {
       setSaving(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <RefreshCw className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-12 animate-in fade-in duration-700">
@@ -131,6 +166,28 @@ export default function AdminSettingsPage() {
             <CardDescription>Configure AI matching and automated tutoring logic.</CardDescription>
           </CardHeader>
           <CardContent className="p-10 space-y-8">
+            <div className="space-y-4 p-6 rounded-3xl bg-purple-500/5 border border-purple-500/20">
+               <div className="flex items-center justify-between mb-4">
+                  <Label className="text-sm font-black uppercase tracking-widest text-purple-400">Google Gemini API Key</Label>
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    onClick={() => setShowKey(!showKey)}
+                    className="h-8 w-8 text-purple-400 hover:text-purple-300 hover:bg-purple-500/10"
+                  >
+                    {showKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </Button>
+               </div>
+               <Input 
+                 type={showKey ? "text" : "password"}
+                 placeholder="AIzaSy..." 
+                 value={googleAiKey}
+                 onChange={(e) => setGoogleAiKey(e.target.value)}
+                 className="h-12 rounded-xl bg-black/40 border-white/10 font-mono text-xs tracking-widest"
+               />
+               <p className="text-[10px] text-muted-foreground mt-3 italic">This key enables Mash AI across all study sessions. Updates are instant.</p>
+            </div>
+
             <div className="space-y-4">
               <Label className="text-sm font-black uppercase tracking-widest">Primary AI Provider</Label>
               <Select defaultValue="gemini">
@@ -140,7 +197,6 @@ export default function AdminSettingsPage() {
                 <SelectContent>
                   <SelectItem value="gemini">Google Gemini 1.5 Pro (Optimized)</SelectItem>
                   <SelectItem value="openai">OpenAI GPT-4o (Legacy Fallback)</SelectItem>
-                  <SelectItem value="anthropic">Anthropic Claude 3.5 Sonnet</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -150,15 +206,6 @@ export default function AdminSettingsPage() {
                  <p className="text-sm text-muted-foreground font-medium">Use AI to suggest the best tutor-student pairs.</p>
                </div>
                <Switch defaultChecked />
-            </div>
-            <div className="space-y-4">
-               <Label className="text-sm font-black uppercase tracking-widest">AI Response Creativity (Temperature)</Label>
-               <div className="flex items-center gap-6">
-                  <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden">
-                     <div className="h-full w-[40%] bg-purple-500" />
-                  </div>
-                  <span className="font-black text-purple-400">0.4</span>
-               </div>
             </div>
           </CardContent>
         </Card>
@@ -272,9 +319,6 @@ export default function AdminSettingsPage() {
                    <Rocket className="h-5 w-5" /> BOOTSTRAP SEEDS
                 </Button>
               </div>
-             <p className="text-[9px] font-black text-muted-foreground uppercase text-center tracking-[0.3em] pt-4 animate-pulse">
-                System Status: Authenticated Admin Required
-             </p>
           </CardContent>
         </Card>
 

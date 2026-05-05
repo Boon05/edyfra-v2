@@ -214,3 +214,16 @@ export async function sendMessage(data: { sessionId: string; senderId: string; c
     return { success: false, error };
   }
 }
+
+export async function checkMatchStatus(requestId: string) {
+  try {
+    const request = await prisma.matchRequest.findUnique({
+      where: { id: requestId },
+      select: { sessionId: true }
+    });
+    return { success: true, sessionId: request?.sessionId };
+  } catch (error) {
+    console.error('Error checking match status:', error);
+    return { success: false };
+  }
+}

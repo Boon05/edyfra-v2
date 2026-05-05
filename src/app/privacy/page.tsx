@@ -27,26 +27,69 @@ export default function PrivacyPage() {
            ))}
         </div>
 
-        <div className="prose prose-invert max-w-none space-y-12">
-           <section className="space-y-4">
-              <h2 className="text-2xl font-black tracking-tight">1. Data Collection</h2>
-              <p className="text-muted-foreground leading-relaxed font-medium">
-                Edyfra collects minimal data required for mission-critical synchronization. This includes your institutional email, academic level, and subject preferences to ensure accurate peer-matching.
-              </p>
+        <div className="prose prose-invert max-w-none space-y-16">
+           <section className="space-y-6">
+              <h2 className="text-3xl font-black tracking-tight flex items-center gap-4">
+                 <span className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary text-sm">01</span>
+                 Data Acquisition Strategy
+              </h2>
+              <div className="space-y-4 text-muted-foreground leading-relaxed font-medium">
+                <p>
+                  Edyfra implements a strict "Data Minimization" protocol. We only acquire information that is fundamentally essential to the synchronization of scholarly connections. This primary data set includes:
+                </p>
+                <ul className="list-disc pl-6 space-y-2 marker:text-primary">
+                  <li>Institutional Identity: Valid academic email addresses for verification.</li>
+                  <li>Academic Metadata: Level of study, subject specializations, and curriculum (8-4-4, CBC, IGCSE).</li>
+                  <li>Interaction Telemetry: Real-time study session metadata to optimize our matching algorithms.</li>
+                </ul>
+              </div>
            </section>
 
-           <section className="space-y-4">
-              <h2 className="text-2xl font-black tracking-tight">2. Scholarly Synchronization</h2>
-              <p className="text-muted-foreground leading-relaxed font-medium">
-                Knowledge shared in the Research Labs (Study Rooms) is temporarily stored to provide AI-assisted insights and session summaries. Users can purge their lab history at any time.
-              </p>
+           <section className="space-y-6">
+              <h2 className="text-3xl font-black tracking-tight flex items-center gap-4">
+                 <span className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary text-sm">02</span>
+                 Scholarly Lab Synchronization
+              </h2>
+              <div className="space-y-4 text-muted-foreground leading-relaxed font-medium">
+                <p>
+                  Knowledge shared within Edyfra Research Labs (Study Rooms) is protected by transient encryption. While sessions are live, ephemeral data is processed to enable:
+                </p>
+                <ul className="list-disc pl-6 space-y-2 marker:text-primary">
+                  <li>Mash AI Interventions: Providing real-time academic support when mentors are unavailable.</li>
+                  <li>Session Synthesis: Automated generation of study summaries for later review.</li>
+                  <li>Conflict Resolution: Ensuring institutional standards are maintained during peer-to-peer interactions.</li>
+                </ul>
+                <p className="text-xs italic bg-secondary p-4 rounded-xl border border-border">
+                  Note: Users retain full sovereignty over their session logs and may execute a "Permanent Purge" command at any time.
+                </p>
+              </div>
            </section>
 
-           <section className="space-y-4">
-              <h2 className="text-2xl font-black tracking-tight">3. Global Security Standards</h2>
-              <p className="text-muted-foreground leading-relaxed font-medium">
-                We adhere to international data protection protocols to ensure your academic trajectory remains secure and private.
-              </p>
+           <section className="space-y-6">
+              <h2 className="text-3xl font-black tracking-tight flex items-center gap-4">
+                 <span className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary text-sm">03</span>
+                 Global Infrastructure & Security
+              </h2>
+              <div className="space-y-4 text-muted-foreground leading-relaxed font-medium">
+                <p>
+                  Our security architecture is built on a multi-layer "Zero Trust" framework. Edyfra utilizes enterprise-grade providers (Supabase, Vercel, Prisma) to host your data across globally distributed clusters. 
+                </p>
+                <p>
+                  We execute hourly automated security audits and implement Row Level Security (RLS) on all database tables to ensure that your private scholarly trajectory remains visible only to authorized nodes in the ecosystem.
+                </p>
+              </div>
+           </section>
+
+           <section className="space-y-6">
+              <h2 className="text-3xl font-black tracking-tight flex items-center gap-4">
+                 <span className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary text-sm">04</span>
+                 Institutional Transparency
+              </h2>
+              <div className="space-y-4 text-muted-foreground leading-relaxed font-medium">
+                <p>
+                  Edyfra does not participate in data commercialization. Your academic profile is never sold to 3rd party advertisers. Any data shared with institutional partners is strictly anonymized and used exclusively for academic research aimed at improving Kenyan educational outcomes.
+                </p>
+              </div>
            </section>
         </div>
       </div>

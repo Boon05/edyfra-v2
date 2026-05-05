@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { createMatchRequest, forceAIFallback } from "@/app/actions/match";
+import { createMatchRequest, forceAIFallback, checkMatchStatus } from "@/app/actions/match";
 import { Zap, Search, Users, Cpu } from "lucide-react";
 import { toast } from "sonner";
 import { createClient } from "@/utils/supabase/client";
@@ -28,6 +28,7 @@ export default function StudyPage() {
   });
   const [currentRequestId, setCurrentRequestId] = useState<string | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const pollingRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     getUserData().then((data) => {
@@ -93,7 +94,7 @@ export default function StudyPage() {
   useEffect(() => {
     if (!currentRequestId) return;
 
-    // 1. Listen for Database Changes (Prisma updates)
+    // 1. Listen for Database Changes (Realtime)
     const channel = supabase
       .channel(`match-${currentRequestId}`)
       .on(
@@ -113,24 +114,37 @@ export default function StudyPage() {
       )
       .subscribe();
 
-    // 2. Start the timer
+    // 2. Fallback Polling (Every 3 seconds)
+    pollingRef.current = setInterval(async () => {
+      const res = await checkMatchStatus(currentRequestId);
+      if (res.success && res.sessionId) {
+        if (timerRef.current) clearInterval(timerRef.current);
+        if (pollingRef.current) clearInterval(pollingRef.current);
+        toast.success("Connection established! Entering room...");
+        router.push(`/study-room/${res.sessionId}`);
+      }
+    }, 3000);
+
+    // 3. Start the UI timer
     timerRef.current = setInterval(() => {
       setTimer((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
 
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
+      if (pollingRef.current) clearInterval(pollingRef.current);
       supabase.removeChannel(channel);
     };
   }, [currentRequestId, router, supabase]);
 
-  // 3. Handle Cascade Logic based on Timer
+  // 4. Handle Cascade Logic based on Timer
   useEffect(() => {
     if (!isMatching || timer === 0) return;
 
     if (timer === 20) setMatchStep(2); // Peer search
     if (timer === 10) {
       if (timerRef.current) clearInterval(timerRef.current);
+      if (pollingRef.current) clearInterval(pollingRef.current);
       handleAIFallback();
     }
   }, [timer, isMatching, handleAIFallback]);

@@ -5,6 +5,7 @@ interface AIServiceOptions {
   provider: "openai" | "google";
   model?: string;
   systemPrompt: string;
+  apiKey?: string;
 }
 
 export class AIService {
@@ -19,10 +20,10 @@ export class AIService {
     this.systemPrompt = options.systemPrompt;
 
     if (this.provider === "openai") {
-      this.openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+      this.openai = new OpenAI({ apiKey: options.apiKey || process.env.OPENAI_API_KEY });
       this.model = options.model || "gpt-4-turbo-preview";
     } else {
-      this.gemini = new GoogleGenerativeAI(process.env.GOOGLE_AI_KEY || "");
+      this.gemini = new GoogleGenerativeAI(options.apiKey || process.env.GOOGLE_AI_KEY || "");
       this.model = options.model || "gemini-1.5-flash";
     }
   }

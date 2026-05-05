@@ -7,12 +7,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
+const WHATSAPP_CHANNEL = "https://whatsapp.com/channel/0029Vb7GgdmHLHQfoNgSjo1P";
+
 const footerLinks = [
   {
     title: "Ecosystem",
     links: [
       { name: "Features", href: "/features" },
       { name: "Community", href: "/community" },
+      { name: "Roadmap", href: "/roadmap" },
       { name: "News Feed", href: "/news" },
       { name: "About Us", href: "/about" },
     ],
@@ -31,7 +34,7 @@ const footerLinks = [
     links: [
       { name: "Help Center", href: "/contact" },
       { name: "Contact Us", href: "/contact" },
-      { name: "Careers", href: "/about" },
+      { name: "WhatsApp Channel", href: WHATSAPP_CHANNEL },
       { name: "Institutional", href: "/contact" },
     ],
   },
@@ -100,15 +103,15 @@ export function Footer() {
               The all-in-one platform where students discover, connect, and grow.
             </p>
             <div className="flex items-center gap-4">
-              {[Mail, Globe, MessageCircle].map((Icon, i) => (
-                <Link 
-                  key={i} 
-                  href="/contact" 
-                  className="text-muted-foreground hover:text-primary transition-colors p-2 bg-secondary rounded-full"
-                >
-                  <Icon className="h-4 w-4" />
-                </Link>
-              ))}
+              <Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors p-2 bg-secondary rounded-full">
+                <Mail className="h-4 w-4" />
+              </Link>
+              <Link href={WHATSAPP_CHANNEL} target="_blank" className="text-muted-foreground hover:text-emerald-500 transition-colors p-2 bg-secondary rounded-full">
+                <MessageCircle className="h-4 w-4" />
+              </Link>
+              <Link href="/" className="text-muted-foreground hover:text-primary transition-colors p-2 bg-secondary rounded-full">
+                <Globe className="h-4 w-4" />
+              </Link>
             </div>
           </div>
 

@@ -27,26 +27,67 @@ export default function TermsPage() {
            ))}
         </div>
 
-        <div className="prose prose-invert max-w-none space-y-12">
-           <section className="space-y-4">
-              <h2 className="text-2xl font-black tracking-tight">1. Institutional Integrity</h2>
-              <p className="text-muted-foreground leading-relaxed font-medium">
-                By using Edyfra, you agree to maintain the highest standards of academic integrity. The platform is designed for legitimate knowledge synchronization, and any form of cheating or plagiarism is strictly prohibited.
-              </p>
+        <div className="prose prose-invert max-w-none space-y-16">
+           <section className="space-y-6">
+              <h2 className="text-3xl font-black tracking-tight flex items-center gap-4">
+                 <span className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary text-sm">01</span>
+                 Institutional Integrity
+              </h2>
+              <div className="space-y-4 text-muted-foreground leading-relaxed font-medium">
+                <p>
+                  Edyfra is a high-performance academic ecosystem. By accessing our platform, you commit to maintaining the "Scholarly Code of Conduct." This includes:
+                </p>
+                <ul className="list-disc pl-6 space-y-2 marker:text-primary">
+                  <li>Academic Honesty: Prohibiting the use of the platform for cheating, plagiarism, or unauthorized resource sharing.</li>
+                  <li>Peer Respect: Zero tolerance for harassment, discrimination, or non-scholarly conduct in Research Labs.</li>
+                  <li>Identity Veracity: Ensuring all profile information reflects your true academic status and educational background.</li>
+                </ul>
+              </div>
            </section>
 
-           <section className="space-y-4">
-              <h2 className="text-2xl font-black tracking-tight">2. User Accounts</h2>
-              <p className="text-muted-foreground leading-relaxed font-medium">
-                You are responsible for maintaining the security of your institutional credentials. Edyfra reserves the right to suspend accounts that exhibit patterns of non-scholarly behavior.
-              </p>
+           <section className="space-y-6">
+              <h2 className="text-3xl font-black tracking-tight flex items-center gap-4">
+                 <span className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary text-sm">02</span>
+                 User Node Obligations
+              </h2>
+              <div className="space-y-4 text-muted-foreground leading-relaxed font-medium">
+                <p>
+                  Users (Scholars and Mentors) are responsible for the security of their institutional credentials. Any breach of security resulting from negligent credential management is the sole responsibility of the node owner.
+                </p>
+                <p>
+                  Edyfra reserves the right to terminate any node (user account) that demonstrates patterns of "Ecosystem Disturbance," including but not limited to spamming, bot-like behavior, or repeated violations of academic integrity.
+                </p>
+              </div>
            </section>
 
-           <section className="space-y-4">
-              <h2 className="text-2xl font-black tracking-tight">3. Mission-Critical Availability</h2>
-              <p className="text-muted-foreground leading-relaxed font-medium">
-                While we strive for 99.9% synchronization uptime, service may be occasionally suspended for institutional upgrades.
-              </p>
+           <section className="space-y-6">
+              <h2 className="text-3xl font-black tracking-tight flex items-center gap-4">
+                 <span className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary text-sm">03</span>
+                 Mission-Critical Availability
+              </h2>
+              <div className="space-y-4 text-muted-foreground leading-relaxed font-medium">
+                <p>
+                  While we strive for 99.9% synchronization uptime, service may be occasionally suspended for institutional upgrades, database maintenance, or AI engine retraining. 
+                </p>
+                <p>
+                  Edyfra is not liable for any academic deadlines missed due to scheduled or unscheduled platform downtime. We recommend all scholars maintain local backups of critical study materials.
+                </p>
+              </div>
+           </section>
+
+           <section className="space-y-6">
+              <h2 className="text-3xl font-black tracking-tight flex items-center gap-4">
+                 <span className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary text-sm">04</span>
+                 Intellectual Property
+              </h2>
+              <div className="space-y-4 text-muted-foreground leading-relaxed font-medium">
+                <p>
+                  All content generated within the Edyfra ecosystem—including proprietary algorithms, UI/UX designs, and institutional data—is the property of Edyfra Platforms. 
+                </p>
+                <p>
+                  Scholars retain ownership of their original research notes, but grant Edyfra a non-exclusive license to process this data to improve the ecosystem's AI-assisted learning capabilities.
+                </p>
+              </div>
            </section>
         </div>
       </div>

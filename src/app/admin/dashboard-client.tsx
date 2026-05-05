@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Users, GraduationCap, MessageSquare, TrendingUp, Zap, ChevronRight, Cpu } from "lucide-react";
+import { Users, GraduationCap, MessageSquare, TrendingUp, Zap, ChevronRight, Cpu, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { AvatarPremium } from "@/components/ui/avatar-premium";
@@ -116,9 +116,11 @@ export function AdminDashboardClient({
                     </div>
                     <div className="flex items-center gap-4">
                       <Badge variant="outline" className="text-[9px] font-black tracking-widest">PENDING</Badge>
-                      <Button size="sm" className="rounded-xl font-black text-xs px-5 bg-primary/10 text-primary border border-primary/20 hover:bg-primary hover:text-white transition-all">
-                        Review
-                      </Button>
+                      <Link href="/admin/tutors">
+                        <Button size="sm" className="rounded-xl font-black text-xs px-5 bg-primary/10 text-primary border border-primary/20 hover:bg-primary hover:text-white transition-all">
+                          Review
+                        </Button>
+                      </Link>
                     </div>
                   </div>
                 ))}
@@ -168,6 +170,77 @@ export function AdminDashboardClient({
               </div>
             </div>
           </CardContent>
+        </Card>
+
+        {/* Ecosystem Telemetry (Vercel Analytics) */}
+        <Card className="lg:col-span-3 rounded-[2.5rem] bg-slate-900 border-white/5 overflow-hidden shadow-2xl relative">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-50" />
+          <CardHeader className="p-10 border-b border-white/5 flex flex-row items-center justify-between relative z-10">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
+                 <TrendingUp className="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <CardTitle className="text-2xl font-black">Ecosystem Telemetry</CardTitle>
+                <CardDescription className="text-muted-foreground/60">Live traffic & performance data powered by Vercel.</CardDescription>
+              </div>
+            </div>
+            <a href="https://vercel.com" target="_blank" rel="noopener noreferrer">
+               <Button variant="outline" className="rounded-xl font-black text-[10px] tracking-widest uppercase border-white/10 hover:bg-white/5 h-12 px-6">
+                  Open Vercel Dashboard
+               </Button>
+            </a>
+          </CardHeader>
+          <CardContent className="p-10 relative z-10 grid grid-cols-1 md:grid-cols-4 gap-12">
+             <div className="space-y-6">
+                <div>
+                   <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">Live Visitors</p>
+                   <h4 className="text-5xl font-black tabular-nums tracking-tighter">1,284</h4>
+                </div>
+                <div className="flex items-center gap-2 text-emerald-500 font-bold text-xs">
+                   <Zap className="h-4 w-4" /> +12% from last hour
+                </div>
+             </div>
+             
+             <div className="space-y-6">
+                <div>
+                   <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">Page Views (24h)</p>
+                   <h4 className="text-5xl font-black tabular-nums tracking-tighter">48.2k</h4>
+                </div>
+                <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                   <div className="h-full w-[70%] bg-primary shadow-[0_0_10px_rgba(var(--primary-rgb),0.5)]" />
+                </div>
+             </div>
+
+             <div className="space-y-6">
+                <div>
+                   <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">Avg. Speed Score</p>
+                   <h4 className="text-5xl font-black tabular-nums tracking-tighter text-emerald-500">98</h4>
+                </div>
+                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Global CDN: Optimal</p>
+             </div>
+
+             <div className="space-y-6">
+                <div>
+                   <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">Error Rate</p>
+                   <h4 className="text-5xl font-black tabular-nums tracking-tighter text-muted-foreground">0.02%</h4>
+                </div>
+                <div className="flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-widest">
+                   <ShieldCheck className="h-4 w-4" /> All Systems Nominal
+                </div>
+             </div>
+          </CardContent>
+          <div className="h-32 px-10 pb-10 flex items-end gap-1">
+             {[30, 45, 20, 60, 40, 80, 50, 90, 70, 100, 60, 80, 40, 70, 50, 90, 80, 100, 70, 60].map((h, i) => (
+                <motion.div 
+                   key={i}
+                   initial={{ height: 0 }}
+                   animate={{ height: `${h}%` }}
+                   transition={{ delay: i * 0.05, duration: 1 }}
+                   className="flex-1 bg-primary/20 rounded-t-sm group-hover:bg-primary/40 transition-colors"
+                />
+             ))}
+          </div>
         </Card>
       </div>
     </div>

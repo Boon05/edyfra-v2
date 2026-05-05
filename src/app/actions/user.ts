@@ -115,21 +115,27 @@ export async function updateUserRole(role: "STUDENT" | "TUTOR") {
 
     const prismaRole = role === "TUTOR" ? Role.TUTOR : Role.STUDENT;
 
-    // 1. Update Supabase Metadata
-    const { error: authError } = await supabase.auth.updateUser({
-      data: { role: role }
-    });
-    if (authError) throw authError;
-
-    // 2. ABSOLUTE SYNC: Find by ID or Email
+    // 1. ABSOLUTE SYNC: Find by ID or Email
     const existingUser = await prisma.user.findFirst({
       where: {
         OR: [
           { id: user.id },
           { email: user.email! }
         ]
-      }
+      },
+      include: { tutorProfile: true }
     });
+
+    // 2. Role Locking Logic: Prevent Downgrades
+    if (existingUser && existingUser.role === Role.TUTOR && role === "STUDENT") {
+      throw new Error("Tutor accounts cannot be converted to Student accounts. Please contact support for administrative assistance.");
+    }
+
+    // 3. Update Supabase Metadata
+    const { error: authError } = await supabase.auth.updateUser({
+      data: { role: role }
+    });
+    if (authError) throw authError;
 
     if (existingUser) {
       // CRITICAL FIX: DO NOT update the 'id' field as it's the primary key and immutable

@@ -195,3 +195,44 @@ export async function clearGlobalCache() {
   revalidatePath("/", "layout");
   return { success: true };
 }
+
+export async function saveAdminGlobalSettings(settings: any) {
+  try {
+    const supabase = await createClient();
+    const { data: { user: admin } } = await supabase.auth.getUser();
+    if (!admin || admin.user_metadata?.role !== "ADMIN") throw new Error("Unauthorized");
+
+    // We store global settings in the current admin's settings JSON
+    // The AI services will look for an ADMIN user to find these settings
+    await prisma.user.update({
+      where: { id: admin.id },
+      data: { 
+        settings: settings 
+      }
+    });
+
+    revalidatePath("/admin/settings");
+    return { success: true };
+  } catch (error) {
+    console.error("Error saving global settings:", error);
+    throw error;
+  }
+}
+
+export async function getAdminGlobalSettings() {
+  try {
+    const supabase = await createClient();
+    const { data: { user: admin } } = await supabase.auth.getUser();
+    if (!admin || admin.user_metadata?.role !== "ADMIN") throw new Error("Unauthorized");
+
+    const adminData = await prisma.user.findUnique({
+      where: { id: admin.id },
+      select: { settings: true }
+    });
+
+    return adminData?.settings || {};
+  } catch (error) {
+    console.error("Error fetching global settings:", error);
+    return {};
+  }
+}
