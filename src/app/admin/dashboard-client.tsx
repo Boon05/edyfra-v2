@@ -2,12 +2,11 @@
 
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Users, GraduationCap, MessageSquare, TrendingUp, Zap, ChevronRight, Cpu, ShieldCheck } from "lucide-react";
+import { Users, GraduationCap, MessageSquare, TrendingUp, Zap, Cpu, ShieldCheck, Activity, Database, Clock, CheckCircle2, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { AvatarPremium } from "@/components/ui/avatar-premium";
 import Link from "next/link";
-import { approveReview, deleteReview } from "@/app/actions/reviews";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
@@ -27,34 +26,66 @@ export function AdminDashboardClient({
   pendingApplications,
   recentUsers,
   systemLoad,
+  completedSessions,
 }: {
   stats: Stat[];
   telemetry: any[];
   pendingApplications: any[];
   recentUsers: any[];
   systemLoad: number;
+  completedSessions: number;
 }) {
   const router = useRouter();
 
+  const healthChecks = [
+    { 
+      label: "Database", 
+      status: stats[0]?.value !== undefined ? "Connected" : "Checking...", 
+      color: stats[0]?.value !== undefined ? "bg-emerald-500" : "bg-yellow-500",
+      detail: `${stats[0]?.value || 0} users`,
+      pct: stats[0]?.value !== undefined ? 100 : 0
+    },
+    { 
+      label: "Active Sessions", 
+      status: stats[2]?.value > 0 ? `${stats[2].value} Live` : "Idle", 
+      color: stats[2]?.value > 0 ? "bg-primary" : "bg-muted-foreground",
+      detail: `${completedSessions || 0} completed total`,
+      pct: stats[2]?.value > 0 ? Math.min((stats[2].value / Math.max(stats[0]?.value || 1, 1)) * 100, 100) : 0
+    },
+    { 
+      label: "Tutor Apps", 
+      status: pendingApplications.length > 0 ? `${pendingApplications.length} Pending` : "Clear", 
+      color: pendingApplications.length > 0 ? "bg-amber-500" : "bg-emerald-500",
+      detail: pendingApplications.length > 0 ? "Action required" : "No pending reviews",
+      pct: pendingApplications.length > 0 ? Math.min(pendingApplications.length * 10, 100) : 0
+    },
+  ];
+
+  const maxTelemetry = telemetry.length > 0 
+    ? Math.max(...telemetry.map((t) => typeof t.value === "number" ? t.value : 0), 1)
+    : 1;
+
   return (
     <div className="space-y-10 pb-20">
-      {/* Top Status Bar */}
+      {/* Top Status Bar — Real data only */}
       <div className="flex flex-wrap items-center gap-2 sm:gap-4 p-3 sm:p-4 rounded-2xl bg-slate-900 border border-white/5 text-[8px] sm:text-[9px] font-black uppercase tracking-[0.2em] shadow-2xl overflow-hidden">
          <div className="flex items-center gap-2 px-2 sm:px-4 border-r border-white/10 flex-shrink-0">
-            <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-            <span className="text-emerald-500">Operational</span>
+            <div className={`w-2 h-2 rounded-full animate-pulse ${stats[0]?.value !== undefined ? "bg-emerald-500" : "bg-yellow-500"}`} />
+            <span className={stats[0]?.value !== undefined ? "text-emerald-500" : "text-yellow-500"}>
+              {stats[0]?.value !== undefined ? "Operational" : "Initializing"}
+            </span>
          </div>
          <div className="flex items-center gap-2 px-2 sm:px-4 border-r border-white/10 text-muted-foreground/60 flex-shrink-0">
             <Zap className="h-3 w-3" />
             <span>Load: {systemLoad}%</span>
          </div>
          <div className="flex items-center gap-2 px-2 sm:px-4 border-r border-white/10 text-muted-foreground/60 hidden sm:flex">
-            <Cpu className="h-3 w-3" />
-            <span>14ms</span>
+            <Database className="h-3 w-3" />
+            <span>{stats[0]?.value || 0} Users</span>
          </div>
          <div className="flex items-center gap-2 px-2 sm:px-4 text-muted-foreground/60 hidden md:flex">
-            <ShieldCheck className="h-3 w-3" />
-            <span>SSL Active</span>
+            <Activity className="h-3 w-3" />
+            <span>{stats[2]?.value || 0} Active</span>
          </div>
          <div className="flex-1" />
          <div className="text-primary pr-2 sm:pr-4 flex-shrink-0">EDYFRA_OS</div>
@@ -66,17 +97,17 @@ export function AdminDashboardClient({
           <p className="text-muted-foreground text-xs sm:text-sm font-bold tracking-widest uppercase">Live Platform Intelligence</p>
         </div>
         <div className="flex gap-3 sm:gap-4">
-           <Button variant="outline" className="rounded-2xl font-bold px-4 sm:px-8 h-12 sm:h-14 text-xs border-border hover:bg-secondary">
-             Audit Logs
+           <Button onClick={() => { router.push("/admin/sessions"); }} className="rounded-2xl font-bold px-4 sm:px-8 h-12 sm:h-14 text-xs border-border hover:bg-secondary bg-secondary">
+             <Activity className="h-4 w-4 mr-2" /> Live Rooms
            </Button>
            <Button onClick={() => router.refresh()} className="rounded-2xl font-black px-4 sm:px-8 h-12 sm:h-14 text-xs bg-primary text-white shadow-xl shadow-primary/20">
-              Sync Data
+              <Clock className="h-4 w-4 mr-2" /> Refresh
            </Button>
         </div>
       </div>
 
       {/* Real Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, i) => {
           const Icon = ICONS[i];
           return (
@@ -108,10 +139,10 @@ export function AdminDashboardClient({
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Tutor Application Queue */}
         <Card className="lg:col-span-2 rounded-[3rem] overflow-hidden border-border bg-card shadow-sm">
-          <CardHeader className="p-10 border-b flex flex-row items-center justify-between bg-secondary/10">
+          <CardHeader className="p-6 sm:p-10 border-b flex flex-row items-center justify-between bg-secondary/10">
             <div>
-              <CardTitle className="text-2xl font-black tracking-tight">Application Queue</CardTitle>
-              <CardDescription className="font-medium text-muted-foreground">Verification protocols awaiting approval.</CardDescription>
+              <CardTitle className="text-xl sm:text-2xl font-black tracking-tight">Application Queue</CardTitle>
+              <CardDescription className="font-medium text-muted-foreground text-xs sm:text-sm">Verification protocols awaiting approval.</CardDescription>
             </div>
             <Link href="/admin/tutors">
                <Button variant="ghost" className="rounded-xl font-bold text-xs uppercase tracking-widest">View All</Button>
@@ -119,9 +150,9 @@ export function AdminDashboardClient({
           </CardHeader>
           <CardContent className="p-0">
             {pendingApplications.length === 0 ? (
-              <div className="p-20 text-center space-y-4">
-                <div className="w-20 h-20 bg-secondary rounded-full flex items-center justify-center mx-auto mb-6">
-                   <GraduationCap className="h-10 w-10 text-muted-foreground/40" />
+              <div className="p-12 sm:p-20 text-center space-y-4">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                   <CheckCircle2 className="h-8 w-8 sm:h-10 sm:w-10 text-emerald-500/40" />
                 </div>
                 <p className="text-muted-foreground font-black uppercase tracking-widest text-xs">Clear Workspace</p>
                 <p className="text-muted-foreground/60 text-sm font-medium">No pending applications detected.</p>
@@ -129,19 +160,19 @@ export function AdminDashboardClient({
             ) : (
               <div className="divide-y divide-border">
                 {pendingApplications.map((app) => (
-                  <div key={app.id} className="p-8 flex items-center justify-between hover:bg-secondary/40 transition-colors group">
-                    <div className="flex items-center gap-5">
-                      <AvatarPremium seed={app.user?.name || app.id} size="lg" />
-                      <div>
-                        <p className="font-black text-xl">{app.user?.name || "Expert Candidate"}</p>
-                        <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mt-1">
-                          {app.subjects?.join(", ") || "General Expertise"} • {app.educationLevel}
+                  <div key={app.id} className="p-6 sm:p-8 flex items-center justify-between hover:bg-secondary/40 transition-colors group">
+                    <div className="flex items-center gap-3 sm:gap-5 min-w-0">
+                      <AvatarPremium seed={app.user?.name || app.id} size="md" />
+                      <div className="min-w-0">
+                        <p className="font-black text-sm sm:text-xl truncate">{app.user?.name || "Expert Candidate"}</p>
+                        <p className="text-[9px] sm:text-[10px] font-black text-muted-foreground uppercase tracking-widest mt-1">
+                          {app.subjects?.join(", ") || "General Expertise"}
                         </p>
                       </div>
                     </div>
-                    <Link href={`/admin/tutors`}>
-                      <Button className="rounded-2xl font-black text-[10px] tracking-widest uppercase h-12 px-6 bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all shadow-lg shadow-primary/5">
-                        Verify Profile
+                    <Link href="/admin/tutors">
+                      <Button className="rounded-2xl font-black text-[10px] tracking-widest uppercase h-10 sm:h-12 px-4 sm:px-6 bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all shadow-lg shadow-primary/5">
+                        Verify
                       </Button>
                     </Link>
                   </div>
@@ -151,55 +182,56 @@ export function AdminDashboardClient({
           </CardContent>
         </Card>
 
-        {/* System Health / Core Vitals */}
+        {/* System Health — Real data from DB queries */}
         <Card className="rounded-[3rem] overflow-hidden bg-slate-900 border-white/5 text-white">
-          <CardHeader className="p-10">
-            <CardTitle className="text-2xl font-black tracking-tight flex items-center gap-3">
-               <Cpu className="h-6 w-6 text-primary" /> Core Vitals
+          <CardHeader className="p-6 sm:p-10">
+            <CardTitle className="text-xl sm:text-2xl font-black tracking-tight flex items-center gap-3">
+               <Cpu className="h-5 w-5 sm:h-6 sm:w-6 text-primary" /> System Health
             </CardTitle>
-            <CardDescription className="text-white/40">Infrastructure performance indices.</CardDescription>
+            <CardDescription className="text-white/40 text-xs sm:text-sm">Real database and platform metrics.</CardDescription>
           </CardHeader>
-          <CardContent className="px-10 space-y-10 pb-12">
-             {[
-               { label: "AI Neural Engine", status: "Operational", color: "bg-primary", pct: 94 },
-               { label: "Postgres Cluster", status: "Optimal", color: "bg-blue-500", pct: 100 },
-               { label: "Edge Auth Proxy", status: "High Performance", color: "bg-emerald-500", pct: 100 },
-             ].map(v => (
-               <div key={v.label} className="space-y-4">
-                 <div className="flex justify-between items-center text-[10px] font-black tracking-widest uppercase">
+          <CardContent className="px-6 sm:px-10 space-y-6 sm:space-y-10 pb-6 sm:pb-12">
+             {healthChecks.map(v => (
+               <div key={v.label} className="space-y-3 sm:space-y-4">
+                 <div className="flex justify-between items-center text-[9px] sm:text-[10px] font-black tracking-widest uppercase">
                    <span className="text-white/40">{v.label}</span>
-                   <span className="text-emerald-400">{v.status}</span>
+                   <span className={v.color === "bg-emerald-500" ? "text-emerald-400" : v.color === "bg-amber-500" ? "text-amber-400" : "text-muted-foreground"}>{v.status}</span>
                  </div>
                  <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
                    <motion.div
                      initial={{ width: 0 }}
                      animate={{ width: `${v.pct}%` }}
                      transition={{ duration: 1.5, ease: "easeOut" }}
-                     className={`h-full ${v.color} shadow-[0_0_15px_rgba(255,255,255,0.1)]`}
+                     className={`h-full ${v.color}`}
                    />
                  </div>
+                 <p className="text-[8px] sm:text-[9px] text-white/20">{v.detail}</p>
                </div>
              ))}
-            
-            <div className="pt-10 border-t border-white/5 space-y-6">
-               <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.3em]">Recent Access</p>
-               <div className="space-y-4">
-                  {recentUsers.map((u: any) => (
-                    <div key={u.id} className="flex items-center justify-between text-xs">
-                       <div className="flex items-center gap-3">
-                          <div className="w-1.5 h-1.5 bg-primary rounded-full" />
-                          <span className="font-bold text-white/80">{u.name}</span>
-                       </div>
-                       <Badge className="bg-white/5 border-none text-[8px] font-black uppercase text-white/40">{u.role}</Badge>
-                    </div>
-                  ))}
-               </div>
+             
+            <div className="pt-6 sm:pt-10 border-t border-white/5 space-y-4 sm:space-y-6">
+               <p className="text-[9px] sm:text-[10px] font-black text-white/20 uppercase tracking-[0.3em]">Recent Users</p>
+               {recentUsers.length > 0 ? (
+                 <div className="space-y-3 sm:space-y-4">
+                    {recentUsers.map((u: any) => (
+                      <div key={u.id} className="flex items-center justify-between text-xs">
+                         <div className="flex items-center gap-3 min-w-0">
+                            <div className="w-1.5 h-1.5 bg-primary rounded-full flex-shrink-0" />
+                            <span className="font-bold text-white/80 truncate">{u.name}</span>
+                         </div>
+                         <Badge className="bg-white/5 border-none text-[8px] font-black uppercase text-white/40 ml-2 flex-shrink-0">{u.role}</Badge>
+                      </div>
+                    ))}
+                 </div>
+               ) : (
+                 <p className="text-white/20 text-xs text-center py-4">No users registered yet</p>
+               )}
             </div>
           </CardContent>
         </Card>
 
-        {/* Ecosystem Telemetry (Real-ish Charts) */}
-        <Card className="lg:col-span-3 rounded-[3.5rem] bg-slate-900 border-white/10 overflow-hidden relative shadow-3xl">
+        {/* Ecosystem Telemetry — Real data only */}
+        <Card className="lg:col-span-3 rounded-[3rem] bg-slate-900 border-white/10 overflow-hidden relative shadow-3xl">
           <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-transparent pointer-events-none" />
            <CardHeader className="p-6 sm:p-12 border-b border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-6 sm:gap-8 relative z-10">
              <div className="flex items-center gap-4 sm:gap-6">
@@ -208,36 +240,42 @@ export function AdminDashboardClient({
                </div>
                <div>
                  <CardTitle className="text-xl sm:text-3xl font-black text-white tracking-tighter">Ecosystem Telemetry</CardTitle>
-                 <CardDescription className="text-white/40 font-medium text-sm sm:text-lg">Real-time engagement velocity powered by Vercel.</CardDescription>
+                 <CardDescription className="text-white/40 font-medium text-sm sm:text-lg">Platform engagement metrics from database.</CardDescription>
                </div>
              </div>
              <div className="flex gap-3 sm:gap-4">
-                <Button variant="outline" className="rounded-2xl border-white/10 bg-white/5 text-white font-black text-[9px] sm:text-[10px] uppercase tracking-widest h-12 sm:h-14 px-4 sm:px-8 hover:bg-white/10">
-                   Detailed Stats
+                <Button onClick={() => { router.push("/admin/users"); }} variant="outline" className="rounded-2xl border-white/10 bg-white/5 text-white font-black text-[9px] sm:text-[10px] uppercase tracking-widest h-12 sm:h-14 px-4 sm:px-8 hover:bg-white/10">
+                   User Directory
                 </Button>
              </div>
            </CardHeader>
           
            <CardContent className="p-6 sm:p-12 relative z-10">
+              {/* Telemetry Numbers */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 md:gap-16 mb-8 sm:mb-16">
-                 {telemetry.map((t, i) => (
+                 {telemetry.length > 0 ? telemetry.map((t, i) => (
                    <div key={t.label} className="space-y-2 sm:space-y-4">
                       <p className="text-[8px] sm:text-[10px] font-black text-white/30 uppercase tracking-[0.2em]">{t.label}</p>
                       <div className="flex items-baseline gap-2 sm:gap-3">
                          <h4 className="text-2xl sm:text-4xl md:text-6xl font-black text-white tracking-tighter tabular-nums">
-                            {typeof t.value === 'number' && t.value < 1 ? `${(t.value * 100).toFixed(2)}%` : typeof t.value === 'string' ? t.value : t.value.toLocaleString()}
+                            {typeof t.value === "number" ? t.value.toLocaleString() : t.value}
                          </h4>
                          <span className="text-emerald-400 font-black text-[9px] sm:text-xs">{t.trend}</span>
                       </div>
                    </div>
-                 ))}
+                 )) : (
+                   <div className="col-span-4 flex items-center justify-center py-12">
+                     <p className="text-white/20 text-xs font-black uppercase tracking-widest">Telemetry data loading...</p>
+                   </div>
+                 )}
               </div>
 
-              <div className="h-48 flex items-end gap-2 px-2">
+              {/* Bar Chart — proportional to actual data */}
+              <div className="h-48 flex items-end gap-3 sm:gap-4 px-2">
                  {telemetry.length > 0 ? (
                    telemetry.map((t, i) => {
-                      const val = typeof t.value === 'number' ? t.value : 50;
-                      const h = Math.min(Math.max(val, 10), 100);
+                      const numVal = typeof t.value === "number" ? t.value : 0;
+                      const h = maxTelemetry > 0 ? Math.max((numVal / maxTelemetry) * 100, 5) : 5;
                       return (
                        <motion.div 
                           key={i}
@@ -246,8 +284,8 @@ export function AdminDashboardClient({
                           transition={{ delay: i * 0.1, duration: 0.8 }}
                           className="flex-1 bg-gradient-to-t from-primary/50 to-primary/10 rounded-t-lg hover:from-primary hover:to-primary/50 transition-all cursor-crosshair group relative"
                        >
-                          <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-white text-black text-[8px] font-black py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                             {t.label}: {typeof t.value === 'number' ? t.value.toLocaleString() : t.value}
+                          <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-white text-black text-[8px] font-black py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
+                             {t.label}: {typeof t.value === "number" ? t.value.toLocaleString() : t.value}
                           </div>
                        </motion.div>
                       );
@@ -258,9 +296,18 @@ export function AdminDashboardClient({
                    </div>
                  )}
               </div>
+              {telemetry.length > 0 && (
+                <div className="flex gap-3 sm:gap-4 mt-3 sm:mt-4 px-2">
+                  {telemetry.map((t, i) => (
+                    <p key={i} className="flex-1 text-[7px] sm:text-[9px] font-black text-white/20 uppercase tracking-wider truncate text-center">
+                      {t.label}
+                    </p>
+                  ))}
+                </div>
+              )}
           </CardContent>
            <div className="bg-white/5 p-4 sm:p-6 text-center">
-              <p className="text-[8px] sm:text-[10px] font-black text-white/20 uppercase tracking-[0.3em] sm:tracking-[0.5em]">Synchronized with Vercel Edge Network</p>
+              <p className="text-[8px] sm:text-[10px] font-black text-white/20 uppercase tracking-[0.3em] sm:tracking-[0.5em]">Live data from PostgreSQL &bull; Last sync: {new Date().toLocaleTimeString()}</p>
            </div>
          </Card>
        </div>

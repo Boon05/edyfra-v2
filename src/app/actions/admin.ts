@@ -290,10 +290,10 @@ export async function getAdminDashboardMetrics() {
       { label: "Knowledge Points", value: totalActivePoints, trend: "CIRCULATING" },
     ],
     telemetry: [
-      { label: "Live Scholars", value: studentCount, trend: "SYNCED" },
-      { label: "Expert Velocity", value: tutorCount > 0 ? Number((completedSessions / tutorCount).toFixed(1)) : 0, trend: "ACTIVE" },
-      { label: "Completion Rate", value: `${completionRate}%`, trend: completionRate > 50 ? "HEALTHY" : "LOW" },
-      { label: "Avg Points/User", value: avgPointsPerUser, trend: "TRACKING" }
+      { label: "Students", value: studentCount, trend: "REGISTERED" },
+      { label: "Tutors", value: tutorCount, trend: "ACTIVE" },
+      { label: "Completion %", value: completionRate, trend: completionRate > 50 ? "HEALTHY" : "LOW" },
+      { label: "Avg Points", value: avgPointsPerUser, trend: "TRACKING" }
     ],
     pendingAppsCount: pendingApps,
     completedSessions,

@@ -21,6 +21,7 @@ export default async function AdminDashboard() {
       pendingApplications={pendingApplications as any} 
       recentUsers={metrics.recentUsers}
       systemLoad={metrics.systemLoad}
+      completedSessions={metrics.completedSessions}
     />
   );
 }
