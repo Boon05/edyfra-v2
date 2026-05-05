@@ -33,10 +33,10 @@ export function Navigation() {
     <nav
       className={cn(
         "fixed top-0 w-full z-50 transition-all duration-300 border-b border-transparent",
-        scrolled ? "bg-background/80 backdrop-blur-xl h-16 border-border shadow-sm" : "h-20"
+        scrolled ? "bg-background/80 backdrop-blur-xl h-14 sm:h-16 border-border shadow-sm" : "h-16 sm:h-20"
       )}
     >
-      <div className="container-max h-full flex items-center justify-between">
+      <div className="container mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
           <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/20 group-hover:scale-105 transition-transform">
@@ -98,9 +98,9 @@ export function Navigation() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-0 top-0 left-0 w-full h-screen bg-background z-[60] p-6 flex flex-col lg:hidden"
+            className="fixed inset-0 top-0 left-0 w-full bg-background z-[60] p-4 sm:p-6 flex flex-col lg:hidden overflow-y-auto"
           >
-            <div className="flex items-center justify-between mb-12">
+            <div className="flex items-center justify-between mb-8 sm:mb-12">
               <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white">
                   <GraduationCap className="h-5 w-5" />
@@ -112,28 +112,28 @@ export function Navigation() {
               </button>
             </div>
 
-            <div className="flex-1 space-y-4">
+            <div className="flex-1 space-y-3 sm:space-y-4">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className="flex items-center justify-between text-2xl font-black tracking-tight py-2 border-b border-border/50 group"
+                  className="flex items-center justify-between text-xl sm:text-2xl font-black tracking-tight py-2 border-b border-border/50 group"
                 >
                   {link.name}
-                  <ChevronRight className="h-6 w-6 text-muted-foreground group-hover:text-primary transition-colors" />
+                  <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6 text-muted-foreground group-hover:text-primary transition-colors" />
                 </Link>
               ))}
             </div>
 
-            <div className="pt-8 space-y-4">
+            <div className="pt-6 sm:pt-8 space-y-3 sm:space-y-4">
               <Link href="/signup" onClick={() => setIsOpen(false)} className="block w-full">
-                <Button className="w-full h-14 rounded-2xl font-bold text-lg bg-foreground text-background">
+                <Button className="w-full h-12 sm:h-14 rounded-2xl font-bold text-base sm:text-lg bg-foreground text-background">
                   Get Started
                 </Button>
               </Link>
               <Link href="/login" onClick={() => setIsOpen(false)} className="block w-full">
-                <Button variant="ghost" className="w-full h-14 rounded-2xl font-semibold text-lg">
+                <Button variant="ghost" className="w-full h-12 sm:h-14 rounded-2xl font-semibold text-base sm:text-lg">
                   Sign In
                 </Button>
               </Link>

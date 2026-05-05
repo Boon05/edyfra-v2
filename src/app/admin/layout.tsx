@@ -57,6 +57,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { href: "/admin/users", label: "Scholars", icon: Users },
     { href: "/admin/tutors", label: "Verifications", icon: ShieldCheck },
     { href: "/admin/sessions", label: "Live Rooms", icon: Zap },
+    { href: "/admin/notifications", label: "Notifications", icon: Bell },
     { href: "/admin/reviews", label: "Reviews", icon: MessageSquare },
     { href: "/admin/content", label: "Challenge CMS", icon: Award },
     { href: "/admin/settings", label: "System Config", icon: Settings },
@@ -67,25 +68,24 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div className="flex flex-col min-h-screen bg-[#050505] text-white selection:bg-primary/30">
       {/* Global OS Status Bar */}
-      <div className="h-8 bg-black border-b border-white/5 flex items-center justify-between px-6 text-[8px] font-black uppercase tracking-[0.3em] z-[60] relative overflow-x-auto whitespace-nowrap scrollbar-hide">
-         <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2">
+      <div className="h-8 bg-black border-b border-white/5 flex items-center justify-between px-4 text-[8px] font-black uppercase tracking-[0.3em] z-[60] relative overflow-hidden">
+         <div className="flex items-center gap-4 overflow-hidden">
+            <div className="flex items-center gap-2 flex-shrink-0">
                <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-               <span className="text-emerald-500">Live Infrastructure: Synced</span>
+               <span className="text-emerald-500">Live</span>
             </div>
-            <div className="flex items-center gap-2 text-white/40 hidden sm:flex">
+            <div className="flex items-center gap-2 text-white/40 hidden sm:flex flex-shrink-0">
                <Activity className="h-3 w-3" />
-               <span>Memory: 4.2GB / 16GB</span>
+               <span>Mem: 4.2GB</span>
             </div>
-            <div className="flex items-center gap-2 text-white/40 hidden md:flex">
+            <div className="flex items-center gap-2 text-white/40 hidden md:flex flex-shrink-0">
                <Globe className="h-3 w-3" />
-               <span>Edge: 12 Nodes Active</span>
+               <span>12 Nodes</span>
             </div>
          </div>
-         <div className="flex items-center gap-4 text-white/40">
-            <span className="hidden sm:inline">Security: AES-256 Enabled</span>
-            <div className="w-px h-3 bg-white/10 hidden sm:block" />
-            <span className="text-primary">Master Console v2.4.1</span>
+         <div className="flex items-center gap-2 text-white/40 flex-shrink-0">
+            <span className="hidden sm:inline">AES-256</span>
+            <span className="text-primary">v2.4</span>
          </div>
       </div>
 
@@ -144,46 +144,46 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         )}
       </AnimatePresence>
 
-      <div className="flex flex-1">
-        {/* Sleek Glass Sidebar (Desktop) */}
-        <aside className="w-72 bg-black/40 backdrop-blur-2xl border-r border-white/5 hidden lg:flex flex-col fixed top-8 bottom-0 z-50">
-          <AdminSidebarContent 
-            pathname={pathname} 
-            navItems={navItems} 
-            adminUser={adminUser}
-            supabase={supabase}
-            router={router}
-          />
-        </aside>
+       <div className="flex flex-1">
+         {/* Sleek Glass Sidebar (Desktop) */}
+         <aside className="w-72 bg-black/40 backdrop-blur-2xl border-r border-white/5 hidden lg:flex flex-col fixed top-8 bottom-0 z-50">
+           <AdminSidebarContent 
+             pathname={pathname} 
+             navItems={navItems} 
+             adminUser={adminUser}
+             supabase={supabase}
+             router={router}
+           />
+         </aside>
 
-        {/* Futuristic Main Content */}
-        <main className="flex-1 lg:ml-72 bg-gradient-to-br from-[#050505] to-[#0a0a0a]">
-          <header className="h-20 bg-black/40 backdrop-blur-md border-b border-white/5 hidden lg:flex items-center justify-between px-10 sticky top-8 z-40">
-             <div className="flex items-center gap-8">
-                <div className="flex items-center gap-2 text-muted-foreground text-xs font-bold">
-                   <Globe className="h-3.5 w-3.5 text-primary" />
-                   <span>Regional Cluster: East-Africa-1</span>
-                </div>
-                <div className="flex items-center gap-2 text-muted-foreground text-xs font-bold">
-                   <Activity className="h-3.5 w-3.5 text-primary" />
-                   <span>Uptime: 99.98%</span>
-                </div>
-             </div>
-             
-             <div className="flex items-center gap-6">
-                <div className="relative group">
-                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground group-hover:text-primary transition-colors" />
-                   <input 
-                     placeholder="Execute command..." 
-                     className="bg-white/5 border border-white/5 rounded-full py-2 pl-9 pr-4 text-[10px] font-bold tracking-widest focus:outline-none focus:border-primary/50 transition-all w-64"
-                   />
-                </div>
-                <button className="relative p-2.5 rounded-xl bg-white/5 hover:bg-white/10 transition-colors">
-                   <Bell className="h-4 w-4 text-slate-300" />
-                   <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-primary rounded-full shadow-[0_0_10px_rgba(var(--primary-rgb),0.8)]" />
-                </button>
-             </div>
-          </header>
+         {/* Futuristic Main Content */}
+         <main className="flex-1 lg:ml-72 bg-gradient-to-br from-[#050505] to-[#0a0a0a]">
+           <header className="h-20 bg-black/40 backdrop-blur-md border-b border-white/5 hidden lg:flex items-center justify-between px-6 xl:px-10 sticky top-8 z-40">
+              <div className="flex items-center gap-4 xl:gap-8">
+                 <div className="flex items-center gap-2 text-muted-foreground text-xs font-bold">
+                    <Globe className="h-3.5 w-3.5 text-primary flex-shrink-0" />
+                    <span className="truncate">East-Africa-1</span>
+                 </div>
+                 <div className="flex items-center gap-2 text-muted-foreground text-xs font-bold">
+                    <Activity className="h-3.5 w-3.5 text-primary flex-shrink-0" />
+                    <span>99.98%</span>
+                 </div>
+              </div>
+              
+              <div className="flex items-center gap-4">
+                 <div className="relative group hidden sm:block">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground group-hover:text-primary transition-colors" />
+                    <input 
+                      placeholder="Execute command..." 
+                      className="bg-white/5 border border-white/5 rounded-full py-2 pl-9 pr-4 text-[10px] font-bold tracking-widest focus:outline-none focus:border-primary/50 transition-all w-48 xl:w-64"
+                    />
+                 </div>
+                 <button className="relative p-2.5 rounded-xl bg-white/5 hover:bg-white/10 transition-colors">
+                    <Bell className="h-4 w-4 text-slate-300" />
+                    <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-primary rounded-full shadow-[0_0_10px_rgba(var(--primary-rgb),0.8)]" />
+                 </button>
+              </div>
+           </header>
 
           <AnimatePresence mode="wait">
             <motion.div 

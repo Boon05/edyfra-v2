@@ -276,17 +276,28 @@ export async function getAdminDashboardMetrics() {
     { label: "Sync Latency", value: "14ms", trend: "FAST" }
   ];
 
+  const totalActivePoints = totalPoints._sum.points || 0;
+  const avgPointsPerUser = totalUsers > 0 ? Math.round(totalActivePoints / totalUsers) : 0;
+  const completionRate = (activeSessions + completedSessions) > 0 
+    ? Math.round((completedSessions / (activeSessions + completedSessions)) * 100) 
+    : 0;
+
   return {
     mainStats: [
       { label: "Total Scholars", value: studentCount, trend: "LIVE" },
       { label: "Active Mentors", value: tutorCount, trend: "LIVE" },
       { label: "Syncing Rooms", value: activeSessions, trend: "ACTIVE" },
-      { label: "Knowledge Points", value: totalPoints._sum.points || 0, trend: "CIRCULATING" },
+      { label: "Knowledge Points", value: totalActivePoints, trend: "CIRCULATING" },
     ],
-    telemetry,
+    telemetry: [
+      { label: "Live Scholars", value: studentCount, trend: "SYNCED" },
+      { label: "Expert Velocity", value: tutorCount > 0 ? Number((completedSessions / tutorCount).toFixed(1)) : 0, trend: "ACTIVE" },
+      { label: "Completion Rate", value: `${completionRate}%`, trend: completionRate > 50 ? "HEALTHY" : "LOW" },
+      { label: "Avg Points/User", value: avgPointsPerUser, trend: "TRACKING" }
+    ],
     pendingAppsCount: pendingApps,
     completedSessions,
     recentUsers,
-    systemLoad: Math.floor(Math.random() * 15) + 5, // Simulated load
+    systemLoad: activeSessions > 0 ? Math.min(Math.round((activeSessions / Math.max(studentCount, 1)) * 100), 100) : 0,
   };
 }

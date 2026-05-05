@@ -24,20 +24,18 @@ export const metadata: Metadata = {
   authors: [{ name: "Edyfra", url: "https://edyfra.com" }],
   creator: "Edyfra",
   metadataBase: new URL("https://edyfra.com"),
-  openGraph: {
+   openGraph: {
     type: "website",
     locale: "en_KE",
     url: "https://edyfra.com",
     siteName: "Edyfra",
     title: "Edyfra — Kenya's Institutional Study Platform",
     description: "AI-powered tutor matching, live study rooms, and institutional analytics for Kenyan scholars.",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Edyfra Platform" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Edyfra — Kenya's Institutional Study Platform",
     description: "Connect with verified tutors across Kenya. Study smarter.",
-    images: ["/og-image.png"],
   },
   robots: { index: true, follow: true },
   icons: {

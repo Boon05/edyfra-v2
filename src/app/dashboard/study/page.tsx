@@ -34,6 +34,11 @@ export default function StudyPage() {
     getUserData().then((data) => {
       setUserData(data);
     });
+    
+    // Sweep unmatched requests on mount
+    import("@/app/actions/match").then(({ sweepUnmatchedRequests }) => {
+      sweepUnmatchedRequests();
+    });
   }, []);
 
   const subjects = getSubjectsByLevel(userData?.educationLevel || "HIGH_SCHOOL");
@@ -53,21 +58,27 @@ export default function StudyPage() {
       if (result.success) {
         setCurrentRequestId(result.matchRequestId);
         
-        // Broadcast the request to all online users
+        // Broadcast the request to all online users/tutors
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
-          supabase.channel('global-matches').send({
-            type: 'broadcast',
-            event: 'new-request',
-            payload: {
-              requestId: result.matchRequestId,
-              studentId: user.id,
-              studentName: user.user_metadata?.name || 'A student',
-              subject: formData.subject,
-              topic: formData.topic
-            }
-          });
+          try {
+            await supabase.channel('global-matches').send({
+              type: 'broadcast',
+              event: 'new-request',
+              payload: {
+                requestId: result.matchRequestId,
+                studentId: user.id,
+                studentName: user.user_metadata?.name || 'A student',
+                subject: formData.subject,
+                topic: formData.topic || 'General'
+              }
+            });
+          } catch (broadcastErr) {
+            console.error('Broadcast failed, but matching continues:', broadcastErr);
+          }
         }
+        
+        toast.success("Request submitted! Searching for help...");
       }
     } catch {
       toast.error("Failed to start matching. Please try again.");
@@ -135,15 +146,17 @@ export default function StudyPage() {
   }, [currentRequestId, router, supabase]);
 
   useEffect(() => {
-    if (!isMatching || timer === 0) return;
-
-    if (timer === 20) setMatchStep(2); // Peer search
-    if (timer === 10) {
+    if (!isMatching) return;
+    
+    if (timer === 20 && matchStep === 1) {
+      setMatchStep(2);
+    }
+    if (timer === 10 && matchStep === 2) {
       if (timerRef.current) clearInterval(timerRef.current);
       if (pollingRef.current) clearInterval(pollingRef.current);
       handleAIFallback();
     }
-  }, [timer, isMatching, handleAIFallback]);
+  }, [timer, isMatching, matchStep, handleAIFallback]);
 
   return (
     <div className="p-4 md:p-12 max-w-5xl mx-auto space-y-12 animate-in fade-in duration-700 font-sans">

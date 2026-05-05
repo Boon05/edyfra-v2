@@ -26,12 +26,12 @@ export default function MobileNav({ user }: { user: User }) {
   return (
     <div className="lg:hidden">
       {/* Mobile Header */}
-      <header className="h-20 bg-background/80 backdrop-blur-md border-b border-border px-6 flex items-center justify-between sticky top-0 z-40">
+      <header className="h-16 sm:h-20 bg-background/80 backdrop-blur-md border-b border-border px-4 sm:px-6 flex items-center justify-between sticky top-0 z-40">
         <Link href="/dashboard" className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
             <GraduationCap className="text-white h-5 w-5" />
           </div>
-          <span className="text-xl font-black text-foreground tracking-tighter">Edyfra</span>
+          <span className="text-lg sm:text-xl font-black text-foreground tracking-tighter">Edyfra</span>
         </Link>
         <Button 
           variant="ghost" 
@@ -39,7 +39,7 @@ export default function MobileNav({ user }: { user: User }) {
           onClick={() => setIsOpen(true)}
           className="rounded-xl hover:bg-primary/5"
         >
-          <Menu className="h-6 w-6 text-foreground" />
+          <Menu className="h-5 w-5 sm:h-6 sm:w-6 text-foreground" />
         </Button>
       </header>
 
