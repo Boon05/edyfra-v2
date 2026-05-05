@@ -26,13 +26,11 @@ const footerLinks = [
       { name: "Find Tutors", href: "/dashboard/tutors" },
       { name: "Study Match", href: "/dashboard/study" },
       { name: "My Sessions", href: "/dashboard/sessions" },
-      { name: "Resources", href: "/features" },
     ],
   },
   {
     title: "Support",
     links: [
-      { name: "Help Center", href: "/contact" },
       { name: "Contact Us", href: "/contact" },
       { name: "WhatsApp Channel", href: WHATSAPP_CHANNEL },
       { name: "Institutional", href: "/contact" },
@@ -41,10 +39,8 @@ const footerLinks = [
   {
     title: "Legal",
     links: [
-      { name: "Privacy Policy", href: "/privacy" },
-      { name: "Terms of Service", href: "/terms" },
-      { name: "Cookie Policy", href: "/privacy" },
-      { name: "Security", href: "/terms" },
+      { name: "Privacy & Cookies", href: "/privacy" },
+      { name: "Terms & Security", href: "/terms" },
     ],
   },
 ];
@@ -137,14 +133,14 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="pt-12 border-t border-border flex flex-col md:flex-row justify-between items-center gap-8">
           <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
-            © 2025 Edyfra Platforms. All systems operational.
+            © {new Date().getFullYear()} Edyfra Platforms. All systems operational.
           </p>
           <div className="flex items-center gap-8 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-             <Link href="/privacy" className="hover:text-primary transition-colors">Privacy</Link>
-             <Link href="/terms" className="hover:text-primary transition-colors">Terms</Link>
+             <Link href="/privacy" className="hover:text-primary transition-colors">Privacy & Cookies</Link>
+             <Link href="/terms" className="hover:text-primary transition-colors">Terms & Security</Link>
              <div className="flex items-center gap-2 px-3 py-1 bg-secondary rounded-full border border-border">
-                <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-                <span>Systems Active</span>
+                <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
+                <span className="text-green-500">Systems Active</span>
              </div>
           </div>
         </div>

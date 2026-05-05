@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { GraduationCap, Search, MessageSquare, Clock, Loader2, Sparkles, Users as UsersIcon } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
+import { GraduationCap, Search, Clock, Loader2, Sparkles, Users as UsersIcon } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
 import { AvatarPremium } from "@/components/ui/avatar-premium";
@@ -25,10 +25,36 @@ export default function TutorsPage() {
   const [search, setSearch] = useState("");
   const [subject, setSubject] = useState("all");
 
+  const fetchTutors = useCallback(async () => {
+    setLoading(true);
+    try {
+      const user = await getUserData();
+      const data = await getVerifiedTutors(user?.educationLevel);
+      setTutors(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const performSearch = useCallback(async () => {
+    setLoading(true);
+    try {
+      const { searchTutors } = await import("@/app/actions/tutor");
+      const data = await searchTutors(search);
+      setTutors(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  }, [search]);
+
   useEffect(() => {
     getUserData().then(setUserData);
     fetchTutors();
-  }, []);
+  }, [fetchTutors]);
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -40,32 +66,7 @@ export default function TutorsPage() {
     }, 400);
 
     return () => clearTimeout(delayDebounceFn);
-  }, [search]);
-
-  const fetchTutors = async () => {
-    setLoading(true);
-    try {
-      const data = await getVerifiedTutors();
-      setTutors(data);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const performSearch = async () => {
-    setLoading(true);
-    try {
-      const { searchTutors } = await import("@/app/actions/tutor");
-      const data = await searchTutors(search);
-      setTutors(data);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [search, performSearch, fetchTutors]);
 
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -112,9 +113,9 @@ export default function TutorsPage() {
     <div className="p-8 max-w-7xl mx-auto space-y-12 animate-in fade-in duration-700">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 pb-8 border-b border-border/50">
         <div className="space-y-4">
-          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Scholarly Directory</p>
+          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Find a Mentor</p>
           <h1 className="text-5xl md:text-7xl font-black tracking-tightest leading-none">
-            Expert <br /> <span className="text-muted-foreground">Synchronization.</span>
+            Get <br /> <span className="text-muted-foreground">Connected.</span>
           </h1>
         </div>
         <div className="flex flex-col sm:row gap-4 w-full md:w-auto">
@@ -175,8 +176,15 @@ export default function TutorsPage() {
                   size="xl" 
                   className="scale-[2.5] relative z-10"
                 />
-                <div className="absolute top-8 left-8 z-20 px-4 py-2 rounded-2xl bg-background/50 backdrop-blur-md border border-border/50">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-primary">⭐ {tutors[currentIndex].tutorProfile?.rating?.toFixed(1) || "5.0"}</span>
+                <div className="absolute top-8 left-8 z-20 flex flex-col gap-2">
+                  <div className="px-4 py-2 rounded-2xl bg-background/50 backdrop-blur-md border border-border/50">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-primary">⭐ {tutors[currentIndex].tutorProfile?.rating?.toFixed(1) || "5.0"}</span>
+                  </div>
+                  <div className="px-4 py-2 rounded-2xl bg-primary text-white shadow-lg">
+                    <span className="text-[9px] font-black uppercase tracking-widest">
+                      {tutors[currentIndex].educationLevel === 'UNIVERSITY' ? 'University Expert' : 'High School Expert'}
+                    </span>
+                  </div>
                 </div>
 
               </div>
@@ -226,19 +234,24 @@ export default function TutorsPage() {
       ) : (
         <div className="flex flex-col items-center justify-center py-48 space-y-8 bg-secondary/30 rounded-[3rem] border-2 border-dashed border-border">
           <div className="w-20 h-20 rounded-full bg-background flex items-center justify-center text-muted-foreground shadow-sm">
-             <UsersIcon className="h-10 w-10 opacity-20" />
+             <Sparkles className="h-10 w-10 text-primary opacity-20" />
           </div>
           <div className="text-center space-y-2">
-            <h3 className="text-2xl font-black tracking-tight">Ecosystem Sanitized.</h3>
-            <p className="text-muted-foreground font-medium max-w-sm mx-auto">All demo data has been purged. To test the Tinder-logic, spawn a fresh mentor below.</p>
+            <h3 className="text-2xl font-black tracking-tight">Search Finished.</h3>
+            <p className="text-muted-foreground font-medium max-w-sm mx-auto">
+              We&apos;ve looked everywhere and couldn&apos;t find any new tutors matching your current needs. 
+              New teachers are joining our community every hour—check back soon.
+            </p>
           </div>
           <div className="flex gap-4">
-            <Button onClick={createTestMentor} className="h-14 px-8 rounded-2xl bg-primary text-white font-black text-[10px] tracking-widest uppercase shadow-xl shadow-primary/20 hover:scale-105 transition-all">
-               Spawn Test Mentor
+            <Button onClick={() => { setSearch(""); setSubject("all"); setCurrentIndex(0); fetchTutors(); }} variant="outline" className="h-14 px-10 rounded-2xl font-black text-[10px] tracking-widest uppercase border-border hover:bg-secondary transition-all">
+               Refresh List
             </Button>
-            <Button onClick={() => { setSearch(""); setSubject("all"); setCurrentIndex(0); fetchTutors(); }} variant="outline" className="h-14 px-8 rounded-2xl font-black text-[10px] tracking-widest uppercase border-border">
-               Reset Grid
-            </Button>
+            <Link href="/dashboard">
+              <Button className="h-14 px-10 rounded-2xl bg-foreground text-background font-black text-[10px] tracking-widest uppercase shadow-xl transition-all active:scale-95">
+                Back to Dashboard
+              </Button>
+            </Link>
           </div>
         </div>
       )}

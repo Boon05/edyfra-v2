@@ -84,7 +84,7 @@ export default function SearchPage() {
                  <SearchX className="h-8 w-8" />
               </div>
               <h3 className="text-xl font-bold">Search Interrupted</h3>
-              <p className="text-muted-foreground max-w-xs mx-auto">Something went wrong with the synchronization.</p>
+              <p className="text-muted-foreground max-w-xs mx-auto">Something went wrong with the search.</p>
               <Button onClick={() => setQuery(query)} variant="outline" className="gap-2">
                 <RefreshCcw className="h-4 w-4" /> Retry Search
               </Button>

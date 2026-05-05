@@ -21,11 +21,11 @@ export function HomeCTA() {
 
           <div className="relative z-10 space-y-8">
             <h2 className="text-5xl md:text-8xl font-black tracking-tightest leading-none text-white">
-              Ready to <br />
-              <span className="text-primary">level up?</span>
+              Master your <br />
+              <span className="text-primary">destiny.</span>
             </h2>
             <p className="text-lg md:text-2xl text-white/60 font-medium max-w-xl mx-auto">
-              Join the future of learning and start your journey today.
+              Join thousands of scholars and start your institutional journey with Mash today.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-8">
               <Link href="/signup" className="w-full sm:w-auto">

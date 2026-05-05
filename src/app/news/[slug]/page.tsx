@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { motion } from "framer-motion";
-import { Calendar, Clock, User, ArrowLeft, Share2, Link as LinkIcon, Send } from "lucide-react";
+import { Calendar, Clock, ArrowLeft, Share2, Link as LinkIcon, Send } from "lucide-react";
 import { getNewsBySlug, NewsArticle, getLatestNews } from "@/app/actions/news";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export default function ArticlePage() {
   const { slug } = useParams();
@@ -17,6 +17,10 @@ export default function ArticlePage() {
   useEffect(() => {
     if (slug) {
       getNewsBySlug(slug as string).then(data => {
+        if (data?.slug.startsWith("rss-")) {
+          window.location.href = data.content; // Redirect to external source
+          return;
+        }
         setArticle(data);
         setLoading(false);
       });
@@ -74,8 +78,13 @@ export default function ArticlePage() {
               </div>
            </div>
 
-           <div className="aspect-[21/9] rounded-[3rem] overflow-hidden border border-border shadow-2xl">
-              <img src={article.cover_image} alt={article.title} className="w-full h-full object-cover" />
+           <div className="aspect-[21/9] rounded-[3rem] overflow-hidden border border-border shadow-2xl relative">
+              <Image 
+                src={article.cover_image} 
+                alt={article.title} 
+                fill
+                className="object-cover" 
+              />
            </div>
         </div>
 
@@ -140,12 +149,17 @@ export default function ArticlePage() {
            </div>
            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {related.filter(r => r.id !== article.id).slice(0, 3).map((r) => (
-                <Link key={r.id} href={`/news/${r.slug}`} className="group space-y-4 block">
-                   <div className="aspect-[16/10] rounded-2xl overflow-hidden border border-border group-hover:shadow-xl transition-all">
-                      <img src={r.cover_image} alt={r.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
-                   </div>
-                   <h4 className="font-black text-lg tracking-tight group-hover:text-primary transition-colors">{r.title}</h4>
-                </Link>
+                 <Link key={r.id} href={`/news/${r.slug}`} className="group space-y-4 block">
+                    <div className="aspect-[16/10] rounded-2xl overflow-hidden border border-border group-hover:shadow-xl transition-all relative">
+                       <Image 
+                         src={r.cover_image} 
+                         alt={r.title} 
+                         fill
+                         className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
+                       />
+                    </div>
+                    <h4 className="font-black text-lg tracking-tight group-hover:text-primary transition-colors">{r.title}</h4>
+                 </Link>
               ))}
            </div>
         </div>

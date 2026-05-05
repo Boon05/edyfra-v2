@@ -6,6 +6,8 @@ import { revalidatePath } from "next/cache";
 
 const prisma = new PrismaClient();
 
+import { AIService } from "@/utils/ai-service";
+
 export async function createPost(content: string, subject?: string, image?: string) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -16,6 +18,25 @@ export async function createPost(content: string, subject?: string, image?: stri
   });
 
   if (!userData) throw new Error("User not found");
+
+  // AI Moderation Step
+  try {
+    const ai = new AIService({
+      provider: "google",
+      systemPrompt: `You are an AI moderator for Edyfra, an institutional scholarly platform for students in Kenya. 
+        Analyze the following post content. If it is educational, encouraging, or related to student life, respond with "SAFE". 
+        If it contains hate speech, profanity, or is completely irrelevant to education/learning, respond with "REJECTED: [reason]".`
+    });
+    
+    const moderationResult = await ai.generateResponse(content);
+    if (moderationResult.toUpperCase().includes("REJECTED")) {
+      throw new Error(moderationResult);
+    }
+  } catch (error: any) {
+    console.error("Moderation Error:", error);
+    if (error.message.includes("REJECTED")) throw error;
+    // Fallback: allow if AI fails for technical reasons, but log it
+  }
   
   const post = await prisma.feedPost.create({
     data: {

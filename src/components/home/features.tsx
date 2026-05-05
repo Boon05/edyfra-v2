@@ -1,19 +1,19 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ChevronRight, Target, Users, Zap } from "lucide-react";
+import { ChevronRight, Library, BookOpen, GraduationCap, MessageSquare, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 const FeatureVisuals = [
-  // Smart Matching visual
+  // Resource Library visual
   <div key="discovery" className="w-full h-full bg-gradient-to-br from-primary/5 to-background flex flex-col items-center justify-center gap-6 p-8">
     <div className="w-full max-w-xs space-y-3">
       <div className="h-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center px-5 gap-3">
-        <Target className="h-4 w-4 text-primary flex-shrink-0" />
+        <BookOpen className="h-4 w-4 text-primary flex-shrink-0" />
         <div className="flex-1 h-2 rounded-full bg-primary/20" />
       </div>
-      {["...", "...", "..."].map((r, i) => (
+      {["Revision Notes", "Past Papers", "Study Guides"].map((r, i) => (
         <motion.div
           key={i}
           initial={{ opacity: 0, x: -10 }}
@@ -22,10 +22,10 @@ const FeatureVisuals = [
           className="h-14 rounded-2xl bg-secondary border border-border flex items-center px-5 gap-4"
         >
           <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
-            <span className="text-[10px] font-black text-primary">?</span>
+            <CheckCircle2 className="w-4 h-4 text-primary" />
           </div>
-          <span className="text-sm font-bold text-foreground/40 italic">Pending Discovery...</span>
-          <div className="ml-auto w-2 h-2 rounded-full bg-muted" />
+          <span className="text-sm font-bold text-foreground/70">{r}</span>
+          <div className="ml-auto w-2 h-2 rounded-full bg-primary/30" />
         </motion.div>
       ))}
     </div>
@@ -33,13 +33,19 @@ const FeatureVisuals = [
 
   // Community visual
   <div key="community" className="w-full h-full bg-gradient-to-br from-blue-500/5 to-background flex flex-col gap-4 p-8 justify-center">
-    {[1, 2, 3].map((p, i) => (
+    {[
+      { name: "University Expert", role: "Mentor" },
+      { name: "High School Pro", role: "Peer" },
+      { name: "Mash AI", role: "Intelligence" }
+    ].map((p, i) => (
       <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
-        className={`p-4 rounded-2xl border border-border bg-secondary/30 flex items-start gap-3 opacity-50`}>
-        <div className="w-8 h-8 rounded-xl bg-foreground/10 flex items-center justify-center font-black text-[11px] flex-shrink-0">?</div>
+        className={`p-4 rounded-2xl border border-border bg-secondary/50 flex items-start gap-3 shadow-sm`}>
+        <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center font-black text-[11px] flex-shrink-0 text-primary">
+          <GraduationCap className="h-4 w-4" />
+        </div>
         <div>
-          <p className="text-[10px] font-black text-primary uppercase tracking-widest">Scholar</p>
-          <p className="text-sm font-medium mt-0.5 text-muted-foreground italic">Joining the feed...</p>
+          <p className="text-[10px] font-black text-primary uppercase tracking-widest">{p.role}</p>
+          <p className="text-sm font-bold mt-0.5 text-foreground">{p.name}</p>
         </div>
       </motion.div>
     ))}
@@ -48,10 +54,9 @@ const FeatureVisuals = [
   // Progress visual
   <div key="analytics" className="w-full h-full bg-gradient-to-br from-emerald-500/5 to-background flex flex-col gap-6 p-8 justify-center">
     {[
-      { label: "Physics", pct: 82, color: "bg-primary" },
-      { label: "Mathematics", pct: 65, color: "bg-blue-500" },
-      { label: "Biology", pct: 91, color: "bg-emerald-500" },
-      { label: "Chemistry", pct: 48, color: "bg-orange-500" },
+      { label: "Study Rooms", pct: 82, color: "bg-primary" },
+      { label: "Collaboration", pct: 65, color: "bg-blue-500" },
+      { label: "Growth", pct: 91, color: "bg-emerald-500" },
     ].map((s, i) => (
       <div key={s.label} className="space-y-2">
         <div className="flex justify-between text-[10px] font-black uppercase tracking-widest">
@@ -69,24 +74,24 @@ const FeatureVisuals = [
 
 const features = [
   {
-    title: "Smart Matching",
-    description: "Connect with the perfect tutors and study partners using our intelligent system. Learn from the best students and experts in the community.",
-    icon: Target,
+    title: "Resource Library",
+    description: "Access a curated collection of past papers, revision notes, and study guides tailored to your curriculum.",
+    icon: Library,
     link: "/features",
     visualIndex: 0,
   },
   {
-    title: "Live Community",
-    description: "Collaborate, chat, and share what you've learned in a vibrant student feed. Connect with people on the same academic journey as you.",
-    icon: Users,
-    link: "/community",
+    title: "Verified Mentors",
+    description: "Connect with top-performing students from leading Kenyan universities and verified academic experts.",
+    icon: GraduationCap,
+    link: "/dashboard/tutors",
     visualIndex: 1,
   },
   {
-    title: "Track Your Growth",
-    description: "Visualize your academic progress with beautiful, easy-to-read analytics. Stay motivated by seeing how far you've come every day.",
-    icon: Zap,
-    link: "/dashboard",
+    title: "Group Sync",
+    description: "Real-time collaborative study rooms designed for focused synchronization with peers across the country.",
+    icon: MessageSquare,
+    link: "/dashboard/study",
     visualIndex: 2,
   },
 ];

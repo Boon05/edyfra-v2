@@ -47,7 +47,7 @@ export default function DashboardPage() {
              <span className="text-primary">{userData?.name?.split(" ")[0] || "there"}.</span>
            </h1>
            <p className="text-muted-foreground text-lg md:text-xl font-medium max-w-xl">
-             Ready to dive back in? Your personal workspace is ready for you.
+             Your study space is ready. What would you like to learn today?
            </p>
         </div>
         <Link href="/dashboard/study">
@@ -122,9 +122,12 @@ export default function DashboardPage() {
             <Users className="h-10 w-10" />
          </div>
          <div className="flex-1 space-y-4 text-center md:text-left">
-            <h3 className="text-3xl md:text-4xl font-black tracking-tightest leading-tight">Verified Expert Network.</h3>
+            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Find a Mentor</p>
+            <h1 className="text-5xl md:text-7xl font-black tracking-tightest leading-none">
+              Get <br /> <span className="text-muted-foreground">Connected.</span>
+            </h1>
             <p className="text-muted-foreground font-medium text-lg md:text-xl">
-               Connect with top tutors for 1-on-1 help when you need it most.
+               Work directly with expert tutors who can help you clear up any confusion and master your subjects.
             </p>
          </div>
          <Link href="/dashboard/tutors" className="w-full md:w-auto">

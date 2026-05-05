@@ -121,15 +121,21 @@ export async function getTutorStats() {
     return null;
   }
 }
-export async function getVerifiedTutors() {
+export async function getVerifiedTutors(level?: Role | string) {
   try {
+    const whereClause: any = {
+      role: Role.TUTOR,
+      tutorProfile: {
+        isVerified: true
+      }
+    };
+
+    if (level) {
+      whereClause.tutorProfile.levelsTaught = { has: level };
+    }
+
     return await prisma.user.findMany({
-      where: {
-        role: Role.TUTOR,
-        tutorProfile: {
-          isVerified: true
-        }
-      },
+      where: whereClause,
       include: {
         tutorProfile: true
       },
@@ -145,24 +151,35 @@ export async function searchTutors(query: string) {
   try {
     if (!query || query.length < 2) return [];
 
+    // Normalize query for subject matching
+    const normalizedQuery = query.trim();
+
     return await prisma.user.findMany({
       where: {
-        role: "TUTOR",
+        role: Role.TUTOR,
         OR: [
-          { name: { contains: query, mode: "insensitive" } },
-          { bio: { contains: query, mode: "insensitive" } },
+          { name: { contains: normalizedQuery, mode: "insensitive" } },
+          { bio: { contains: normalizedQuery, mode: "insensitive" } },
           {
             tutorProfile: {
-              subjects: { has: query }
+              subjects: {
+                hasSome: [normalizedQuery, normalizedQuery.charAt(0).toUpperCase() + normalizedQuery.slice(1).toLowerCase()]
+              }
             }
-          }
+          },
+          // Partial matching for subjects isn't directly supported on string arrays in Prisma
+          // but we can search in the bio which often contains subject names
         ],
-        tutorProfile: { isNot: null }
+        tutorProfile: {
+          isNot: null,
+          // We can also add a check for isVerified if we only want verified results
+          // isVerified: true 
+        }
       },
       include: {
         tutorProfile: true
       },
-      take: 10
+      take: 20
     });
   } catch (error) {
     console.error("Error in searchTutors:", error);

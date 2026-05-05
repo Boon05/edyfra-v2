@@ -138,7 +138,7 @@ export default function TutorDashboard() {
       {/* Premium Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
         <div className="space-y-2">
-          <h1 className="text-4xl md:text-5xl font-black tracking-tightest">Your Hub.</h1>
+          <h1 className="text-4xl md:text-5xl font-black tracking-tightest">Your Dashboard.</h1>
           <p className="text-muted-foreground text-lg font-medium">
             Good to see you, <span className="text-foreground font-black underline decoration-primary decoration-4 underline-offset-4">{profile?.user?.name?.split(" ")[0] || "Tutor"}</span>.
           </p>
@@ -201,33 +201,51 @@ export default function TutorDashboard() {
               </div>
             ) : (
               pendingRequests.map((req) => (
-                <Card key={req.id} className="border-border bg-card/50 hover:bg-secondary/30 transition-all rounded-[2.5rem] overflow-hidden group">
-                  <CardContent className="p-8 flex flex-col md:flex-row items-center justify-between gap-8">
-                    <div className="flex items-center gap-6">
-                      <div className="w-16 h-16 rounded-[1.5rem] bg-primary/10 text-primary flex items-center justify-center font-black text-xl border border-primary/20">
+                <Card key={req.id} className="border-border/50 bg-secondary/30 backdrop-blur-3xl hover:border-primary/50 transition-all duration-500 rounded-[3rem] overflow-hidden group shadow-xl hover:shadow-primary/5">
+                  <CardContent className="p-10 flex flex-col lg:flex-row items-center justify-between gap-10">
+                    <div className="flex items-center gap-8">
+                      <div className="w-20 h-20 rounded-[2rem] bg-primary text-white flex items-center justify-center font-black text-2xl shadow-2xl shadow-primary/20 group-hover:rotate-6 transition-transform duration-500">
                         {req.subject[0]}
                       </div>
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-3">
-                          <Badge className="bg-primary/10 text-primary border-none text-[10px] font-black uppercase tracking-widest px-3 py-1">
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-4">
+                          <Badge className="bg-primary/10 text-primary border-primary/20 text-[9px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full">
                             {req.subject}
                           </Badge>
-                          <span className="text-xs font-bold text-muted-foreground flex items-center gap-1.5">
-                            <Clock className="h-3 w-3" /> Just now
+                          <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest flex items-center gap-2">
+                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Just initialized
                           </span>
                         </div>
-                        <h3 className="text-xl font-black tracking-tight">{req.topic || "Help Needed"}</h3>
-                        <p className="text-sm text-muted-foreground font-medium">Session Rate: <span className="text-foreground font-bold">KSH 500</span></p>
+                        <h3 className="text-2xl font-black tracking-tightest group-hover:text-primary transition-colors">{req.topic || "General Subject Assistance"}</h3>
+                        <div className="flex items-center gap-6">
+                           <div className="flex flex-col">
+                              <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Compensation</span>
+                              <span className="text-sm font-black">KSH 500 / Session</span>
+                           </div>
+                           <div className="w-px h-8 bg-border" />
+                           <div className="flex flex-col">
+                              <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Verification</span>
+                              <span className="text-sm font-black flex items-center gap-1.5">
+                                 <ShieldCheck className="h-3.5 w-3.5 text-primary" /> SECURE
+                              </span>
+                           </div>
+                        </div>
                       </div>
                     </div>
 
                     <Button 
                       onClick={() => handleAccept(req.id)}
                       disabled={acceptingId === req.id}
-                      className="w-full md:w-auto h-14 px-10 rounded-2xl font-black text-xs tracking-widest uppercase bg-primary hover:bg-primary/90 text-white shadow-xl shadow-primary/20 gap-2 transition-all active:scale-95"
+                      className="w-full lg:w-auto h-20 px-12 rounded-[1.8rem] font-black text-xs tracking-[0.2em] uppercase bg-foreground text-background hover:bg-primary hover:text-white shadow-2xl transition-all active:scale-95 group/btn"
                     >
-                      {acceptingId === req.id ? <Loader2 className="h-4 w-4 animate-spin" /> : "Accept Session"}
-                      <ArrowRight className="h-4 w-4" />
+                      {acceptingId === req.id ? (
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                      ) : (
+                        <>
+                          Establish Connection
+                          <ArrowRight className="h-4 w-4 ml-3 group-hover/btn:translate-x-2 transition-transform" />
+                        </>
+                      )}
                     </Button>
                   </CardContent>
                 </Card>

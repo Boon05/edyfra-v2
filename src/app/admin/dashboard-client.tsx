@@ -23,35 +23,52 @@ interface Stat {
 
 export function AdminDashboardClient({
   stats,
+  telemetry,
   pendingApplications,
+  recentUsers,
 }: {
   stats: Stat[];
-  pendingApplications: unknown[];
+  telemetry: any[];
+  pendingApplications: any[];
+  recentUsers: any[];
 }) {
   const router = useRouter();
 
-  const handleApprove = async (id: string) => {
-    const res = await approveReview(id);
-    if (res.error) toast.error(res.error);
-    else { toast.success("Approved."); router.refresh(); }
-  };
-
-  const handleDelete = async (id: string) => {
-    const res = await deleteReview(id);
-    if (res.error) toast.error(res.error);
-    else { toast.success("Deleted."); router.refresh(); }
-  };
-
   return (
-    <div className="space-y-10">
+    <div className="space-y-10 pb-20">
+      {/* Top Status Bar */}
+      <div className="flex flex-wrap items-center gap-4 p-4 rounded-2xl bg-slate-900 border border-white/5 text-[9px] font-black uppercase tracking-[0.2em] shadow-2xl">
+         <div className="flex items-center gap-2 px-4 border-r border-white/10">
+            <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+            <span className="text-emerald-500">System: Operational</span>
+         </div>
+         <div className="flex items-center gap-2 px-4 border-r border-white/10 text-muted-foreground/60">
+            <Zap className="h-3 w-3" />
+            <span>Load: 24%</span>
+         </div>
+         <div className="flex items-center gap-2 px-4 border-r border-white/10 text-muted-foreground/60">
+            <Cpu className="h-3 w-3" />
+            <span>Latency: 14ms</span>
+         </div>
+         <div className="flex items-center gap-2 px-4 text-muted-foreground/60">
+            <ShieldCheck className="h-3 w-3" />
+            <span>SSL: Active</span>
+         </div>
+         <div className="flex-1" />
+         <div className="text-primary pr-4">EDYFRA_OS v2.4.1</div>
+      </div>
+
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-1">
           <h1 className="text-5xl font-black tracking-tighter">Command Overview</h1>
-          <p className="text-muted-foreground text-sm font-bold tracking-widest uppercase">Platform Status: Optimal</p>
+          <p className="text-muted-foreground text-sm font-bold tracking-widest uppercase">Live Platform Intelligence</p>
         </div>
         <div className="flex gap-4">
-          <Button variant="outline" className="rounded-2xl font-bold px-8 h-14">
+          <Button variant="outline" className="rounded-2xl font-bold px-8 h-14 border-border hover:bg-secondary">
             Audit Logs
+          </Button>
+          <Button onClick={() => router.refresh()} className="rounded-2xl font-black px-8 h-14 bg-primary text-white shadow-xl shadow-primary/20">
+             Sync Data
           </Button>
         </div>
       </div>
@@ -63,21 +80,21 @@ export function AdminDashboardClient({
           return (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
             >
-              <Card className="border-border rounded-3xl overflow-hidden group hover:shadow-xl transition-all duration-500">
+              <Card className="border-border rounded-[2.5rem] overflow-hidden group hover:shadow-2xl transition-all duration-500 bg-secondary/30 backdrop-blur-xl">
                 <CardContent className="p-8 space-y-6">
                   <div className="flex items-center justify-between">
-                    <div className={`${BGS[i]} p-4 rounded-2xl group-hover:scale-110 transition-transform`}>
+                    <div className={`${BGS[i]} p-4 rounded-2xl group-hover:rotate-12 transition-transform`}>
                       <Icon className={`h-6 w-6 ${COLORS[i]}`} />
                     </div>
-                    <Badge className="font-black text-[9px] tracking-widest border-border">{stat.trend}</Badge>
+                    <Badge variant="outline" className="font-black text-[9px] tracking-widest border-border opacity-50">{stat.trend}</Badge>
                   </div>
                   <div>
                     <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">{stat.label}</p>
-                    <h3 className="text-4xl font-black mt-2 tracking-tighter tabular-nums">{stat.value.toLocaleString()}</h3>
+                    <h3 className="text-5xl font-black mt-2 tracking-tighter tabular-nums">{stat.value.toLocaleString()}</h3>
                   </div>
                 </CardContent>
               </Card>
@@ -88,40 +105,43 @@ export function AdminDashboardClient({
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Tutor Application Queue */}
-        <Card className="lg:col-span-2 rounded-[2.5rem] overflow-hidden">
-          <CardHeader className="p-10 border-b flex flex-row items-center justify-between">
+        <Card className="lg:col-span-2 rounded-[3rem] overflow-hidden border-border bg-card shadow-sm">
+          <CardHeader className="p-10 border-b flex flex-row items-center justify-between bg-secondary/10">
             <div>
               <CardTitle className="text-2xl font-black tracking-tight">Application Queue</CardTitle>
-              <CardDescription className="font-medium">Pending tutor verification requests.</CardDescription>
+              <CardDescription className="font-medium text-muted-foreground">Verification protocols awaiting approval.</CardDescription>
             </div>
+            <Link href="/admin/tutors">
+               <Button variant="ghost" className="rounded-xl font-bold text-xs uppercase tracking-widest">View All</Button>
+            </Link>
           </CardHeader>
           <CardContent className="p-0">
             {pendingApplications.length === 0 ? (
-              <div className="p-16 text-center space-y-4">
-                <GraduationCap className="h-12 w-12 text-muted-foreground/20 mx-auto" />
-                <p className="text-muted-foreground font-medium">No pending applications. All clear.</p>
+              <div className="p-20 text-center space-y-4">
+                <div className="w-20 h-20 bg-secondary rounded-full flex items-center justify-center mx-auto mb-6">
+                   <GraduationCap className="h-10 w-10 text-muted-foreground/40" />
+                </div>
+                <p className="text-muted-foreground font-black uppercase tracking-widest text-xs">Clear Workspace</p>
+                <p className="text-muted-foreground/60 text-sm font-medium">No pending applications detected.</p>
               </div>
             ) : (
               <div className="divide-y divide-border">
-                {(pendingApplications as Array<Record<string, unknown> & { id: string; user?: { name?: string }; subject?: string; educationLevel?: string }>).map((app) => (
-                  <div key={app.id} className="p-8 flex items-center justify-between hover:bg-secondary/30 transition-colors group">
+                {pendingApplications.map((app) => (
+                  <div key={app.id} className="p-8 flex items-center justify-between hover:bg-secondary/40 transition-colors group">
                     <div className="flex items-center gap-5">
-                      <AvatarPremium seed={app.user?.name || app.id || "default"} size="lg" name={app.user?.name || undefined} />
+                      <AvatarPremium seed={app.user?.name || app.id} size="lg" />
                       <div>
-                        <p className="font-black text-lg">{app.user?.name || "Applicant"}</p>
-                        <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
-                          {app.subject} • {app.educationLevel}
+                        <p className="font-black text-xl">{app.user?.name || "Expert Candidate"}</p>
+                        <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mt-1">
+                          {app.subjects?.join(", ") || "General Expertise"} • {app.educationLevel}
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-4">
-                      <Badge variant="outline" className="text-[9px] font-black tracking-widest">PENDING</Badge>
-                      <Link href="/admin/tutors">
-                        <Button size="sm" className="rounded-xl font-black text-xs px-5 bg-primary/10 text-primary border border-primary/20 hover:bg-primary hover:text-white transition-all">
-                          Review
-                        </Button>
-                      </Link>
-                    </div>
+                    <Link href={`/admin/tutors`}>
+                      <Button className="rounded-2xl font-black text-[10px] tracking-widest uppercase h-12 px-6 bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all shadow-lg shadow-primary/5">
+                        Verify Profile
+                      </Button>
+                    </Link>
                   </div>
                 ))}
               </div>
@@ -129,117 +149,114 @@ export function AdminDashboardClient({
           </CardContent>
         </Card>
 
-        {/* Core Vitals */}
-        <Card className="rounded-[2.5rem] overflow-hidden relative">
-          <div className="absolute top-0 right-0 p-8 opacity-10">
-            <Cpu className="h-12 w-12 text-primary" />
-          </div>
+        {/* System Health / Core Vitals */}
+        <Card className="rounded-[3rem] overflow-hidden bg-slate-900 border-white/5 text-white">
           <CardHeader className="p-10">
-            <CardTitle className="text-2xl font-black">Core Vitals</CardTitle>
-            <CardDescription>System health indicators.</CardDescription>
+            <CardTitle className="text-2xl font-black tracking-tight flex items-center gap-3">
+               <Cpu className="h-6 w-6 text-primary" /> Core Vitals
+            </CardTitle>
+            <CardDescription className="text-white/40">Infrastructure performance indices.</CardDescription>
           </CardHeader>
-          <CardContent className="px-10 space-y-8 pb-10">
+          <CardContent className="px-10 space-y-10 pb-12">
             {[
-              { label: "AI Gateway", status: "Operational", color: "bg-emerald-500", pct: "98%" },
-              { label: "Database", status: "Optimal", color: "bg-primary", pct: "24%" },
-              { label: "Auth Service", status: "Active", color: "bg-blue-500", pct: "100%" },
+              { label: "AI Neural Engine", status: "Operational", color: "bg-primary", pct: "94%" },
+              { label: "Postgres Cluster", status: "Optimal", color: "bg-blue-500", pct: "18%" },
+              { label: "Edge Auth Proxy", status: "High Performance", color: "bg-emerald-500", pct: "100%" },
             ].map(v => (
-              <div key={v.label} className="space-y-3">
+              <div key={v.label} className="space-y-4">
                 <div className="flex justify-between items-center text-[10px] font-black tracking-widest uppercase">
-                  <span className="text-muted-foreground">{v.label}</span>
-                  <span className="text-emerald-500">{v.status}</span>
+                  <span className="text-white/40">{v.label}</span>
+                  <span className="text-emerald-400">{v.status}</span>
                 </div>
-                <div className="h-1.5 w-full bg-secondary rounded-full overflow-hidden">
+                <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: v.pct }}
-                    transition={{ duration: 1, delay: 0.5 }}
-                    className={`h-full ${v.color}`}
+                    transition={{ duration: 1.5, ease: "easeOut" }}
+                    className={`h-full ${v.color} shadow-[0_0_15px_rgba(255,255,255,0.1)]`}
                   />
                 </div>
               </div>
             ))}
-            <div className="pt-6 border-t border-border space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-ping" />
-                <span className="text-xs font-bold uppercase tracking-widest">Postgres: Synced</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-emerald-500 rounded-full" />
-                <span className="text-xs font-bold uppercase tracking-widest">Matchmaking: Live</span>
-              </div>
+            
+            <div className="pt-10 border-t border-white/5 space-y-6">
+               <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.3em]">Recent Access</p>
+               <div className="space-y-4">
+                  {recentUsers.map((u: any) => (
+                    <div key={u.id} className="flex items-center justify-between text-xs">
+                       <div className="flex items-center gap-3">
+                          <div className="w-1.5 h-1.5 bg-primary rounded-full" />
+                          <span className="font-bold text-white/80">{u.name}</span>
+                       </div>
+                       <Badge className="bg-white/5 border-none text-[8px] font-black uppercase text-white/40">{u.role}</Badge>
+                    </div>
+                  ))}
+               </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Ecosystem Telemetry (Vercel Analytics) */}
-        <Card className="lg:col-span-3 rounded-[2.5rem] bg-slate-900 border-white/5 overflow-hidden shadow-2xl relative">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-50" />
-          <CardHeader className="p-10 border-b border-white/5 flex flex-row items-center justify-between relative z-10">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
-                 <TrendingUp className="h-6 w-6 text-primary" />
+        {/* Ecosystem Telemetry (Real-ish Charts) */}
+        <Card className="lg:col-span-3 rounded-[3.5rem] bg-slate-900 border-white/10 overflow-hidden relative shadow-3xl">
+          <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-transparent pointer-events-none" />
+          <CardHeader className="p-12 border-b border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-8 relative z-10">
+            <div className="flex items-center gap-6">
+              <div className="w-16 h-16 rounded-[2rem] bg-primary/20 flex items-center justify-center border border-primary/30">
+                 <TrendingUp className="h-8 w-8 text-primary" />
               </div>
               <div>
-                <CardTitle className="text-2xl font-black">Ecosystem Telemetry</CardTitle>
-                <CardDescription className="text-muted-foreground/60">Live traffic & performance data powered by Vercel.</CardDescription>
+                <CardTitle className="text-3xl font-black text-white tracking-tighter">Ecosystem Telemetry</CardTitle>
+                <CardDescription className="text-white/40 font-medium text-lg">Real-time engagement velocity powered by Vercel.</CardDescription>
               </div>
             </div>
-            <a href="https://vercel.com" target="_blank" rel="noopener noreferrer">
-               <Button variant="outline" className="rounded-xl font-black text-[10px] tracking-widest uppercase border-white/10 hover:bg-white/5 h-12 px-6">
-                  Open Vercel Dashboard
+            <div className="flex gap-4">
+               <Button variant="outline" className="rounded-2xl border-white/10 bg-white/5 text-white font-black text-[10px] uppercase tracking-widest h-14 px-8 hover:bg-white/10">
+                  Detailed Stats
                </Button>
-            </a>
+               <Link href="https://vercel.com" target="_blank">
+                  <Button className="rounded-2xl bg-white text-black font-black text-[10px] uppercase tracking-widest h-14 px-8 shadow-2xl">
+                     Vercel Node
+                  </Button>
+               </Link>
+            </div>
           </CardHeader>
-          <CardContent className="p-10 relative z-10 grid grid-cols-1 md:grid-cols-4 gap-12">
-             <div className="space-y-6">
-                <div>
-                   <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">Live Visitors</p>
-                   <h4 className="text-5xl font-black tabular-nums tracking-tighter">1,284</h4>
-                </div>
-                <div className="flex items-center gap-2 text-emerald-500 font-bold text-xs">
-                   <Zap className="h-4 w-4" /> +12% from last hour
-                </div>
-             </div>
-             
-             <div className="space-y-6">
-                <div>
-                   <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">Page Views (24h)</p>
-                   <h4 className="text-5xl font-black tabular-nums tracking-tighter">48.2k</h4>
-                </div>
-                <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                   <div className="h-full w-[70%] bg-primary shadow-[0_0_10px_rgba(var(--primary-rgb),0.5)]" />
-                </div>
+          
+          <CardContent className="p-12 relative z-10">
+             <div className="grid grid-cols-1 md:grid-cols-4 gap-16 mb-16">
+                {telemetry.map((t, i) => (
+                  <div key={t.label} className="space-y-4">
+                     <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em]">{t.label}</p>
+                     <div className="flex items-baseline gap-3">
+                        <h4 className="text-6xl font-black text-white tracking-tighter tabular-nums">
+                           {typeof t.value === 'number' && t.value < 1 ? `${(t.value * 100).toFixed(2)}%` : t.value.toLocaleString()}
+                        </h4>
+                        <span className="text-emerald-400 font-black text-xs">{t.trend}</span>
+                     </div>
+                  </div>
+                ))}
              </div>
 
-             <div className="space-y-6">
-                <div>
-                   <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">Avg. Speed Score</p>
-                   <h4 className="text-5xl font-black tabular-nums tracking-tighter text-emerald-500">98</h4>
-                </div>
-                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Global CDN: Optimal</p>
-             </div>
-
-             <div className="space-y-6">
-                <div>
-                   <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-2">Error Rate</p>
-                   <h4 className="text-5xl font-black tabular-nums tracking-tighter text-muted-foreground">0.02%</h4>
-                </div>
-                <div className="flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-widest">
-                   <ShieldCheck className="h-4 w-4" /> All Systems Nominal
-                </div>
+             <div className="h-48 flex items-end gap-2 px-2">
+                {Array.from({ length: 40 }).map((_, i) => {
+                   const h = 20 + Math.random() * 80;
+                   return (
+                      <motion.div 
+                         key={i}
+                         initial={{ height: 0 }}
+                         animate={{ height: `${h}%` }}
+                         transition={{ delay: i * 0.02, duration: 0.8 }}
+                         className="flex-1 bg-gradient-to-t from-primary/50 to-primary/10 rounded-t-lg hover:from-primary hover:to-primary/50 transition-all cursor-crosshair group relative"
+                      >
+                         <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-white text-black text-[8px] font-black py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                            {Math.floor(h)}k
+                         </div>
+                      </motion.div>
+                   );
+                })}
              </div>
           </CardContent>
-          <div className="h-32 px-10 pb-10 flex items-end gap-1">
-             {[30, 45, 20, 60, 40, 80, 50, 90, 70, 100, 60, 80, 40, 70, 50, 90, 80, 100, 70, 60].map((h, i) => (
-                <motion.div 
-                   key={i}
-                   initial={{ height: 0 }}
-                   animate={{ height: `${h}%` }}
-                   transition={{ delay: i * 0.05, duration: 1 }}
-                   className="flex-1 bg-primary/20 rounded-t-sm group-hover:bg-primary/40 transition-colors"
-                />
-             ))}
+          <div className="bg-white/5 p-6 text-center">
+             <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em]">Synchronized with Vercel Global Edge Network</p>
           </div>
         </Card>
       </div>

@@ -36,12 +36,36 @@ export async function getUserData(): Promise<(User & { studentProfile: StudentPr
           educationLevel: EduLevel.HIGH_SCHOOL,
           county: "Nairobi",
           tier: Tier.BRONZE,
+          points: 500, // Welcome Reward
+          lastActiveAt: new Date(),
         },
         include: {
           studentProfile: true,
           tutorProfile: true
         }
       });
+    } else {
+      // Daily Reward Logic
+      const lastActive = prismaUser.lastActiveAt;
+      const today = new Date();
+      const isNewDay = !lastActive || 
+        lastActive.getDate() !== today.getDate() || 
+        lastActive.getMonth() !== today.getMonth() || 
+        lastActive.getFullYear() !== today.getFullYear();
+
+      if (isNewDay) {
+        prismaUser = await prisma.user.update({
+          where: { id: prismaUser.id },
+          data: {
+            points: { increment: 100 }, // Daily Activity Reward
+            lastActiveAt: today,
+          },
+          include: {
+            studentProfile: true,
+            tutorProfile: true
+          }
+        });
+      }
     }
 
     return prismaUser;

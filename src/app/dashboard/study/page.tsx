@@ -8,7 +8,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { createMatchRequest, forceAIFallback, checkMatchStatus } from "@/app/actions/match";
-import { Zap, Search, Users, Cpu } from "lucide-react";
+import { Zap, Search, Users, Cpu, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { createClient } from "@/utils/supabase/client";
 
@@ -94,7 +94,6 @@ export default function StudyPage() {
   useEffect(() => {
     if (!currentRequestId) return;
 
-    // 1. Listen for Database Changes (Realtime)
     const channel = supabase
       .channel(`match-${currentRequestId}`)
       .on(
@@ -114,7 +113,6 @@ export default function StudyPage() {
       )
       .subscribe();
 
-    // 2. Fallback Polling (Every 3 seconds)
     pollingRef.current = setInterval(async () => {
       const res = await checkMatchStatus(currentRequestId);
       if (res.success && res.sessionId) {
@@ -125,7 +123,6 @@ export default function StudyPage() {
       }
     }, 3000);
 
-    // 3. Start the UI timer
     timerRef.current = setInterval(() => {
       setTimer((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
@@ -137,7 +134,6 @@ export default function StudyPage() {
     };
   }, [currentRequestId, router, supabase]);
 
-  // 4. Handle Cascade Logic based on Timer
   useEffect(() => {
     if (!isMatching || timer === 0) return;
 
@@ -149,72 +145,81 @@ export default function StudyPage() {
     }
   }, [timer, isMatching, handleAIFallback]);
 
-  // Remove the old timer === 0 check as we now trigger at 10
-
   return (
-    <div className="p-8 max-w-4xl mx-auto space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold">Find a Study Partner</h1>
-        <p className="text-muted-foreground mt-1">Get help in 30 seconds from a tutor, peer, or Mash AI.</p>
+    <div className="p-4 md:p-12 max-w-5xl mx-auto space-y-12 animate-in fade-in duration-700 font-sans">
+      <div className="space-y-4 text-center md:text-left">
+        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Neural Network Match</p>
+        <h1 className="text-5xl md:text-7xl font-black tracking-tightest leading-[0.9]">
+          Connect <br /> <span className="text-muted-foreground">Instantly.</span>
+        </h1>
+        <p className="text-muted-foreground text-lg md:text-xl font-medium max-w-2xl leading-relaxed">
+          Initialize a study session with a verified expert, a brilliant peer, or Mash AI in under 30 seconds.
+        </p>
       </div>
 
       {!isMatching ? (
-        <Card>
-          <CardHeader>
-            <CardTitle>Match Me</CardTitle>
-            <CardDescription>Tell us what you&apos;re working on right now.</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Subject</label>
-              <Select onValueChange={(v: string | null) => v && setFormData({ ...formData, subject: v })}>
-                <SelectTrigger><SelectValue placeholder="Select subject" /></SelectTrigger>
-                <SelectContent>
-                  {subjects.map((s) => (
-                    <SelectItem key={s} value={s}>{s}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+        <Card className="border-border/50 bg-secondary/30 backdrop-blur-3xl rounded-[3rem] overflow-hidden shadow-2xl relative">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/50 via-primary to-primary/50" />
+          <CardContent className="p-8 md:p-16 space-y-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+              <div className="space-y-4">
+                <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-2">Academic Discipline</label>
+                <Select onValueChange={(v: string | null) => v && setFormData({ ...formData, subject: v })}>
+                  <SelectTrigger className="h-20 rounded-[2rem] border-border bg-background font-black px-8 text-2xl focus:ring-primary">
+                    <SelectValue placeholder="Select Discipline" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-2xl border-border max-h-[300px]">
+                    {subjects.map((s) => (
+                      <SelectItem key={s} value={s} className="font-bold text-lg">{s}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-4">
+                <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-2">Session Objective (Optional)</label>
+                <Input
+                  placeholder="e.g. Calculus Integration"
+                  className="h-20 rounded-[2rem] border-border bg-background font-bold px-8 text-xl focus-visible:ring-primary"
+                  value={formData.topic}
+                  onChange={(e) => setFormData({ ...formData, topic: e.target.value })}
+                />
+              </div>
             </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Topic (Optional)</label>
-              <Input
-                placeholder="e.g. Quadratic Equations"
-                value={formData.topic}
-                onChange={(e) => setFormData({ ...formData, topic: e.target.value })}
-              />
-            </div>
-          </CardContent>
-          <CardFooter>
-            <Button onClick={handleMatchMe} className="w-full gap-2 py-6 text-lg">
-              <Zap className="h-5 w-5 fill-current" />
-              Match Me
+
+            <Button 
+              onClick={handleMatchMe} 
+              className="w-full h-24 rounded-[2.5rem] bg-foreground text-background hover:bg-primary hover:text-white font-black text-xl tracking-[0.2em] uppercase shadow-2xl transition-all duration-500 active:scale-95 group"
+            >
+              <Zap className="h-8 w-8 mr-4 fill-primary text-primary group-hover:fill-white group-hover:text-white transition-colors" />
+              Initialize Match-Me Protocol
             </Button>
-          </CardFooter>
+          </CardContent>
         </Card>
       ) : (
-        <Card className="min-h-[400px] flex flex-col items-center justify-center text-center p-12 relative overflow-hidden">
-          <div className="absolute top-0 left-0 h-1 bg-primary transition-all duration-1000" style={{ width: `${(timer/30)*100}%` }} />
+        <Card className="min-h-[500px] flex flex-col items-center justify-center text-center p-12 md:p-20 border-border/50 bg-secondary/30 backdrop-blur-3xl rounded-[3rem] shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 left-0 h-2 bg-primary transition-all duration-1000 shadow-[0_0_20px_rgba(139,92,246,0.5)]" style={{ width: `${(timer/30)*100}%` }} />
           
           <AnimatePresence mode="wait">
             {matchStep === 1 && (
               <motion.div
                 key="tutor"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                className="space-y-6"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.1 }}
+                className="space-y-10"
               >
-                <div className="relative">
+                <div className="relative mx-auto w-32 h-32">
                    <div className="absolute inset-0 bg-primary/20 rounded-full animate-ping" />
-                   <div className="relative bg-primary/10 p-6 rounded-full">
-                     <Search className="h-12 w-12 text-primary animate-pulse" />
+                   <div className="relative bg-primary text-white p-8 rounded-full shadow-2xl shadow-primary/40">
+                     <Search className="h-16 w-16 animate-pulse" />
                    </div>
                 </div>
-                <div>
-                  <h2 className="text-2xl font-bold">Searching for Tutors...</h2>
-                  <p className="text-muted-foreground mt-2">Checking for verified experts online.</p>
-                  <p className="text-sm font-mono mt-4 text-primary">{timer}s remaining</p>
+                <div className="space-y-4">
+                  <h2 className="text-4xl md:text-5xl font-black tracking-tightest">Checking Expert Tier.</h2>
+                  <p className="text-muted-foreground text-lg font-medium">Scanning for verified educators specializing in {formData.subject}.</p>
+                  <div className="pt-6">
+                     <span className="px-6 py-2 rounded-full bg-primary/10 text-primary font-black text-xs tracking-widest uppercase">{timer}s Protocol Remaining</span>
+                  </div>
                 </div>
               </motion.div>
             )}
@@ -222,21 +227,23 @@ export default function StudyPage() {
             {matchStep === 2 && (
               <motion.div
                 key="peer"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                className="space-y-6"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.1 }}
+                className="space-y-10"
               >
-                <div className="relative">
+                <div className="relative mx-auto w-32 h-32">
                    <div className="absolute inset-0 bg-blue-500/20 rounded-full animate-ping" />
-                   <div className="relative bg-blue-500/10 p-6 rounded-full">
-                     <Users className="h-12 w-12 text-blue-500 animate-pulse" />
+                   <div className="relative bg-blue-500 text-white p-8 rounded-full shadow-2xl shadow-blue-500/40">
+                     <Users className="h-16 w-16 animate-pulse" />
                    </div>
                 </div>
-                <div>
-                  <h2 className="text-2xl font-bold">Searching for Peers...</h2>
-                  <p className="text-muted-foreground mt-2">Connecting with students studying {formData.subject}.</p>
-                  <p className="text-sm font-mono mt-4 text-blue-500">{timer}s remaining</p>
+                <div className="space-y-4">
+                  <h2 className="text-4xl md:text-5xl font-black tracking-tightest text-blue-500">Expanding Search.</h2>
+                  <p className="text-muted-foreground text-lg font-medium">Connecting with elite scholars studying {formData.subject}.</p>
+                  <div className="pt-6">
+                     <span className="px-6 py-2 rounded-full bg-blue-500/10 text-blue-500 font-black text-xs tracking-widest uppercase">{timer}s Protocol Remaining</span>
+                  </div>
                 </div>
               </motion.div>
             )}
@@ -244,21 +251,24 @@ export default function StudyPage() {
             {matchStep === 3 && (
               <motion.div
                 key="ai"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                className="space-y-6"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.1 }}
+                className="space-y-10"
               >
-                <div className="relative">
-                   <div className="absolute inset-0 bg-purple-500/20 rounded-full animate-ping" />
-                   <div className="relative bg-purple-500/10 p-6 rounded-full">
-                     <Cpu className="h-12 w-12 text-purple-500 animate-pulse" />
+                <div className="relative mx-auto w-32 h-32">
+                   <div className="absolute inset-0 bg-emerald-500/20 rounded-full animate-ping" />
+                   <div className="relative bg-emerald-500 text-white p-8 rounded-full shadow-2xl shadow-emerald-500/40">
+                     <Cpu className="h-16 w-16 animate-pulse" />
                    </div>
                 </div>
-                <div>
-                  <h2 className="text-2xl font-bold">Connecting to Mash AI</h2>
-                  <p className="text-muted-foreground mt-2">Instant fallback — never wait alone.</p>
-                  <p className="text-sm font-mono mt-4 text-purple-500">Initializing...</p>
+                <div className="space-y-4">
+                  <h2 className="text-4xl md:text-5xl font-black tracking-tightest text-emerald-500">Initializing Mash AI.</h2>
+                  <p className="text-muted-foreground text-lg font-medium">Instant deployment — your scholarly sanctuary is being prepared.</p>
+                  <div className="pt-6 flex justify-center gap-2">
+                     <Loader2 className="h-4 w-4 animate-spin text-emerald-500" />
+                     <span className="text-emerald-500 font-black text-xs tracking-widest uppercase">Connecting...</span>
+                  </div>
                 </div>
               </motion.div>
             )}
@@ -270,9 +280,9 @@ export default function StudyPage() {
               setIsMatching(false);
               setCurrentRequestId(null);
             }}
-            className="mt-12 text-muted-foreground hover:text-destructive"
+            className="mt-16 text-muted-foreground hover:text-red-500 font-black text-[10px] tracking-widest uppercase transition-colors"
           >
-            Cancel Request
+            Abort Protocol
           </Button>
         </Card>
       )}

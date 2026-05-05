@@ -15,66 +15,72 @@ import {
   ArrowRight
 } from "lucide-react";
 
-const roadmapItems = [
+const scholarJourney = [
   {
-    phase: "Phase 1",
-    title: "The Foundation",
-    status: "Completed",
+    step: "01",
+    title: "Onboarding Protocol",
     icon: ShieldCheck,
     color: "text-emerald-500",
     bg: "bg-emerald-500/10",
-    desc: "Deployment of core infrastructure, institutional-grade authentication, and primary peer-matching algorithms.",
-    milestones: [
-      "Secure Supabase & Prisma Integration",
-      "Multi-Role System (Student/Tutor/Admin)",
-      "Real-time Study Room Synchronization",
-      "Executive Command Center (God Mode)"
-    ]
+    desc: "Create your institutional identity. Select your role (Student or Expert) and your curriculum (CBC or 8-4-4).",
+    milestones: ["Identity Verification", "Academic Level Sync", "Subject Specialization"]
   },
   {
-    phase: "Phase 2",
+    step: "02",
+    title: "Synchronization",
+    icon: Zap,
+    color: "text-primary",
+    bg: "bg-primary/10",
+    desc: "Use the Match-Me interface to find the perfect study partner or trigger Mash AI for instant expert guidance.",
+    milestones: ["Real-time Matching", "Subject Alignment", "AI Fallback Protocols"]
+  },
+  {
+    step: "03",
+    title: "Deep Learning",
+    icon: BookOpen,
+    color: "text-blue-500",
+    bg: "bg-blue-500/10",
+    desc: "Enter your private Study Room. Collaborate via encrypted chat, share resources, and solve complex problems together.",
+    milestones: ["Encrypted Communication", "Collaborative Workspaces", "Expert Intervention"]
+  },
+  {
+    step: "04",
+    title: "Ecosystem Growth",
+    icon: Award,
+    color: "text-purple-500",
+    bg: "bg-purple-500/10",
+    desc: "Earn points for every session, build your scholarly reputation, and climb the national leaderboard.",
+    milestones: ["Point Acquisition", "Leaderboard Ranking", "Achievement Unlocks"]
+  }
+];
+
+const roadmapItems = [
+  {
+    phase: "Alpha",
+    title: "The Core Foundation",
+    status: "Completed",
+    icon: Rocket,
+    color: "text-emerald-500",
+    bg: "bg-emerald-500/10",
+    desc: "Initial deployment of the Edyfra kernel, peer-to-peer matching, and institutional-grade auth.",
+  },
+  {
+    phase: "Beta",
     title: "Neural Expansion",
     status: "In Progress",
     icon: Cpu,
     color: "text-primary",
     bg: "bg-primary/10",
-    desc: "Integrating advanced AI-assisted learning and sophisticated matching to ensure every scholar finds the perfect mentor.",
-    milestones: [
-      "Mash AI v2.0 (Gemini 1.5 Pro Integration)",
-      "Automated Session Summarization",
-      "Dynamic Subject Taxonomy (CBC/8-4-4)",
-      "WhatsApp Community Integration"
-    ]
+    desc: "Integration of advanced AI tutor models and real-time subject synchronization across counties.",
   },
   {
-    phase: "Phase 3",
-    title: "Global Scholarly Hub",
+    phase: "Gamma",
+    title: "Global Hub",
     status: "Scheduled",
     icon: Globe,
     color: "text-blue-500",
     bg: "bg-blue-500/10",
-    desc: "Scaling the platform to support millions of scholars across East Africa and beyond.",
-    milestones: [
-      "Cross-Regional Server Clusters",
-      "Scholarly Achievement NFT Marketplace",
-      "Institutional Partnerships (Schools & Universities)",
-      "Edyfra Mobile App (iOS & Android)"
-    ]
-  },
-  {
-    phase: "Phase 4",
-    title: "The Singularity",
-    status: "Visionary",
-    icon: Zap,
-    color: "text-purple-500",
-    bg: "bg-purple-500/10",
-    desc: "Achieving fully autonomous academic support ecosystems.",
-    milestones: [
-      "VR/AR Study Labs",
-      "Predictive Performance Analytics",
-      "Universal Education Access Protocol",
-      "Global Academic Identity (GAI)"
-    ]
+    desc: "Scaling the infrastructure to support 1M+ simultaneous scholarly connections and mobile apps.",
   }
 ];
 
@@ -112,7 +118,55 @@ export default function RoadmapPage() {
              </motion.p>
           </div>
 
-          {/* Roadmap Timeline */}
+          {/* Section 1: The Scholar Journey (Tutorial) */}
+          <div className="space-y-16 mb-48">
+            <div className="space-y-4">
+              <h2 className="text-4xl md:text-5xl font-black tracking-tightest">The Edyfra <span className="text-primary">Protocol.</span></h2>
+              <p className="text-muted-foreground font-medium text-lg">A step-by-step guide on how to navigate the ecosystem.</p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+               {scholarJourney.map((item, i) => (
+                 <motion.div
+                   key={item.step}
+                   initial={{ opacity: 0, y: 20 }}
+                   whileInView={{ opacity: 1, y: 0 }}
+                   viewport={{ once: true }}
+                   transition={{ delay: i * 0.1 }}
+                   className="p-8 rounded-[2.5rem] bg-secondary/50 border border-border space-y-6 group hover:bg-background transition-all"
+                 >
+                    <div className="flex items-center justify-between">
+                       <div className={`p-3 rounded-xl ${item.bg}`}>
+                          <item.icon className={`h-5 w-5 ${item.color}`} />
+                       </div>
+                       <span className="text-2xl font-black text-muted-foreground/20">{item.step}</span>
+                    </div>
+                    <div className="space-y-3">
+                       <h3 className="text-xl font-black tracking-tight">{item.title}</h3>
+                       <p className="text-sm text-muted-foreground font-medium leading-relaxed">{item.desc}</p>
+                    </div>
+                    <div className="pt-4 border-t border-border space-y-2">
+                       {item.milestones.map(m => (
+                         <div key={m} className="flex items-center gap-2 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+                            <div className="w-1 h-1 rounded-full bg-primary" /> {m}
+                         </div>
+                       ))}
+                    </div>
+                 </motion.div>
+               ))}
+            </div>
+          </div>
+
+          <div className="h-px bg-border w-full mb-48" />
+
+          {/* Section 2: Development Roadmap */}
+          <div className="space-y-16 mb-32">
+             <div className="space-y-4">
+               <h2 className="text-4xl md:text-5xl font-black tracking-tightest">Future <span className="text-muted-foreground">Ecosystem.</span></h2>
+               <p className="text-muted-foreground font-medium text-lg">Our strategic trajectory for the coming years.</p>
+             </div>
+          </div>
+
           <div className="relative space-y-24 md:space-y-48">
             {/* Center Line */}
             <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-border md:-translate-x-1/2 opacity-50" />
@@ -145,18 +199,6 @@ export default function RoadmapPage() {
                          <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{item.phase}</p>
                          <h2 className="text-3xl font-black tracking-tight">{item.title}</h2>
                          <p className="text-muted-foreground font-medium leading-relaxed">{item.desc}</p>
-                      </div>
-
-                      <div className="space-y-4 pt-6 border-t border-border">
-                         <p className="text-[10px] font-black uppercase tracking-widest text-foreground">Critical Milestones</p>
-                         <ul className="space-y-3">
-                            {item.milestones.map((milestone) => (
-                               <li key={milestone} className="flex items-center gap-3 text-sm font-medium text-muted-foreground">
-                                  <div className={`w-1.5 h-1.5 rounded-full ${item.status === "Completed" ? "bg-emerald-500" : "bg-primary/30"}`} />
-                                  {milestone}
-                               </li>
-                            ))}
-                         </ul>
                       </div>
                    </div>
                 </div>

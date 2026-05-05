@@ -25,6 +25,11 @@ const ACCENT_COLORS = [
   { name: "Success Green", value: "#15803d" },
   { name: "Royal Purple", value: "#6d28d9" },
   { name: "Warm Amber", value: "#b45309" },
+  { name: "Scholar Rose", value: "#e11d48" },
+  { name: "Deep Indigo", value: "#4338ca" },
+  { name: "Oceanic", value: "#0369a1" },
+  { name: "Forest", value: "#166534" },
+  { name: "Midnight", value: "#0f172a" },
 ];
 
 interface SettingsUser {

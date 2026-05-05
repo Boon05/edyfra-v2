@@ -2,11 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Search, Filter, Calendar, Clock, ChevronRight } from "lucide-react";
+import { Search, Calendar, Clock } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { getLatestNews, NewsArticle } from "@/app/actions/news";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 const categories = ["All", "Education", "Tech", "Student Life", "Announcements"];
 
@@ -75,9 +77,19 @@ export default function NewsPage() {
             animate={{ opacity: 1, y: 0 }}
             className="group"
           >
-             <Link href={`/news/${featured.slug}`} className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center bg-secondary/50 rounded-[3rem] p-8 md:p-12 border border-border/50 hover:bg-background hover:shadow-2xl hover:translate-y-[-4px] transition-all">
-                <div className="aspect-[16/10] rounded-[2rem] overflow-hidden border border-border shadow-sm">
-                   <img src={featured.cover_image} alt={featured.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
+             <a 
+               href={featured.slug.startsWith("rss") ? featured.content : `/news/${featured.slug}`} 
+               target={featured.slug.startsWith("rss") ? "_blank" : "_self"}
+               rel="noopener noreferrer"
+               className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center bg-secondary/50 rounded-[3rem] p-8 md:p-12 border border-border/50 hover:bg-background hover:shadow-2xl hover:translate-y-[-4px] transition-all"
+             >
+                <div className="aspect-[16/10] rounded-[2rem] overflow-hidden border border-border shadow-sm relative">
+                   <Image 
+                     src={featured.cover_image} 
+                     alt={featured.title} 
+                     fill
+                     className="object-cover group-hover:scale-105 transition-transform duration-1000" 
+                   />
                 </div>
                 <div className="space-y-8">
                    <div className="flex items-center gap-3">
@@ -104,7 +116,7 @@ export default function NewsPage() {
                       </div>
                    </div>
                 </div>
-             </Link>
+             </a>
           </motion.div>
         )}
 
@@ -119,9 +131,19 @@ export default function NewsPage() {
                transition={{ delay: i * 0.05 }}
                className="group"
              >
-                <Link href={`/news/${item.slug}`} className="space-y-6 block">
-                   <div className="aspect-[16/10] rounded-[2rem] overflow-hidden border border-border shadow-sm group-hover:shadow-2xl group-hover:translate-y-[-4px] transition-all duration-500">
-                      <img src={item.cover_image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
+                <a 
+                  href={item.slug.startsWith("rss") ? item.content : `/news/${item.slug}`} 
+                  target={item.slug.startsWith("rss") ? "_blank" : "_self"}
+                  rel="noopener noreferrer"
+                  className="space-y-6 block"
+                >
+                   <div className="aspect-[16/10] rounded-[2rem] overflow-hidden border border-border shadow-sm group-hover:shadow-2xl group-hover:translate-y-[-4px] transition-all duration-500 relative">
+                      <Image 
+                        src={item.cover_image} 
+                        alt={item.title} 
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-1000" 
+                      />
                    </div>
                    <div className="space-y-4">
                       <div className="flex items-center gap-3">
@@ -139,7 +161,7 @@ export default function NewsPage() {
                          {item.excerpt}
                       </p>
                    </div>
-                </Link>
+                </a>
              </motion.div>
            ))}
         </div>
@@ -148,6 +170,3 @@ export default function NewsPage() {
   );
 }
 
-function cn(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}

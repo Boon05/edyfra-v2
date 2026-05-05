@@ -49,6 +49,7 @@ export async function completeOnboarding(data: OnboardingData) {
   });
 
   // 2. EXPLICIT SYNC WITH HEALING (ID or Email)
+  // We prioritize the Supabase ID to ensure foreign key integrity
   const existingUser = await prisma.user.findFirst({
     where: {
       OR: [
@@ -63,34 +64,41 @@ export async function completeOnboarding(data: OnboardingData) {
     name: user.user_metadata.name || user.user_metadata.full_name || "New User",
     role: prismaRole,
     educationLevel: isHS ? EduLevel.HIGH_SCHOOL : EduLevel.UNIVERSITY,
-    curriculum: curriculum || "8-4-4",
+    curriculum: isHS ? (curriculum || "8-4-4") : "HEC",
     formYear: parseInt(formYear) || null,
     county: county || "Nairobi",
     isUnder18: isHS,
     bio: bio || "",
   };
 
+  let finalUserId = user.id;
+
   if (existingUser) {
-    // CRITICAL: DO NOT update 'id' in data block
+    // If the user exists with a different ID (legacy/email mismatch), 
+    // we must ensure the profile uses the EXISTING ID to avoid FK errors,
+    // OR we update the existing record to have the new Supabase ID if safe.
+    // Given Prisma's @id is usually @default(uuid()), we use the record's primary ID.
+    finalUserId = existingUser.id;
     await prisma.user.update({
       where: { id: existingUser.id },
       data: baseData
     });
   } else {
-    await prisma.user.create({
+    const newUser = await prisma.user.create({
       data: {
         ...baseData,
-        id: user.id, // Only set ID on creation
+        id: user.id,
         tier: Tier.BRONZE,
       }
     });
+    finalUserId = newUser.id;
   }
 
   // 3. Create Student Profile
   await prisma.studentProfile.upsert({
-    where: { userId: user.id },
+    where: { userId: finalUserId },
     create: {
-      userId: user.id,
+      userId: finalUserId,
       subjects: subjects || [],
       weakTopics: weakTopics || [],
       studyStyle: studyStyle || "solo",
@@ -107,9 +115,9 @@ export async function completeOnboarding(data: OnboardingData) {
   // 4. If TUTOR, Create Tutor Profile
   if (isTutor) {
     await prisma.tutorProfile.upsert({
-      where: { userId: user.id },
+      where: { userId: finalUserId },
       create: {
-        userId: user.id,
+        userId: finalUserId,
         subjects: subjects || [],
         levelsTaught: [educationLevel],
         verificationPath: verificationPath === "GRADES" ? VerifPath.GRADES : VerifPath.POINTS,

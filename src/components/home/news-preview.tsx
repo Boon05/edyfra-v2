@@ -34,7 +34,7 @@ export function HomeNews() {
            </div>
            <Link href="/news">
               <Button variant="ghost" className="font-black text-[10px] tracking-widest uppercase text-primary hover:text-primary group">
-                View all protocols <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                Browse All Updates <ChevronRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </Button>
            </Link>
         </div>
@@ -56,7 +56,12 @@ export function HomeNews() {
                 transition={{ delay: i * 0.1 }}
                 className="group cursor-pointer"
               >
-                <Link href={`/news/${item.slug}`} className="space-y-6 block">
+                <a 
+                  href={item.slug.startsWith("rss") ? item.content : `/news/${item.slug}`} 
+                  target={item.slug.startsWith("rss") ? "_blank" : "_self"}
+                  rel="noopener noreferrer"
+                  className="space-y-6 block"
+                >
                   <div className="aspect-[16/10] rounded-3xl overflow-hidden border border-border shadow-sm group-hover:shadow-2xl group-hover:translate-y-[-4px] transition-all duration-500">
                       <img 
                         src={item.cover_image} 
@@ -80,7 +85,7 @@ export function HomeNews() {
                         {item.excerpt}
                       </p>
                   </div>
-                </Link>
+                </a>
               </motion.div>
             ))}
           </div>

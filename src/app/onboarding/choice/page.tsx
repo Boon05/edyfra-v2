@@ -11,7 +11,6 @@ import { cn } from "@/lib/utils";
 
 export default function RoleChoicePage() {
   const router = useRouter();
-  const supabase = createClient();
   const [loading, setLoading] = useState(false);
 
   const selectRole = async (role: "STUDENT" | "TUTOR") => {
@@ -35,43 +34,72 @@ export default function RoleChoicePage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center p-6">
-      <div className="max-w-4xl w-full space-y-12 text-center">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 md:p-12 overflow-hidden selection:bg-primary/30 font-sans">
+      {/* Immersive Background */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/5 blur-[120px] rounded-full animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-500/5 blur-[120px] rounded-full animate-pulse" />
+      </div>
+
+      <div className="max-w-6xl w-full space-y-20 relative z-10">
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          className="space-y-4"
+          className="space-y-6 text-center"
         >
-          <Badge className="bg-primary/10 text-primary border-none px-4 py-1 text-xs font-black uppercase tracking-widest">Your Journey Starts Here</Badge>
-          <h1 className="text-5xl md:text-6xl font-black tracking-tighter">Choose Your Path</h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-medium">Are you here to learn something new, or are you ready to share your knowledge as a tutor?</p>
+          <div className="flex justify-center">
+             <Badge className="bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[10px] font-black uppercase tracking-[0.4em] backdrop-blur-md">
+               Initialize Protocol
+             </Badge>
+          </div>
+          <h1 className="text-6xl md:text-8xl font-black tracking-tightest leading-[0.9]">
+            Select Your <span className="text-primary">Domain.</span>
+          </h1>
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto font-medium leading-relaxed">
+            Choose your specialization within the Edyfra ecosystem to unlock customized tools and resources.
+          </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {/* Student Path */}
           <motion.div
-            whileHover={{ y: -10 }}
-            className="relative"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+            className="group"
           >
             <Card 
               onClick={() => selectRole("STUDENT")}
-              className="cursor-pointer border-2 border-transparent hover:border-primary transition-all rounded-[2.5rem] overflow-hidden bg-white dark:bg-slate-900 shadow-xl"
+              className="cursor-pointer border-border/50 hover:border-primary transition-all duration-700 rounded-[3.5rem] overflow-hidden bg-secondary/30 backdrop-blur-3xl shadow-2xl relative group-hover:scale-[1.02]"
             >
-              <CardContent className="p-10 space-y-6">
-                <div className="w-20 h-20 rounded-3xl bg-blue-500/10 text-blue-500 flex items-center justify-center mx-auto mb-8">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              <CardContent className="p-12 md:p-16 space-y-10 relative">
+                <div className="w-24 h-24 rounded-[2rem] bg-primary text-white flex items-center justify-center shadow-2xl shadow-primary/20 group-hover:rotate-12 transition-transform duration-500">
                   <Users className="h-10 w-10" />
                 </div>
-                <div className="space-y-2">
-                  <h3 className="text-3xl font-black">I am a Student</h3>
-                  <p className="text-muted-foreground font-medium">Find tutors, join study groups, and track your academic growth.</p>
+                
+                <div className="space-y-4">
+                  <h3 className="text-4xl md:text-5xl font-black tracking-tightest text-white">Scholar.</h3>
+                  <p className="text-muted-foreground font-medium text-lg leading-relaxed">
+                    Access elite mentorship, collaborative study rooms, and institutional knowledge feeds.
+                  </p>
                 </div>
-                <ul className="text-sm text-left space-y-3 font-bold text-slate-500 py-6">
-                  <li className="flex items-center gap-2"><Sparkles className="h-4 w-4 text-blue-500" /> Personalized Study Help</li>
-                  <li className="flex items-center gap-2"><Sparkles className="h-4 w-4 text-blue-500" /> 24/7 Support from Mash AI</li>
-                  <li className="flex items-center gap-2"><Sparkles className="h-4 w-4 text-blue-500" /> Connect with Peer Mentors</li>
-                </ul>
-                <Button className="w-full h-14 rounded-2xl font-black text-sm tracking-widest bg-blue-600 hover:bg-blue-700">
-                  START LEARNING <ArrowRight className="h-4 w-4 ml-2" />
+
+                <div className="space-y-4 border-t border-border/50 pt-10">
+                  {[
+                    "AI-Driven Partner Matching",
+                    "Infinite Knowledge Repository",
+                    "Peer Certification Tracks"
+                  ].map((feat, i) => (
+                    <div key={i} className="flex items-center gap-4">
+                      <div className="w-2 h-2 rounded-full bg-primary" />
+                      <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{feat}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <Button className="w-full h-20 rounded-[2rem] font-black text-xs tracking-[0.3em] bg-white text-black hover:bg-primary hover:text-white transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-primary/30 uppercase">
+                   Enter Scholar Domain <ArrowRight className="h-4 w-4 ml-3" />
                 </Button>
               </CardContent>
             </Card>
@@ -79,28 +107,46 @@ export default function RoleChoicePage() {
 
           {/* Tutor Path */}
           <motion.div
-            whileHover={{ y: -10 }}
-            className="relative"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3 }}
+            className="group"
           >
             <Card 
               onClick={() => selectRole("TUTOR")}
-              className="cursor-pointer border-2 border-transparent hover:border-teal-600 transition-all rounded-[2.5rem] overflow-hidden bg-white dark:bg-slate-900 shadow-xl"
+              className="cursor-pointer border-border/50 hover:border-emerald-500 transition-all duration-700 rounded-[3.5rem] overflow-hidden bg-secondary/30 backdrop-blur-3xl shadow-2xl relative group-hover:scale-[1.02]"
             >
-              <CardContent className="p-10 space-y-6">
-                <div className="w-20 h-20 rounded-3xl bg-teal-600/10 text-teal-600 flex items-center justify-center mx-auto mb-8">
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              <CardContent className="p-12 md:p-16 space-y-10 relative">
+                <div className="w-24 h-24 rounded-[2rem] bg-emerald-600 text-white flex items-center justify-center shadow-2xl shadow-emerald-500/20 group-hover:-rotate-12 transition-transform duration-500">
                   <GraduationCap className="h-10 w-10" />
                 </div>
-                <div className="space-y-2">
-                  <h3 className="text-3xl font-black">I am a Tutor</h3>
-                  <p className="text-muted-foreground font-medium">Share your knowledge and earn as you help others succeed.</p>
+
+                <div className="space-y-4">
+                   <div className="flex items-center gap-3">
+                     <h3 className="text-4xl md:text-5xl font-black tracking-tightest text-white">Expert.</h3>
+                     <Badge className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20 px-3 py-1 text-[8px] font-black uppercase tracking-widest">Premium Tier</Badge>
+                   </div>
+                  <p className="text-muted-foreground font-medium text-lg leading-relaxed">
+                    Monetize your expertise, build a professional educator profile, and lead the network.
+                  </p>
                 </div>
-                <ul className="text-sm text-left space-y-3 font-bold text-slate-500 py-6">
-                  <li className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-teal-600" /> Earn for Every Session</li>
-                  <li className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-teal-600" /> Choose Your Own Hours</li>
-                  <li className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-teal-600" /> Verified Expert Badge</li>
-                </ul>
-                <Button className="w-full h-14 rounded-2xl font-black text-sm tracking-widest bg-teal-600 hover:bg-teal-700">
-                  BECOME A TUTOR <ArrowRight className="h-4 w-4 ml-2" />
+
+                <div className="space-y-4 border-t border-border/50 pt-10">
+                  {[
+                    "Verified Educator Badge",
+                    "Autonomous Session Logic",
+                    "Weekly Fiscal Settlement"
+                  ].map((feat, i) => (
+                    <div key={i} className="flex items-center gap-4">
+                      <div className="w-2 h-2 rounded-full bg-emerald-500" />
+                      <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{feat}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <Button className="w-full h-20 rounded-[2rem] font-black text-xs tracking-[0.3em] bg-emerald-600 hover:bg-emerald-700 text-white shadow-xl shadow-emerald-600/20 transition-all duration-500 uppercase">
+                   Apply for Expert Access <ArrowRight className="h-4 w-4 ml-3" />
                 </Button>
               </CardContent>
             </Card>

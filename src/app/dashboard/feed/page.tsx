@@ -54,8 +54,8 @@ export default function FeedPage() {
 
   const fetchTechNews = async () => {
     try {
-      const res = await fetch("https://dev.to/api/articles?tag=engineering,tech&per_page=4");
-      const data = await res.json();
+      const { getLatestNews } = await import("@/app/actions/news");
+      const data = await getLatestNews(4);
       setNews(data);
     } catch (e) {
       console.error("Failed to fetch news", e);
@@ -277,28 +277,51 @@ export default function FeedPage() {
                  <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse"></span>
                </div>
                
-               <div className="space-y-4">
-                  {news.length > 0 ? news.map((article) => (
-                    <a 
-                      key={article.id} 
-                      href={article.url} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="group block space-y-2 p-3 rounded-2xl hover:bg-secondary transition-colors"
-                    >
-                      <h4 className="text-sm font-bold leading-tight group-hover:text-primary transition-colors line-clamp-2">
-                        {article.title}
-                      </h4>
-                      <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-1">
-                        {article.user.name} • {article.reading_time_minutes}m read
-                      </p>
-                    </a>
-                  )) : (
-                    <div className="py-8 text-center space-y-2">
-                      <Loader2 className="h-4 w-4 animate-spin text-muted-foreground mx-auto" />
-                      <p className="text-xs text-muted-foreground font-medium">Fetching global updates...</p>
+                <div className="space-y-4">
+                   {news.length > 0 ? news.map((article) => (
+                     <a 
+                       key={article.id} 
+                       href={article.slug.startsWith('rss') ? article.content : `/news/${article.slug}`} 
+                       target={article.slug.startsWith('rss') ? "_blank" : "_self"}
+                       rel="noopener noreferrer"
+                       className="group block space-y-2 p-3 rounded-2xl hover:bg-secondary transition-colors"
+                     >
+                       <h4 className="text-sm font-bold leading-tight group-hover:text-primary transition-colors line-clamp-2">
+                         {article.title}
+                       </h4>
+                       <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-1">
+                         {article.author} • {article.reading_time || "3m"} read
+                       </p>
+                     </a>
+                   )) : (
+                     <div className="py-8 text-center space-y-2">
+                       <Loader2 className="h-4 w-4 animate-spin text-muted-foreground mx-auto" />
+                       <p className="text-xs text-muted-foreground font-medium">Fetching global updates...</p>
+                     </div>
+                   )}
+                </div>
+            </CardContent>
+         </Card>
+
+         {/* Trending Subjects */}
+         <Card className="border-border rounded-3xl overflow-hidden shadow-sm">
+            <CardContent className="p-6 space-y-6">
+               <div className="flex items-center gap-2 text-primary">
+                  <TrendingUp className="h-5 w-5" />
+                  <h3 className="text-sm font-black uppercase tracking-widest">Trending Topics</h3>
+               </div>
+               <div className="space-y-3">
+                  {[
+                    { tag: "Calculus", posts: "1.2k" },
+                    { tag: "KenyanHistory", posts: "850" },
+                    { tag: "ExamPrep", posts: "640" },
+                    { tag: "Scholarships", posts: "420" }
+                  ].map((topic) => (
+                    <div key={topic.tag} className="flex items-center justify-between group cursor-pointer">
+                       <span className="text-sm font-bold text-muted-foreground group-hover:text-primary transition-colors">#{topic.tag}</span>
+                       <span className="text-[10px] font-black text-muted-foreground/50">{topic.posts} posts</span>
                     </div>
-                  )}
+                  ))}
                </div>
             </CardContent>
          </Card>
@@ -307,11 +330,27 @@ export default function FeedPage() {
          <Card className="border-border rounded-3xl overflow-hidden shadow-sm">
             <CardContent className="p-6 space-y-6">
                <div className="flex items-center gap-2 text-primary">
-                  <Users className="h-5 w-5" />
-                  <h3 className="text-sm font-black uppercase tracking-widest">Who to Follow</h3>
+                  <UserPlus className="h-5 w-5" />
+                  <h3 className="text-sm font-black uppercase tracking-widest">Top Scholars</h3>
                </div>
                <div className="space-y-4">
-                  <p className="text-xs text-muted-foreground font-medium">Follow other students to see their updates here.</p>
+                  {[
+                    { name: "John Doe", level: "University", points: "4.5k" },
+                    { name: "Sarah W.", level: "High School", points: "3.2k" }
+                  ].map((scholar) => (
+                    <div key={scholar.name} className="flex items-center justify-between">
+                       <div className="flex items-center gap-2">
+                          <Avatar className="h-8 w-8">
+                             <AvatarFallback>{scholar.name[0]}</AvatarFallback>
+                          </Avatar>
+                          <div>
+                             <p className="text-xs font-bold">{scholar.name}</p>
+                             <p className="text-[9px] text-muted-foreground font-black uppercase tracking-widest">{scholar.level}</p>
+                          </div>
+                       </div>
+                       <Button variant="ghost" size="sm" className="h-8 px-3 rounded-xl text-[9px] font-black uppercase tracking-widest text-primary hover:bg-primary/5">Follow</Button>
+                    </div>
+                  ))}
                </div>
             </CardContent>
          </Card>

@@ -6,12 +6,13 @@ import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { 
   LayoutDashboard, Users, GraduationCap, 
-  Settings, LogOut, Zap, Calendar, Wallet
+  Settings, LogOut, Zap, Calendar, Wallet, Trophy
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { getUserData } from "@/app/actions/user";
 
 export default function TutorLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -19,6 +20,7 @@ export default function TutorLayout({ children }: { children: React.ReactNode })
   const supabase = createClient();
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
+  const [points, setPoints] = useState<number | null>(null);
 
   useEffect(() => {
     checkTutor();
@@ -38,6 +40,8 @@ export default function TutorLayout({ children }: { children: React.ReactNode })
     }
 
     setUser(user);
+    const data = await getUserData();
+    if (data) setPoints(data.points);
     setLoading(false);
   };
 
@@ -48,7 +52,7 @@ export default function TutorLayout({ children }: { children: React.ReactNode })
   );
 
   const navItems = [
-    { href: "/tutor", label: "Hub", icon: LayoutDashboard },
+    { href: "/tutor", label: "Dashboard", icon: LayoutDashboard },
     { href: "/tutor/requests", label: "Requests", icon: Users },
     { href: "/tutor/sessions", label: "Sessions", icon: Zap },
     { href: "/tutor/schedule", label: "Schedule", icon: Calendar },
@@ -67,7 +71,7 @@ export default function TutorLayout({ children }: { children: React.ReactNode })
             </div>
             <div className="flex flex-col">
                <span className="text-2xl font-black text-foreground tracking-tighter leading-none">Edyfra</span>
-               <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mt-1">Tutor Hub</span>
+               <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mt-1">Teacher Dashboard</span>
             </div>
           </Link>
         </div>
@@ -110,9 +114,14 @@ export default function TutorLayout({ children }: { children: React.ReactNode })
               <Badge className="bg-primary/10 text-primary border-none text-[8px] h-4 font-black uppercase tracking-widest mt-1">Verified Expert</Badge>
             </div>
           </div>
-          <Link href="/dashboard" className="flex items-center gap-2 justify-center w-full py-3 rounded-xl bg-secondary text-muted-foreground text-[10px] font-black uppercase tracking-widest border border-border hover:bg-primary/5 hover:text-primary transition-all">
-             <LayoutDashboard className="h-3.5 w-3.5" /> Student Dashboard
-          </Link>
+          <div className="flex flex-col gap-2">
+            <Link href="/dashboard" className="flex items-center gap-2 justify-center w-full py-3 rounded-xl bg-secondary text-muted-foreground text-[10px] font-black uppercase tracking-widest border border-border hover:bg-primary/5 hover:text-primary transition-all">
+               <LayoutDashboard className="h-3.5 w-3.5" /> Student Dashboard
+            </Link>
+            <div className="flex items-center gap-2 justify-center w-full py-2.5 rounded-xl bg-yellow-500/10 text-yellow-600 text-[10px] font-black uppercase tracking-widest border border-yellow-500/20 shadow-sm">
+               <Trophy className="h-3 w-3 fill-current" /> {points?.toLocaleString() || "0"} Points
+            </div>
+          </div>
         </div>
       </aside>
 

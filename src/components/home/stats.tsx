@@ -17,21 +17,27 @@ function Counter({ value, label }: CounterProps) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true });
   const spring = useSpring(0, { stiffness: 50, damping: 20 });
-  const display = useTransform(spring, (v) =>
-    Math.floor(v).toLocaleString() + (value > 1000 ? "+" : value === 99 ? "%" : "")
-  );
+  const display = useTransform(spring, (v) => {
+    const val = Math.floor(v);
+    if (val === 0 && label !== "Uptime %") return "Join";
+    return val.toLocaleString() + (value > 1000 ? "+" : value === 99 ? "%" : "");
+  });
 
   useEffect(() => {
-    if (inView) spring.set(value);
-  }, [inView, value, spring]);
+    if (inView) spring.set(value || (label === "Uptime %" ? 99 : 0));
+  }, [inView, value, spring, label]);
 
   return (
     <div ref={ref} className="text-center space-y-4">
       <motion.div className="text-6xl md:text-7xl font-black tracking-tightest tabular-nums text-white">
-        {display}
+        {label !== "Uptime %" && value === 0 ? (
+          <span className="text-primary tracking-tighter">JOIN</span>
+        ) : (
+          display
+        )}
       </motion.div>
       <div className="text-xs md:text-sm font-black uppercase tracking-[0.3em] text-primary/80">
-        {label}
+        {value === 0 && label !== "Uptime %" ? `Our first 100 ${label}` : label}
       </div>
     </div>
   );

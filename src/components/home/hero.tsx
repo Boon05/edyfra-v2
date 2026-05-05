@@ -30,7 +30,7 @@ export function HomeHero() {
             <span className="text-primary">reimagined.</span>
           </h1>
           <p className="text-lg md:text-2xl text-muted-foreground font-medium max-w-2xl mx-auto leading-relaxed">
-            The ultimate academic ecosystem for Kenyan scholars. Connect with verified mentors, master the 8-4-4 and CBC, and achieve your true potential.
+            The ultimate ecosystem for Kenyan scholars. Join a community where Mash AI and verified experts help you achieve your true potential.
           </p>
         </motion.div>
 
@@ -65,8 +65,8 @@ export function HomeHero() {
            <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-primary/5" />
            
            <LottieAnimation 
-             url="https://lottie.host/703660a9-1738-4e89-a22c-a0e665181b8d/k7m6vK4U7v.json" 
-             className="w-full h-full max-w-md"
+             url="https://lottie.host/64294a73-6112-421b-8f35-97e373d3119c/WvH6HIsi3b.json" 
+             className="w-full h-full max-w-lg scale-110"
            />
         </div>
       </motion.div>

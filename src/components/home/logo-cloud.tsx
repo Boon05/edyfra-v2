@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 
 export function LogoCloud() {
   const logos = [
-    "ACADEMIC PARTNER I",
-    "ACADEMIC PARTNER II",
-    "ACADEMIC PARTNER III",
-    "ACADEMIC PARTNER IV",
+    "LEADING UNIVERSITIES",
+    "TECHNICAL INSTITUTES",
+    "NATIONAL ACADEMIES",
+    "RESEARCH HUBS",
   ];
 
   return (

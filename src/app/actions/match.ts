@@ -107,7 +107,7 @@ export async function acceptMatchRequest(requestId: string) {
       data: {
         userId: matchRequest.studentId,
         type: "MATCH_FOUND",
-        title: "Expert Connected!",
+        title: "Help is here!",
         body: `${userData?.name || 'An expert'} has accepted your request. Entering room...`,
         actionUrl: `/study-room/${session.id}`,
       }
@@ -224,6 +224,50 @@ export async function checkMatchStatus(requestId: string) {
     return { success: true, sessionId: request?.sessionId };
   } catch (error) {
     console.error('Error checking match status:', error);
+    return { success: false };
+  }
+}
+export async function completeSession(sessionId: string) {
+  try {
+    const session = await prisma.session.findUnique({
+      where: { id: sessionId },
+      include: { student: true, partner: true }
+    });
+
+    if (!session || session.status === "COMPLETED") {
+      return { success: true };
+    }
+
+    // 1. Mark as completed
+    await prisma.session.update({
+      where: { id: sessionId },
+      data: { 
+        status: "COMPLETED",
+        endedAt: new Date()
+      }
+    });
+
+    // 2. REWARD POINTS (Institutional Logic)
+    // Student gets 50 points for completing a study session
+    await prisma.user.update({
+      where: { id: session.studentId },
+      data: { points: { increment: 50 } }
+    });
+
+    // Tutor/Partner gets 100 points for their expertise
+    if (session.partnerId) {
+      await prisma.user.update({
+        where: { id: session.partnerId },
+        data: { points: { increment: 100 } }
+      });
+    }
+
+    revalidatePath("/dashboard/sessions");
+    revalidatePath("/tutor");
+    
+    return { success: true };
+  } catch (error) {
+    console.error("Error completing session:", error);
     return { success: false };
   }
 }

@@ -1,7 +1,7 @@
-import prisma from "@/lib/prisma";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { AdminDashboardClient } from "./dashboard-client";
+import { getAdminDashboardMetrics, getTutorApplications } from "@/app/actions/admin";
 
 export default async function AdminDashboard() {
   const supabase = await createClient();
@@ -11,29 +11,15 @@ export default async function AdminDashboard() {
     redirect("/dashboard");
   }
 
-  // Fetch REAL stats in parallel
-  const [studentCount, tutorCount, sessionCount, pendingApplications] = await Promise.all([
-    prisma.user.count({ where: { role: "STUDENT" } }),
-    prisma.user.count({ where: { role: "TUTOR" } }),
-    prisma.session.count({ where: { status: "ACTIVE" } }),
-    (prisma.tutorApplication as any).findMany({
-      where: { status: "PENDING" },
-      include: { user: { select: { name: true, email: true } } },
-      take: 5
-    }).catch(() => [])
-  ]);
-
-  const stats = [
-    { label: "Total Scholars", value: studentCount, trend: "LIVE" },
-    { label: "Active Mentors", value: tutorCount, trend: "LIVE" },
-    { label: "Live Rooms", value: sessionCount, trend: "SYNCING" },
-    { label: "System Uptime", value: 99.9, trend: "OPTIMAL" },
-  ];
+  const metrics = await getAdminDashboardMetrics();
+  const pendingApplications = await getTutorApplications();
 
   return (
     <AdminDashboardClient 
-      stats={stats} 
+      stats={metrics.mainStats} 
+      telemetry={metrics.telemetry}
       pendingApplications={pendingApplications as any} 
+      recentUsers={metrics.recentUsers}
     />
   );
 }

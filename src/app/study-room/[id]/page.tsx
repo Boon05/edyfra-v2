@@ -90,7 +90,7 @@ export default function StudyRoomPage() {
   useEffect(() => {
     getCurrentUser();
     fetchSession();
-  }, [sessionId, fetchSession]);
+  }, [getCurrentUser, fetchSession]);
 
   useEffect(() => {
     fetchMessages();
@@ -145,10 +145,11 @@ export default function StudyRoomPage() {
       toast.error("Failed to send message");
       setMessages(prev => prev.filter(m => m.id !== tempId));
     } else {
-      // If it's an AI session (no partner), trigger AI response
-      if (!session?.partnerId) {
+      // If it's an AI session (MASH tier) OR no partner joined yet, trigger AI response
+      if (session?.tier === 'MASH' || !session?.partnerId) {
         try {
-          await fetch("/api/ai/chat", {
+          // Immediately call AI API
+          fetch("/api/ai/chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -158,7 +159,14 @@ export default function StudyRoomPage() {
               topic: session?.topic
             }),
           });
-          setTimeout(fetchMessages, 1000);
+          
+          // Poll faster for 10 seconds to get the AI response quickly
+          let pollCount = 0;
+          const fastPoll = setInterval(() => {
+            fetchMessages();
+            pollCount++;
+            if (pollCount > 10) clearInterval(fastPoll);
+          }, 1000);
         } catch (e) {
           console.error("Failed to trigger AI:", e);
         }
@@ -168,11 +176,9 @@ export default function StudyRoomPage() {
 
   const handleEndSession = async () => {
     if (!session) return;
-    await supabase
-      .from("Session")
-      .update({ status: "COMPLETED", endedAt: new Date().toISOString() })
-      .eq("id", sessionId);
-    toast.success("Session finished!");
+    const { completeSession } = await import("@/app/actions/match");
+    await completeSession(sessionId);
+    toast.success("Session finished! Points awarded.");
     router.push("/dashboard");
   };
 
