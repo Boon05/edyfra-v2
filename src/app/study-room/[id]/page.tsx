@@ -142,34 +142,42 @@ export default function StudyRoomPage() {
     });
 
     if (!success) {
-      toast.error("Failed to send message");
+      const errorMsg = error instanceof Error ? error.message : "Failed to send message";
+      toast.error(errorMsg);
       setMessages(prev => prev.filter(m => m.id !== tempId));
-    } else {
-      // If it's an AI session (MASH tier) OR no partner joined yet, trigger AI response
-      if (session?.tier === 'MASH' || !session?.partnerId) {
-        try {
-          // Immediately call AI API
-          fetch("/api/ai/chat", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              sessionId,
-              message: currentInput,
-              subject: session?.subject,
-              topic: session?.topic
-            }),
-          });
-          
-          // Poll faster for 10 seconds to get the AI response quickly
-          let pollCount = 0;
-          const fastPoll = setInterval(() => {
-            fetchMessages();
-            pollCount++;
-            if (pollCount > 10) clearInterval(fastPoll);
-          }, 1000);
-        } catch (e) {
-          console.error("Failed to trigger AI:", e);
+      return;
+    }
+
+    // Trigger Mash AI response for MASH tier or when no partner
+    if (session?.tier === 'MASH' || !session?.partnerId) {
+      try {
+        const response = await fetch("/api/ai/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            sessionId,
+            message: currentInput,
+            subject: session?.subject,
+            topic: session?.topic
+          }),
+        });
+
+        if (!response.ok) {
+          const err = await response.json().catch(() => ({}));
+          console.error("AI API Error:", err);
+          toast.error("Mash AI is currently unavailable. Your message was sent, but AI assistance may be delayed.");
         }
+      } catch (e) {
+        console.error("Failed to call AI:", e);
+        toast.error("Mash AI is temporarily unavailable. Your message was sent.");
+      } finally {
+        // Poll faster to get response
+        let pollCount = 0;
+        const fastPoll = setInterval(() => {
+          fetchMessages();
+          pollCount++;
+          if (pollCount > 10) clearInterval(fastPoll);
+        }, 1000);
       }
     }
   };

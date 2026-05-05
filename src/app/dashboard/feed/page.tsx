@@ -67,8 +67,9 @@ export default function FeedPage() {
     try {
       const data = await getPosts();
       setPosts(data);
-    } catch (error) {
-      toast.error("Failed to load feed");
+    } catch (error: any) {
+      console.error("Failed to load feed:", error);
+      toast.error(error?.message || "Failed to load feed. Please try again.");
     } finally {
       setLoading(false);
     }
