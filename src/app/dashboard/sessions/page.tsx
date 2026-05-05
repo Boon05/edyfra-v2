@@ -10,11 +10,24 @@ import { getUserData } from "@/app/actions/user";
 import Link from "next/link";
 import { format } from "date-fns";
 
+import { User as PrismaUser } from "@prisma/client";
+
+interface Session {
+  id: string;
+  createdAt: string;
+  subject: string;
+  status: string;
+  topic: string | null;
+  tutorId: string | null;
+  peerId: string | null;
+  messages: { count: number }[];
+}
+
 export default function SessionsPage() {
   const supabase = createClient();
-  const [sessions, setSessions] = useState<unknown[]>([]);
+  const [sessions, setSessions] = useState<Session[]>([]);
   const [loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState<unknown>(null);
+  const [userData, setUserData] = useState<PrismaUser | null>(null);
 
   useEffect(() => {
     fetchSessions();

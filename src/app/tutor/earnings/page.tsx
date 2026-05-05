@@ -11,8 +11,14 @@ import {
 import { getTutorStats } from "@/app/actions/tutor";
 import { Badge } from "@/components/ui/badge";
 
+interface TutorStats {
+  totalEarnings: number;
+  completedSessions: number;
+  activeSessions: number;
+}
+
 export default function TutorEarningsPage() {
-  const [stats, setStats] = useState<any>(null);
+  const [stats, setStats] = useState<TutorStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [withdrawing, setWithdrawing] = useState(false);
 

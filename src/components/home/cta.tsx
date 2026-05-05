@@ -25,7 +25,7 @@ export function HomeCTA() {
               <span className="text-primary">level up?</span>
             </h2>
             <p className="text-lg md:text-2xl text-white/60 font-medium max-w-xl mx-auto">
-              Join the 10,000+ Kenyan scholars already using Edyfra to dominate their fields.
+              Join the future of learning and start your journey today.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-8">
               <Link href="/signup" className="w-full sm:w-auto">
@@ -33,9 +33,9 @@ export function HomeCTA() {
                   Join Edyfra &mdash; it&apos;s free
                 </Button>
               </Link>
-              <Link href="/contact" className="w-full sm:w-auto">
+              <Link href="/about" className="w-full sm:w-auto">
                 <Button variant="outline" className="w-full h-16 px-12 rounded-full border-white/20 text-white hover:bg-white/10 font-black text-xs tracking-widest uppercase transition-all">
-                  Contact Sales
+                  Our Mission
                 </Button>
               </Link>
             </div>

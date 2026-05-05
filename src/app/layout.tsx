@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeColorManager } from "@/components/theme-color-manager";
+import { ConditionalShell } from "@/components/conditional-shell";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -43,7 +44,6 @@ export const metadata: Metadata = {
   },
 };
 
-import { ConditionalShell } from "@/components/conditional-shell";
 
 export default function RootLayout({
   children,

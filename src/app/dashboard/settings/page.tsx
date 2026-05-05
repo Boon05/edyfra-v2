@@ -27,11 +27,19 @@ const ACCENT_COLORS = [
   { name: "Warm Amber", value: "#b45309" },
 ];
 
+interface SettingsUser {
+  id: string;
+  name: string;
+  bio: string | null;
+  educationLevel: string;
+  settings: any;
+}
+
 export default function SettingsPage() {
   const { theme, setTheme } = useTheme();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [userData, setUserData] = useState<unknown>(null);
+  const [userData, setUserData] = useState<SettingsUser | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     bio: "",
@@ -42,7 +50,7 @@ export default function SettingsPage() {
   }, []);
 
   const loadUserData = async () => {
-    const data: unknown = await getUserData();
+    const data = await getUserData() as SettingsUser | null;
     if (data) {
       setUserData(data);
       setFormData({
@@ -65,8 +73,8 @@ export default function SettingsPage() {
     }
   };
 
-  const handleUpdateSettings = async (newSettings: unknown) => {
-    const updatedSettings = { ...userData?.settings, ...newSettings };
+  const handleUpdateSettings = async (newSettings: any) => {
+    const updatedSettings = { ...(userData?.settings || {}), ...newSettings };
     
     // Dispatch instant update event
     if (newSettings.accentColor) {
@@ -75,7 +83,9 @@ export default function SettingsPage() {
 
     try {
       await updateUserSettings(updatedSettings);
-      setUserData({ ...userData, settings: updatedSettings });
+      if (userData) {
+        setUserData({ ...userData, settings: updatedSettings });
+      }
       toast.success("Settings saved");
     } catch (error) {
       toast.error("Failed to save settings");

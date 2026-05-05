@@ -10,7 +10,9 @@ import {
 import { getAchievements, checkAndAwardAchievements } from "@/app/actions/achievements";
 import { toast } from "sonner";
 
-const ICON_MAP: unknown = {
+import { LucideIcon } from "lucide-react";
+
+const ICON_MAP: Record<string, LucideIcon> = {
   Zap: Zap,
   GraduationCap: GraduationCap,
   Flame: Flame,
@@ -22,7 +24,8 @@ const ICON_MAP: unknown = {
 };
 
 export default function AchievementsPage() {
-  const [achievements, setAchievements] = useState<unknown[]>([]);
+  type Achievement = { id: string; userId: string; type: string; icon: string; title: string; description: string; unlockedAt: Date | string };
+  const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

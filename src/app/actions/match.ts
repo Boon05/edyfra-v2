@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
+import { MatchTier, SessionStatus } from "@prisma/client";
 
 export async function createMatchRequest(data: { subject: string; topic: string }) {
   const cookieStore = await cookies();
@@ -179,5 +180,37 @@ export async function sweepUnmatchedRequests() {
   } catch (error) {
     console.error("Error sweeping unmatched requests:", error);
     return { success: false };
+  }
+}
+
+export async function getSession(id: string) {
+  try {
+    return await prisma.session.findUnique({
+      where: { id },
+      include: {
+        student: { select: { name: true, avatar: true } },
+        partner: { select: { name: true, avatar: true } }
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching session:', error);
+    return null;
+  }
+}
+
+export async function sendMessage(data: { sessionId: string; senderId: string; content: string; isMash: boolean }) {
+  try {
+    const message = await prisma.message.create({
+      data: {
+        sessionId: data.sessionId,
+        senderId: data.senderId,
+        content: data.content,
+        isMash: data.isMash,
+      }
+    });
+    return { success: true, message };
+  } catch (error) {
+    console.error('Error sending message via Server Action:', error);
+    return { success: false, error };
   }
 }

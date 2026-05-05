@@ -8,10 +8,21 @@ import { Trophy, Medal, Crown, TrendingUp, Search, Loader2, Award } from "lucide
 import { createClient } from "@/utils/supabase/client";
 import { getUserData } from "@/app/actions/user";
 
+import { User } from "@prisma/client";
+
+interface Leader {
+  id: string;
+  name: string;
+  avatar: string | null;
+  points: number;
+  educationLevel: string;
+  tier: string;
+}
+
 export default function LeaderboardPage() {
   const supabase = createClient();
-  const [leaders, setLeaders] = useState<unknown[]>([]);
-  const [userData, setUserData] = useState<unknown>(null);
+  const [leaders, setLeaders] = useState<Leader[]>([]);
+  const [userData, setUserData] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -69,8 +80,8 @@ export default function LeaderboardPage() {
             </div>
             <CardContent className="pt-10 pb-6 text-center space-y-3">
               <Avatar className="h-20 w-20 mx-auto border-4 border-slate-400">
-                <AvatarImage src={podium[1].avatar} />
-                <AvatarFallback>{podium[1].name[0]}</AvatarFallback>
+                <AvatarImage src={podium[1].avatar || undefined} />
+                <AvatarFallback>{podium[1].name?.[0] || "?"}</AvatarFallback>
               </Avatar>
               <div>
                 <h3 className="font-bold text-lg truncate">{podium[1].name}</h3>
@@ -90,8 +101,8 @@ export default function LeaderboardPage() {
             </div>
             <CardContent className="pt-12 pb-8 text-center space-y-4">
               <Avatar className="h-24 w-24 mx-auto border-4 border-yellow-500 shadow-xl">
-                <AvatarImage src={podium[0].avatar} />
-                <AvatarFallback className="text-2xl font-bold">{podium[0].name[0]}</AvatarFallback>
+                <AvatarImage src={podium[0].avatar || undefined} />
+                <AvatarFallback className="text-2xl font-bold">{podium[0].name?.[0] || "?"}</AvatarFallback>
               </Avatar>
               <div>
                 <h3 className="font-black text-2xl truncate">{podium[0].name}</h3>
@@ -112,8 +123,8 @@ export default function LeaderboardPage() {
             </div>
             <CardContent className="pt-10 pb-6 text-center space-y-3">
               <Avatar className="h-20 w-20 mx-auto border-4 border-orange-400">
-                <AvatarImage src={podium[2].avatar} />
-                <AvatarFallback>{podium[2].name[0]}</AvatarFallback>
+                <AvatarImage src={podium[2].avatar || undefined} />
+                <AvatarFallback>{podium[2].name?.[0] || "?"}</AvatarFallback>
               </Avatar>
               <div>
                 <h3 className="font-bold text-lg truncate">{podium[2].name}</h3>
@@ -137,8 +148,8 @@ export default function LeaderboardPage() {
                 <div className="flex items-center gap-4">
                   <span className="w-8 text-center font-black text-muted-foreground">{index + 4}</span>
                   <Avatar className="h-10 w-10">
-                    <AvatarImage src={scholar.avatar} />
-                    <AvatarFallback>{scholar.name[0]}</AvatarFallback>
+                    <AvatarImage src={scholar.avatar || undefined} />
+                    <AvatarFallback>{scholar.name?.[0] || "?"}</AvatarFallback>
                   </Avatar>
                   <div>
                     <p className="font-bold text-sm">{scholar.name}</p>

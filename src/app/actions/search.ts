@@ -24,7 +24,8 @@ export async function searchStudents(query: string) {
     return [];
   }
 
-  return data.map((user: unknown) => ({
+  type SearchResult = { id: string; name: string; school?: string; role?: string; avatar?: string };
+  return (data as SearchResult[]).map((user) => ({
     id: user.id,
     name: user.name,
     school: user.school,

@@ -22,8 +22,16 @@ interface PendingRequest {
   studentName?: string;
 }
 
+interface TutorProfile {
+  totalSessions: number;
+  hourlyRate: number;
+  rating: number;
+  user: { name: string };
+  availability: any;
+}
+
 export default function TutorDashboard() {
-  const [profile, setProfile] = useState<any>(null);
+  const [profile, setProfile] = useState<TutorProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [isOnline, setIsOnline] = useState(false);
   const [toggling, setToggling] = useState(false);
@@ -62,7 +70,7 @@ export default function TutorDashboard() {
     const data = await getTutorProfile();
     if (data) {
       setProfile(data);
-      setIsOnline((data.availability as any)?.isOnline || false);
+      setIsOnline((data.availability as Record<string, boolean>)?.isOnline || false);
     }
     setLoading(false);
   };
@@ -103,8 +111,8 @@ export default function TutorDashboard() {
         toast.success("Match accepted! Entering room...");
         router.push(`/study-room/${result.sessionId}`);
       }
-    } catch (err: any) {
-      toast.error(err.message || "Failed to accept.");
+    } catch (err: unknown) {
+      toast.error((err as Error).message || "Failed to accept.");
     } finally {
       setAcceptingId(null);
     }

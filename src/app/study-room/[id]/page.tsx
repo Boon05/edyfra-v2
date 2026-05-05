@@ -10,6 +10,8 @@ import { Badge } from "@/components/ui/badge";
 import { Send, LogOut, MessageSquare, Cpu, Loader2, Sparkles, Zap, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
+import { getSession as fetchSessionAction, sendMessage } from "@/app/actions/match";
+import { GraduationCap } from "lucide-react";
 
 interface SessionData {
   id: string;
@@ -25,6 +27,7 @@ interface SessionData {
 
 interface MessageData {
   id: string;
+  sessionId: string;
   content: string;
   senderId?: string;
   isMash: boolean;
@@ -51,6 +54,35 @@ export default function StudyRoomPage() {
     }
   }, []);
 
+  const getCurrentUser = useCallback(async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) setCurrentUser(user);
+  }, [supabase]);
+
+  const fetchSession = useCallback(async () => {
+    try {
+      const data = await fetchSessionAction(sessionId);
+      if (data) setSession(data as SessionData);
+    } catch (e) {
+      toast.error("Failed to load session");
+    } finally {
+      setLoading(false);
+    }
+  }, [sessionId]);
+
+  const fetchMessages = useCallback(async () => {
+    const { data, error } = await supabase
+      .from("Message")
+      .select(`
+        *,
+        sender:User(name, avatar)
+      `)
+      .eq("sessionId", sessionId)
+      .order("createdAt", { ascending: true });
+
+    if (data) setMessages(data as MessageData[]);
+  }, [sessionId, supabase]);
+
   useEffect(() => {
     scrollToBottom();
   }, [messages, scrollToBottom]);
@@ -58,89 +90,61 @@ export default function StudyRoomPage() {
   useEffect(() => {
     getCurrentUser();
     fetchSession();
-  }, [sessionId]);
+  }, [sessionId, fetchSession]);
 
   useEffect(() => {
+    fetchMessages();
+    const pollInterval = setInterval(fetchMessages, 3000);
+    
     const channel = supabase
       .channel(`session-${sessionId}`)
       .on(
         "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "Message",
-          filter: `sessionId=eq.${sessionId}`,
-        },
-        async (payload) => {
-          const { data } = await supabase
-            .from("Message")
-            .select(`*, sender:senderId(name, avatar)`)
-            .eq("id", payload.new.id)
-            .single();
-
-          if (data) {
-            setMessages((prev) => {
-              if (prev.some((m) => m.id === data.id)) return prev;
-              return [...prev, data];
-            });
-          }
+        { event: "INSERT", schema: "public", table: "Message", filter: `sessionId=eq.${sessionId}` },
+        () => {
+          fetchMessages();
         }
       )
       .subscribe();
 
     return () => {
       supabase.removeChannel(channel);
+      clearInterval(pollInterval);
     };
-  }, [sessionId, supabase]);
-
-  const getCurrentUser = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) setCurrentUser({ id: user.id });
-  };
-
-  const fetchSession = async () => {
-    const { data, error } = await supabase
-      .from("Session")
-      .select(`*, student:studentId(name, avatar), partner:partnerId(name, avatar)`)
-      .eq("id", sessionId)
-      .single();
-
-    if (error || !data) {
-      toast.error("Session not found");
-      router.push("/dashboard");
-      return;
-    }
-    setSession(data);
-    fetchMessages();
-    setLoading(false);
-  };
-
-  const fetchMessages = async () => {
-    const { data } = await supabase
-      .from("Message")
-      .select(`*, sender:senderId(name, avatar)`)
-      .eq("sessionId", sessionId)
-      .order("createdAt", { ascending: true });
-    if (data) setMessages(data);
-  };
+  }, [sessionId, fetchMessages, supabase]);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || !currentUser) return;
 
-    const { error } = await supabase.from("Message").insert({
+    const currentInput = input;
+    setInput("");
+
+    // Optimistic update
+    const tempId = Math.random().toString();
+    const newMessage: MessageData = {
+      id: tempId,
       sessionId,
       senderId: currentUser.id,
-      content: input,
+      content: currentInput,
+      isMash: false,
+      createdAt: new Date().toISOString(),
+      sender: { name: "You", avatar: undefined }
+    };
+    setMessages(prev => [...prev, newMessage]);
+
+    // Send via Server Action
+    const { success, error } = await sendMessage({
+      sessionId,
+      senderId: currentUser.id,
+      content: currentInput,
       isMash: false,
     });
 
-    if (error) {
+    if (!success) {
       toast.error("Failed to send message");
+      setMessages(prev => prev.filter(m => m.id !== tempId));
     } else {
-      const currentInput = input;
-      setInput("");
-      
       // If it's an AI session (no partner), trigger AI response
       if (!session?.partnerId) {
         try {
@@ -154,6 +158,7 @@ export default function StudyRoomPage() {
               topic: session?.topic
             }),
           });
+          setTimeout(fetchMessages, 1000);
         } catch (e) {
           console.error("Failed to trigger AI:", e);
         }
@@ -318,6 +323,3 @@ export default function StudyRoomPage() {
   );
 }
 
-const GraduationCap = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-);

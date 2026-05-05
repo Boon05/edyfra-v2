@@ -4,12 +4,10 @@ import { motion } from "framer-motion";
 
 export function LogoCloud() {
   const logos = [
-    "UNIVERSITY OF NAIROBI",
-    "STRATHMORE UNIVERSITY",
-    "JKUAT",
-    "KENYATTA UNIVERSITY",
-    "USIU AFRICA",
-    "EGERTON UNIVERSITY",
+    "ACADEMIC PARTNER I",
+    "ACADEMIC PARTNER II",
+    "ACADEMIC PARTNER III",
+    "ACADEMIC PARTNER IV",
   ];
 
   return (

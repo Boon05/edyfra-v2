@@ -121,21 +121,19 @@ export async function getTutorStats() {
     return null;
   }
 }
-
 export async function getVerifiedTutors() {
   try {
-    // REMOVED isVerified: true filter so all tutors show up for testing
-    // In production, we'd add this back or filter by isVerified: true
     return await prisma.user.findMany({
       where: {
         role: Role.TUTOR,
         tutorProfile: {
-          isNot: null // Just ensure they have a profile
+          isVerified: true
         }
       },
       include: {
         tutorProfile: true
-      }
+      },
+      orderBy: { createdAt: "desc" }
     });
   } catch (error) {
     console.error("Error in getVerifiedTutors:", error);

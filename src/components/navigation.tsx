@@ -14,8 +14,8 @@ const navLinks = [
   { name: "Features", href: "/features" },
   { name: "Community", href: "/community" },
   { name: "News", href: "/news" },
-  { name: "Pricing", href: "/pricing" },
   { name: "About", href: "/about" },
+  { name: "Contact", href: "/contact" },
 ];
 
 export function Navigation() {

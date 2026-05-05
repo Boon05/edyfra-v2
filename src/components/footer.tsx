@@ -9,39 +9,39 @@ import { toast } from "sonner";
 
 const footerLinks = [
   {
-    title: "Product",
+    title: "Ecosystem",
     links: [
       { name: "Features", href: "/features" },
-      { name: "Pricing", href: "/pricing" },
       { name: "Community", href: "/community" },
-      { name: "News", href: "/news" },
+      { name: "News Feed", href: "/news" },
+      { name: "About Us", href: "/about" },
     ],
   },
   {
-    title: "Company",
+    title: "Learning",
     links: [
-      { name: "About", href: "/about" },
-      { name: "Careers", href: "/protocol-pending" },
-      { name: "Press", href: "/protocol-pending" },
-      { name: "Contact", href: "/contact" },
+      { name: "Find Tutors", href: "/dashboard/tutors" },
+      { name: "Study Match", href: "/dashboard/study" },
+      { name: "My Sessions", href: "/dashboard/sessions" },
+      { name: "Resources", href: "/features" },
     ],
   },
   {
-    title: "Resources",
+    title: "Support",
     links: [
-      { name: "Help Center", href: "/protocol-pending" },
-      { name: "Blog", href: "/protocol-pending" },
-      { name: "Guides", href: "/protocol-pending" },
-      { name: "API", href: "/protocol-pending" },
+      { name: "Help Center", href: "/contact" },
+      { name: "Contact Us", href: "/contact" },
+      { name: "Careers", href: "/about" },
+      { name: "Institutional", href: "/contact" },
     ],
   },
   {
     title: "Legal",
     links: [
-      { name: "Privacy", href: "/privacy" },
-      { name: "Terms", href: "/terms" },
-      { name: "Cookies", href: "/protocol-pending" },
-      { name: "Security", href: "/protocol-pending" },
+      { name: "Privacy Policy", href: "/privacy" },
+      { name: "Terms of Service", href: "/terms" },
+      { name: "Cookie Policy", href: "/privacy" },
+      { name: "Security", href: "/terms" },
     ],
   },
 ];
@@ -103,7 +103,7 @@ export function Footer() {
               {[Mail, Globe, MessageCircle].map((Icon, i) => (
                 <Link 
                   key={i} 
-                  href="#" 
+                  href="/contact" 
                   className="text-muted-foreground hover:text-primary transition-colors p-2 bg-secondary rounded-full"
                 >
                   <Icon className="h-4 w-4" />

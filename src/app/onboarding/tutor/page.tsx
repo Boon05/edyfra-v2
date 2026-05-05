@@ -12,7 +12,7 @@ import { completeOnboarding } from "@/app/actions/onboarding";
 import { 
   Loader2, BookOpen, Wallet, 
   GraduationCap, ArrowRight, CheckCircle2, 
-  Sparkles, Phone, ShieldCheck 
+  Sparkles, Phone, ShieldCheck, Search 
 } from "lucide-react";
 import { EDUCATIONAL_SUBJECTS } from "@/utils/subjects";
 import { cn } from "@/lib/utils";
@@ -22,6 +22,7 @@ export default function TutorOnboardingPage() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [subjectSearch, setSubjectSearch] = useState("");
   const [formData, setFormData] = useState({
     role: "TUTOR",
     educationLevel: "UNIVERSITY",
@@ -68,9 +69,12 @@ export default function TutorOnboardingPage() {
       if (result.success) {
         toast.success("Expert profile established.");
         window.location.href = "/tutor";
+      } else {
+        toast.error(`Protocol failure: ${result.error || "Unknown error"}`);
+        setLoading(false);
       }
-    } catch (e) {
-      toast.error("Protocol failure. Please retry.");
+    } catch (e: unknown) {
+      toast.error((e as Error).message || "Please retry.");
       setLoading(false);
     }
   };
@@ -167,8 +171,19 @@ export default function TutorOnboardingPage() {
                <div className="space-y-6">
                   <div className="space-y-4">
                     <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-2">Select Subjects You Teach (Min 1)</label>
+                    <div className="relative mb-4">
+                       <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                       <Input 
+                         placeholder="Search subjects..." 
+                         className="h-12 pl-12 rounded-xl border-border bg-secondary/50 font-bold"
+                         value={subjectSearch}
+                         onChange={(e) => setSubjectSearch(e.target.value)}
+                       />
+                    </div>
                     <div className="grid grid-cols-2 gap-3 h-[300px] overflow-y-auto pr-2 custom-scrollbar">
-                      {[...EDUCATIONAL_SUBJECTS.HIGH_SCHOOL, ...EDUCATIONAL_SUBJECTS.UNIVERSITY].map((s) => (
+                      {(formData.educationLevel === "UNIVERSITY" ? EDUCATIONAL_SUBJECTS.UNIVERSITY : EDUCATIONAL_SUBJECTS.HIGH_SCHOOL)
+                        .filter(s => s.toLowerCase().includes(subjectSearch.toLowerCase()))
+                        .map((s) => (
                         <button
                           key={s}
                           onClick={() => toggleSubject(s)}

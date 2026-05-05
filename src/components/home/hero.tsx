@@ -25,7 +25,7 @@ export function HomeHero() {
             <span className="text-primary">reimagined.</span>
           </h1>
           <p className="text-lg md:text-2xl text-muted-foreground font-medium max-w-2xl mx-auto leading-relaxed">
-            Everything you need to discover, connect, and excel. Built for the modern student who wants more from their education.
+            The ultimate academic ecosystem for Kenyan scholars. Connect with verified mentors, master the 8-4-4 and CBC, and achieve your true potential.
           </p>
         </motion.div>
 
@@ -58,7 +58,7 @@ export function HomeHero() {
         <div className="relative aspect-[16/9] rounded-[2.5rem] bg-secondary border-8 border-background shadow-[0_40px_100px_-20px_rgba(0,0,0,0.2)] overflow-hidden group">
            <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-primary/5" />
            <img 
-             src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop" 
+             src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070&auto=format&fit=crop" 
              alt="Edyfra Premium Dashboard" 
              className="w-full h-full object-cover group-hover:scale-105 transition-all duration-1000"
            />

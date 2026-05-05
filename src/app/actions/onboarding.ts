@@ -22,8 +22,9 @@ interface OnboardingData {
 }
 
 export async function completeOnboarding(data: OnboardingData) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
     throw new Error("Unauthorized");
@@ -134,10 +135,14 @@ export async function completeOnboarding(data: OnboardingData) {
 
   // 5. Send Welcome Email
   try {
-    await sendWelcomeEmail(user.email!, user.user_metadata.name || "Scholar");
+    await sendWelcomeEmail(user.email!, user.user_metadata?.name || "Scholar");
   } catch (e) {
     console.error("Welcome email failed:", e);
   }
 
   return { success: true };
+  } catch (error: any) {
+    console.error("Onboarding failed:", error);
+    return { success: false, error: error.message || "Internal server error" };
+  }
 }

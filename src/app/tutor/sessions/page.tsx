@@ -1,19 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
-  Monitor, Calendar, User, 
-  MessageSquare, Clock,
-  Play, History, Sparkles
+  Calendar, MessageSquare, Clock, 
+  User as UserIcon, Monitor, Play, Archive, Sparkles 
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Loader2 } from "lucide-react";
 
-import { useEffect } from "react";
 import { getTutorSessions } from "@/app/actions/tutor";
 import { formatDistanceToNow } from "date-fns";
 import { Session } from "@prisma/client";
@@ -82,7 +80,7 @@ export default function TutorSessionsPage() {
                 <CardContent className="p-0 flex flex-col lg:flex-row">
                    <div className="lg:w-72 bg-secondary/30 p-10 flex flex-col items-center justify-center border-b lg:border-b-0 lg:border-r border-border">
                       <div className="w-20 h-20 rounded-[2rem] bg-primary/10 text-primary flex items-center justify-center mb-6 transition-transform group-hover:scale-110">
-                         <User className="h-10 w-10" />
+                         <UserIcon className="h-10 w-10" />
                       </div>
                       <p className="text-xl font-black text-center tracking-tight">{session.student?.name || "Student"}</p>
                       <p className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mt-2">Scholar</p>
@@ -101,7 +99,10 @@ export default function TutorSessionsPage() {
                          <div className="space-y-2">
                             <h3 className="text-3xl font-black tracking-tightest">{session.subject}</h3>
                             <div className="flex flex-wrap items-center gap-6 text-sm font-bold text-muted-foreground">
-                               <span className="flex items-center gap-2"><Clock className="h-4 w-4 text-primary" /> {formatDistanceToNow(new Date(session.startedAt))} ago</span>
+                               <span className="flex items-center gap-2">
+                                 <Clock className="h-4 w-4 text-primary" /> 
+                                 {session.startedAt ? formatDistanceToNow(new Date(session.startedAt)) : "Just now"} ago
+                               </span>
                                <span className="flex items-center gap-2"><Calendar className="h-4 w-4 text-primary" /> ID: {session.id.slice(0, 8)}</span>
                             </div>
                          </div>
@@ -124,7 +125,7 @@ export default function TutorSessionsPage() {
           ) : (
             <div className="p-32 flex flex-col items-center justify-center text-center space-y-6 bg-secondary/30 rounded-[4rem] border border-dashed border-border">
                <div className="w-24 h-24 rounded-[2.5rem] bg-secondary flex items-center justify-center shadow-inner">
-                  <History className="h-10 w-10 text-muted-foreground/30" />
+                   <Archive className="h-10 w-10 text-muted-foreground/30" />
                </div>
                <div className="space-y-2">
                   <h3 className="text-2xl font-black tracking-tightest">The log is empty.</h3>

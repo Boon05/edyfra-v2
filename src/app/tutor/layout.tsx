@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
+import { User } from "@supabase/supabase-js";
 import { 
   LayoutDashboard, Users, GraduationCap, 
   Settings, LogOut, Zap, Calendar, Wallet
@@ -17,7 +18,7 @@ export default function TutorLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
   const supabase = createClient();
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     checkTutor();
@@ -102,10 +103,10 @@ export default function TutorLayout({ children }: { children: React.ReactNode })
           
           <div className="p-4 rounded-[1.5rem] bg-card border border-border flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-primary text-white flex items-center justify-center font-black text-lg shadow-lg shadow-primary/20">
-              {user.email?.[0].toUpperCase()}
+              {user?.email?.[0].toUpperCase() || "U"}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-xs font-black truncate text-foreground uppercase tracking-tight">{user.user_metadata?.name || "Tutor"}</p>
+              <p className="text-xs font-black truncate text-foreground uppercase tracking-tight">{user?.user_metadata?.name || "Tutor"}</p>
               <Badge className="bg-primary/10 text-primary border-none text-[8px] h-4 font-black uppercase tracking-widest mt-1">Verified Expert</Badge>
             </div>
           </div>

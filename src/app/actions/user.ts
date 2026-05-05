@@ -1,11 +1,11 @@
 "use server";
 
-import { Role, EduLevel, Tier, VerifPath } from "@prisma/client";
+import { Role, EduLevel, Tier, VerifPath, Prisma, User, StudentProfile, TutorProfile } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 
-export async function getUserData() {
+export async function getUserData(): Promise<(User & { studentProfile: StudentProfile | null, tutorProfile: TutorProfile | null }) | null> {
   try {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
@@ -166,7 +166,7 @@ export async function updateUserRole(role: "STUDENT" | "TUTOR") {
   }
 }
 
-export async function updateUserSettings(settings: any) {
+export async function updateUserSettings(settings: Prisma.InputJsonValue) {
   try {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
@@ -202,5 +202,41 @@ export async function getGlobalStats() {
   } catch (error) {
     console.error("Error in getGlobalStats:", error);
     return [];
+  }
+}
+
+export async function createTestTutorAction() {
+  try {
+    const id = 'test-tutor-' + Math.random().toString(36).substring(7);
+    await prisma.user.create({
+      data: {
+        id,
+        email: id + '@edyfra.test',
+        name: 'Elite Mentor ' + Math.floor(Math.random() * 100),
+        role: Role.TUTOR,
+        educationLevel: EduLevel.UNIVERSITY,
+        county: 'Nairobi',
+        tier: Tier.LEGEND,
+        points: 9999,
+        tutorProfile: {
+          create: {
+            subjects: ['Mathematics', 'Physics', 'Chemistry'],
+            levelsTaught: ['1', '2', '3', '4'],
+            verificationPath: VerifPath.GRADES,
+            hourlyRate: 750,
+            bio: 'I am a high-performance academic mentor focused on KCSE excellence and competitive edge.',
+            isVerified: true,
+            verifiedAt: new Date(),
+            rating: 5.0,
+            availability: { isOnline: true }
+          }
+        }
+      }
+    });
+    revalidatePath('/dashboard/tutors');
+    return { success: true };
+  } catch (error) {
+    console.error('Error creating test tutor:', error);
+    throw error;
   }
 }

@@ -103,7 +103,7 @@ export function AdminDashboardClient({
               </div>
             ) : (
               <div className="divide-y divide-border">
-                {pendingApplications.map((app: unknown) => (
+                {(pendingApplications as Array<Record<string, unknown> & { id: string; user?: { name?: string }; subject?: string; educationLevel?: string }>).map((app) => (
                   <div key={app.id} className="p-8 flex items-center justify-between hover:bg-secondary/30 transition-colors group">
                     <div className="flex items-center gap-5">
                       <AvatarPremium seed={app.user?.name || app.id || "default"} size="lg" name={app.user?.name || undefined} />

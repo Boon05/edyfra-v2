@@ -12,7 +12,17 @@ import { getUserData } from "@/app/actions/user";
 
 export default function ChallengesPage() {
   const supabase = createClient();
-  const [challenge, setChallenge] = useState<unknown>(null);
+  type Challenge = {
+    id: string;
+    subject: string;
+    level: string;
+    question: string;
+    options: string[];
+    answer: string;
+    explanation: string;
+    date: string;
+  };
+  const [challenge, setChallenge] = useState<Challenge | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
@@ -40,7 +50,7 @@ export default function ChallengesPage() {
   };
 
   const handleSubmit = () => {
-    if (!selectedOption) return;
+    if (!selectedOption || !challenge) return;
     setSubmitted(true);
     const correct = selectedOption === challenge.answer;
     setIsCorrect(correct);

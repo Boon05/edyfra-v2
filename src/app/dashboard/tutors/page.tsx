@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { GraduationCap, Search, Star, MessageSquare, Clock, MapPin, Filter, Loader2, Users, Sparkles } from "lucide-react";
+import { GraduationCap, Search, MessageSquare, Clock, Loader2, Sparkles, Users as UsersIcon } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
 import { AvatarPremium } from "@/components/ui/avatar-premium";
@@ -11,9 +11,10 @@ import { Button } from "@/components/ui/button";
 import { getSubjectsByLevel } from "@/utils/subjects";
 import { getUserData } from "@/app/actions/user";
 import { getVerifiedTutors } from "@/app/actions/tutor";
-import { searchStudents } from "@/app/actions/search";
-import { toggleFollow, trackProfileView } from "@/app/actions/social";
+import { toggleFollow } from "@/app/actions/social";
 import { User, TutorProfile } from "@prisma/client";
+import { toast } from "sonner";
+import { motion, AnimatePresence } from "framer-motion";
 
 type TutorWithProfile = User & { tutorProfile: TutorProfile | null };
 
@@ -66,6 +67,45 @@ export default function TutorsPage() {
     }
   };
 
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [exitX, setExitX] = useState(0);
+
+  const handleSwipe = async (direction: "left" | "right") => {
+    setExitX(direction === "right" ? 500 : -500);
+    
+    if (direction === "right") {
+      const tutor = tutors[currentIndex];
+      try {
+        await toggleFollow(tutor.id);
+        toast.success(`Liked ${tutor.name}!`, {
+          description: "Connection request sent successfully.",
+          icon: "✨"
+        });
+      } catch (err) {
+        toast.error("Failed to connect.");
+      }
+    }
+    
+    // Small delay to allow exit animation to use the correct exitX
+    setTimeout(() => {
+      setCurrentIndex(prev => prev + 1);
+      setExitX(0); // Reset for next card
+    }, 50);
+  };
+
+  const createTestMentor = async () => {
+    try {
+      const { createTestTutorAction } = await import("@/app/actions/user");
+      await createTestTutorAction();
+      toast.success("Authentic Mentor Created!", { description: "Refreshing your synchronization grid..." });
+      fetchTutors();
+    } catch (err) {
+      toast.error("Deployment failed.");
+    }
+  };
+
+
   const subjects = getSubjectsByLevel(userData?.educationLevel || "HIGH_SCHOOL");
 
   return (
@@ -103,80 +143,103 @@ export default function TutorsPage() {
       </div>
 
       {loading && tutors.length === 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="h-[400px] bg-secondary animate-pulse rounded-[2.5rem] border border-border/50" />
-          ))}
+        <div className="flex items-center justify-center h-[500px]">
+           <div className="h-[400px] w-[350px] bg-secondary animate-pulse rounded-[3rem] border border-border/50" />
         </div>
-      ) : tutors.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {tutors.map((tutor) => (
-            <div key={tutor.id} className="group p-8 rounded-[2.5rem] bg-secondary border border-border/50 hover:bg-background hover:shadow-2xl hover:translate-y-[-4px] transition-all duration-500 flex flex-col justify-between space-y-8">
-              <div className="space-y-6">
-                <div className="flex items-start justify-between">
-                  <AvatarPremium 
-                    seed={tutor.id} 
-                    src={tutor.avatar_url || tutor.avatar} 
-                    size="lg" 
-                    name={tutor.name} 
-                  />
-                  <div className="px-4 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest border border-primary/20">
-                    {tutor.tutorProfile?.rating?.toFixed(1) || "5.0"}
-                  </div>
+      ) : tutors.length > 0 && currentIndex < tutors.length ? (
+        <div className="relative h-[600px] w-full flex items-center justify-center overflow-hidden">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={tutors[currentIndex].id}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              onDragEnd={(_, info) => {
+                if (info.offset.x > 100) handleSwipe("right");
+                else if (info.offset.x < -100) handleSwipe("left");
+              }}
+              initial={{ scale: 0.9, opacity: 0, rotate: -5 }}
+              animate={{ scale: 1, opacity: 1, rotate: 0 }}
+              exit={{ 
+                x: exitX, 
+                opacity: 0, 
+                rotate: exitX > 0 ? 45 : -45 
+              }}
+              transition={{ type: "spring", damping: 20, stiffness: 300 }}
+              className="absolute w-[350px] md:w-[450px] h-[550px] bg-secondary rounded-[3rem] border border-border/50 shadow-2xl overflow-hidden cursor-grab active:cursor-grabbing flex flex-col"
+            >
+              <div className="relative h-2/3 bg-primary/5 flex items-center justify-center p-12 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-secondary/80" />
+                <AvatarPremium 
+                  seed={tutors[currentIndex].id} 
+                  src={tutors[currentIndex].avatar || ""} 
+                  size="xl" 
+                  className="scale-[2.5] relative z-10"
+                />
+                <div className="absolute top-8 left-8 z-20 px-4 py-2 rounded-2xl bg-background/50 backdrop-blur-md border border-border/50">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-primary">⭐ {tutors[currentIndex].tutorProfile?.rating?.toFixed(1) || "5.0"}</span>
                 </div>
-                <div className="space-y-2">
-                  <h3 className="text-2xl font-black tracking-tight group-hover:text-primary transition-colors">{tutor.name}</h3>
-                  <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                    <GraduationCap className="h-3 w-3" />
-                    {tutor.school || tutor.county || ""}
-                  </div>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {tutor.tutorProfile?.subjects?.map((s: string) => (
-                    <span key={s} className="px-3 py-1 rounded-full bg-background border border-border text-[9px] font-black uppercase tracking-widest">
-                      {s}
-                    </span>
-                  ))}
-                </div>
-                <p className="text-sm text-muted-foreground font-medium leading-relaxed italic line-clamp-3">
-                  &quot;{tutor.tutorProfile?.bio || ""}&quot;
-                </p>
+
               </div>
 
-              <div className="pt-6 border-t border-border flex items-center justify-between gap-4">
-                 <div className="flex flex-col">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Base Rate</span>
-                    <span className="text-xl font-black tracking-tightest">KSH {tutor.tutorProfile?.hourlyRate || "500"}</span>
+              <div className="flex-1 p-10 space-y-6 bg-secondary">
+                 <div className="space-y-2">
+                    <h2 className="text-3xl font-black tracking-tight">{tutors[currentIndex].name}</h2>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                      <GraduationCap className="h-3 w-3" /> {tutors[currentIndex].county}
+                    </p>
                  </div>
-                  <div className="flex gap-2">
-                    <Link href="/study-room/preview">
-                       <Button variant="outline" size="icon" className="w-12 h-12 rounded-xl border-border hover:bg-primary hover:text-white transition-all">
-                          <Sparkles className="h-4 w-4" />
+                 
+                 <div className="flex flex-wrap gap-2">
+                    {tutors[currentIndex].tutorProfile?.subjects?.map(s => (
+                      <span key={s} className="px-3 py-1 rounded-full bg-background border border-border text-[8px] font-black uppercase tracking-widest">
+                        {s}
+                      </span>
+                    ))}
+                 </div>
+
+                 <p className="text-sm text-muted-foreground font-medium leading-relaxed line-clamp-2">
+                   {tutors[currentIndex].tutorProfile?.bio}
+                 </p>
+
+                 <div className="flex items-center justify-between pt-4">
+                    <div className="flex flex-col">
+                       <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Rate</span>
+                       <span className="text-xl font-black">KSH {tutors[currentIndex].tutorProfile?.hourlyRate}</span>
+                    </div>
+                    <div className="flex gap-4">
+                       <Button onClick={() => handleSwipe("left")} variant="outline" className="w-14 h-14 rounded-full border-border hover:bg-red-500/10 hover:text-red-500 transition-all">
+                          <Clock className="h-6 w-6" />
                        </Button>
-                    </Link>
-                    <Button 
-                      onClick={() => toggleFollow(tutor.id)}
-                      className="h-12 px-6 rounded-xl bg-foreground text-background font-black text-[10px] tracking-widest uppercase active:scale-95 transition-all"
-                    >
-                       Connect
-                    </Button>
-                  </div>
+                       <Button onClick={() => handleSwipe("right")} className="w-14 h-14 rounded-full bg-primary text-white shadow-xl shadow-primary/20 hover:scale-110 active:scale-95 transition-all">
+                          <Sparkles className="h-6 w-6" />
+                       </Button>
+                    </div>
+                 </div>
               </div>
-            </div>
-          ))}
+            </motion.div>
+          </AnimatePresence>
+          
+          <div className="absolute bottom-4 text-[9px] font-black uppercase tracking-[0.5em] text-muted-foreground animate-pulse">
+            Swipe Right to Connect • Swipe Left to Skip
+          </div>
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center py-48 space-y-8 bg-secondary/30 rounded-[3rem] border-2 border-dashed border-border">
           <div className="w-20 h-20 rounded-full bg-background flex items-center justify-center text-muted-foreground shadow-sm">
-             <Users className="h-10 w-10 opacity-20" />
+             <UsersIcon className="h-10 w-10 opacity-20" />
           </div>
           <div className="text-center space-y-2">
-            <h3 className="text-2xl font-black tracking-tight">Zero Scholars Detected.</h3>
-            <p className="text-muted-foreground font-medium max-w-sm mx-auto">The ecosystem has no active mentors matching your current search parameters. Broaden your mission scope.</p>
+            <h3 className="text-2xl font-black tracking-tight">Ecosystem Sanitized.</h3>
+            <p className="text-muted-foreground font-medium max-w-sm mx-auto">All demo data has been purged. To test the Tinder-logic, spawn a fresh mentor below.</p>
           </div>
-          <Button onClick={() => { setSearch(""); setSubject("all"); }} variant="outline" className="h-12 px-8 rounded-full font-black text-[10px] tracking-widest uppercase border-border">
-             Reset Search Grid
-          </Button>
+          <div className="flex gap-4">
+            <Button onClick={createTestMentor} className="h-14 px-8 rounded-2xl bg-primary text-white font-black text-[10px] tracking-widest uppercase shadow-xl shadow-primary/20 hover:scale-105 transition-all">
+               Spawn Test Mentor
+            </Button>
+            <Button onClick={() => { setSearch(""); setSubject("all"); setCurrentIndex(0); fetchTutors(); }} variant="outline" className="h-14 px-8 rounded-2xl font-black text-[10px] tracking-widest uppercase border-border">
+               Reset Grid
+            </Button>
+          </div>
         </div>
       )}
     </div>

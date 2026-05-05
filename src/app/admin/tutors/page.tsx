@@ -12,10 +12,22 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { getTutorApplications, approveTutorApplication, rejectTutorApplication } from "@/app/actions/admin";
+import { getTutorApplications, approveTutorApplication } from "@/app/actions/admin";
 
 export default function AdminTutorsPage() {
-  const [applications, setApplications] = useState<unknown[]>([]);
+  type TutorApplication = {
+    id: string;
+    status: string;
+    createdAt: string;
+    subjects: string[];
+    path: string;
+    notes: string;
+    user?: {
+      name: string;
+      educationLevel?: string;
+    }
+  };
+  const [applications, setApplications] = useState<TutorApplication[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
 
@@ -49,7 +61,7 @@ export default function AdminTutorsPage() {
 
   const filteredApps = applications.filter(app => 
     app.user?.name.toLowerCase().includes(search.toLowerCase()) ||
-    app.subjects.some((s: string) => s.toLowerCase().includes(search.toLowerCase()))
+    app.subjects?.some((s: string) => s.toLowerCase().includes(search.toLowerCase()))
   );
 
   return (
@@ -92,7 +104,7 @@ export default function AdminTutorsPage() {
                  {/* Profile Section */}
                  <div className="p-8 flex items-center gap-6 lg:border-r border-white/5 lg:min-w-[400px]">
                     <div className="w-20 h-20 rounded-3xl bg-primary/10 text-primary flex items-center justify-center font-black text-2xl border border-primary/20 shadow-2xl shadow-primary/20">
-                       {app.user?.name[0]}
+                       {app.user?.name?.[0] || "?"}
                     </div>
                     <div>
                        <h3 className="text-2xl font-black tracking-tight">{app.user?.name}</h3>

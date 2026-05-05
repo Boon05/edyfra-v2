@@ -8,25 +8,26 @@ import {
   Heart, MessageCircle, Share2, 
   Send, Image as ImageIcon, Search,
   MoreHorizontal, Loader2, TrendingUp,
-  UserPlus, Hash, Users, Flame, Sparkles, Zap
+  UserPlus, Hash, Users, Flame, Sparkles, Zap, Newspaper
 } from "lucide-react";
 import { getPosts, createPost, likePost } from "@/app/actions/feed";
+import { createClient } from "@/utils/supabase/client";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface FeedUser {
   name: string;
-  avatar?: string;
+  avatar?: string | null;
   educationLevel?: string;
 }
 
 interface Post {
   id: string;
   content: string;
-  image?: string;
-  createdAt: string;
-  subject?: string;
+  image?: string | null;
+  createdAt: Date | string;
+  subject?: string | null;
   likes: number;
   user: FeedUser;
   likedBy: { userId: string }[];
@@ -39,10 +40,27 @@ export default function FeedPage() {
   const [filter, setFilter] = useState("all");
   const [newPostContent, setNewPostContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [news, setNews] = useState<any[]>([]);
+  const supabase = createClient();
 
   useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) setCurrentUserId(user.id);
+    });
     loadPosts();
+    fetchTechNews();
   }, [filter]);
+
+  const fetchTechNews = async () => {
+    try {
+      const res = await fetch("https://dev.to/api/articles?tag=engineering,tech&per_page=4");
+      const data = await res.json();
+      setNews(data);
+    } catch (e) {
+      console.error("Failed to fetch news", e);
+    }
+  };
 
   const loadPosts = async () => {
     setLoading(true);
@@ -68,6 +86,32 @@ export default function FeedPage() {
       toast.error("Failed to share post");
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleLike = async (postId: string) => {
+    if (!currentUserId) return;
+    
+    // Optimistic Update
+    setPosts(prev => prev.map(post => {
+      if (post.id === postId) {
+        const isLiked = post.likedBy.some(l => l.userId === currentUserId);
+        return {
+          ...post,
+          likes: isLiked ? post.likes - 1 : post.likes + 1,
+          likedBy: isLiked 
+            ? post.likedBy.filter(l => l.userId !== currentUserId)
+            : [...post.likedBy, { userId: currentUserId }]
+        };
+      }
+      return post;
+    }));
+
+    try {
+      await likePost(postId);
+    } catch {
+      toast.error("Failed to like post");
+      loadPosts(); // Revert on failure
     }
   };
 
@@ -158,7 +202,7 @@ export default function FeedPage() {
                       <div className="flex items-center justify-between">
                          <div className="flex items-center gap-3">
                             <Avatar className="h-10 w-10 border border-border group-hover:scale-105 transition-transform">
-                               <AvatarImage src={post.user.avatar} />
+                               <AvatarImage src={post.user.avatar || undefined} />
                                <AvatarFallback>{post.user.name[0]}</AvatarFallback>
                             </Avatar>
                             <div>
@@ -189,10 +233,10 @@ export default function FeedPage() {
 
                       <div className="flex items-center gap-8 pt-4 border-t border-border/50 pl-[52px]">
                          <button 
-                           onClick={() => likePost(post.id)}
+                           onClick={() => handleLike(post.id)}
                            className="flex items-center gap-2 text-xs font-bold text-muted-foreground hover:text-red-500 transition-colors group/btn"
                          >
-                            <Heart className={`h-4 w-4 group-hover/btn:scale-110 transition-transform ${post.likedBy?.some((l: { userId: string }) => l.userId === "current") ? "fill-red-500 text-red-500" : ""}`} />
+                            <Heart className={`h-4 w-4 group-hover/btn:scale-110 transition-transform ${post.likedBy?.some((l: { userId: string }) => l.userId === currentUserId) ? "fill-red-500 text-red-500" : ""}`} />
                             {post.likes}
                          </button>
                          <button className="flex items-center gap-2 text-xs font-bold text-muted-foreground hover:text-primary transition-colors group/btn">
@@ -220,20 +264,41 @@ export default function FeedPage() {
         </div>
       </main>
 
-      {/* Right Sidebar - Trending */}
+      {/* Right Sidebar - Trending & News */}
       <div className="hidden lg:block lg:col-span-3 space-y-6 sticky top-24 h-fit">
-         {/* Trending Topics */}
+         {/* Tech & Engineering News */}
          <Card className="border-border rounded-3xl overflow-hidden shadow-sm">
             <CardContent className="p-6 space-y-6">
-               <div className="flex items-center gap-2 text-primary">
-                  <TrendingUp className="h-5 w-5" />
-                  <h3 className="text-sm font-black uppercase tracking-widest">Trending Topics</h3>
+               <div className="flex items-center justify-between">
+                 <div className="flex items-center gap-2 text-primary">
+                    <Newspaper className="h-5 w-5" />
+                    <h3 className="text-sm font-black uppercase tracking-widest">Global Tech News</h3>
+                 </div>
+                 <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse"></span>
                </div>
+               
                <div className="space-y-4">
-                  <div className="py-8 text-center space-y-2">
-                    <Sparkles className="h-6 w-6 text-muted-foreground/20 mx-auto" />
-                    <p className="text-xs text-muted-foreground font-medium">Topics will appear here as the community grows.</p>
-                  </div>
+                  {news.length > 0 ? news.map((article) => (
+                    <a 
+                      key={article.id} 
+                      href={article.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="group block space-y-2 p-3 rounded-2xl hover:bg-secondary transition-colors"
+                    >
+                      <h4 className="text-sm font-bold leading-tight group-hover:text-primary transition-colors line-clamp-2">
+                        {article.title}
+                      </h4>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-1">
+                        {article.user.name} • {article.reading_time_minutes}m read
+                      </p>
+                    </a>
+                  )) : (
+                    <div className="py-8 text-center space-y-2">
+                      <Loader2 className="h-4 w-4 animate-spin text-muted-foreground mx-auto" />
+                      <p className="text-xs text-muted-foreground font-medium">Fetching global updates...</p>
+                    </div>
+                  )}
                </div>
             </CardContent>
          </Card>

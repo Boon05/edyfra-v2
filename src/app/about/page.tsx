@@ -4,8 +4,7 @@ import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const team: { name: string; role: string; image: string }[] = [
-  // Add your real team members here
-  // { name: "Name", role: "Role", image: "https://..." },
+  { name: "Mash", role: "Visionary & Founder", image: "https://github.com/shadcn.png" }, // Using a default avatar placeholder for now
 ];
 
 export default function AboutPage() {
