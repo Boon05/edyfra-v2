@@ -26,11 +26,13 @@ export function AdminDashboardClient({
   telemetry,
   pendingApplications,
   recentUsers,
+  systemLoad,
 }: {
   stats: Stat[];
   telemetry: any[];
   pendingApplications: any[];
   recentUsers: any[];
+  systemLoad: number;
 }) {
   const router = useRouter();
 
@@ -44,7 +46,7 @@ export function AdminDashboardClient({
          </div>
          <div className="flex items-center gap-2 px-4 border-r border-white/10 text-muted-foreground/60">
             <Zap className="h-3 w-3" />
-            <span>Load: 24%</span>
+            <span>Load: {systemLoad}%</span>
          </div>
          <div className="flex items-center gap-2 px-4 border-r border-white/10 text-muted-foreground/60">
             <Cpu className="h-3 w-3" />

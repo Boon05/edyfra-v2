@@ -27,7 +27,7 @@ const navItems = [
   { href: "/dashboard/achievements", label: "Achievements", icon: Sparkles },
 ];
 
-export default function DashboardSidebar({ user }: { user: User }) {
+export default function DashboardSidebar({ user, onClose }: { user: User; onClose?: () => void }) {
   const pathname = usePathname();
   const router = useRouter();
   const supabase = createClient();
@@ -45,7 +45,10 @@ export default function DashboardSidebar({ user }: { user: User }) {
   };
 
   return (
-    <aside className="w-64 h-[calc(100vh-5rem)] sticky top-20 border-r border-border flex flex-col bg-background/50 backdrop-blur-xl">
+    <aside className={cn(
+      "w-64 h-[calc(100vh-5rem)] sticky top-20 border-r border-border flex-col bg-background/50 backdrop-blur-xl hidden lg:flex",
+      onClose && "flex h-full sticky top-0 border-r-0"
+    )}>
       {/* Logo */}
       <div className="p-8 border-b border-border/50">
         <Link href="/dashboard" className="flex items-center gap-3 group">
@@ -62,6 +65,7 @@ export default function DashboardSidebar({ user }: { user: User }) {
           <Link
             key={href}
             href={href}
+            onClick={onClose}
             className={cn(
               "flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all duration-200",
               pathname === href

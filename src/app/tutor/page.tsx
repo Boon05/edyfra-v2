@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Users, Star, Wallet, Clock, ArrowRight, Loader2, BookOpen, Sparkles } from "lucide-react";
+import { Users, Star, Wallet, Clock, ArrowRight, Loader2, BookOpen, Sparkles, ShieldCheck } from "lucide-react";
 import { getTutorProfile, toggleTutorStatus, acceptMatchRequest } from "@/app/actions/tutor";
 import { createClient } from "@/utils/supabase/client";
 import { AvatarPremium } from "@/components/ui/avatar-premium";

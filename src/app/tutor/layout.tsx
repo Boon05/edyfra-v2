@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
   LayoutDashboard, Users, GraduationCap, 
-  Settings, LogOut, Zap, Calendar, Wallet, Trophy
+  Settings, LogOut, Zap, Calendar, Wallet, Trophy,
+  Menu, X
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -60,77 +62,153 @@ export default function TutorLayout({ children }: { children: React.ReactNode })
     { href: "/tutor/settings", label: "Settings", icon: Settings },
   ];
 
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
-    <div className="flex min-h-screen bg-background font-sans">
-      {/* Premium Sidebar */}
-      <aside className="w-72 bg-card border-r border-border flex flex-col fixed h-full z-50">
-        <div className="p-8 border-b border-border/50">
-          <Link href="/tutor" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20 transition-transform group-hover:scale-110">
-              <GraduationCap className="text-white h-6 w-6" />
-            </div>
-            <div className="flex flex-col">
-               <span className="text-2xl font-black text-foreground tracking-tighter leading-none">Edyfra</span>
-               <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mt-1">Teacher Dashboard</span>
-            </div>
-          </Link>
-        </div>
+    <div className="flex flex-col lg:flex-row min-h-screen bg-background font-sans">
+      {/* Mobile Header */}
+      <header className="lg:hidden h-20 bg-card border-b border-border px-6 flex items-center justify-between sticky top-0 z-40">
+        <Link href="/tutor" className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
+            <GraduationCap className="text-white h-5 w-5" />
+          </div>
+          <span className="text-xl font-black text-foreground tracking-tighter">Edyfra</span>
+        </Link>
+        <button 
+          onClick={() => setIsMobileMenuOpen(true)}
+          className="p-2 rounded-xl bg-secondary hover:bg-primary/5 transition-all"
+        >
+          <Menu className="h-6 w-6 text-foreground" />
+        </button>
+      </header>
 
-        <nav className="flex-1 p-6 space-y-2 overflow-y-auto">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "flex items-center gap-4 px-5 py-4 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all duration-300",
-                pathname === item.href
-                  ? "bg-primary text-white shadow-xl shadow-primary/10"
-                  : "text-muted-foreground hover:text-primary hover:bg-primary/5"
-              )}
+      {/* Mobile Sidebar Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] lg:hidden"
+            />
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed inset-y-0 left-0 w-80 bg-card z-[70] shadow-2xl overflow-y-auto lg:hidden"
             >
-              <item.icon className="h-4 w-4" />
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+              <div className="absolute top-6 right-6 z-50">
+                <button 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="p-2 rounded-xl bg-secondary hover:bg-secondary/80"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+              <TutorSidebarContent 
+                user={user} 
+                pathname={pathname} 
+                points={points} 
+                navItems={navItems} 
+                supabase={supabase}
+                router={router}
+                onClose={() => setIsMobileMenuOpen(false)}
+              />
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
-        <div className="p-6 border-t border-border/50 space-y-6 bg-secondary/20">
-          <div className="flex items-center justify-between px-2">
-             <ThemeToggle />
-             <button 
-                onClick={() => supabase.auth.signOut().then(() => router.push("/login"))}
-                className="p-3 rounded-xl text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all"
-             >
-                <LogOut className="h-5 w-5" />
-             </button>
-          </div>
-          
-          <div className="p-4 rounded-[1.5rem] bg-card border border-border flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-primary text-white flex items-center justify-center font-black text-lg shadow-lg shadow-primary/20">
-              {user?.email?.[0].toUpperCase() || "U"}
-            </div>
-            <div className="min-w-0 flex-1">
-              <p className="text-xs font-black truncate text-foreground uppercase tracking-tight">{user?.user_metadata?.name || "Tutor"}</p>
-              <Badge className="bg-primary/10 text-primary border-none text-[8px] h-4 font-black uppercase tracking-widest mt-1">Verified Expert</Badge>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <Link href="/dashboard" className="flex items-center gap-2 justify-center w-full py-3 rounded-xl bg-secondary text-muted-foreground text-[10px] font-black uppercase tracking-widest border border-border hover:bg-primary/5 hover:text-primary transition-all">
-               <LayoutDashboard className="h-3.5 w-3.5" /> Student Dashboard
-            </Link>
-            <div className="flex items-center gap-2 justify-center w-full py-2.5 rounded-xl bg-yellow-500/10 text-yellow-600 text-[10px] font-black uppercase tracking-widest border border-yellow-500/20 shadow-sm">
-               <Trophy className="h-3 w-3 fill-current" /> {points?.toLocaleString() || "0"} Points
-            </div>
-          </div>
-        </div>
+      {/* Premium Desktop Sidebar */}
+      <aside className="w-72 bg-card border-r border-border hidden lg:flex flex-col fixed h-full z-50">
+        <TutorSidebarContent 
+          user={user} 
+          pathname={pathname} 
+          points={points} 
+          navItems={navItems} 
+          supabase={supabase}
+          router={router}
+        />
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 ml-72 p-10 lg:p-16">
+      <main className="flex-1 lg:ml-72 p-6 lg:p-16">
         <div className="max-w-6xl mx-auto">
            {children}
         </div>
       </main>
+    </div>
+  );
+}
+
+function TutorSidebarContent({ 
+  user, pathname, points, navItems, supabase, router, onClose 
+}: any) {
+  return (
+    <div className="flex flex-col h-full">
+      <div className="p-8 border-b border-border/50">
+        <Link href="/tutor" onClick={onClose} className="flex items-center gap-3 group">
+          <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20 transition-transform group-hover:scale-110">
+            <GraduationCap className="text-white h-6 w-6" />
+          </div>
+          <div className="flex flex-col">
+             <span className="text-2xl font-black text-foreground tracking-tighter leading-none">Edyfra</span>
+             <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mt-1">Teacher Dashboard</span>
+          </div>
+        </Link>
+      </div>
+
+      <nav className="flex-1 p-6 space-y-2 overflow-y-auto">
+        {navItems.map((item: any) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            onClick={onClose}
+            className={cn(
+              "flex items-center gap-4 px-5 py-4 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all duration-300",
+              pathname === item.href
+                ? "bg-primary text-white shadow-xl shadow-primary/10"
+                : "text-muted-foreground hover:text-primary hover:bg-primary/5"
+            )}
+          >
+            <item.icon className="h-4 w-4" />
+            {item.label}
+          </Link>
+        ))}
+      </nav>
+
+      <div className="p-6 border-t border-border/50 space-y-6 bg-secondary/20">
+        <div className="flex items-center justify-between px-2">
+           <ThemeToggle />
+           <button 
+              onClick={() => supabase.auth.signOut().then(() => router.push("/login"))}
+              className="p-3 rounded-xl text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all"
+           >
+              <LogOut className="h-5 w-5" />
+           </button>
+        </div>
+        
+        <div className="p-4 rounded-[1.5rem] bg-card border border-border flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-primary text-white flex items-center justify-center font-black text-lg shadow-lg shadow-primary/20">
+            {user?.email?.[0].toUpperCase() || "U"}
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-xs font-black truncate text-foreground uppercase tracking-tight">{user?.user_metadata?.name || "Tutor"}</p>
+            <Badge className="bg-primary/10 text-primary border-none text-[8px] h-4 font-black uppercase tracking-widest mt-1">Verified Expert</Badge>
+          </div>
+        </div>
+        <div className="flex flex-col gap-2">
+          <Link href="/dashboard" onClick={onClose} className="flex items-center gap-2 justify-center w-full py-3 rounded-xl bg-secondary text-muted-foreground text-[10px] font-black uppercase tracking-widest border border-border hover:bg-primary/5 hover:text-primary transition-all">
+             <LayoutDashboard className="h-3.5 w-3.5" /> Student Dashboard
+          </Link>
+          <div className="flex items-center gap-2 justify-center w-full py-2.5 rounded-xl bg-yellow-500/10 text-yellow-600 text-[10px] font-black uppercase tracking-widest border border-yellow-500/20 shadow-sm">
+             <Trophy className="h-3 w-3 fill-current" /> {points?.toLocaleString() || "0"} Points
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

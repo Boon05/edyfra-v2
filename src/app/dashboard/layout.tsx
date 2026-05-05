@@ -2,6 +2,7 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import DashboardSidebar from "@/components/dashboard/Sidebar";
 import MatchNotification from "@/components/dashboard/MatchNotification";
+import MobileNav from "@/components/dashboard/MobileNav";
 
 export default async function DashboardLayout({
   children,
@@ -21,7 +22,8 @@ export default async function DashboardLayout({
   await sweepUnmatchedRequests();
 
   return (
-    <div className="flex min-h-screen bg-background">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-background">
+      <MobileNav user={user} />
       <DashboardSidebar user={user} />
       <main className="flex-1 overflow-y-auto">
         {children}

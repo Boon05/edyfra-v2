@@ -20,6 +20,7 @@ export default async function AdminDashboard() {
       telemetry={metrics.telemetry}
       pendingApplications={pendingApplications as any} 
       recentUsers={metrics.recentUsers}
+      systemLoad={metrics.systemLoad}
     />
   );
 }
