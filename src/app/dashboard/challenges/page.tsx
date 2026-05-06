@@ -74,7 +74,7 @@ export default function ChallengesPage() {
           attemptsLeft: Math.max(0, attemptsLeft),
           completed
         };
-      }).filter(c => !c.completed || c.attemptsLeft > 0);
+      }).filter((c: any) => !c.completed || c.attemptsLeft > 0);
       
       setChallenges(processed);
     }

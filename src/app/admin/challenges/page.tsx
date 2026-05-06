@@ -180,7 +180,7 @@ export default function AdminChallengesPage() {
                   {/* Subject Selection */}
                   <div className="space-y-2">
                     <label className="text-sm font-bold">Subject (Optional)</label>
-                    <Select value={subject} onValueChange={setSubject}>
+                    <Select value={subject} onValueChange={(val: string | null) => setSubject(val || "")}>
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="All Subjects" />
                       </SelectTrigger>

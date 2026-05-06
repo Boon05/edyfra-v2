@@ -39,12 +39,12 @@ export async function completeOnboarding(data: OnboardingData) {
   
   const isTutor = role === "TUTOR";
   
-  let userEducationLevel: EduLevel | null = null;
+  let userEducationLevel: EduLevel = EduLevel.HIGH_SCHOOL;
   if (educationLevel === EduLevel.HIGH_SCHOOL) {
     userEducationLevel = EduLevel.HIGH_SCHOOL;
   } else if (educationLevel === EduLevel.UNIVERSITY) {
     userEducationLevel = EduLevel.UNIVERSITY;
-  } else if (!isTutor) { // For students, ensure a default if not explicitly set
+  } else if (!isTutor) {
     userEducationLevel = EduLevel.HIGH_SCHOOL;
   }
 
