@@ -29,7 +29,8 @@ export default function TutorsPage() {
     setLoading(true);
     try {
       const user = await getUserData();
-      const data = await getVerifiedTutors(user?.educationLevel);
+      // educationLevel can be null, convert to undefined for function parameter
+      const data = await getVerifiedTutors(user?.educationLevel ?? undefined);
       setTutors(data);
     } catch (err) {
       console.error(err);
