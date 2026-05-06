@@ -82,19 +82,20 @@ export async function acceptMatchRequest(requestId: string) {
   });
   
   if (!studentExists) {
-    // Create student in Prisma if they don't exist
-    const { data: { user: studentUser } } = await supabase.auth.admin.getUserById(matchRequest.studentId);
-    if (studentUser) {
-      await prisma.user.create({
-        data: {
-          id: matchRequest.studentId,
-          email: studentUser.email || '',
-          name: studentUser.user_metadata?.name || 'Unknown',
-          role: studentUser.user_metadata?.role || 'STUDENT',
-          educationLevel: studentUser.user_metadata?.educationLevel || 'HIGH_SCHOOL'
-        }
-      });
-    }
+     // Create student in Prisma if they don't exist
+     const { data: { user: studentUser } } = await supabase.auth.admin.getUserById(matchRequest.studentId);
+     if (studentUser) {
+       await prisma.user.create({
+         data: {
+           id: matchRequest.studentId,
+           email: studentUser.email || '',
+           name: studentUser.user_metadata?.name || 'Unknown',
+           role: studentUser.user_metadata?.role || 'STUDENT',
+           educationLevel: studentUser.user_metadata?.educationLevel || 'HIGH_SCHOOL',
+           county: 'Nairobi'
+         }
+       });
+     }
   }
 
   // Create the session with a UNIQUE room ID
@@ -169,15 +170,18 @@ export async function forceAIFallback(requestId: string) {
       );
       const { data: { user: studentUser } } = await adminClient.auth.admin.getUserById(matchRequest.studentId);
       
-      if (studentUser) {
-        await prisma.user.create({
-          data: {
-            id: matchRequest.studentId,
-            email: studentUser.email || '',
-            name: studentUser.user_metadata?.name || 'Unknown',
-            role: studentUser.user_metadata?.role || 'STUDENT',
-            educationLevel: studentUser.user_metadata?.educationLevel || 'HIGH_SCHOOL'
-          }
+       if (studentUser) {
+         await prisma.user.create({
+           data: {
+             id: matchRequest.studentId,
+             email: studentUser.email || '',
+             name: studentUser.user_metadata?.name || 'Unknown',
+             role: studentUser.user_metadata?.role || 'STUDENT',
+             educationLevel: studentUser.user_metadata?.educationLevel || 'HIGH_SCHOOL',
+             county: 'Nairobi'
+           }
+         });
+       }
         });
       } else {
         throw new Error("Student not found in Supabase");

@@ -2,13 +2,14 @@
 
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Users, GraduationCap, MessageSquare, TrendingUp, Zap, Cpu, ShieldCheck, Activity, Database, Clock, CheckCircle2, AlertTriangle } from "lucide-react";
+import { Users, GraduationCap, MessageSquare, TrendingUp, Zap, Cpu, ShieldCheck, Activity, Database, Clock, CheckCircle2, AlertTriangle, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { AvatarPremium } from "@/components/ui/avatar-premium";
 import Link from "next/link";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import AIChallengeGenerator from "@/components/admin/ai-challenge-generator";
 
 const ICONS = [Users, GraduationCap, MessageSquare, Zap];
 const COLORS = ["text-blue-400", "text-primary", "text-purple-400", "text-orange-400"];
@@ -230,87 +231,99 @@ export function AdminDashboardClient({
           </CardContent>
         </Card>
 
-        {/* Ecosystem Telemetry — Real data only */}
-        <Card className="lg:col-span-3 rounded-[3rem] bg-slate-900 border-white/10 overflow-hidden relative shadow-3xl">
-          <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-transparent pointer-events-none" />
-           <CardHeader className="p-6 sm:p-12 border-b border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-6 sm:gap-8 relative z-10">
-             <div className="flex items-center gap-4 sm:gap-6">
-               <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-[1.5rem] sm:rounded-[2rem] bg-primary/20 flex items-center justify-center border border-primary/30 flex-shrink-0">
-                  <TrendingUp className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
-               </div>
-               <div>
-                 <CardTitle className="text-xl sm:text-3xl font-black text-white tracking-tighter">Platform Numbers</CardTitle>
-                 <CardDescription className="text-white/40 font-medium text-sm sm:text-lg">Where things stand right now.</CardDescription>
-               </div>
-             </div>
-             <div className="flex gap-3 sm:gap-4">
-                <Button onClick={() => { router.push("/admin/users"); }} variant="outline" className="rounded-2xl border-white/10 bg-white/5 text-white font-black text-[9px] sm:text-[10px] uppercase tracking-widest h-12 sm:h-14 px-4 sm:px-8 hover:bg-white/10">
-                   See All Users
-                </Button>
-             </div>
-           </CardHeader>
-          
-           <CardContent className="p-6 sm:p-12 relative z-10">
-              {/* Telemetry Numbers */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 md:gap-16 mb-8 sm:mb-16">
-                 {telemetry.length > 0 ? telemetry.map((t, i) => (
-                   <div key={t.label} className="space-y-2 sm:space-y-4">
-                      <p className="text-[8px] sm:text-[10px] font-black text-white/30 uppercase tracking-[0.2em]">{t.label}</p>
-                      <div className="flex items-baseline gap-2 sm:gap-3">
-                         <h4 className="text-2xl sm:text-4xl md:text-6xl font-black text-white tracking-tighter tabular-nums">
-                            {typeof t.value === "number" ? t.value.toLocaleString() : t.value}
-                         </h4>
-                         <span className="text-emerald-400 font-black text-[9px] sm:text-xs">{t.trend}</span>
-                      </div>
-                   </div>
-                 )) : (
-                   <div className="col-span-4 flex items-center justify-center py-12">
-                     <p className="text-white/20 text-xs font-black uppercase tracking-widest">Telemetry data loading...</p>
-                   </div>
-                 )}
-              </div>
-
-              {/* Bar Chart — proportional to actual data */}
-              <div className="h-48 flex items-end gap-3 sm:gap-4 px-2">
-                 {telemetry.length > 0 ? (
-                   telemetry.map((t, i) => {
-                      const numVal = typeof t.value === "number" ? t.value : 0;
-                      const h = maxTelemetry > 0 ? Math.max((numVal / maxTelemetry) * 100, 5) : 5;
-                      return (
-                       <motion.div 
-                          key={i}
-                          initial={{ height: 0 }}
-                          animate={{ height: `${h}%` }}
-                          transition={{ delay: i * 0.1, duration: 0.8 }}
-                          className="flex-1 bg-gradient-to-t from-primary/50 to-primary/10 rounded-t-lg hover:from-primary hover:to-primary/50 transition-all cursor-crosshair group relative"
-                       >
-                          <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-white text-black text-[8px] font-black py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
-                             {t.label}: {typeof t.value === "number" ? t.value.toLocaleString() : t.value}
-                          </div>
-                       </motion.div>
-                      );
-                   })
-                 ) : (
-                   <div className="w-full h-full flex items-center justify-center">
-                      <p className="text-white/20 text-xs font-black uppercase tracking-widest">No data available</p>
-                   </div>
-                 )}
-              </div>
-              {telemetry.length > 0 && (
-                <div className="flex gap-3 sm:gap-4 mt-3 sm:mt-4 px-2">
-                  {telemetry.map((t, i) => (
-                    <p key={i} className="flex-1 text-[7px] sm:text-[9px] font-black text-white/20 uppercase tracking-wider truncate text-center">
-                      {t.label}
-                    </p>
-                  ))}
+       {/* Ecosystem Telemetry — Real data only */}
+       <Card className="lg:col-span-3 rounded-[3rem] bg-slate-900 border-white/10 overflow-hidden relative shadow-3xl">
+         <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-transparent pointer-events-none" />
+          <CardHeader className="p-6 sm:p-12 border-b border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-6 sm:gap-8 relative z-10">
+              <div className="flex items-center gap-4 sm:gap-6">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-[1.5rem] sm:rounded-[2rem] bg-primary/20 flex items-center justify-center border border-primary/30 flex-shrink-0">
+                   <TrendingUp className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
                 </div>
-              )}
-          </CardContent>
-           <div className="bg-white/5 p-4 sm:p-6 text-center">
-              <p className="text-[8px] sm:text-[10px] font-black text-white/20 uppercase tracking-[0.3em] sm:tracking-[0.5em]">Live data &bull; Updated {new Date().toLocaleTimeString()}</p>
-           </div>
-         </Card>
-       </div>
-     </div>
-   );
+                <div>
+                  <CardTitle className="text-xl sm:text-3xl font-black text-white tracking-tighter">Platform Numbers</CardTitle>
+                  <CardDescription className="text-white/40 font-medium text-sm sm:text-lg">Where things stand right now.</CardDescription>
+                </div>
+              </div>
+              <div className="flex gap-3 sm:gap-4">
+                 <Button onClick={() => { router.push("/admin/users"); }} variant="outline" className="rounded-2xl border-white/10 bg-white/5 text-white font-black text-[9px] sm:text-[10px] uppercase tracking-widest h-12 sm:h-14 px-4 sm:px-8 hover:bg-white/10">
+                    See All Users
+                 </Button>
+              </div>
+            </CardHeader>
+           
+            <CardContent className="p-6 sm:p-12 relative z-10">
+               {/* Telemetry Numbers */}
+               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 md:gap-16 mb-8 sm:mb-16">
+                  {telemetry.length > 0 ? telemetry.map((t, i) => (
+                    <div key={t.label} className="space-y-2 sm:space-y-4">
+                         <p className="text-[8px] sm:text-[10px] font-black text-white/30 uppercase tracking-[0.2em]">{t.label}</p>
+                         <div className="flex items-baseline gap-2 sm:gap-3">
+                            <h4 className="text-2xl sm:text-4xl md:text-6xl font-black text-white tracking-tighter tabular-nums">
+                               {typeof t.value === "number" ? t.value.toLocaleString() : t.value}
+                            </h4>
+                            <span className="text-emerald-400 font-black text-[9px] sm:text-xs">{t.trend}</span>
+                         </div>
+                    </div>
+                  )) : (
+                    <div className="col-span-4 flex items-center justify-center py-12">
+                      <p className="text-white/20 text-xs font-black uppercase tracking-widest">Telemetry data loading...</p>
+                    </div>
+                  )}
+               </div>
+
+               {/* Bar Chart — proportional to actual data */}
+               <div className="h-48 flex items-end gap-3 sm:gap-4 px-2">
+                  {telemetry.length > 0 ? (
+                    telemetry.map((t, i) => {
+                         const numVal = typeof t.value === "number" ? t.value : 0;
+                         const h = maxTelemetry > 0 ? Math.max((numVal / maxTelemetry) * 100, 5) : 5;
+                         return (
+                          <motion.div 
+                             key={i}
+                             initial={{ height: 0 }}
+                             animate={{ height: `${h}%` }}
+                             transition={{ delay: i * 0.1, duration: 0.8 }}
+                             className="flex-1 bg-gradient-to-t from-primary/50 to-primary/10 rounded-t-lg hover:from-primary hover:to-primary/50 transition-all cursor-crosshair group relative"
+                          >
+                             <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-white text-black text-[8px] font-black py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
+                                {t.label}: {typeof t.value === "number" ? t.value.toLocaleString() : t.value}
+                             </div>
+                          </motion.div>
+                       );
+                    })
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                       <p className="text-white/20 text-xs font-black uppercase tracking-widest">No data available</p>
+                    </div>
+                  )}
+               </div>
+               {telemetry.length > 0 && (
+                 <div className="flex gap-3 sm:gap-4 mt-3 sm:mt-4 px-2">
+                   {telemetry.map((t, i) => (
+                     <p key={i} className="flex-1 text-[7px] sm:text-[9px] font-black text-white/20 uppercase tracking-wider truncate text-center">
+                       {t.label}
+                     </p>
+                   ))}
+                 </div>
+               )}
+           </CardContent>
+            <div className="bg-white/5 p-4 sm:p-6 text-center">
+               <p className="text-[8px] sm:text-[10px] font-black text-white/20 uppercase tracking-[0.3em] sm:tracking-[0.5em]">Live data &bull; Updated {new Date().toLocaleTimeString()}</p>
+            </div>
+          </Card>
+        </div>
+
+        {/* AI Challenge Generator Section */}
+        <div className="mt-10">
+          <div className="flex items-center gap-3 mb-6">
+            <Sparkles className="h-6 w-6 text-orange-500" />
+            <div>
+              <h2 className="text-2xl font-black tracking-tight">AI Content Generation</h2>
+              <p className="text-sm text-muted-foreground">Generate challenges and educational content using AI</p>
+            </div>
+          </div>
+          <AIChallengeGenerator />
+        </div>
+      </div>
+    );
 }

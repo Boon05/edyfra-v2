@@ -9,6 +9,7 @@ interface ChallengeGenerationRequest {
   subject?: string; // specific subject like Physics, Computer Science, etc.
   topic?: string; // specific topic within the subject
   count?: number; // number of challenges to generate (default 1)
+  scheduledDate?: string; // optional date to schedule challenge for
 }
 
 interface GeneratedChallenge {
@@ -36,18 +37,18 @@ export async function generateChallenges(request: ChallengeGenerationRequest): P
       throw new Error("AI API key not configured. Please add it in Admin Settings.");
     }
 
-    const { level, subject, topic, count = 1 } = request;
+    const { level, subject, topic, count = 1, scheduledDate } = request;
     
     // Construct the prompt
     const levelText = level === "UNIVERSITY" ? "university level" : "high school level";
     const subjectText = subject ? ` in ${subject}` : "";
     const topicText = topic ? ` focusing on ${topic}` : "";
     
-    const prompt = `Generate ${count} multiple-choice challenge${count > 1 ? 's' : ''} for ${levelText} students${subjectText}${topicText}. 
+    const prompt = `Generate ${count} fun, engaging, and educational multiple-choice challenge${count > 1 ? 's' : ''} for ${levelText} students${subjectText}${topicText}. 
 
 For each challenge, provide:
-1. A clear, academic question
-2. Exactly 4 options (A, B, C, D)
+1. A clear, interesting question that makes students think logically
+2. Exactly 4 options (A, B, C, D) - make distractors plausible but clearly wrong
 3. The correct answer (just the letter: A, B, C, or D)
 4. A brief, educational explanation of why the answer is correct
 
@@ -57,10 +58,15 @@ Format the response as a JSON array of objects with these fields:
 - "answer": the correct option letter (A, B, C, or D)
 - "explanation": brief explanation
 
-Make the questions educational, engaging, and appropriate for Kenyan curriculum. Include practical examples where relevant.`;
+Make the questions:
+- Educational and aligned with Kenyan curriculum
+- Fun and engaging with real-world scenarios
+- Logical and thought-provoking
+- Appropriate for the education level
+- Include practical examples where relevant`;
 
     // Call AI service
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -71,7 +77,7 @@ Make the questions educational, engaging, and appropriate for Kenyan curriculum.
           temperature: 0.7,
           topK: 40,
           topP: 0.95,
-          maxOutputTokens: 1024,
+          maxOutputTokens: 2048,
         }
       })
     });
@@ -93,42 +99,55 @@ Make the questions educational, engaging, and appropriate for Kenyan curriculum.
     try {
       // Extract JSON from the response (it might be wrapped in markdown code blocks)
       const jsonMatch = generatedText.match(/```json\n([\s\S]*?)\n```/) || 
-                         generatedText.match(/\[([\s\S]*?)\]/);
+                         generatedText.match(/\[([\s\S]*?)\]/) ||
+                         generatedText.match(/\{[\s\S]*\}/);
       
-      const jsonString = jsonMatch ? jsonMatch[1] || jsonMatch[0] : generatedText;
+      let jsonString = jsonMatch ? (jsonMatch[1] || jsonMatch[0]) : generatedText;
+      
+      // If it's a single object, wrap in array
+      if (!jsonString.trim().startsWith('[')) {
+        jsonString = `[${jsonString}]`;
+      }
+      
       challenges = JSON.parse(jsonString);
     } catch (parseError) {
       console.error("Failed to parse AI response:", parseError);
       throw new Error("Failed to parse AI-generated challenges");
     }
 
+    // Determine the base date for challenges
+    const baseDate = scheduledDate ? new Date(scheduledDate) : new Date();
+    baseDate.setHours(0, 0, 0, 0);
+
     // Validate and save challenges to database
     const savedChallenges = await Promise.all(
       challenges.map(async (challenge: GeneratedChallenge, index: number) => {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        const challengeDate = new Date(baseDate);
+        challengeDate.setDate(challengeDate.getDate() + index);
 
         return await prisma.dailyChallenge.create({
           data: {
-            subject: subject || "General",
+            subject: subject || challenge.subject || "General",
             level: level as any,
             question: challenge.question,
             options: challenge.options,
             answer: challenge.answer,
             explanation: challenge.explanation,
-            date: new Date(today.getTime() + index * 24 * 60 * 60 * 1000) // Spread over future days if multiple
+            date: challengeDate
           }
         });
       })
     );
 
     return savedChallenges.map(c => ({
+      id: c.id,
       subject: c.subject,
       level: c.level,
       question: c.question,
       options: c.options as string[],
       answer: c.answer,
-      explanation: c.explanation
+      explanation: c.explanation,
+      date: c.date.toISOString()
     }));
   } catch (error) {
     console.error("Error generating challenges:", error);
