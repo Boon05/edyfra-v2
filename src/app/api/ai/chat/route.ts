@@ -5,7 +5,19 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { sessionId, message, subject, topic } = await req.json();
+    const body = await req.json();
+    const { sessionId, subject, topic } = body;
+    
+    // Handle message - could be string or object with clipboard data
+    let messageText = "";
+    if (typeof body.message === 'string') {
+      messageText = body.message;
+    } else if (body.message && typeof body.message === 'object') {
+      // Extract text from message object, ignore clipboard/images
+      messageText = body.message.text || body.message.content || JSON.stringify(body.message);
+    } else {
+      messageText = String(body.message || '');
+    }
 
     // 1. Check for Dynamic API Key from Admin Settings
     const adminUser = await prisma.user.findFirst({
@@ -22,7 +34,6 @@ export async function POST(req: Request) {
     }
     
 
-
     const ai = new AIService({
       provider: "google",
       apiKey: googleAiKey,
@@ -33,7 +44,7 @@ export async function POST(req: Request) {
           Keep your responses concise and helpful.`,
     });
 
-    const aiMessage = await ai.generateResponse(message);
+    const aiMessage = await ai.generateResponse(messageText);
 
     const savedMessage = await prisma.message.create({
       data: {
