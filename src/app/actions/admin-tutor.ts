@@ -67,33 +67,37 @@ export async function getAllTutorsWithDetails() {
     }
 
     // Get all users with TUTOR role
-    const tutors = await prisma.user.findMany({
-      where: { role: Role.TUTOR },
-      include: {
-        tutorProfile: true,
-        tutorApplication: {
-          orderBy: { createdAt: "desc" },
-          take: 1
-        }
-      },
-      orderBy: { createdAt: "desc" }
-    });
+     const tutors = await prisma.user.findMany({
+       where: { role: Role.TUTOR },
+       include: {
+         tutorProfile: true,
+         tutorApplication: true
+       },
+       orderBy: { createdAt: "desc" }
+     });
 
-     // Transform to match the expected format in the UI
-     return tutors.map((tutor: any) => ({
-       id: tutor.tutorApplication?.[0]?.id || tutor.id,
-       status: tutor.tutorApplication?.[0]?.status || "APPROVED",
-       createdAt: tutor.tutorApplication?.[0]?.createdAt || tutor.createdAt,
-       subjects: tutor.tutorProfile?.subjects || [],
-       path: tutor.tutorApplication?.[0]?.path || "Direct Registration",
-       notes: tutor.tutorProfile?.bio || "",
-       userId: tutor.id,
-       user: {
-         name: tutor.name,
-         educationLevel: tutor.educationLevel,
-         email: tutor.email
-       }
-     }));
+    // Transform to match the expected format in the UI
+    return tutors.map((tutor: any) => {
+      // Get the most recent tutor application
+      const latestApp = tutor.tutorApplication
+        ?.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0]
+        || null;
+      
+      return {
+        id: latestApp?.id || tutor.id,
+        status: latestApp?.status || "APPROVED",
+        createdAt: latestApp?.createdAt || tutor.createdAt,
+        subjects: tutor.tutorProfile?.subjects || [],
+        path: latestApp?.path || "Direct Registration",
+        notes: tutor.tutorProfile?.bio || "",
+        userId: tutor.id,
+        user: {
+          name: tutor.name,
+          educationLevel: tutor.educationLevel,
+          email: tutor.email
+        }
+      };
+    });
   } catch (error) {
     console.error("Error fetching all tutors:", error);
     return [];

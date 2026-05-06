@@ -7,6 +7,57 @@ import { revalidatePath } from "next/cache";
 
 const ADMIN_SECRET_KEY = process.env.ADMIN_SECRET_KEY || "EDYFRA_MASTER_2024";
 
+// Helper function to check if a user is admin
+async function isAdmin(userId: string): Promise<boolean> {
+  try {
+    // First check Prisma database
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { role: true }
+    });
+    
+    if (user?.role === Role.ADMIN) return true;
+    
+    // Fallback to Supabase metadata - get user directly from Supabase
+    try {
+      const { createClient: createAdminClient } = await import("@supabase/supabase-js");
+      const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+      
+      if (serviceRoleKey) {
+        const adminClient = createAdminClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          serviceRoleKey,
+          { auth: { autoRefreshToken: false, persistSession: false } }
+        );
+        
+        const { data: { user: sbUser } } = await adminClient.auth.admin.getUserById(userId);
+        if (sbUser?.user_metadata?.role === "ADMIN") {
+           // Sync role to Prisma
+           await prisma.user.upsert({
+             where: { id: userId },
+             update: { role: Role.ADMIN },
+             create: {
+               id: userId,
+               email: sbUser.email || '',
+               name: sbUser.user_metadata?.name || 'Admin',
+               role: Role.ADMIN,
+               educationLevel: 'UNIVERSITY',
+               county: 'Nairobi'
+             }
+           });
+          return true;
+        }
+      }
+    } catch (sbError) {
+      console.error("Supabase admin check failed:", sbError);
+    }
+    
+    return false;
+  } catch {
+    return false;
+  }
+}
+
 // --- AUTH & SETUP ---
 
 export async function registerAdmin(formData: any) {
@@ -19,21 +70,23 @@ export async function registerAdmin(formData: any) {
   });
 
   if (authError) return { error: authError.message };
+  if (!authData.user) return { error: "Failed to create user in Supabase" };
   
-  try {
-    await prisma.user.upsert({
-      where: { id: authData.user!.id },
-      update: { role: Role.ADMIN },
-      create: {
-        id: authData.user!.id,
-        email, name, role: Role.ADMIN,
-        educationLevel: "UNIVERSITY",
-        county: "Nairobi",
-      }
-    });
+   try {
+     await prisma.user.upsert({
+       where: { id: authData.user.id },
+       update: { role: Role.ADMIN },
+       create: {
+         id: authData.user.id,
+         email, name, role: Role.ADMIN,
+         educationLevel: "UNIVERSITY",
+         county: "Nairobi",
+       }
+     });
     return { success: true };
   } catch (err) {
-    return { error: "Prisma creation failed." };
+    console.error("Prisma error in registerAdmin:", err);
+    return { error: `Database error: ${err instanceof Error ? err.message : 'Unknown error'}` };
   }
 }
 
@@ -80,16 +133,18 @@ export async function deleteUser(userId: string) {
     const { data: { user: admin } } = await supabase.auth.getUser();
     
     if (!admin) {
-      throw new Error("Unauthorized: No admin user found");
+      return { error: "Unauthorized: No admin user found" };
     }
 
-    // Check if user is admin by looking in Prisma
-    const adminUser = await prisma.user.findUnique({
-      where: { id: admin.id }
-    });
+    // Check if user is admin using helper
+    const adminCheck = await isAdmin(admin.id);
+    if (!adminCheck) {
+      return { error: "Unauthorized: Admin access required" };
+    }
 
-    if (!adminUser || adminUser.role !== Role.ADMIN) {
-      throw new Error("Unauthorized: Admin access required");
+    // Prevent deleting yourself
+    if (userId === admin.id) {
+      return { error: "Cannot delete your own admin account" };
     }
 
     // 1. Delete from Prisma first
@@ -106,17 +161,18 @@ export async function deleteUser(userId: string) {
           { auth: { autoRefreshToken: false, persistSession: false } }
         );
         await adminClient.auth.admin.deleteUser(userId);
-      } catch (supabaseError) {
+      } catch (supabaseError: any) {
         console.error("Failed to delete from Supabase Auth:", supabaseError);
         // Continue anyway - Prisma deletion was successful
+        // But notify via console
       }
     }
 
     revalidatePath("/admin/users");
     return { success: true };
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error in deleteUser:", error);
-    throw new Error("Failed to delete user");
+    return { error: error.message || "Failed to delete user" };
   }
 }
 
@@ -126,16 +182,13 @@ export async function updateUserRoleAdmin(userId: string, role: Role) {
     const { data: { user: admin } } = await supabase.auth.getUser();
     
     if (!admin) {
-      throw new Error("Unauthorized: No admin user found");
+      return { error: "Unauthorized: No admin user found" };
     }
 
-    // Check if user is admin by looking in Prisma
-    const adminUser = await prisma.user.findUnique({
-      where: { id: admin.id }
-    });
-
-    if (!adminUser || adminUser.role !== Role.ADMIN) {
-      throw new Error("Unauthorized: Admin access required");
+    // Check if user is admin using helper
+    const adminCheck = await isAdmin(admin.id);
+    if (!adminCheck) {
+      return { error: "Unauthorized: Admin access required" };
     }
 
     await prisma.user.update({
@@ -145,49 +198,68 @@ export async function updateUserRoleAdmin(userId: string, role: Role) {
 
     revalidatePath("/admin/users");
     return { success: true };
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error in updateUserRoleAdmin:", error);
-    throw new Error("Failed to update user role");
+    return { error: error.message || "Failed to update user role" };
   }
 }
 
 // --- SESSION MANAGEMENT ---
 
 export async function getActiveSessions() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user || user.user_metadata?.role !== "ADMIN") throw new Error("Unauthorized");
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user || !(await isAdmin(user.id))) {
+      return [];
+    }
 
-  return await prisma.session.findMany({
-    where: { status: "ACTIVE" },
-    orderBy: { startedAt: "desc" }
-  });
+    return await prisma.session.findMany({
+      where: { status: "ACTIVE" },
+      orderBy: { startedAt: "desc" }
+    });
+  } catch (error) {
+    console.error("Error in getActiveSessions:", error);
+    return [];
+  }
 }
 
 export async function closeSession(sessionId: string) {
-  const supabase = await createClient();
-  const { data: { user: admin } } = await supabase.auth.getUser();
-  if (!admin || admin.user_metadata?.role !== "ADMIN") throw new Error("Unauthorized");
-
-  await prisma.session.update({
-    where: { id: sessionId },
-    data: { 
-      status: "COMPLETED",
-      endedAt: new Date()
+  try {
+    const supabase = await createClient();
+    const { data: { user: admin } } = await supabase.auth.getUser();
+    
+    if (!admin || !(await isAdmin(admin.id))) {
+      return { error: "Unauthorized: Admin access required" };
     }
-  });
-  revalidatePath("/admin/sessions");
-  return { success: true };
+
+    await prisma.session.update({
+      where: { id: sessionId },
+      data: { 
+        status: "COMPLETED",
+        endedAt: new Date()
+      }
+    });
+    revalidatePath("/admin/sessions");
+    return { success: true };
+  } catch (error: any) {
+    console.error("Error in closeSession:", error);
+    return { error: error.message || "Failed to close session" };
+  }
 }
 
 // --- TUTOR VERIFICATION ---
 
 export async function getTutorApplications() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user || user.user_metadata?.role !== "ADMIN") throw new Error("Unauthorized");
-
   try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user || !(await isAdmin(user.id))) {
+      return [];
+    }
+
     return await (prisma.tutorApplication as any).findMany({
       where: { status: "PENDING" },
       include: { user: true },
@@ -200,91 +272,122 @@ export async function getTutorApplications() {
 }
 
 export async function approveTutorApplication(applicationId: string) {
-  const supabase = await createClient();
-  const { data: { user: admin } } = await supabase.auth.getUser();
-  if (!admin || admin.user_metadata?.role !== "ADMIN") throw new Error("Unauthorized");
-
-  const app = await prisma.tutorApplication.findUnique({ where: { id: applicationId } });
-  if (!app) throw new Error("App not found");
-
-  await prisma.user.update({ where: { id: app.userId }, data: { role: Role.TUTOR } });
-  await prisma.tutorProfile.upsert({
-    where: { userId: app.userId },
-    create: {
-      userId: app.userId, subjects: app.subjects, verificationPath: app.path,
-      hourlyRate: 500, bio: app.notes || "", isVerified: true, verifiedAt: new Date(),
-      availability: { isOnline: false }
-    },
-    update: { isVerified: true, verifiedAt: new Date() }
-  });
-
-  await (prisma.tutorApplication as any).update({ where: { id: applicationId }, data: { status: "APPROVED" } });
-
-  // Update Supabase auth user metadata to reflect TUTOR role
   try {
-    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-    if (serviceRoleKey) {
-      const { createClient: createAdminClient } = await import("@supabase/supabase-js");
-      const adminClient = createAdminClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        serviceRoleKey,
-        { auth: { autoRefreshToken: false, persistSession: false } }
-      );
-      await adminClient.auth.admin.updateUserById(app.userId, {
-        user_metadata: { role: "TUTOR" }
-      });
+    const supabase = await createClient();
+    const { data: { user: admin } } = await supabase.auth.getUser();
+    
+    if (!admin || !(await isAdmin(admin.id))) {
+      return { error: "Unauthorized: Admin access required" };
     }
-  } catch (e) {
-    console.error("Failed to update Supabase user metadata:", e);
-  }
 
-  // Add Notification
-  try {
-    await (prisma.notification as any).create({
-      data: {
-        userId: app.userId,
-        type: "TUTOR_APPROVED",
-        title: "Application Approved!",
-        body: "Congratulations! Your expert dashboard has been activated.",
-        actionUrl: "/tutor"
-      }
+    const app = await prisma.tutorApplication.findUnique({ where: { id: applicationId } });
+    if (!app) return { error: "Application not found" };
+
+    await prisma.user.update({ where: { id: app.userId }, data: { role: Role.TUTOR } });
+    await prisma.tutorProfile.upsert({
+      where: { userId: app.userId },
+      create: {
+        userId: app.userId, subjects: app.subjects, verificationPath: app.path,
+        hourlyRate: 500, bio: app.notes || "", isVerified: true, verifiedAt: new Date(),
+        availability: { isOnline: false }
+      },
+      update: { isVerified: true, verifiedAt: new Date() }
     });
-  } catch (e) {
-    console.error("Failed to send notification:", e);
-  }
 
-  revalidatePath("/admin/tutors");
-  return { success: true };
+    await (prisma.tutorApplication as any).update({ where: { id: applicationId }, data: { status: "APPROVED" } });
+
+    // Update Supabase auth user metadata to reflect TUTOR role
+    try {
+      const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+      if (serviceRoleKey) {
+        const { createClient: createAdminClient } = await import("@supabase/supabase-js");
+        const adminClient = createAdminClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          serviceRoleKey,
+          { auth: { autoRefreshToken: false, persistSession: false } }
+        );
+        await adminClient.auth.admin.updateUserById(app.userId, {
+          user_metadata: { role: "TUTOR" }
+        });
+      }
+    } catch (e) {
+      console.error("Failed to update Supabase user metadata:", e);
+    }
+
+    // Add Notification
+    try {
+      await (prisma.notification as any).create({
+        data: {
+          userId: app.userId,
+          type: "TUTOR_APPROVED",
+          title: "Application Approved!",
+          body: "Congratulations! Your expert dashboard has been activated.",
+          actionUrl: "/tutor"
+        }
+      });
+    } catch (e) {
+      console.error("Failed to send notification:", e);
+    }
+
+    revalidatePath("/admin/tutors");
+    return { success: true };
+  } catch (error: any) {
+    console.error("Error in approveTutorApplication:", error);
+    return { error: error.message || "Failed to approve application" };
+  }
 }
 
 // --- ADVANCED TERMINAL ---
 
 export async function resetAllSessions() {
-  const supabase = await createClient();
-  const { data: { user: admin } } = await supabase.auth.getUser();
-  if (!admin || admin.user_metadata?.role !== "ADMIN") throw new Error("Unauthorized");
+  try {
+    const supabase = await createClient();
+    const { data: { user: admin } } = await supabase.auth.getUser();
+    
+    if (!admin || !(await isAdmin(admin.id))) {
+      return { error: "Unauthorized: Admin access required" };
+    }
 
-  await prisma.session.deleteMany({});
-  revalidatePath("/admin/sessions");
-  return { success: true };
+    // Delete messages first to avoid foreign key violation
+    await prisma.message.deleteMany({});
+    // Then delete all sessions
+    await prisma.session.deleteMany({});
+    
+    revalidatePath("/admin/sessions");
+    return { success: true };
+  } catch (error: any) {
+    console.error("Error in resetAllSessions:", error);
+    return { error: error.message || "Failed to reset sessions" };
+  }
 }
 
 export async function clearGlobalCache() {
-  const supabase = await createClient();
-  const { data: { user: admin } } = await supabase.auth.getUser();
-  if (!admin || admin.user_metadata?.role !== "ADMIN") throw new Error("Unauthorized");
+  try {
+    const supabase = await createClient();
+    const { data: { user: admin } } = await supabase.auth.getUser();
+    
+    if (!admin || !(await isAdmin(admin.id))) {
+      return { error: "Unauthorized: Admin access required" };
+    }
 
-  // In a real app, this would clear Redis or Vercel Data Cache
-  // For now, we'll revalidate all main paths
-  revalidatePath("/", "layout");
-  return { success: true };
+    // In a real app, this would clear Redis or Vercel Data Cache
+    // For now, we'll revalidate all main paths
+    revalidatePath("/", "layout");
+    return { success: true };
+  } catch (error: any) {
+    console.error("Error in clearGlobalCache:", error);
+    return { error: error.message || "Failed to clear cache" };
+  }
 }
 
 export async function saveAdminGlobalSettings(settings: any) {
   try {
     const supabase = await createClient();
     const { data: { user: admin } } = await supabase.auth.getUser();
-    if (!admin || admin.user_metadata?.role !== "ADMIN") throw new Error("Unauthorized");
+    
+    if (!admin || !(await isAdmin(admin.id))) {
+      return { error: "Unauthorized: Admin access required" };
+    }
 
     // We store global settings in the current admin's settings JSON
     // The AI services will look for an ADMIN user to find these settings
@@ -297,9 +400,9 @@ export async function saveAdminGlobalSettings(settings: any) {
 
     revalidatePath("/admin/settings");
     return { success: true };
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error saving global settings:", error);
-    throw error;
+    return { error: error.message || "Failed to save settings" };
   }
 }
 
@@ -307,7 +410,10 @@ export async function getAdminGlobalSettings() {
   try {
     const supabase = await createClient();
     const { data: { user: admin } } = await supabase.auth.getUser();
-    if (!admin || admin.user_metadata?.role !== "ADMIN") throw new Error("Unauthorized");
+    
+    if (!admin || !(await isAdmin(admin.id))) {
+      return {};
+    }
 
     const adminData = await prisma.user.findUnique({
       where: { id: admin.id },
@@ -324,11 +430,32 @@ export async function getAdminGlobalSettings() {
 // --- DASHBOARD METRICS ---
 
 export async function getAdminDashboardMetrics() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user || user.user_metadata?.role !== "ADMIN") throw new Error("Unauthorized");
-
   try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user || !(await isAdmin(user.id))) {
+      // Return safe fallback data
+      return {
+        mainStats: [
+          { label: "Total Scholars", value: 0, trend: "UNAUTHORIZED" },
+          { label: "Active Mentors", value: 0, trend: "UNAUTHORIZED" },
+          { label: "Syncing Rooms", value: 0, trend: "UNAUTHORIZED" },
+          { label: "Knowledge Points", value: 0, trend: "UNAUTHORIZED" },
+        ],
+        telemetry: [
+          { label: "Students", value: 0, trend: "UNAVAILABLE" },
+          { label: "Tutors", value: 0, trend: "UNAVAILABLE" },
+          { label: "Completion %", value: 0, trend: "UNAVAILABLE" },
+          { label: "Avg Points", value: 0, trend: "UNAVAILABLE" }
+        ],
+        pendingAppsCount: 0,
+        completedSessions: 0,
+        recentUsers: [],
+        systemLoad: 0,
+      };
+    }
+
     const [
       totalUsers, 
       studentCount, 
@@ -352,14 +479,6 @@ export async function getAdminDashboardMetrics() {
         select: { id: true, name: true, role: true, createdAt: true }
       }).catch(() => [])
     ]);
-
-    // Generate growth telemetry
-    const telemetry = [
-      { label: "Live Scholars", value: studentCount, trend: "SYNCED" },
-      { label: "Expert Velocity", value: tutorCount > 0 ? (completedSessions / tutorCount).toFixed(1) : 0, trend: "ACTIVE" },
-      { label: "Global Uptime", value: "99.98%", trend: "OPTIMAL" },
-      { label: "Sync Latency", value: "14ms", trend: "FAST" }
-    ];
 
     const totalActivePoints = totalPoints._sum?.points || 0;
     const avgPointsPerUser = totalUsers > 0 ? Math.round(totalActivePoints / totalUsers) : 0;
@@ -390,10 +509,10 @@ export async function getAdminDashboardMetrics() {
     // Return safe fallback data to keep dashboard functional
     return {
       mainStats: [
-        { label: "Total Scholars", value: 0, trend: "N/A" },
-        { label: "Active Mentors", value: 0, trend: "N/A" },
-        { label: "Syncing Rooms", value: 0, trend: "N/A" },
-        { label: "Knowledge Points", value: 0, trend: "N/A" },
+        { label: "Total Scholars", value: 0, trend: "ERROR" },
+        { label: "Active Mentors", value: 0, trend: "ERROR" },
+        { label: "Syncing Rooms", value: 0, trend: "ERROR" },
+        { label: "Knowledge Points", value: 0, trend: "ERROR" },
       ],
       telemetry: [
         { label: "Students", value: 0, trend: "UNAVAILABLE" },

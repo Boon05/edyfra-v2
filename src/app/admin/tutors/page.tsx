@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { getTutorApplicationsWithDetails, approveTutorApplicationEnhanced, rejectTutorApplication } from "@/app/actions/admin-tutor";
+import { getTutorApplicationsWithDetails, getAllTutorsWithDetails, approveTutorApplicationEnhanced, rejectTutorApplication } from "@/app/actions/admin-tutor";
 
 export default function AdminTutorsPage() {
   type TutorApplication = {
@@ -31,25 +31,33 @@ export default function AdminTutorsPage() {
   };
   
   const [applications, setApplications] = useState<TutorApplication[]>([]);
+  const [allTutors, setAllTutors] = useState<TutorApplication[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [showAllTutors, setShowAllTutors] = useState(false);
 
   useEffect(() => {
-    fetchApplications();
+    fetchData();
   }, []);
 
-  const fetchApplications = async () => {
+  const fetchData = async () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await getTutorApplicationsWithDetails();
-      setApplications(data || []);
+      // Fetch both pending applications and all tutors
+      const [pendingApps, allTutorsData] = await Promise.all([
+        getTutorApplicationsWithDetails(),
+        getAllTutorsWithDetails()
+      ]);
+      
+      setApplications(pendingApps || []);
+      setAllTutors(allTutorsData || []);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Failed to load applications.";
+      const errorMessage = err instanceof Error ? err.message : "Failed to load tutor data.";
       setError(errorMessage);
       toast.error(errorMessage);
-      console.error("Error fetching applications:", err);
+      console.error("Error fetching tutor data:", err);
     } finally {
       setLoading(false);
     }
@@ -60,7 +68,7 @@ export default function AdminTutorsPage() {
       const result = await approveTutorApplicationEnhanced(id);
       if (result.success) {
         toast.success("Expert dashboard activated successfully!");
-        fetchApplications();
+        fetchData();
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Approval failed due to an unknown error.";
@@ -75,7 +83,7 @@ export default function AdminTutorsPage() {
       const result = await rejectTutorApplication(id, reason);
       if (result.success) {
         toast.success("Application rejected.");
-        fetchApplications();
+        fetchData();
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Rejection failed due to an unknown error.";
@@ -84,7 +92,9 @@ export default function AdminTutorsPage() {
     }
   };
 
-  const filteredApps = applications.filter(app => {
+  const displayData = showAllTutors ? allTutors : applications;
+  
+  const filteredApps = displayData.filter(app => {
     const searchLower = search.toLowerCase();
     if (!search) return true;
     
@@ -111,10 +121,10 @@ export default function AdminTutorsPage() {
               <div>
                 <h3 className="text-xl font-bold text-red-500">Connection Error</h3>
                 <p className="text-muted-foreground mt-2">{error}</p>
-                <Button 
-                  onClick={fetchApplications} 
-                  className="mt-4 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white"
-                >
+                 <Button 
+                   onClick={fetchData} 
+                   className="mt-4 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white"
+                 >
                   <Loader2 className="h-4 w-4 mr-2" /> Retry Connection
                 </Button>
               </div>
@@ -129,17 +139,28 @@ export default function AdminTutorsPage() {
     <div className="space-y-10 animate-in fade-in duration-500">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <h1 className="text-5xl font-black tracking-tighter">Verification Desk</h1>
-          <p className="text-muted-foreground text-sm font-bold tracking-widest uppercase italic">Audit and authorize educational experts for the community.</p>
+          <h1 className="text-5xl font-black tracking-tighter">Tutor Management</h1>
+          <p className="text-muted-foreground text-sm font-bold tracking-widest uppercase italic">
+            {showAllTutors ? "View all registered tutors" : "Audit and authorize educational experts"}
+          </p>
         </div>
-        <div className="relative w-full md:w-96">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input 
-            placeholder="Search by name, subject, or email..." 
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-white/5 border border-white/5 rounded-2xl py-5 pl-12 pr-4 text-sm font-bold focus:outline-none focus:border-primary/50"
-          />
+        <div className="flex gap-4">
+          <Button
+            onClick={() => setShowAllTutors(!showAllTutors)}
+            variant="outline"
+            className="rounded-xl font-black text-xs tracking-widest"
+          >
+            {showAllTutors ? "Show Pending" : "Show All Tutors"} ({showAllTutors ? allTutors.length : applications.length})
+          </Button>
+          <div className="relative w-full md:w-96">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <input 
+              placeholder="Search by name, subject, or email..." 
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full bg-white/5 border border-white/5 rounded-2xl py-5 pl-12 pr-4 text-sm font-bold focus:outline-none focus:border-primary/50"
+            />
+          </div>
         </div>
       </div>
 

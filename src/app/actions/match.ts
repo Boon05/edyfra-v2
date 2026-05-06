@@ -76,6 +76,27 @@ export async function acceptMatchRequest(requestId: string) {
   
   const tier = userData?.role === "TUTOR" ? "TUTOR" : "PEER";
 
+  // Ensure student exists in Prisma
+  const studentExists = await prisma.user.findUnique({
+    where: { id: matchRequest.studentId }
+  });
+  
+  if (!studentExists) {
+    // Create student in Prisma if they don't exist
+    const { data: { user: studentUser } } = await supabase.auth.admin.getUserById(matchRequest.studentId);
+    if (studentUser) {
+      await prisma.user.create({
+        data: {
+          id: matchRequest.studentId,
+          email: studentUser.email || '',
+          name: studentUser.user_metadata?.name || 'Unknown',
+          role: studentUser.user_metadata?.role || 'STUDENT',
+          educationLevel: studentUser.user_metadata?.educationLevel || 'HIGH_SCHOOL'
+        }
+      });
+    }
+  }
+
   // Create the session with a UNIQUE room ID
   const roomId = `room-${requestId}-${Math.random().toString(36).substring(2, 7)}`;
   const session = await prisma.session.create({
@@ -130,6 +151,41 @@ export async function forceAIFallback(requestId: string) {
 
   if (!matchRequest || matchRequest.sessionId) {
     return { success: false, message: "Already matched or not found" };
+  }
+
+  // Ensure student exists in Prisma
+  const studentExists = await prisma.user.findUnique({
+    where: { id: matchRequest.studentId }
+  });
+  
+  if (!studentExists) {
+    // Need to get user from Supabase and create in Prisma
+    try {
+      const { createClient: createAdminClient } = await import("@supabase/supabase-js");
+      const adminClient = createAdminClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!,
+        { auth: { autoRefreshToken: false, persistSession: false } }
+      );
+      const { data: { user: studentUser } } = await adminClient.auth.admin.getUserById(matchRequest.studentId);
+      
+      if (studentUser) {
+        await prisma.user.create({
+          data: {
+            id: matchRequest.studentId,
+            email: studentUser.email || '',
+            name: studentUser.user_metadata?.name || 'Unknown',
+            role: studentUser.user_metadata?.role || 'STUDENT',
+            educationLevel: studentUser.user_metadata?.educationLevel || 'HIGH_SCHOOL'
+          }
+        });
+      } else {
+        throw new Error("Student not found in Supabase");
+      }
+    } catch (err) {
+      console.error("Failed to create student in Prisma:", err);
+      return { success: false, message: "Failed to create student record" };
+    }
   }
 
   // Create the AI session
