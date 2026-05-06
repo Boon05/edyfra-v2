@@ -157,8 +157,7 @@ export async function searchTutors(query: string) {
       where: {
         role: Role.TUTOR,
         tutorProfile: {
-          isNot: null,
-          isVerified: true
+          isNot: null
         },
         OR: [
           { name: { contains: normalizedQuery, mode: "insensitive" } },
@@ -183,6 +182,20 @@ export async function searchTutors(query: string) {
         { tutorProfile: { rating: "desc" } },
         { createdAt: "desc" }
       ]
+    });
+  } catch (error) {
+    console.error("Error in searchTutors:", error);
+    return [];
+  }
+}
+               }
+             },
+             {
+               county: { contains: normalizedQuery, mode: "insensitive" }
+             }
+           ]
+         }
+       })
     });
   } catch (error) {
     console.error("Error in searchTutors:", error);
