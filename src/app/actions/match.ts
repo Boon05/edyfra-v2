@@ -4,8 +4,8 @@ import prisma from "@/lib/prisma";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
-import { MatchTier, SessionStatus } from "@prisma/client";
 
+// Create a match request (student side)
 export async function createMatchRequest(data: { subject: string; topic: string }) {
   const cookieStore = await cookies();
   const supabase = createServerClient(
@@ -27,7 +27,6 @@ export async function createMatchRequest(data: { subject: string; topic: string 
     throw new Error("Unauthorized");
   }
 
-  // Create the request in Prisma
   const matchRequest = await prisma.matchRequest.create({
     data: {
       studentId: user.id,
@@ -40,6 +39,7 @@ export async function createMatchRequest(data: { subject: string; topic: string 
   return { success: true, matchRequestId: matchRequest.id };
 }
 
+// Accept a match request (tutor side)
 export async function acceptMatchRequest(requestId: string) {
   const cookieStore = await cookies();
   const supabase = createServerClient(
@@ -69,52 +69,44 @@ export async function acceptMatchRequest(requestId: string) {
     throw new Error("Request already matched or not found");
   }
 
-  const userData = await prisma.user.findUnique({ 
-    where: { id: user.id },
-    include: { tutorProfile: true }
-  });
-  
-  const tier = userData?.role === "TUTOR" ? "TUTOR" : "PEER";
-  
   // Ensure student exists in Prisma
   const studentExists = await prisma.user.findUnique({
     where: { id: matchRequest.studentId }
   });
-  
+
   if (!studentExists) {
-     try {
-       // Create student in Prisma if they don't exist
-       const { data: { user: studentUser } } = await supabase.auth.admin.getUserById(matchRequest.studentId);
-       if (studentUser) {
-         await prisma.user.create({
-           data: {
-             id: matchRequest.studentId,
-             email: studentUser.email || '',
-             name: studentUser.user_metadata?.name || 'Unknown',
-             role: studentUser.user_metadata?.role || 'STUDENT',
-             educationLevel: studentUser.user_metadata?.educationLevel || 'HIGH_SCHOOL',
-             county: 'Nairobi'
-           }
-         });
-       }
-     } catch (err) {
-       console.error("Failed to create student in Prisma:", err);
-     }
-          });
-        }
+    try {
+      const { data: { user: studentUser } } = await supabase.auth.admin.getUserById(matchRequest.studentId);
+      if (studentUser) {
+        await prisma.user.create({
+          data: {
+            id: matchRequest.studentId,
+            email: studentUser.email || '',
+            name: studentUser.user_metadata?.name || 'Unknown',
+            role: studentUser.user_metadata?.role || 'STUDENT',
+            educationLevel: studentUser.user_metadata?.educationLevel || 'HIGH_SCHOOL'
+          }
+        });
       }
     } catch (err) {
       console.error("Failed to create student in Prisma:", err);
     }
   }
 
-  // Create the session with a UNIQUE room ID
+  const userData = await prisma.user.findUnique({ 
+    where: { id: user.id },
+    include: { tutorProfile: true }
+  });
+
+  const tier = userData?.role === "TUTOR" ? "TUTOR" : "PEER";
+
+  // Create the session
   const roomId = `room-${requestId}-${Math.random().toString(36).substring(2, 7)}`;
   const session = await prisma.session.create({
     data: {
       studentId: matchRequest.studentId,
       partnerId: user.id,
-      tier: tier === "TUTOR" ? "TUTOR" : "PEER",
+      tier: tier as any,
       subject: matchRequest.subject,
       topic: matchRequest.topic,
       status: "ACTIVE",
@@ -128,7 +120,7 @@ export async function acceptMatchRequest(requestId: string) {
     where: { id: requestId },
     data: {
       sessionId: session.id,
-      resolvedAs: tier === "TUTOR" ? "TUTOR" : "PEER",
+      resolvedAs: tier as any,
       resolvedAt: new Date(),
     }
   });
@@ -155,6 +147,7 @@ export async function acceptMatchRequest(requestId: string) {
   return { success: true, sessionId: session.id };
 }
 
+// Force AI fallback for unmatched requests
 export async function forceAIFallback(requestId: string) {
   try {
     const matchRequest = await prisma.matchRequest.findUnique({
@@ -169,7 +162,7 @@ export async function forceAIFallback(requestId: string) {
     const studentExists = await prisma.user.findUnique({
       where: { id: matchRequest.studentId }
     });
-    
+
     if (!studentExists) {
       try {
         const { createClient: createAdminClient } = await import("@supabase/supabase-js");
@@ -230,11 +223,9 @@ export async function forceAIFallback(requestId: string) {
   }
 }
 
-export async function sweepUnmatchedRequests() {
-
+// Sweep unmatched requests and force AI fallback
 export async function sweepUnmatchedRequests() {
   try {
-    // Find requests older than 1 minute that haven't been resolved
     const oneMinuteAgo = new Date(Date.now() - 60 * 1000);
     
     const unmatchedRequests = await prisma.matchRequest.findMany({
@@ -245,7 +236,6 @@ export async function sweepUnmatchedRequests() {
     });
 
     for (const request of unmatchedRequests) {
-
       await forceAIFallback(request.id);
     }
 
@@ -256,6 +246,7 @@ export async function sweepUnmatchedRequests() {
   }
 }
 
+// Get session details
 export async function getSession(id: string) {
   try {
     return await prisma.session.findUnique({
@@ -271,6 +262,7 @@ export async function getSession(id: string) {
   }
 }
 
+// Send a message in a session
 export async function sendMessage(data: { sessionId: string; senderId: string; content: string; isMash: boolean }) {
   try {
     const message = await prisma.message.create({
@@ -288,6 +280,7 @@ export async function sendMessage(data: { sessionId: string; senderId: string; c
   }
 }
 
+// Check match status
 export async function checkMatchStatus(requestId: string) {
   try {
     const request = await prisma.matchRequest.findUnique({
@@ -300,6 +293,8 @@ export async function checkMatchStatus(requestId: string) {
     return { success: false };
   }
 }
+
+// Complete a session and award points
 export async function completeSession(sessionId: string) {
   try {
     const session = await prisma.session.findUnique({
@@ -311,7 +306,7 @@ export async function completeSession(sessionId: string) {
       return { success: true };
     }
 
-    // 1. Mark as completed
+    // Mark as completed
     await prisma.session.update({
       where: { id: sessionId },
       data: { 
@@ -320,14 +315,12 @@ export async function completeSession(sessionId: string) {
       }
     });
 
-    // 2. REWARD POINTS (Institutional Logic)
-    // Student gets 50 points for completing a study session
+    // Reward points
     await prisma.user.update({
       where: { id: session.studentId },
       data: { points: { increment: 50 } }
     });
 
-    // Tutor/Partner gets 100 points for their expertise
     if (session.partnerId) {
       await prisma.user.update({
         where: { id: session.partnerId },
