@@ -6,29 +6,33 @@ import { Zap, BookOpen, Flame, Trophy, TrendingUp, Users, ArrowRight } from "luc
 import Link from "next/link";
 import { getUserData } from "@/app/actions/user";
 import { createClient } from "@/utils/supabase/client";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { useSafeUserData, useSessionCounter, DashboardLoadingState, DashboardError } from "@/hooks/useAntigravityFixes";
+import { createAntigravitySafeClient } from "@/hooks/useAntigravityFixes";
 
 export default function DashboardPage() {
-  const [userData, setUserData] = useState<any>(null);
-  const [sessionCount, setSessionCount] = useState(0);
-  const supabase = createClient();
+  const { userData, loading: userDataLoading, error: userDataError, retryCount, setRetryCount } = useSafeUserData();
+  const { sessionCount, loading: sessionsLoading } = useSessionCounter(userData?.id || '');
 
-  useEffect(() => {
-    loadDashboardData();
-  }, []);
-
-  const loadDashboardData = async () => {
-    const user = await getUserData();
-    setUserData(user);
-    
-    if (user) {
-      const { count } = await supabase
-        .from("Session")
-        .select("*", { count: "exact", head: true })
-        .or(`studentId.eq.${user.id},partnerId.eq.${user.id}`);
-      
-      setSessionCount(count || 0);
-    }
+  const handleRetry = () => {
+    setRetryCount(prev => prev + 1);
   };
+
+  if (userDataError) {
+    return (
+      <ErrorBoundary>
+        <DashboardError error={userDataError} onRetry={handleRetry} />
+      </ErrorBoundary>
+    );
+  }
+
+  if (userDataLoading || sessionsLoading) {
+    return (
+      <ErrorBoundary>
+        <DashboardLoadingState />
+      </ErrorBoundary>
+    );
+  }
 
   const stats = [
     { label: "Total Points", value: userData?.points?.toLocaleString() || "0", icon: Trophy },
@@ -38,7 +42,8 @@ export default function DashboardPage() {
   ];
 
   return (
-    <div className="p-4 sm:p-6 md:p-12 max-w-7xl mx-auto space-y-8 md:space-y-12 animate-in fade-in duration-1000 font-sans">
+    <ErrorBoundary>
+      <div className="p-4 sm:p-6 md:p-12 max-w-7xl mx-auto space-y-8 md:space-y-12 animate-in fade-in duration-1000 font-sans">
       {/* Personalized Greeting */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-8 pb-8 md:pb-12 border-b border-border">
          <div className="space-y-3 md:space-y-4">
@@ -135,6 +140,6 @@ export default function DashboardPage() {
             </Button>
          </Link>
       </div>
-    </div>
+    </ErrorBoundary>
   );
 }
