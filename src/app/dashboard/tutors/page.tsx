@@ -50,17 +50,20 @@ export default function TutorsPage() {
   }, []);
 
   const performSearch = useCallback(async () => {
+    if (!userData) return;
     setLoading(true);
     try {
       const { searchTutors } = await import("@/app/actions/tutor");
       const data = await searchTutors(search);
-      setTutors(data);
+      // Filter or update based on search
+      setTutors(data as TutorWithProfile[]);
     } catch (err) {
-      console.error(err);
+      console.error("Search failed:", err);
+      toast.error("Search failed. Please try again.");
     } finally {
       setLoading(false);
     }
-  }, [search]);
+  }, [search, userData]);
 
   useEffect(() => {
     const loadUserDataAndTutors = async () => {
