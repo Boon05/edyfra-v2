@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
-import { 
-  LayoutDashboard, Users, GraduationCap, 
-  Settings, Award, MessageSquare, BarChart3, 
+import {
+  LayoutDashboard, Users, GraduationCap,
+  Settings, Award, MessageSquare, BarChart3,
   ShieldCheck, LogOut, Bell, Search,
-  Activity, Globe, Terminal, Zap, Menu, X, ChevronLeft
+  Activity, Globe, Terminal, Zap, Menu, X, ChevronLeft, Power, CheckCircle
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -89,7 +89,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { href: "/admin/sessions", label: "Sessions", icon: Zap },
     { href: "/admin/notifications", label: "Notifications", icon: Bell },
     { href: "/admin/reviews", label: "Reviews", icon: MessageSquare },
-    { href: "/admin/content", label: "Challenges", icon: Award },
+    { href: "/admin/challenges", label: "Challenges", icon: Award },
     { href: "/admin/settings", label: "Settings", icon: Settings },
   ];
 
@@ -121,7 +121,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <header className="lg:hidden h-20 bg-black/40 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-6 sticky top-8 z-40">
         <div className="flex items-center gap-3">
           {pathname !== "/admin" && (
-            <button 
+            <button
               onClick={() => router.back()}
               className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
               aria-label="Go back"
@@ -136,7 +136,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <span className="text-xl font-black text-primary tracking-tighter">Edyfra Admin</span>
           </Link>
         </div>
-        <button 
+        <button
           onClick={() => setIsMobileMenuOpen(true)}
           className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
         >
@@ -162,16 +162,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               className="fixed inset-y-0 left-0 w-80 bg-[#050505] z-[70] shadow-2xl border-r border-white/5 overflow-y-auto"
             >
               <div className="absolute top-6 right-6 z-50">
-                <button 
+                <button
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10"
                 >
                   <X className="h-5 w-5 text-slate-300" />
                 </button>
               </div>
-              <AdminSidebarContent 
-                pathname={pathname} 
-                navItems={navItems} 
+              <AdminSidebarContent
+                pathname={pathname}
+                navItems={navItems}
                 adminUser={adminUser}
                 supabase={supabase}
                 router={router}
@@ -185,9 +185,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <div className="flex flex-1">
         {/* Sleek Glass Sidebar (Desktop) */}
         <aside className="w-72 bg-black/40 backdrop-blur-2xl border-r border-white/5 hidden lg:flex flex-col fixed top-8 bottom-0 z-50">
-          <AdminSidebarContent 
-            pathname={pathname} 
-            navItems={navItems} 
+          <AdminSidebarContent
+            pathname={pathname}
+            navItems={navItems}
             adminUser={adminUser}
             supabase={supabase}
             router={router}
@@ -207,12 +207,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <span>Running</span>
               </div>
             </div>
-            
+
             <div className="flex items-center gap-4">
               <div className="relative group hidden sm:block">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground group-hover:text-primary transition-colors" />
-                <input 
-                  placeholder="Execute command..." 
+                <input
+                  placeholder="Execute command..."
                   className="bg-white/5 border border-white/5 rounded-full py-2 pl-9 pr-4 text-[10px] font-bold tracking-widest focus:outline-none focus:border-primary/50 transition-all w-48 xl:w-64"
                 />
               </div>
@@ -224,7 +224,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </header>
 
           <AnimatePresence mode="wait">
-            <motion.div 
+            <motion.div
               key={pathname}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -242,6 +242,64 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 }
 
 function AdminSidebarContent({ pathname, navItems, adminUser, supabase, router, onClose }: any) {
+  const [isActionLoading, setIsActionLoading] = useState(false);
+  const [activationProgress, setActivationProgress] = useState(0);
+
+  const handleForceAuthorize = async () => {
+    try {
+      setIsActionLoading(true);
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      // Update user metadata to ensure ADMIN status
+      await supabase.auth.updateUser({
+        data: { role: 'ADMIN', status: 'active' }
+      });
+
+      alert("Admin authorization forced. Refreshing session...");
+      router.refresh();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsActionLoading(false);
+    }
+  };
+
+  const handleActivateTutors = async () => {
+    try {
+      if (!confirm("Confirm bulk activation of all pending tutors? This action is irreversible.")) return;
+
+      setIsActionLoading(true);
+      setActivationProgress(10);
+
+      // Simulate progress while waiting for the server
+      const progressInterval = setInterval(() => {
+        setActivationProgress((prev) => (prev >= 90 ? 90 : prev + 5));
+      }, 400);
+
+      const { data, error } = await supabase.functions.invoke('activate-tutors', {
+        method: 'POST'
+      });
+
+      clearInterval(progressInterval);
+      setActivationProgress(100);
+
+      if (error) throw error;
+
+      alert(`System Success: ${data.message}`);
+      router.refresh();
+    } catch (err: any) {
+      console.error(err);
+      alert("Activation failed: " + (err.message || "Check system logs"));
+    } finally {
+      setIsActionLoading(false);
+      // Reset progress after a delay
+      setTimeout(() => {
+        setActivationProgress(0);
+      }, 1000);
+    }
+  };
+
   return (
     <>
       <div className="p-8 border-b border-white/5 flex items-center gap-4">
@@ -267,13 +325,13 @@ function AdminSidebarContent({ pathname, navItems, adminUser, supabase, router, 
               onClick={onClose}
               className={cn(
                 "relative group flex items-center gap-3 px-5 py-3.5 rounded-2xl text-sm font-bold transition-all duration-300",
-                isActive 
-                  ? "bg-primary/10 text-primary shadow-[inset_0_0_20px_rgba(var(--primary-rgb),0.1)]" 
+                isActive
+                  ? "bg-primary/10 text-primary shadow-[inset_0_0_20px_rgba(var(--primary-rgb),0.1)]"
                   : "text-muted-foreground hover:text-white hover:bg-white/5"
               )}
             >
               {isActive && (
-                <motion.div 
+                <motion.div
                   layoutId="active-pill"
                   className="absolute left-0 w-1 h-6 bg-primary rounded-full"
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -286,7 +344,57 @@ function AdminSidebarContent({ pathname, navItems, adminUser, supabase, router, 
         })}
       </nav>
 
-      <div className="p-6 border-t border-white/5 bg-black/20">
+      <div className="p-6 border-t border-white/5 bg-black/20 space-y-4">
+        {/* System Power Controls */}
+        <div className="space-y-2">
+          <p className="text-[10px] font-black text-primary uppercase tracking-widest px-4">System Power</p>
+          <div className="grid grid-cols-2 gap-2 px-2">
+            <button
+              onClick={handleForceAuthorize}
+              disabled={isActionLoading}
+              title="Force Admin Authorization"
+              className="flex flex-col items-center justify-center gap-2 p-3 rounded-2xl bg-primary/10 border border-primary/20 text-primary hover:bg-primary hover:text-white transition-all group disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <ShieldCheck className={cn("h-4 w-4", isActionLoading && "animate-spin")} />
+              <span className="text-[7px] font-black uppercase">Authorize</span>
+            </button>
+            <button
+              onClick={handleActivateTutors}
+              disabled={isActionLoading}
+              title="Activate All Tutors"
+              className="flex flex-col items-center justify-center gap-2 p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 hover:bg-emerald-500 hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <CheckCircle className={cn("h-4 w-4", isActionLoading && "animate-bounce")} />
+              <span className="text-[7px] font-black uppercase">Act. Tutors</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Progress Bar for Bulk Actions */}
+        <AnimatePresence>
+          {isActionLoading && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="px-4 space-y-1.5"
+            >
+              <div className="flex justify-between text-[8px] font-black uppercase tracking-tighter text-muted-foreground">
+                <span>Processing Tutors...</span>
+                <span>{activationProgress}%</span>
+              </div>
+              <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden border border-white/5">
+                <motion.div
+                  className="h-full bg-primary"
+                  initial={{ width: "0%" }}
+                  animate={{ width: `${activationProgress}%` }}
+                  transition={{ type: "spring", bounce: 0, duration: 0.5 }}
+                />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 space-y-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary/20 to-primary/5 text-primary flex items-center justify-center font-black border border-primary/10">
@@ -300,7 +408,7 @@ function AdminSidebarContent({ pathname, navItems, adminUser, supabase, router, 
               </div>
             </div>
           </div>
-          <button 
+          <button
             onClick={() => supabase.auth.signOut().then(() => router.push("/login"))}
             className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/5 hover:bg-destructive/10 hover:text-destructive text-[10px] font-black uppercase tracking-widest transition-all border border-white/5"
           >

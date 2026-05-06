@@ -179,115 +179,114 @@ export default function TutorsPage() {
             </Button>
           </Link>
         </div>
-      )
-        : tutors.length > 0 && currentIndex < tutors.length ? (
-          <div className="relative h-[600px] w-full flex items-center justify-center overflow-hidden">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={tutors[currentIndex].id}
-                drag="x"
-                dragConstraints={{ left: 0, right: 0 }}
-                onDragEnd={(_, info) => {
-                  if (info.offset.x > 100) handleSwipe("right");
-                  else if (info.offset.x < -100) handleSwipe("left");
-                }}
-                initial={{ scale: 0.9, opacity: 0, rotate: -5 }}
-                animate={{ scale: 1, opacity: 1, rotate: 0 }}
-                exit={{
-                  x: exitX,
-                  opacity: 0,
-                  rotate: exitX > 0 ? 45 : -45
-                }}
-                transition={{ type: "spring", damping: 20, stiffness: 300 }}
-                className="absolute w-[350px] md:w-[450px] h-[550px] bg-secondary rounded-[3rem] border border-border/50 shadow-2xl overflow-hidden cursor-grab active:cursor-grabbing flex flex-col"
-              >
-                <div className="relative h-2/3 bg-primary/5 flex items-center justify-center p-12 overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-secondary/80" />
-                  <AvatarPremium
-                    seed={tutors[currentIndex].id}
-                    src={tutors[currentIndex].avatar || ""}
-                    size="xl"
-                    className="scale-[2.5] relative z-10"
-                  />
-                  <div className="absolute top-8 left-8 z-20 flex flex-col gap-2">
-                    <div className="px-4 py-2 rounded-2xl bg-background/50 backdrop-blur-md border border-border/50">
-                      <span className="text-[10px] font-black uppercase tracking-widest text-primary">⭐ {tutors[currentIndex].tutorProfile?.rating?.toFixed(1) || "5.0"}</span>
-                    </div>
-                    <div className="px-4 py-2 rounded-2xl bg-primary text-white shadow-lg">
-                      <span className="text-[9px] font-black uppercase tracking-widest">
-                        {tutors[currentIndex].educationLevel === 'UNIVERSITY' ? 'University Expert' : 'High School Expert'}
-                      </span>
-                    </div>
+      ) : tutors.length > 0 && currentIndex < tutors.length ? (
+        <div className="relative h-[600px] w-full flex items-center justify-center overflow-hidden">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={tutors[currentIndex].id}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              onDragEnd={(_, info) => {
+                if (info.offset.x > 100) handleSwipe("right");
+                else if (info.offset.x < -100) handleSwipe("left");
+              }}
+              initial={{ scale: 0.9, opacity: 0, rotate: -5 }}
+              animate={{ scale: 1, opacity: 1, rotate: 0 }}
+              exit={{
+                x: exitX,
+                opacity: 0,
+                rotate: exitX > 0 ? 45 : -45
+              }}
+              transition={{ type: "spring", damping: 20, stiffness: 300 }}
+              className="absolute w-[350px] md:w-[450px] h-[550px] bg-secondary rounded-[3rem] border border-border/50 shadow-2xl overflow-hidden cursor-grab active:cursor-grabbing flex flex-col"
+            >
+              <div className="relative h-2/3 bg-primary/5 flex items-center justify-center p-12 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-secondary/80" />
+                <AvatarPremium
+                  seed={tutors[currentIndex].id}
+                  src={tutors[currentIndex].avatar || ""}
+                  size="xl"
+                  className="scale-[2.5] relative z-10"
+                />
+                <div className="absolute top-8 left-8 z-20 flex flex-col gap-2">
+                  <div className="px-4 py-2 rounded-2xl bg-background/50 backdrop-blur-md border border-border/50">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-primary">⭐ {tutors[currentIndex].tutorProfile?.rating?.toFixed(1) || "5.0"}</span>
                   </div>
-
+                  <div className="px-4 py-2 rounded-2xl bg-primary text-white shadow-lg">
+                    <span className="text-[9px] font-black uppercase tracking-widest">
+                      {tutors[currentIndex].educationLevel === 'UNIVERSITY' ? 'University Expert' : 'High School Expert'}
+                    </span>
+                  </div>
                 </div>
 
-                <div className="flex-1 p-10 space-y-6 bg-secondary">
-                  <div className="space-y-2">
-                    <h2 className="text-3xl font-black tracking-tight">{tutors[currentIndex].name}</h2>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2">
-                      <GraduationCap className="h-3 w-3" /> {tutors[currentIndex].county}
-                    </p>
-                  </div>
+              </div>
 
-                  <div className="flex flex-wrap gap-2">
-                    {tutors[currentIndex].tutorProfile?.subjects?.map(s => (
-                      <span key={s} className="px-3 py-1 rounded-full bg-background border border-border text-[8px] font-black uppercase tracking-widest">
-                        {s}
-                      </span>
-                    ))}
-                  </div>
-
-                  <p className="text-sm text-muted-foreground font-medium leading-relaxed line-clamp-2">
-                    {tutors[currentIndex].tutorProfile?.bio}
+              <div className="flex-1 p-10 space-y-6 bg-secondary">
+                <div className="space-y-2">
+                  <h2 className="text-3xl font-black tracking-tight">{tutors[currentIndex].name}</h2>
+                  <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                    <GraduationCap className="h-3 w-3" /> {tutors[currentIndex].county}
                   </p>
+                </div>
 
-                  <div className="flex items-center justify-between pt-4">
-                    <div className="flex flex-col">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Rate</span>
-                      <span className="text-xl font-black">KSH {tutors[currentIndex].tutorProfile?.hourlyRate}</span>
-                    </div>
-                    <div className="flex gap-4">
-                      <Button onClick={() => handleSwipe("left")} variant="outline" className="w-14 h-14 rounded-full border-border hover:bg-red-500/10 hover:text-red-500 transition-all">
-                        <Clock className="h-6 w-6" />
-                      </Button>
-                      <Button onClick={() => handleSwipe("right")} className="w-14 h-14 rounded-full bg-primary text-white shadow-xl shadow-primary/20 hover:scale-110 active:scale-95 transition-all">
-                        <Sparkles className="h-6 w-6" />
-                      </Button>
-                    </div>
+                <div className="flex flex-wrap gap-2">
+                  {tutors[currentIndex].tutorProfile?.subjects?.map(s => (
+                    <span key={s} className="px-3 py-1 rounded-full bg-background border border-border text-[8px] font-black uppercase tracking-widest">
+                      {s}
+                    </span>
+                  ))}
+                </div>
+
+                <p className="text-sm text-muted-foreground font-medium leading-relaxed line-clamp-2">
+                  {tutors[currentIndex].tutorProfile?.bio}
+                </p>
+
+                <div className="flex items-center justify-between pt-4">
+                  <div className="flex flex-col">
+                    <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Rate</span>
+                    <span className="text-xl font-black">KSH {tutors[currentIndex].tutorProfile?.hourlyRate}</span>
+                  </div>
+                  <div className="flex gap-4">
+                    <Button onClick={() => handleSwipe("left")} variant="outline" className="w-14 h-14 rounded-full border-border hover:bg-red-500/10 hover:text-red-500 transition-all">
+                      <Clock className="h-6 w-6" />
+                    </Button>
+                    <Button onClick={() => handleSwipe("right")} className="w-14 h-14 rounded-full bg-primary text-white shadow-xl shadow-primary/20 hover:scale-110 active:scale-95 transition-all">
+                      <Sparkles className="h-6 w-6" />
+                    </Button>
                   </div>
                 </div>
-              </motion.div>
-            </AnimatePresence>
+              </div>
+            </motion.div>
+          </AnimatePresence>
 
-            <div className="absolute bottom-4 text-[9px] font-black uppercase tracking-[0.5em] text-muted-foreground animate-pulse">
-              Swipe Right to Connect • Swipe Left to Skip
-            </div>
+          <div className="absolute bottom-4 text-[9px] font-black uppercase tracking-[0.5em] text-muted-foreground animate-pulse">
+            Swipe Right to Connect • Swipe Left to Skip
           </div>
-        ) : (
-          <div className="flex flex-col items-center justify-center py-48 space-y-8 bg-secondary/30 rounded-[3rem] border-2 border-dashed border-border">
-            <div className="w-20 h-20 rounded-full bg-background flex items-center justify-center text-muted-foreground shadow-sm">
-              <Sparkles className="h-10 w-10 text-primary opacity-20" />
-            </div>
-            <div className="text-center space-y-2">
-              <h3 className="text-2xl font-black tracking-tight">Search Finished.</h3>
-              <p className="text-muted-foreground font-medium max-w-sm mx-auto">
-                We&apos;ve looked everywhere and couldn&apos;t find any new tutors matching your current needs.
-                New teachers are joining our community every hour—check back soon.
-              </p>
-            </div>
-            <div className="flex gap-4">
-              <Button onClick={() => { setSearch(""); setSubject("all"); setCurrentIndex(0); fetchTutors(userData); }} variant="outline" className="h-14 px-10 rounded-2xl font-black text-[10px] tracking-widest uppercase border-border hover:bg-secondary transition-all">
-                Refresh List
+        </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center py-48 space-y-8 bg-secondary/30 rounded-[3rem] border-2 border-dashed border-border">
+          <div className="w-20 h-20 rounded-full bg-background flex items-center justify-center text-muted-foreground shadow-sm">
+            <Sparkles className="h-10 w-10 text-primary opacity-20" />
+          </div>
+          <div className="text-center space-y-2">
+            <h3 className="text-2xl font-black tracking-tight">Search Finished.</h3>
+            <p className="text-muted-foreground font-medium max-w-sm mx-auto">
+              We&apos;ve looked everywhere and couldn&apos;t find any new tutors matching your current needs.
+              New teachers are joining our community every hour—check back soon.
+            </p>
+          </div>
+          <div className="flex gap-4">
+            <Button onClick={() => { setSearch(""); setSubject("all"); setCurrentIndex(0); fetchTutors(userData); }} variant="outline" className="h-14 px-10 rounded-2xl font-black text-[10px] tracking-widest uppercase border-border hover:bg-secondary transition-all">
+              Refresh List
+            </Button>
+            <Link href="/dashboard">
+              <Button className="h-14 px-10 rounded-2xl bg-foreground text-background font-black text-[10px] tracking-widest uppercase shadow-xl transition-all active:scale-95">
+                Back to Dashboard
               </Button>
-              <Link href="/dashboard">
-                <Button className="h-14 px-10 rounded-2xl bg-foreground text-background font-black text-[10px] tracking-widest uppercase shadow-xl transition-all active:scale-95">
-                  Back to Dashboard
-                </Button>
-              </Link>
-            </div>
+            </Link>
           </div>
-        )}
+        </div>
+      )}
     </div>
   );
 }

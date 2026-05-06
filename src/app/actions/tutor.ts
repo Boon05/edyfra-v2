@@ -122,7 +122,8 @@ export async function getVerifiedTutors(level?: EduLevel) {
     const whereClause: any = {
       role: Role.TUTOR,
       tutorProfile: {
-        isNot: null
+        isNot: null,
+        isVerified: true
       }
     };
     if (level) {
@@ -142,12 +143,47 @@ export async function getVerifiedTutors(level?: EduLevel) {
   }
 }
 
+/** Elevates the current user to Admin for setup purposes */
+export async function elevateToAdmin() {
+  const user = await getUserData();
+  if (!user) throw new Error("Authentication required");
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { role: Role.ADMIN }
+  });
+  revalidatePath("/");
+}
+
+/** Fetches all tutors awaiting verification */
+export async function getInactiveTutors() {
+  const user = await getUserData();
+  if (user?.role !== Role.ADMIN) throw new Error("Unauthorized access");
+  return prisma.user.findMany({
+    where: {
+      role: Role.TUTOR,
+      tutorProfile: { isVerified: false }
+    },
+    include: { tutorProfile: true }
+  });
+}
+
+/** Changes a tutor's state from inactive to active */
+export async function activateTutor(tutorId: string) {
+  const user = await getUserData();
+  if (user?.role !== Role.ADMIN) throw new Error("Unauthorized access");
+  await prisma.tutorProfile.update({
+    where: { userId: tutorId },
+    data: { isVerified: true, verifiedAt: new Date() }
+  });
+  revalidatePath("/dashboard/tutors");
+}
+
 export async function searchTutors(query: string) {
   try {
     if (!query || query.length < 2) return [];
-    
+
     const normalizedQuery = query.trim().toLowerCase();
-    
+
     return await prisma.user.findMany({
       where: {
         role: Role.TUTOR,
