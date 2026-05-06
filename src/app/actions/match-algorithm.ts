@@ -8,6 +8,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { EduLevel } from "@prisma/client";
 import { SESSION_CONFIG } from "@/lib/config";
 import { randomBytes } from "crypto";
 
@@ -23,7 +24,7 @@ import { randomBytes } from "crypto";
 export async function findTier1Match(
   studentId: string,
   requestedSubject: string,
-  educationLevel: string
+  educationLevel?: EduLevel
 ): Promise<string | null> {
   try {
     // Find tutors with matching subject
@@ -70,7 +71,7 @@ export async function findTier1Match(
 export async function findTier2Match(
   studentId: string,
   requestedSubjects: string[],
-  educationLevel: string
+  educationLevel?: EduLevel
 ): Promise<string | null> {
   try {
     const peer = await prisma.user.findFirst({
@@ -219,7 +220,7 @@ export async function executeSmartMatching(
       const aiSession = await createAISession(
         matchRequest.studentId,
         matchRequest.subject,
-        matchRequest.topic
+        matchRequest.topic ?? undefined
       );
 
       // Update match request with AI session

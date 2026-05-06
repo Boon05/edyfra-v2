@@ -26,20 +26,24 @@ export const TUTOR_CONFIG = {
 };
 
 // Tier Configuration
+const TIER_DEFS = [
+  { minPoints: 1500, maxPoints: Infinity, name: "GOLD" },
+  { minPoints: 500, maxPoints: 1499, name: "SILVER" },
+  { minPoints: 0, maxPoints: 499, name: "BRONZE" },
+];
+
 export const TIER_CONFIG = {
-  BRONZE: { minPoints: 0, maxPoints: 499, name: "BRONZE" },
-  SILVER: { minPoints: 500, maxPoints: 1499, name: "SILVER" },
-  GOLD: { minPoints: 1500, maxPoints: Infinity, name: "GOLD" },
+  BRONZE: TIER_DEFS[2],
+  SILVER: TIER_DEFS[1],
+  GOLD: TIER_DEFS[0],
   getTierFromPoints: (points: number): string => {
-    if (points < 500) return "BRONZE";
-    if (points < 1500) return "SILVER";
-    return "GOLD";
+    return TIER_DEFS.find(t => points >= t.minPoints)?.name || "BRONZE";
   },
 };
 
 // Admin Configuration
 export const ADMIN_CONFIG = {
-  SECRET_KEY: process.env.ADMIN_SECRET_KEY || "EDYFRA_MASTER_2024",
+  SECRET_KEY: process.env.ADMIN_SECRET_KEY, // Avoid hardcoded fallback in production
   REQUIRE_VERIFICATION: true,
 };
 
