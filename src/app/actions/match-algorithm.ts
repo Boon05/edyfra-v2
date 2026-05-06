@@ -24,7 +24,7 @@ import { randomBytes } from "crypto";
 export async function findTier1Match(
   studentId: string,
   requestedSubject: string,
-  educationLevel?: EduLevel
+  educationLevel?: EduLevel | null
 ): Promise<string | null> {
   try {
     // Find tutors with matching subject
@@ -35,6 +35,7 @@ export async function findTier1Match(
         tutorProfile: {
           subjects: { hasSome: [requestedSubject] },
           isVerified: true,
+          ...(educationLevel ? { levelsTaught: { has: educationLevel } } : {}),
         },
         // Not in active session
         sessionsAsTutor: { none: { status: "ACTIVE" } },
@@ -71,14 +72,14 @@ export async function findTier1Match(
 export async function findTier2Match(
   studentId: string,
   requestedSubjects: string[],
-  educationLevel?: EduLevel
+  educationLevel?: EduLevel | null
 ): Promise<string | null> {
   try {
     const peer = await prisma.user.findFirst({
       where: {
         id: { not: studentId },
         role: "STUDENT",
-        educationLevel,
+        ...(educationLevel ? { educationLevel: educationLevel as EduLevel } : {}),
         studentProfile: {
           subjects: { hasSome: requestedSubjects },
         },

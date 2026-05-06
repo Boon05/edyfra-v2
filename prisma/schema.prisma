@@ -15,7 +15,7 @@ model User {
   name              String
   avatar            String?
   role              Role                    @default(STUDENT)
-  educationLevel    EduLevel
+  educationLevel    EduLevel?
   curriculum        String?                 @default("8-4-4")
   formYear          Int?
   county            String

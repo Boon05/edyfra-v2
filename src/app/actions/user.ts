@@ -95,8 +95,8 @@ export async function updateProfile(data: {
       data: {
         name: data.name,
         bio: data.bio,
-        educationLevel: EduLevel.HIGH_SCHOOL,
-        county: "Nairobi",
+        // educationLevel and county should not be hardcoded here.
+        // If they are meant to be updated, they should be passed in `data`.
       },
     });
 

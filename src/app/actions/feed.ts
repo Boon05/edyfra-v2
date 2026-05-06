@@ -66,7 +66,7 @@ export async function getPosts() {
   
   return await prisma.feedPost.findMany({
     where: {
-      level: userData.educationLevel
+      ...(userData.educationLevel ? { level: userData.educationLevel } : {}),
     },
     include: {
       user: true,
