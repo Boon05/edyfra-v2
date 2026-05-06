@@ -7,9 +7,15 @@ import Link from "next/link";
 
 import { LottieAnimation } from "@/components/lottie-animation";
 import { MessageCircle } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export function HomeHero() {
   const WHATSAPP_CHANNEL = "https://whatsapp.com/channel/0029Vb7GgdmHLHQfoNgSjo1P";
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <section className="relative min-h-[90vh] flex flex-col items-center justify-center text-center px-6 overflow-hidden pt-20">
@@ -62,12 +68,14 @@ export function HomeHero() {
         className="relative mt-24 w-full max-w-4xl mx-auto px-4"
       >
         <div className="relative aspect-[16/9] rounded-[2.5rem] bg-secondary/30 backdrop-blur-sm border-8 border-background shadow-[0_40px_100px_-20px_rgba(0,0,0,0.2)] overflow-hidden flex items-center justify-center group">
-           <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-primary/5" />
-           
-           <LottieAnimation 
-             url="https://lottie.host/64294a73-6112-421b-8f35-97e373d3119c/WvH6HIsi3b.json" 
-             className="w-full h-full max-w-lg scale-110"
-           />
+          <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-primary/5" />
+          
+          {isClient && (
+            <LottieAnimation 
+              url="https://lottie.host/64294a73-6112-421b-8f35-97e373d3119c/WvH6HIsi3b.json" 
+              className="w-full h-full max-w-lg scale-110"
+            />
+          )}
         </div>
       </motion.div>
     </section>
