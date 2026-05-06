@@ -5,6 +5,7 @@ import prisma from "@/lib/prisma";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { sendWelcomeEmail } from "@/lib/email";
+import { TUTOR_CONFIG } from "@/lib/config";
 
 interface OnboardingData {
   role: string;
@@ -121,16 +122,16 @@ export async function completeOnboarding(data: OnboardingData) {
         subjects: subjects || [],
         levelsTaught: [educationLevel],
         verificationPath: verificationPath === "GRADES" ? VerifPath.GRADES : VerifPath.POINTS,
-        hourlyRate: parseInt(hourlyRate || "500"),
-        bio: bio || "Professional Academic Mentor",
+        hourlyRate: parseInt(hourlyRate || TUTOR_CONFIG.DEFAULT_HOURLY_RATE_KSH.toString()),
+        bio: bio || TUTOR_CONFIG.DEFAULT_BIO,
         mpesaNumber: mpesaNumber || "",
         isVerified: true,
         availability: { isOnline: false }
       },
       update: {
         subjects: subjects || [],
-        bio: bio || "Professional Academic Mentor",
-        hourlyRate: parseInt(hourlyRate || "500"),
+        bio: bio || TUTOR_CONFIG.DEFAULT_BIO,
+        hourlyRate: parseInt(hourlyRate || TUTOR_CONFIG.DEFAULT_HOURLY_RATE_KSH.toString()),
         mpesaNumber: mpesaNumber || "",
         isVerified: true
       }

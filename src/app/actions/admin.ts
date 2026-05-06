@@ -4,8 +4,9 @@ import prisma from "@/lib/prisma";
 import { Role } from "@prisma/client";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
+import { ADMIN_CONFIG, TUTOR_CONFIG } from "@/lib/config";
 
-const ADMIN_SECRET_KEY = process.env.ADMIN_SECRET_KEY || "EDYFRA_MASTER_2024";
+const ADMIN_SECRET_KEY = ADMIN_CONFIG.SECRET_KEY;
 
 // Helper function to check if a user is admin
 async function isAdmin(userId: string): Promise<boolean> {
@@ -288,7 +289,7 @@ export async function approveTutorApplication(applicationId: string) {
       where: { userId: app.userId },
       create: {
         userId: app.userId, subjects: app.subjects, verificationPath: app.path,
-        hourlyRate: 500, bio: app.notes || "", isVerified: true, verifiedAt: new Date(),
+        hourlyRate: TUTOR_CONFIG.DEFAULT_HOURLY_RATE_KSH, bio: app.notes || TUTOR_CONFIG.DEFAULT_BIO, isVerified: true, verifiedAt: new Date(),
         availability: { isOnline: false }
       },
       update: { isVerified: true, verifiedAt: new Date() }

@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 import { getUserData } from "@/app/actions/user";
 import { saveChallengeAttempt } from "@/app/actions/challenge-ai";
+import { SESSION_CONFIG } from "@/lib/config";
 
 interface Challenge {
   id: string;
@@ -35,7 +36,7 @@ export default function ChallengesPage() {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
-  const [attemptsLeft, setAttemptsLeft] = useState(3);
+  const [attemptsLeft, setAttemptsLeft] = useState(SESSION_CONFIG.CHALLENGE_ATTEMPT_LIMIT);
 
   const currentChallenge = challenges[currentIndex] || null;
 
@@ -65,7 +66,7 @@ export default function ChallengesPage() {
       const processed = data.map((c: any) => {
         const userAttempts = c.attempts?.filter((a: any) => a.user_id === user.id) || [];
         const completed = userAttempts.some((a: any) => a.correct);
-        const attemptsLeft = 3 - userAttempts.length;
+        const attemptsLeft = SESSION_CONFIG.CHALLENGE_ATTEMPT_LIMIT - userAttempts.length;
         
         return {
           ...c,

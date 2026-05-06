@@ -4,6 +4,7 @@ import { Role, EduLevel, Tier, VerifPath, Prisma, User, StudentProfile, TutorPro
 import prisma from "@/lib/prisma";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
+import { SESSION_CONFIG, TUTOR_CONFIG } from "@/lib/config";
 
 export async function getUserData(): Promise<(User & { studentProfile: StudentProfile | null, tutorProfile: TutorProfile | null }) | null> {
   try {
@@ -36,7 +37,7 @@ export async function getUserData(): Promise<(User & { studentProfile: StudentPr
           educationLevel: EduLevel.HIGH_SCHOOL,
           county: "Nairobi",
           tier: Tier.BRONZE,
-          points: 500, // Welcome Reward
+          points: SESSION_CONFIG.NEW_USER_WELCOME_BONUS,
           lastActiveAt: new Date(),
         },
         include: {
@@ -57,7 +58,7 @@ export async function getUserData(): Promise<(User & { studentProfile: StudentPr
         prismaUser = await prisma.user.update({
           where: { id: prismaUser.id },
           data: {
-            points: { increment: 100 }, // Daily Activity Reward
+            points: { increment: SESSION_CONFIG.DAILY_ACTIVITY_REWARD },
             lastActiveAt: today,
           },
           include: {
@@ -108,7 +109,7 @@ export async function updateProfile(data: {
           subjects: data.subjects || [],
           levelsTaught: [],
           verificationPath: VerifPath.POINTS,
-          hourlyRate: data.hourlyRate || 500,
+          hourlyRate: data.hourlyRate || TUTOR_CONFIG.DEFAULT_HOURLY_RATE_KSH,
           mpesaNumber: data.mpesaNumber || "",
           availability: { isOnline: false }
         },

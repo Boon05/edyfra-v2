@@ -17,6 +17,7 @@ import {
 import { EDUCATIONAL_SUBJECTS } from "@/utils/subjects";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { TUTOR_CONFIG } from "@/lib/config";
 
 export default function TutorOnboardingPage() {
   const router = useRouter();
@@ -28,7 +29,7 @@ export default function TutorOnboardingPage() {
     educationLevel: "UNIVERSITY",
     curriculum: [] as string[],
     subjects: [] as string[],
-    hourlyRate: "500",
+    hourlyRate: TUTOR_CONFIG.DEFAULT_HOURLY_RATE_KSH.toString(),
     mpesaNumber: "",
     bio: "",
   });

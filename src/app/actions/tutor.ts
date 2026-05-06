@@ -4,6 +4,7 @@ import { Role, VerifPath } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { getUserData } from "./user";
+import { TUTOR_CONFIG } from "@/lib/config";
 
 export async function getTutorProfile() {
   try {
@@ -20,11 +21,11 @@ export async function getTutorProfile() {
       profile = await prisma.tutorProfile.create({
         data: {
           userId: user.id,
-          bio: user.bio || "",
+          bio: user.bio || TUTOR_CONFIG.DEFAULT_BIO,
           subjects: [],
           levelsTaught: [],
           verificationPath: VerifPath.POINTS,
-          hourlyRate: 500,
+          hourlyRate: TUTOR_CONFIG.DEFAULT_HOURLY_RATE_KSH,
           availability: { isOnline: false }
         },
         include: { user: true }
@@ -48,20 +49,20 @@ export async function toggleTutorStatus(isOnline: boolean) {
       where: { userId: user.id },
       create: {
         userId: user.id,
-        bio: user.bio || "",
+        bio: user.bio || TUTOR_CONFIG.DEFAULT_BIO,
         subjects: [],
         levelsTaught: [],
         verificationPath: VerifPath.POINTS,
-        hourlyRate: 500,
+        hourlyRate: TUTOR_CONFIG.DEFAULT_HOURLY_RATE_KSH,
         availability: { isOnline }
       },
       update: {
         availability: { isOnline },
-        bio: user.bio || "",
+        bio: user.bio || TUTOR_CONFIG.DEFAULT_BIO,
         subjects: [],
         levelsTaught: [],
         verificationPath: VerifPath.POINTS,
-        hourlyRate: 500
+        hourlyRate: TUTOR_CONFIG.DEFAULT_HOURLY_RATE_KSH
       }
     });
 
