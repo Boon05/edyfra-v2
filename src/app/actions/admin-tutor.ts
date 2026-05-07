@@ -298,7 +298,6 @@ export async function getTutorStatsForAdmin() {
     };
   }
 }
-<<<<<<< HEAD
 
 // Allow existing user to apply to become a tutor
 export async function applyToBecomeTutor(formData: {
@@ -367,5 +366,3 @@ export async function applyToBecomeTutor(formData: {
     return { error: error instanceof Error ? error.message : "Failed to submit application" };
   }
 }
-=======
->>>>>>> 8b5cb7e7d6fafd50f09b90daf61d0631943d4f29

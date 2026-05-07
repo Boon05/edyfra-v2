@@ -8,12 +8,11 @@ export default async function AdminDashboard() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-<<<<<<< HEAD
   // Require authentication
   if (!user) {
     redirect("/login");
   }
-
+  
   // Use Prisma as the source of truth for role
   const dbUser = await prisma.user.findFirst({
     where: {
@@ -23,14 +22,10 @@ export default async function AdminDashboard() {
       ]
     }
   });
-
+  
   const isAdmin = dbUser?.role === "ADMIN" || user.user_metadata?.role === "ADMIN";
-
+  
   if (!isAdmin) {
-=======
-  // Normalize role check for consistency
-  if (!user || (user.user_metadata?.role || "").toUpperCase() !== "ADMIN") {
->>>>>>> 8b5cb7e7d6fafd50f09b90daf61d0631943d4f29
     redirect("/dashboard");
   }
 
