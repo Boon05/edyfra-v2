@@ -7,7 +7,8 @@ import {
   LayoutDashboard, Users, GraduationCap,
   Settings, Award, MessageSquare, BarChart3,
   ShieldCheck, LogOut, Bell, Search,
-  Activity, Globe, Terminal, Zap, Menu, X, ChevronLeft, Power, CheckCircle
+  Activity, Globe, Terminal, Zap, Menu, X, ChevronLeft, Power, CheckCircle,
+  Trash2
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -244,23 +245,35 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 function AdminSidebarContent({ pathname, navItems, adminUser, supabase, router, onClose }: any) {
   const [isActionLoading, setIsActionLoading] = useState(false);
   const [activationProgress, setActivationProgress] = useState(0);
+  const [actionLogs, setActionLogs] = useState<string[]>([]);
 
   const handleForceAuthorize = async () => {
     try {
       setIsActionLoading(true);
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      if (!user) throw new Error("No active session found");
 
-      // Update user metadata to ensure ADMIN status
+      // 1. Update Auth Metadata
       await supabase.auth.updateUser({
         data: { role: 'ADMIN', status: 'active' }
       });
 
+      // 2. Update Database Profile Record (Crucial for Middleware consistency)
+      await supabase.from('profiles').update({ role: 'ADMIN', status: 'active' }).eq('id', user.id);
+
+      // Re-fetch user to ensure UI reflects updated metadata immediately
+      const { data: { user: updatedUser } } = await supabase.auth.getUser();
+      if (updatedUser) {
+        setAdminUser(updatedUser);
+      }
+
       alert("Admin authorization forced. Refreshing session...");
       router.refresh();
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-    } finally {
+      alert("Authorization failed: " + err.message);
+    }
+    finally {
       setIsActionLoading(false);
     }
   };
@@ -270,6 +283,7 @@ function AdminSidebarContent({ pathname, navItems, adminUser, supabase, router, 
       if (!confirm("Confirm bulk activation of all pending tutors? This action is irreversible.")) return;
 
       setIsActionLoading(true);
+      setActionLogs(["System: Initializing bulk activation..."]);
       setActivationProgress(10);
 
       // Simulate progress while waiting for the server
@@ -286,10 +300,17 @@ function AdminSidebarContent({ pathname, navItems, adminUser, supabase, router, 
 
       if (error) throw error;
 
+      if (data?.tutors && data.tutors.length > 0) {
+        setActionLogs(prev => [...prev, ...data.tutors.map((t: string) => `Success: Activated ${t}`)]);
+      } else {
+        setActionLogs(prev => [...prev, "System: No pending tutors were found."]);
+      }
+
       alert(`System Success: ${data.message}`);
       router.refresh();
     } catch (err: any) {
       console.error(err);
+      setActionLogs(prev => [...prev, `Critical: ${err.message || "Network Error"}`]);
       alert("Activation failed: " + (err.message || "Check system logs"));
     } finally {
       setIsActionLoading(false);
@@ -390,6 +411,42 @@ function AdminSidebarContent({ pathname, navItems, adminUser, supabase, router, 
                   animate={{ width: `${activationProgress}%` }}
                   transition={{ type: "spring", bounce: 0, duration: 0.5 }}
                 />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Log Window for Bulk Actions */}
+        <AnimatePresence>
+          {actionLogs.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="px-2"
+            >
+              <div className="bg-black/60 border border-white/5 rounded-xl p-3 font-mono text-[7px] leading-relaxed max-h-32 overflow-y-auto custom-scrollbar space-y-1.5 select-text shadow-inner">
+                <div className="flex items-center justify-between text-primary/40 mb-1 border-b border-white/5 pb-1 uppercase font-black tracking-tighter">
+                  <div className="flex items-center gap-1.5">
+                    <Terminal className="h-2 w-2" /> Execution logs
+                  </div>
+                  <button
+                    onClick={() => setActionLogs([])}
+                    className="hover:text-destructive transition-colors flex items-center gap-1 py-0.5 px-1 rounded-sm hover:bg-white/5"
+                  >
+                    <Trash2 className="h-2 w-2" /> Clear
+                  </button>
+                </div>
+                {actionLogs.map((log, i) => (
+                  <div key={i} className="flex gap-2 items-start group">
+                    <span className="text-primary/30 shrink-0 font-bold">{i + 1}</span>
+                    <span className={cn(
+                      "break-all",
+                      log.includes("Critical") ? "text-destructive/80" :
+                        log.includes("Success") ? "text-emerald-400/80" : "text-white/50"
+                    )}>{log}</span>
+                  </div>
+                ))}
               </div>
             </motion.div>
           )}
