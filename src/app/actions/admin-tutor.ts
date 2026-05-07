@@ -6,7 +6,7 @@ import { Role, VerifPath, TutorApplication, User, TutorProfile } from "@prisma/c
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 
-// Get all tutor applications with user details (ALL statuses)
+// Get tutor applications with PENDING status only
 export async function getTutorApplicationsWithDetails(): Promise<any[]> {
   try {
     const supabase = await createClient();
@@ -27,12 +27,13 @@ export async function getTutorApplicationsWithDetails(): Promise<any[]> {
       return [];
     }
 
-    // Get ALL applications (not just pending) with timeout
+    // Get PENDING applications only with timeout
     const timeoutPromise = new Promise<never>((_, reject) => 
       setTimeout(() => reject(new Error("Database query timeout")), 10000)
     );
 
     const queryPromise: Promise<TutorApplication[]> = prisma.tutorApplication.findMany({
+      where: { status: "PENDING" },
       include: { user: true },
       orderBy: { createdAt: "desc" }
     });
@@ -297,6 +298,7 @@ export async function getTutorStatsForAdmin() {
     };
   }
 }
+<<<<<<< HEAD
 
 // Allow existing user to apply to become a tutor
 export async function applyToBecomeTutor(formData: {
@@ -365,3 +367,5 @@ export async function applyToBecomeTutor(formData: {
     return { error: error instanceof Error ? error.message : "Failed to submit application" };
   }
 }
+=======
+>>>>>>> 8b5cb7e7d6fafd50f09b90daf61d0631943d4f29
