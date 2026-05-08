@@ -34,7 +34,6 @@ export async function getGroupById(id: string) {
     where: { id },
     include: {
       groupMessages: {
-        include: { sender: { select: { name: true, avatar: true } } },
         orderBy: { createdAt: 'asc' }
       }
     }
@@ -42,7 +41,21 @@ export async function getGroupById(id: string) {
 
   if (!group) throw new Error("Group not found");
 
-  return group;
+  // Get sender info for each message
+  const messagesWithSenders = await Promise.all(
+    group.groupMessages.map(async (msg) => {
+      if (msg.senderId) {
+        const sender = await prisma.user.findUnique({
+          where: { id: msg.senderId },
+          select: { name: true, avatar: true }
+        });
+        return { ...msg, sender };
+      }
+      return msg;
+    })
+  );
+
+  return { ...group, groupMessages: messagesWithSenders };
 }
 
 export async function createGroup(data: {

@@ -16,7 +16,6 @@ model User {
   avatar            String?
   role              Role                    @default(STUDENT)
   educationLevel    EduLevel?
-  curriculum        String?                 @default("8-4-4")
   formYear          Int?
   county            String
   points            Int                     @default(0)
@@ -28,6 +27,11 @@ model User {
   createdAt         DateTime                @default(now())
   bio               String?
   settings          Json                    @default("{\"theme\": \"system\", \"fontSize\": \"medium\", \"accentColor\": \"#8b5cf6\"}")
+  curriculum        String?                 @default("8-4-4")
+  dailyMessageCount Int                     @default(0)
+  dailySearchCount  Int                     @default(0)
+  lastCountReset    DateTime?
+  subscriptionTier  String?
   achievements      Achievement[]
   comments          Comment[]
   challenges        DailyChallengeAttempt[]
@@ -40,8 +44,8 @@ model User {
   sessionsAsTutor   Session[]               @relation("TutorSessions")
   sessionsAsStudent Session[]               @relation("StudentSessions")
   studentProfile    StudentProfile?
-  tutorProfile      TutorProfile?
   tutorApplication  TutorApplication?
+  tutorProfile      TutorProfile?
 }
 
 model StudentProfile {
@@ -158,26 +162,24 @@ model DailyChallengeAttempt {
 }
 
 model StruggleGroup {
-  id          String        @id @default(cuid())
-  name        String
-  subject     String
-  topic       String
-  level       EduLevel
-  members     String[]
-  tutorId     String?
-  status      String        @default("ACTIVE")
-  createdAt   DateTime      @default(now())
+  id            String         @id @default(cuid())
+  subject       String
+  topic         String
+  level         EduLevel
+  members       String[]
+  tutorId       String?
+  status        String         @default("ACTIVE")
+  createdAt     DateTime       @default(now())
+  name          String
   groupMessages GroupMessage[]
-  tutor       User?         @relation(fields: [tutorId], references: [id])
 }
 
 model GroupMessage {
-  id        String   @id @default(cuid())
+  id        String        @id @default(cuid())
   groupId   String
   senderId  String?
   content   String
-  createdAt DateTime @default(now())
-  sender    User?    @relation(fields: [senderId], references: [id])
+  createdAt DateTime      @default(now())
   group     StruggleGroup @relation(fields: [groupId], references: [id])
 }
 
