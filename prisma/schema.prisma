@@ -158,14 +158,27 @@ model DailyChallengeAttempt {
 }
 
 model StruggleGroup {
+  id          String        @id @default(cuid())
+  name        String
+  subject     String
+  topic       String
+  level       EduLevel
+  members     String[]
+  tutorId     String?
+  status      String        @default("ACTIVE")
+  createdAt   DateTime      @default(now())
+  groupMessages GroupMessage[]
+  tutor       User?         @relation(fields: [tutorId], references: [id])
+}
+
+model GroupMessage {
   id        String   @id @default(cuid())
-  subject   String
-  topic     String
-  level     EduLevel
-  members   String[]
-  tutorId   String?
-  status    String
+  groupId   String
+  senderId  String?
+  content   String
   createdAt DateTime @default(now())
+  sender    User?    @relation(fields: [senderId], references: [id])
+  group     StruggleGroup @relation(fields: [groupId], references: [id])
 }
 
 model TutorApplication {

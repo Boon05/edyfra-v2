@@ -36,6 +36,7 @@ async function isAdmin(userId: string): Promise<boolean> {
 
 export async function registerAdmin(formData: any) {
   const { email, password, name, securityKey } = formData;
+  console.log("DEBUG: System is looking for:", ADMIN_SECRET_KEY, "You typed:", securityKey);
   if (securityKey !== ADMIN_SECRET_KEY) return { error: "Invalid Key." };
 
   const supabase = await createClient();

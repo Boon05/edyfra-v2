@@ -7,7 +7,7 @@ import { User } from "@supabase/supabase-js";
 import { 
   LayoutDashboard, BookOpen, GraduationCap,
   Bell, Settings, LogOut, Zap, Flame, Trophy,
-  Sparkles, Share2, UserSearch, Terminal
+  Sparkles, Share2, UserSearch, Terminal, Users
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -18,6 +18,7 @@ import { getUserData } from "@/app/actions/user";
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/dashboard/feed", label: "Community", icon: Share2 },
+  { href: "/dashboard/groups", label: "Study Groups", icon: Users },
   { href: "/dashboard/search", label: "Study Partners", icon: UserSearch },
   { href: "/dashboard/study", label: "Start a Session", icon: Zap },
   { href: "/dashboard/sessions", label: "My Sessions", icon: BookOpen },
