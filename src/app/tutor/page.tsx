@@ -17,7 +17,7 @@ interface PendingRequest {
   id: string;
   subject: string;
   topic: string | null;
-  createdAt: string;
+  createdAt: string | Date;
   studentId: string;
   studentName?: string;
 }

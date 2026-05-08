@@ -18,7 +18,7 @@ interface MatchRequest {
   id: string;
   subject: string;
   topic?: string;
-  createdAt: string;
+  createdAt: string | Date;
   sessionId?: string | null;
 }
 

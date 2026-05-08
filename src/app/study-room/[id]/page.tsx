@@ -31,7 +31,7 @@ interface MessageData {
   content: string;
   senderId?: string;
   isMash: boolean;
-  createdAt: string;
+  createdAt: string | Date;
   sender?: { name: string; avatar?: string };
 }
 

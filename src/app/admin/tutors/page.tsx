@@ -18,7 +18,7 @@ export default function AdminTutorsPage() {
   type TutorApplication = {
     id: string;
     status: string;
-    createdAt: string;
+    createdAt: string | Date;
     subjects: string[];
     path: string;
     notes: string;
