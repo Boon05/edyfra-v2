@@ -6,6 +6,25 @@ import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { SESSION_CONFIG, TUTOR_CONFIG } from "@/lib/config";
 
+const getRoleFromMetadata = (metadataRole: string | undefined): Role => {
+  if (!metadataRole) return Role.STUDENT; // Default role if metadata is missing
+  const upperRole = metadataRole.toUpperCase();
+  if (upperRole === "ADMIN") return Role.ADMIN;
+  if (upperRole === "TUTOR") return Role.TUTOR;
+  return Role.STUDENT; // Fallback for any other unexpected role
+};
+
+async function syncSupabaseRoleFromPrisma(supabase: Awaited<ReturnType<typeof createClient>>, prismaRole: Role) {
+  // Roles in `user_metadata` are user-editable; Prisma is our source of truth.
+  // Keeping metadata in sync improves routing/middleware behavior without granting privileges.
+  const { data } = await supabase.auth.getUser();
+  const current = (data.user?.user_metadata?.role || "").toUpperCase();
+  const desired = prismaRole.toString().toUpperCase();
+  if (current !== desired) {
+    await supabase.auth.updateUser({ data: { role: desired } });
+  }
+}
+
 export async function getUserData(): Promise<(User & { studentProfile: StudentProfile | null, tutorProfile: TutorProfile | null }) | null> {
   try {
     const supabase = await createClient();
@@ -32,8 +51,8 @@ export async function getUserData(): Promise<(User & { studentProfile: StudentPr
         data: {
           id: user.id,
           email: user.email!,
-           name: user.user_metadata?.name || user.user_metadata?.full_name || "User",
-           role: (user.user_metadata?.role ? (user.user_metadata.role.toUpperCase() === "TUTOR" ? Role.TUTOR : Role.STUDENT) : Role.STUDENT),
+          name: user.user_metadata?.name || user.user_metadata?.full_name || "User",
+          role: getRoleFromMetadata(user.user_metadata?.role),
           educationLevel: EduLevel.HIGH_SCHOOL,
           county: "Nairobi",
           tier: Tier.BRONZE,
@@ -68,6 +87,10 @@ export async function getUserData(): Promise<(User & { studentProfile: StudentPr
         });
       }
     }
+
+    // Keep Supabase metadata aligned for routing checks (middleware/layouts).
+    // Do NOT overwrite Prisma role based on metadata (metadata can be missing/outdated).
+    await syncSupabaseRoleFromPrisma(supabase, prismaUser.role);
 
     return prismaUser;
   } catch (error) {

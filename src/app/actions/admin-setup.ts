@@ -9,37 +9,22 @@ import { revalidatePath } from "next/cache";
 // Check if a user is admin (checks both Prisma and Supabase)
 async function isAdmin(userId: string) {
   try {
-    // Check Prisma first
-    const user = await prisma.user.findUnique({
-      where: { id: userId }
+    const supabase = await createClient();
+    const { data } = await supabase.auth.getUser();
+
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { id: userId },
+          ...(data.user?.email ? [{ email: data.user.email }] : [])
+        ]
+      }
     });
     
     if (user && user.role === Role.ADMIN) {
       return true;
     }
-    
-    // Fallback: Check Supabase metadata
-    const supabase = await createClient();
-    const { data } = await supabase.auth.getUser();
-    
-    if (data.user?.user_metadata?.role === "ADMIN" || 
-        data.user?.user_metadata?.role === "ADMIN") {
-      // User is admin in Supabase but not in Prisma - fix it
-      await prisma.user.upsert({
-        where: { id: userId },
-        create: {
-          id: userId,
-          email: data.user.email!,
-          name: data.user.user_metadata?.name || "Admin",
-          role: Role.ADMIN,
-          educationLevel: "UNIVERSITY",
-          county: "Nairobi"
-        },
-        update: { role: Role.ADMIN }
-      });
-      return true;
-    }
-    
+
     return false;
   } catch (error) {
     console.error("Error checking admin status:", error);

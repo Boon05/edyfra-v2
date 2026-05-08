@@ -16,19 +16,12 @@ ALTER TABLE "PostLike" ENABLE ROW LEVEL SECURITY;
 ALTER TABLE "Comment" ENABLE ROW LEVEL SECURITY;
 ALTER TABLE "Achievement" ENABLE ROW LEVEL SECURITY;
 
--- Create function to check if user is admin (checks both Prisma role and Supabase metadata)
+-- Create function to check if user is admin (Prisma User.role is the source of truth)
 CREATE OR REPLACE FUNCTION is_admin()
 RETURNS BOOLEAN AS $$
 DECLARE
   user_role TEXT;
 BEGIN
-  -- Check Supabase user metadata first
-  SELECT raw_user_meta_data->>'role' INTO user_role FROM auth.users WHERE id = auth.uid();
-  IF user_role = 'ADMIN' THEN
-    RETURN TRUE;
-  END IF;
-  
-  -- Check Prisma User table (fallback)
   SELECT role INTO user_role FROM "User" WHERE id = auth.uid()::text LIMIT 1;
   IF user_role = 'ADMIN' THEN
     RETURN TRUE;
@@ -36,7 +29,7 @@ BEGIN
   
   RETURN FALSE;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
 -- Users: Read all, update self; Admin can do anything
 CREATE POLICY "Users can view all users" ON "User" FOR SELECT USING (true);

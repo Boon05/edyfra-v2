@@ -36,28 +36,14 @@ export async function updateSession(request: NextRequest) {
 
   const isAuthRoute = request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/signup');
   const isStudentRoute = request.nextUrl.pathname.startsWith('/dashboard');
-  const isTutorRoute = request.nextUrl.pathname.startsWith('/tutor');
   const isAdminRoute = request.nextUrl.pathname.startsWith('/admin');
-  const isProtectedRoute = isStudentRoute || isTutorRoute || request.nextUrl.pathname.startsWith('/study-room') || request.nextUrl.pathname.startsWith('/onboarding');
+  const isTutorRoute = request.nextUrl.pathname.startsWith('/tutor');
+  const isProtectedRoute = isStudentRoute || isTutorRoute || isAdminRoute || request.nextUrl.pathname.startsWith('/study-room') || request.nextUrl.pathname.startsWith('/onboarding');
 
   if (!user && isProtectedRoute) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
     return NextResponse.redirect(url);
-  }
-
-  // Protect admin routes from non-admin users - normalize role to uppercase
-  if (isAdminRoute && request.nextUrl.pathname !== '/admin/register') {
-    if (!user) {
-      const url = request.nextUrl.clone();
-      url.pathname = '/login';
-      return NextResponse.redirect(url);
-    }
-    if ((user.user_metadata?.role || "").toUpperCase() !== 'ADMIN') {
-      const url = request.nextUrl.clone();
-      url.pathname = '/dashboard';
-      return NextResponse.redirect(url);
-    }
   }
 
   if (user) {
@@ -72,25 +58,8 @@ export async function updateSession(request: NextRequest) {
       return NextResponse.redirect(url);
     }
 
-    // Role-based access control
-    if (role?.toUpperCase() === 'TUTOR' && isStudentRoute) {
-      const url = request.nextUrl.clone();
-      url.pathname = '/tutor';
-      return NextResponse.redirect(url);
-    }
-
-    if (role?.toUpperCase() !== 'TUTOR' && isTutorRoute) {
-      const url = request.nextUrl.clone();
-      url.pathname = '/dashboard';
-      return NextResponse.redirect(url);
-    }
-
-    // Prevent non-admins from accessing admin routes
-    if (role?.toUpperCase() !== 'ADMIN' && isAdminRoute && request.nextUrl.pathname !== '/admin/register') {
-      const url = request.nextUrl.clone();
-      url.pathname = '/dashboard';
-      return NextResponse.redirect(url);
-    }
+    // Role-based access is handled in Prisma-backed layouts/pages.
+    // Middleware only protects authenticated routes because Supabase user_metadata can be stale.
   }
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is. If you're

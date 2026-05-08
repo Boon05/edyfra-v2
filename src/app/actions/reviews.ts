@@ -75,7 +75,16 @@ export async function getPendingReviews(): Promise<Review[]> {
 export async function approveReview(id: string) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user || user.user_metadata?.role !== "ADMIN") {
+  const dbUser = user ? await prisma.user.findFirst({
+    where: {
+      OR: [
+        { id: user.id },
+        ...(user.email ? [{ email: user.email }] : [])
+      ]
+    },
+    select: { role: true }
+  }) : null;
+  if (!user || dbUser?.role !== "ADMIN") {
     return { error: "Unauthorized" };
   }
   await supabase.from("reviews").update({ approved: true }).eq("id", id);
@@ -86,7 +95,16 @@ export async function approveReview(id: string) {
 export async function deleteReview(id: string) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user || user.user_metadata?.role !== "ADMIN") {
+  const dbUser = user ? await prisma.user.findFirst({
+    where: {
+      OR: [
+        { id: user.id },
+        ...(user.email ? [{ email: user.email }] : [])
+      ]
+    },
+    select: { role: true }
+  }) : null;
+  if (!user || dbUser?.role !== "ADMIN") {
     return { error: "Unauthorized" };
   }
   await supabase.from("reviews").delete().eq("id", id);

@@ -14,6 +14,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { motion, AnimatePresence } from "framer-motion";
+import { getUserData } from "@/app/actions/user";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -33,21 +34,23 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       try {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) {
-          // Let middleware handle the redirect
-          setLoading(false);
+          router.push("/login");
           return;
         }
 
-        if ((user.user_metadata?.role || "").toUpperCase() !== "ADMIN") {
-          // Let middleware handle the redirect
-          setLoading(false);
+        // Prisma is the source of truth for role. Metadata can be missing/outdated.
+        const dbUser = await getUserData();
+        const role = (dbUser?.role || (user.user_metadata?.role || "")).toUpperCase();
+        if (role !== "ADMIN") {
+          router.push("/dashboard");
           return;
         }
 
         setAdminUser(user);
-        setLoading(false);
       } catch (error) {
         console.error("Admin auth check failed:", error);
+        router.push("/login");
+      } finally {
         setLoading(false);
       }
     };

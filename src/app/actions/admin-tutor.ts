@@ -5,27 +5,20 @@ import prisma from "@/lib/prisma";
 import { Role, VerifPath, TutorApplication, User, TutorProfile } from "@prisma/client";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
+import { getUserData } from "./user";
+
+async function requireAdminUser() {
+  const adminUser = await getUserData();
+  if (!adminUser || adminUser.role !== Role.ADMIN) {
+    throw new Error("Unauthorized: Admin access required");
+  }
+  return adminUser;
+}
 
 // Get tutor applications with PENDING status only
 export async function getTutorApplicationsWithDetails(): Promise<any[]> {
   try {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    if (!user) {
-      console.error("No user found");
-      return [];
-    }
-
-    // Check if user is admin
-    const adminUser = await prisma.user.findUnique({
-      where: { id: user.id }
-    });
-
-    if (!adminUser || adminUser.role !== Role.ADMIN) {
-      console.error("Unauthorized: Admin access required");
-      return [];
-    }
+    await requireAdminUser();
 
     // Get PENDING applications only with timeout
     const timeoutPromise = new Promise<never>((_, reject) => 
@@ -49,23 +42,7 @@ export async function getTutorApplicationsWithDetails(): Promise<any[]> {
 // Get ALL tutors (users with TUTOR role) with their profiles
 export async function getAllTutorsWithDetails(): Promise<any[]> {
   try {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    if (!user) {
-      console.error("No user found");
-      return [];
-    }
-
-    // Check if user is admin
-    const adminUser = await prisma.user.findUnique({
-      where: { id: user.id }
-    });
-
-    if (!adminUser || adminUser.role !== Role.ADMIN) {
-      console.error("Unauthorized: Admin access required");
-      return [];
-    }
+    await requireAdminUser();
 
     // Get all users with TUTOR role
      const tutors = await prisma.user.findMany({
@@ -106,21 +83,7 @@ export async function getAllTutorsWithDetails(): Promise<any[]> {
 // Approve tutor application - simplified version
 export async function approveTutorApplicationEnhanced(applicationId: string) {
   try {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    if (!user) {
-      throw new Error("Unauthorized: No user found");
-    }
-
-    // Check if user is admin
-    const adminUser = await prisma.user.findUnique({
-      where: { id: user.id }
-    });
-
-    if (!adminUser || adminUser.role !== Role.ADMIN) {
-      throw new Error("Unauthorized: Admin access required");
-    }
+    await requireAdminUser();
 
     // Get the application with timeout
     const app = await prisma.tutorApplication.findUnique({
@@ -194,21 +157,7 @@ export async function approveTutorApplicationEnhanced(applicationId: string) {
 // Reject tutor application
 export async function rejectTutorApplication(applicationId: string, reason?: string) {
   try {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    if (!user) {
-      throw new Error("Unauthorized: No user found");
-    }
-
-    // Check if user is admin
-    const adminUser = await prisma.user.findUnique({
-      where: { id: user.id }
-    });
-
-    if (!adminUser || adminUser.role !== Role.ADMIN) {
-      throw new Error("Unauthorized: Admin access required");
-    }
+    await requireAdminUser();
 
     // Get the application
     const app = await prisma.tutorApplication.findUnique({
@@ -254,21 +203,7 @@ export async function rejectTutorApplication(applicationId: string, reason?: str
 // Get tutor statistics for admin dashboard
 export async function getTutorStatsForAdmin() {
   try {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    if (!user) {
-      throw new Error("Unauthorized: No user found");
-    }
-
-    // Check if user is admin
-    const adminUser = await prisma.user.findUnique({
-      where: { id: user.id }
-    });
-
-    if (!adminUser || adminUser.role !== Role.ADMIN) {
-      throw new Error("Unauthorized: Admin access required");
-    }
+    await requireAdminUser();
 
     const [totalTutors, verifiedTutors, pendingApplications, activeSessions, totalSessions] = await Promise.all([
       prisma.user.count({ where: { role: Role.TUTOR } }),

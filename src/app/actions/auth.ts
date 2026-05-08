@@ -4,7 +4,6 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getUserData } from "./user";
-import prisma from "@/lib/prisma";
 export async function login(formData: FormData) {
   const supabase = await createClient();
 
@@ -23,29 +22,18 @@ export async function login(formData: FormData) {
   // FORCE SYNC: Ensure Prisma has this user record immediately on login
   const prismaUser = await getUserData();
   
-  // Properly determine role - check both Prisma and Supabase metadata
-  let role = "STUDENT";
+  // Prisma is the source of truth for role. Supabase metadata is synced from it below.
+  const role = prismaUser?.role || "STUDENT";
   
-  if (prismaUser?.role) {
-    role = prismaUser.role;
-  } else if (data.user?.user_metadata?.role) {
-    role = data.user.user_metadata.role.toUpperCase();
-    // Sync role to Prisma if not present
-    if (prismaUser) {
-      await prisma.user.update({
-        where: { id: prismaUser.id },
-        data: { role: role as any }
-      });
+  // Keep Supabase metadata aligned with Prisma so middleware/layout routing doesn't mis-route users.
+  try {
+    const currentMetaRole = (data.user?.user_metadata?.role || "").toUpperCase();
+    const desiredRole = (role || "STUDENT").toUpperCase();
+    if (currentMetaRole !== desiredRole) {
+      await supabase.auth.updateUser({ data: { role: desiredRole } });
     }
-  }
-  
-  // Special check: if Supabase metadata says ADMIN but Prisma doesn't, sync it
-  if (data.user?.user_metadata?.role?.toUpperCase() === "ADMIN" && prismaUser && prismaUser.role !== "ADMIN") {
-    await prisma.user.update({
-      where: { id: prismaUser.id },
-      data: { role: "ADMIN" }
-    });
-    role = "ADMIN";
+  } catch (e) {
+    console.error("Role metadata sync failed:", e);
   }
 
   revalidatePath("/", "layout");

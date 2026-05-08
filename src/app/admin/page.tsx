@@ -23,18 +23,10 @@ export default async function AdminDashboard() {
     }
   });
   
-  const isAdmin = dbUser?.role === "ADMIN" || user.user_metadata?.role === "ADMIN";
+  const isAdmin = dbUser?.role === "ADMIN";
   
   if (!isAdmin) {
     redirect("/dashboard");
-  }
-
-  // Ensure Prisma role is synced with Supabase metadata
-  if (dbUser && dbUser.role !== "ADMIN" && user.user_metadata?.role === "ADMIN") {
-    await prisma.user.update({
-      where: { id: dbUser.id },
-      data: { role: "ADMIN" }
-    });
   }
 
   const metrics = await getAdminDashboardMetrics();

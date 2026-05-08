@@ -11,48 +11,21 @@ const ADMIN_SECRET_KEY = ADMIN_CONFIG.SECRET_KEY;
 // Helper function to check if a user is admin
 async function isAdmin(userId: string): Promise<boolean> {
   try {
-    // First check Prisma database
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
+    const supabase = await createClient();
+    const { data: { user: authUser } } = await supabase.auth.getUser();
+
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { id: userId },
+          ...(authUser?.email ? [{ email: authUser.email }] : [])
+        ]
+      },
       select: { role: true }
     });
     
     if (user?.role === Role.ADMIN) return true;
-    
-    // Fallback to Supabase metadata - get user directly from Supabase
-    try {
-      const { createClient: createAdminClient } = await import("@supabase/supabase-js");
-      const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-      
-      if (serviceRoleKey) {
-        const adminClient = createAdminClient(
-          process.env.NEXT_PUBLIC_SUPABASE_URL!,
-          serviceRoleKey,
-          { auth: { autoRefreshToken: false, persistSession: false } }
-        );
-        
-        const { data: { user: sbUser } } = await adminClient.auth.admin.getUserById(userId);
-        if (sbUser?.user_metadata?.role === "ADMIN") {
-           // Sync role to Prisma
-           await prisma.user.upsert({
-             where: { id: userId },
-             update: { role: Role.ADMIN },
-             create: {
-               id: userId,
-               email: sbUser.email || '',
-               name: sbUser.user_metadata?.name || 'Admin',
-               role: Role.ADMIN,
-               educationLevel: 'UNIVERSITY',
-               county: 'Nairobi'
-             }
-           });
-          return true;
-        }
-      }
-    } catch (sbError) {
-      console.error("Supabase admin check failed:", sbError);
-    }
-    
+
     return false;
   } catch {
     return false;
@@ -102,16 +75,7 @@ export async function getAllUsers() {
       throw new Error("Unauthorized: No user found");
     }
 
-    // Check if user is admin - check both Prisma and Supabase metadata
-    const adminUser = await prisma.user.findUnique({
-      where: { id: user.id }
-    });
-
-    const isAdmin = adminUser?.role === Role.ADMIN || 
-                     user.user_metadata?.role === "ADMIN" ||
-                     user.user_metadata?.role === "ADMIN";
-
-    if (!isAdmin) {
+    if (!(await isAdmin(user.id))) {
       throw new Error("Unauthorized: Admin access required");
     }
 
