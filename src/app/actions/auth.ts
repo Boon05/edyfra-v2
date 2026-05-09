@@ -62,6 +62,7 @@ export async function signup(formData: FormData) {
         name: name,
         role: "STUDENT", // Default role
       },
+      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/auth/callback`,
     },
   });
 
@@ -69,8 +70,10 @@ export async function signup(formData: FormData) {
     return { error: error.message };
   }
 
-  // We don't sync to Prisma here because onboarding will handle it
-  // But we ensure the user is redirected to onboarding
+  if (!data.session) {
+    return { error: "Account created! Check your email to confirm before continuing." };
+  }
+
   revalidatePath("/", "layout");
   redirect("/onboarding");
 }

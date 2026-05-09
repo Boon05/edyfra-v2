@@ -14,9 +14,10 @@ import { motion } from "framer-motion";
 
 interface GroupMessage {
   id: string;
+  groupId: string;
   content: string;
   createdAt: string | Date;
-  sender?: { name: string; avatar?: string };
+  sender?: { name: string; avatar?: string } | null;
   senderId?: string;
 }
 
@@ -62,7 +63,7 @@ export default function GroupChatPage() {
     try {
       const data = await getGroupById(groupId);
       setGroup(data as any);
-      setMessages(data.groupMessages || []);
+      setMessages((data.groupMessages || []) as any);
     } catch (e) {
       toast.error("Failed to load group");
     } finally {
