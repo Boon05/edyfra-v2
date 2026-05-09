@@ -136,9 +136,11 @@ export default function TutorDashboard() {
       if (result.success) {
         toast.success("Match accepted! Entering room...");
         router.push(`/study-room/${result.sessionId}`);
+      } else {
+        toast.error(result.error || "Failed to accept match.");
       }
     } catch (err: unknown) {
-      toast.error((err as Error).message || "Failed to accept.");
+      toast.error("System error. Please try again.");
     } finally {
       setAcceptingId(null);
     }

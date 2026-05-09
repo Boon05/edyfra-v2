@@ -24,7 +24,7 @@ export class AIService {
       this.model = options.model || "gpt-4-turbo-preview";
     } else {
       this.gemini = new GoogleGenerativeAI(options.apiKey || process.env.GOOGLE_AI_KEY || "");
-      this.model = options.model || "gemini-1.5-flash";
+      this.model = options.model || "gemini-flash-latest";
     }
   }
 

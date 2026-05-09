@@ -60,7 +60,7 @@ export async function acceptMatchRequest(requestId: string) {
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
-    throw new Error("Unauthorized");
+    return { success: false, error: "Unauthorized" };
   }
 
   const matchRequest = await prisma.matchRequest.findUnique({
@@ -68,7 +68,7 @@ export async function acceptMatchRequest(requestId: string) {
   });
 
   if (!matchRequest || matchRequest.sessionId) {
-    throw new Error("Request already matched or not found");
+    return { success: false, error: "Request already matched or not found" };
   }
 
   const userData = await prisma.user.findUnique({ 
@@ -79,7 +79,10 @@ export async function acceptMatchRequest(requestId: string) {
   const tier = userData?.role === "TUTOR" ? "TUTOR" : "PEER";
 
   const roomId = `room-${randomBytes(8).toString('hex')}`;
-    const session = await prisma.session.create({
+  
+  let session;
+  try {
+    session = await prisma.session.create({
       data: {
         studentId: matchRequest.studentId,
         partnerId: user.id,
@@ -92,14 +95,23 @@ export async function acceptMatchRequest(requestId: string) {
       },
     });
 
-  await prisma.matchRequest.update({
-    where: { id: requestId },
-    data: {
-      sessionId: session.id,
-      resolvedAs: tier as MatchTier,
-      resolvedAt: new Date(),
+    await prisma.matchRequest.update({
+      where: { id: requestId },
+      data: {
+        sessionId: session.id,
+        resolvedAs: tier as MatchTier,
+        resolvedAt: new Date(),
+      }
+    });
+  } catch (error: any) {
+    // If the student user record was deleted (P2003 Foreign Key constraint failed)
+    if (error.code === 'P2003') {
+      // Clean up the orphaned match request
+      await prisma.matchRequest.delete({ where: { id: requestId } });
+      return { success: false, error: "This student is no longer available. Request removed from feed." };
     }
-  });
+    return { success: false, error: "Failed to create session. Please try again." };
+  }
 
   try {
     await prisma.notification.create({
