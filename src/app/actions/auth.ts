@@ -71,7 +71,7 @@ export async function signup(formData: FormData) {
   }
 
   if (!data.session) {
-    return { error: "Account created! Check your email to confirm before continuing." };
+    return { success: true, message: "Account created! Check your email to confirm before continuing." };
   }
 
   revalidatePath("/", "layout");

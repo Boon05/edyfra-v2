@@ -8,6 +8,8 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { signup } from "@/app/actions/auth";
 
+import { toast } from "sonner";
+
 export default function SignupPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -22,6 +24,9 @@ export default function SignupPage() {
 
     if (result?.error) {
       setError(result.error);
+      setLoading(false);
+    } else if (result?.success && result.message) {
+      toast.success(result.message);
       setLoading(false);
     }
   }

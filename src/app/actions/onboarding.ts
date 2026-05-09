@@ -139,6 +139,26 @@ export async function completeOnboarding(data: OnboardingData) {
         status: "PENDING",
       }
     });
+
+    await prisma.tutorProfile.upsert({
+      where: { userId: finalUserId },
+      create: {
+        userId: finalUserId,
+        subjects: subjects || [],
+        levelsTaught: formYear ? [formYear] : [],
+        verificationPath: verificationPath === "GRADES" ? VerifPath.GRADES : VerifPath.POINTS,
+        hourlyRate: parseInt(hourlyRate || "0") || TUTOR_CONFIG.DEFAULT_HOURLY_RATE_KSH,
+        bio: bio || "",
+        mpesaNumber: mpesaNumber || "",
+        availability: { isOnline: false }
+      },
+      update: {
+        subjects: subjects || [],
+        hourlyRate: parseInt(hourlyRate || "0") || TUTOR_CONFIG.DEFAULT_HOURLY_RATE_KSH,
+        bio: bio || "",
+        mpesaNumber: mpesaNumber || "",
+      }
+    });
     
     // Update Supabase metadata to indicate pending tutor application
     await supabase.auth.updateUser({
