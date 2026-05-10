@@ -3,29 +3,13 @@ import { redirect } from "next/navigation";
 import { AdminDashboardClient } from "./dashboard-client";
 import { getAdminDashboardMetrics, getTutorApplications } from "@/app/actions/admin";
 import prisma from "@/lib/prisma";
+import { isFounderEmail } from "@/utils/admin-guard";
 
 export default async function AdminDashboard() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  // Require authentication
-  if (!user) {
-    redirect("/login");
-  }
-  
-  // Use Prisma as the source of truth for role
-  const dbUser = await prisma.user.findFirst({
-    where: {
-      OR: [
-        { id: user.id },
-        { email: user.email! }
-      ]
-    }
-  });
-  
-  const isAdmin = dbUser?.role === "ADMIN";
-  
-  if (!isAdmin) {
+  if (!user || !isFounderEmail(user.email)) {
     redirect("/dashboard");
   }
 

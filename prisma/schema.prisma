@@ -32,6 +32,8 @@ model User {
   dailySearchCount  Int                     @default(0)
   lastCountReset    DateTime?
   subscriptionTier  String?
+  banned            Boolean                 @default(false)
+  suspended         Boolean                 @default(false)
   achievements      Achievement[]
   comments          Comment[]
   challenges        DailyChallengeAttempt[]
@@ -255,6 +257,122 @@ model Achievement {
   user        User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, type])
+}
+
+model PlatformSettings {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+model AiConversation {
+  id           String   @id @default(cuid())
+  userId       String?
+  modelUsed    String
+  subject      String?
+  tokenCount   Int      @default(0)
+  costEstimate Float    @default(0)
+  createdAt    DateTime @default(now())
+}
+
+model Report {
+  id             String   @id @default(cuid())
+  reporterId     String
+  reportedUserId String
+  contentType    String
+  contentId      String?
+  reason         String
+  status         String   @default("pending")
+  createdAt      DateTime @default(now())
+}
+
+model Announcement {
+  id             String    @id @default(cuid())
+  title          String
+  body           String
+  targetAudience String    @default("all")
+  publishedAt    DateTime?
+  expiresAt      DateTime?
+  isActive       Boolean   @default(true)
+  createdBy      String?
+  createdAt      DateTime  @default(now())
+}
+
+model NewsArticle {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  category    String
+  body        String
+  coverImage  String?
+  summary     String?
+  publishedAt DateTime?
+  isDraft     Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model Testimonial {
+  id         String   @id @default(cuid())
+  userId     String?
+  authorName String
+  quote      String
+  school     String?
+  avatar     String?
+  isApproved Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}
+
+model NotificationSettings {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  preferences Json   @default("{\"newMatch\": true, \"tutorAccepted\": true, \"dailyChallenge\": true, \"newMessage\": true, \"pointsMilestone\": true, \"announcements\": true}")
+  updatedAt DateTime @updatedAt
+}
+
+model UserPreferences {
+  id                  String   @id @default(cuid())
+  userId              String   @unique
+  theme               String   @default("system")
+  accentColor         String   @default("#8b5cf6")
+  layout              String   @default("compact")
+  fontSize            String   @default("normal")
+  mashStyle           String   @default("detailed")
+  preferredLanguage   String   @default("english")
+  studyTime           String?
+  sessionLength       String?
+  sessionTypePref     String?
+  showProfile         Boolean  @default(true)
+  showOnlineStatus    Boolean  @default(true)
+  allowTutorRequests  Boolean  @default(true)
+  enableMashFallback  Boolean  @default(true)
+  updatedAt           DateTime @updatedAt
+}
+
+model Challenge {
+  id             String                  @id @default(cuid())
+  subject        String
+  educationLevel EduLevel
+  difficulty     String
+  question       String
+  correctAnswer  String
+  explanation    String
+  options        String[]
+  points         Int                     @default(50)
+  generatedAt    DateTime                @default(now())
+  isActive       Boolean                 @default(true)
+  completions    ChallengeCompletion[]
+}
+
+model ChallengeCompletion {
+  id            String    @id @default(cuid())
+  userId        String
+  challengeId   String
+  wasCorrect    Boolean
+  completedAt   DateTime  @default(now())
+  challenge     Challenge @relation(fields: [challengeId], references: [id])
+
+  @@unique([userId, challengeId, completedAt])
 }
 
 enum Role {

@@ -4,29 +4,15 @@ import prisma from "@/lib/prisma";
 import { Role } from "@prisma/client";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
-import { ADMIN_CONFIG, TUTOR_CONFIG } from "@/lib/config";
+import { TUTOR_CONFIG } from "@/lib/config";
+import { isFounderEmail } from "@/utils/admin-guard";
 
-const ADMIN_SECRET_KEY = ADMIN_CONFIG.SECRET_KEY;
-
-// Helper function to check if a user is admin
-async function isAdmin(userId: string): Promise<boolean> {
+// Helper: check if current user is a founder
+async function isAdmin(): Promise<boolean> {
   try {
     const supabase = await createClient();
-    const { data: { user: authUser } } = await supabase.auth.getUser();
-
-    const user = await prisma.user.findFirst({
-      where: {
-        OR: [
-          { id: userId },
-          ...(authUser?.email ? [{ email: authUser.email }] : [])
-        ]
-      },
-      select: { role: true }
-    });
-    
-    if (user?.role === Role.ADMIN) return true;
-
-    return false;
+    const { data: { user } } = await supabase.auth.getUser();
+    return isFounderEmail(user?.email);
   } catch {
     return false;
   }
@@ -35,34 +21,7 @@ async function isAdmin(userId: string): Promise<boolean> {
 // --- AUTH & SETUP ---
 
 export async function registerAdmin(formData: any) {
-  const { email, password, name, securityKey } = formData;
-  console.log("DEBUG: System is looking for:", ADMIN_SECRET_KEY, "You typed:", securityKey);
-  if (securityKey !== ADMIN_SECRET_KEY) return { error: "Invalid Key." };
-
-  const supabase = await createClient();
-  const { data: authData, error: authError } = await supabase.auth.signUp({
-    email, password, options: { data: { name, role: "ADMIN" } }
-  });
-
-  if (authError) return { error: authError.message };
-  if (!authData.user) return { error: "Failed to create user in Supabase" };
-  
-   try {
-     await prisma.user.upsert({
-       where: { id: authData.user.id },
-       update: { role: Role.ADMIN },
-       create: {
-         id: authData.user.id,
-         email, name, role: Role.ADMIN,
-         educationLevel: "UNIVERSITY",
-         county: "Nairobi",
-       }
-     });
-    return { success: true };
-  } catch (err) {
-    console.error("Prisma error in registerAdmin:", err);
-    return { error: `Database error: ${err instanceof Error ? err.message : 'Unknown error'}` };
-  }
+  return { error: "Registration is closed. Admins are set by environment variables only." };
 }
 
 // --- USER MANAGEMENT ---
@@ -76,7 +35,7 @@ export async function getAllUsers() {
       throw new Error("Unauthorized: No user found");
     }
 
-    if (!(await isAdmin(user.id))) {
+    if (!(await isAdmin())) {
       throw new Error("Unauthorized: Admin access required");
     }
 
@@ -103,7 +62,7 @@ export async function deleteUser(userId: string) {
     }
 
     // Check if user is admin using helper
-    const adminCheck = await isAdmin(admin.id);
+    const adminCheck = await isAdmin();
     if (!adminCheck) {
       return { error: "Unauthorized: Admin access required" };
     }
@@ -152,7 +111,7 @@ export async function updateUserRoleAdmin(userId: string, role: Role) {
     }
 
     // Check if user is admin using helper
-    const adminCheck = await isAdmin(admin.id);
+    const adminCheck = await isAdmin();
     if (!adminCheck) {
       return { error: "Unauthorized: Admin access required" };
     }
@@ -177,7 +136,7 @@ export async function getActiveSessions() {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     
-    if (!user || !(await isAdmin(user.id))) {
+    if (!user || !(await isAdmin())) {
       return [];
     }
 
@@ -196,7 +155,7 @@ export async function closeSession(sessionId: string) {
     const supabase = await createClient();
     const { data: { user: admin } } = await supabase.auth.getUser();
     
-    if (!admin || !(await isAdmin(admin.id))) {
+    if (!admin || !(await isAdmin())) {
       return { error: "Unauthorized: Admin access required" };
     }
 
@@ -222,7 +181,7 @@ export async function getTutorApplications() {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     
-    if (!user || !(await isAdmin(user.id))) {
+    if (!user || !(await isAdmin())) {
       return [];
     }
 
@@ -242,7 +201,7 @@ export async function approveTutorApplication(applicationId: string) {
     const supabase = await createClient();
     const { data: { user: admin } } = await supabase.auth.getUser();
     
-    if (!admin || !(await isAdmin(admin.id))) {
+    if (!admin || !(await isAdmin())) {
       return { error: "Unauthorized: Admin access required" };
     }
 
@@ -310,7 +269,7 @@ export async function resetAllSessions() {
     const supabase = await createClient();
     const { data: { user: admin } } = await supabase.auth.getUser();
     
-    if (!admin || !(await isAdmin(admin.id))) {
+    if (!admin || !(await isAdmin())) {
       return { error: "Unauthorized: Admin access required" };
     }
 
@@ -332,7 +291,7 @@ export async function clearGlobalCache() {
     const supabase = await createClient();
     const { data: { user: admin } } = await supabase.auth.getUser();
     
-    if (!admin || !(await isAdmin(admin.id))) {
+    if (!admin || !(await isAdmin())) {
       return { error: "Unauthorized: Admin access required" };
     }
 
@@ -351,7 +310,7 @@ export async function saveAdminGlobalSettings(settings: any) {
     const supabase = await createClient();
     const { data: { user: admin } } = await supabase.auth.getUser();
     
-    if (!admin || !(await isAdmin(admin.id))) {
+    if (!admin || !(await isAdmin())) {
       return { error: "Unauthorized: Admin access required" };
     }
 
@@ -377,7 +336,7 @@ export async function getAdminGlobalSettings() {
     const supabase = await createClient();
     const { data: { user: admin } } = await supabase.auth.getUser();
     
-    if (!admin || !(await isAdmin(admin.id))) {
+    if (!admin || !(await isAdmin())) {
       return {};
     }
 
@@ -400,7 +359,7 @@ export async function getAdminDashboardMetrics() {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     
-    if (!user || !(await isAdmin(user.id))) {
+    if (!user || !(await isAdmin())) {
       // Return safe fallback data
       return {
         mainStats: [

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
+import { isFounderEmail } from '@/utils/admin-guard';
 
 export async function middleware(request: NextRequest) {
   const supabase = await createClient();
@@ -19,6 +20,17 @@ export async function middleware(request: NextRequest) {
   const isProtectedPath = protectedPaths.some(path => 
     request.nextUrl.pathname.startsWith(path)
   );
+
+  // Admin routes — founders only via email
+  if (request.nextUrl.pathname.startsWith('/admin')) {
+    if (!user || !isFounderEmail(user.email)) {
+      return NextResponse.redirect(new URL('/dashboard', request.url));
+    }
+    // Allow admin access
+    const response = NextResponse.next();
+    response.headers.set('Cache-Control', 'no-store, max-age=0');
+    return response;
+  }
 
   // If accessing protected route without user, redirect to login
   if (isProtectedPath && !user) {

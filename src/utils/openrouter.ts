@@ -1,0 +1,220 @@
+const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
+const OPENROUTER_BASE = "https://openrouter.ai/api/v1";
+
+export const AVAILABLE_MODELS = [
+  { id: "meta-llama/llama-3.1-8b-instruct:free", label: "Llama 3.1 8B (Free)", costPer1K: 0 },
+  { id: "meta-llama/llama-3.1-70b-instruct", label: "Llama 3.1 70B", costPer1K: 0.001 },
+  { id: "google/gemini-flash-1.5", label: "Gemini Flash 1.5", costPer1K: 0.00015 },
+  { id: "google/gemini-pro-1.5", label: "Gemini Pro 1.5", costPer1K: 0.00125 },
+  { id: "anthropic/claude-3-haiku", label: "Claude 3 Haiku", costPer1K: 0.0025 },
+  { id: "anthropic/claude-3.5-sonnet", label: "Claude 3.5 Sonnet", costPer1K: 0.015 },
+  { id: "openai/gpt-4o-mini", label: "GPT-4o Mini", costPer1K: 0.0015 },
+  { id: "openai/gpt-4o", label: "GPT-4o", costPer1K: 0.015 },
+];
+
+const DEFAULT_SYSTEM_PROMPT = `You are Mash, Edyfra's AI study companion for Kenyan students. You are warm, encouraging, and focused. You only help with academic subjects. You never do homework for students — you guide them to the answer. You adapt your language to the student's education level. You are concise and clear. When a student is struggling, you break the problem into smaller steps. You celebrate small wins.`;
+
+const DEFAULT_MODEL = "meta-llama/llama-3.1-8b-instruct:free";
+
+interface OpenRouterOptions {
+  model?: string;
+  systemPrompt?: string;
+  temperature?: number;
+  maxTokens?: number;
+  safetySettings?: { blocklist?: string[]; refuseOfftopic?: boolean; safeMode?: boolean };
+  userPreferences?: { style?: string; language?: string };
+}
+
+export async function getActiveSettings() {
+  try {
+    const { default: prisma } = await import("@/lib/prisma");
+    const settings = await prisma.platformSettings.findMany({
+      where: { key: { in: ["active_ai_model", "mash_system_prompt", "safety_blocklist", "refuse_offtopic", "safe_mode_under18", "max_response_tokens"] } }
+    });
+    const map: Record<string, any> = {};
+    for (const s of settings) map[s.key] = s.value;
+    return map;
+  } catch {
+    return {};
+  }
+}
+
+export async function generateAIResponse(
+  userMessage: string,
+  subject?: string,
+  topic?: string,
+  options?: OpenRouterOptions
+): Promise<string> {
+  const settings = await getActiveSettings();
+  const model = options?.model || (settings.active_ai_model as string) || DEFAULT_MODEL;
+  let systemPrompt = options?.systemPrompt || (settings.mash_system_prompt as string) || DEFAULT_SYSTEM_PROMPT;
+
+  if (subject) {
+    systemPrompt += `\n\nThe student is asking about: ${subject}${topic ? ` - ${topic}` : ""}.`;
+  }
+
+  if (options?.userPreferences) {
+    const { style, language } = options.userPreferences;
+    if (style === "short") systemPrompt += "\nKeep responses short and direct.";
+    else if (style === "socratic") systemPrompt += "\nAsk the student questions to guide them rather than giving answers.";
+    if (language === "kiswahili") systemPrompt += "\nRespond in Kiswahili where appropriate.";
+  }
+
+  const maxTokens = (options?.maxTokens ?? (settings.max_response_tokens as number) ?? 500);
+  const blocklist = (settings.safety_blocklist as string[]) || [];
+  const refuseOfftopic = options?.safetySettings?.refuseOfftopic ?? (settings.refuse_offtopic as boolean) ?? false;
+  const safeMode = options?.safetySettings?.safeMode ?? (settings.safe_mode_under18 as boolean) ?? false;
+
+  if (refuseOfftopic) {
+    systemPrompt += "\nOnly answer academic questions. Politely redirect anything else.";
+  }
+  if (safeMode) {
+    systemPrompt += "\nApply extra safety filtering for younger students.";
+  }
+
+  try {
+    const response = await fetch(`${OPENROUTER_BASE}/chat/completions`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${OPENROUTER_API_KEY}`,
+        "HTTP-Referer": process.env.NEXT_PUBLIC_APP_URL || "https://edyfra.vercel.app",
+      },
+      body: JSON.stringify({
+        model,
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: userMessage },
+        ],
+        max_tokens: maxTokens,
+        temperature: options?.temperature ?? 0.7,
+      }),
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      console.error("OpenRouter error:", response.status, errText);
+      return "Mash is taking a break — try again in a moment.";
+    }
+
+    const data = await response.json();
+    const text = data.choices?.[0]?.message?.content || "";
+
+    // Log conversation
+    try {
+        const { default: prisma } = await import("@/lib/prisma");
+      await prisma.aiConversation.create({
+        data: {
+          modelUsed: model,
+          subject: subject || null,
+          tokenCount: data.usage?.total_tokens || 0,
+          costEstimate: (data.usage?.total_tokens || 0) * ((AVAILABLE_MODELS.find(m => m.id === model)?.costPer1K || 0) / 1000),
+        },
+      });
+    } catch {}
+
+    // Filter blocklisted words
+    if (blocklist.length > 0) {
+      const lower = text.toLowerCase();
+      for (const word of blocklist) {
+        if (lower.includes(word.toLowerCase())) {
+          return "I'm unable to respond to that. Please ask an academic question.";
+        }
+      }
+    }
+
+    return text;
+  } catch (error) {
+    console.error("OpenRouter error:", error);
+    return "Mash is taking a break — try again in a moment.";
+  }
+}
+
+export async function generateAIResponseStream(
+  userMessage: string,
+  subject?: string,
+  topic?: string,
+  options?: OpenRouterOptions
+): Promise<ReadableStream<Uint8Array>> {
+  const settings = await getActiveSettings();
+  const model = options?.model || (settings.active_ai_model as string) || DEFAULT_MODEL;
+  let systemPrompt = options?.systemPrompt || (settings.mash_system_prompt as string) || DEFAULT_SYSTEM_PROMPT;
+
+  if (subject) {
+    systemPrompt += `\n\nThe student is asking about: ${subject}${topic ? ` - ${topic}` : ""}.`;
+  }
+
+  const maxTokens = (options?.maxTokens ?? (settings.max_response_tokens as number) ?? 500);
+
+  const response = await fetch(`${OPENROUTER_BASE}/chat/completions`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${OPENROUTER_API_KEY}`,
+      "HTTP-Referer": process.env.NEXT_PUBLIC_APP_URL || "https://edyfra.vercel.app",
+    },
+    body: JSON.stringify({
+      model,
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userMessage },
+      ],
+      max_tokens: maxTokens,
+      temperature: 0.7,
+      stream: true,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error("OpenRouter stream request failed");
+  }
+
+  const encoder = new TextEncoder();
+  const decoder = new TextDecoder();
+  const reader = response.body?.getReader();
+
+  if (!reader) throw new Error("No response body");
+
+  return new ReadableStream({
+    async start(controller) {
+      let fullText = "";
+      try {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          const chunk = decoder.decode(value, { stream: true });
+          const lines = chunk.split("\n").filter(l => l.startsWith("data: "));
+
+          for (const line of lines) {
+            const jsonStr = line.slice(6);
+            if (jsonStr === "[DONE]") continue;
+            try {
+              const json = JSON.parse(jsonStr);
+              const content = json.choices?.[0]?.delta?.content || "";
+              if (content) {
+                fullText += content;
+                controller.enqueue(encoder.encode(content));
+              }
+            } catch {}
+          }
+        }
+      } catch (e) {
+        console.error("Stream error:", e);
+      } finally {
+        try {
+          const { default: prisma } = await import("@/lib/prisma");
+          await prisma.aiConversation.create({
+            data: {
+              modelUsed: model,
+              subject: subject || null,
+              tokenCount: Math.ceil(fullText.length / 4),
+              costEstimate: 0,
+            },
+          });
+        } catch {}
+        controller.close();
+      }
+    },
+  });
+}

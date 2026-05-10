@@ -1,15 +1,15 @@
-// AI Challenge Generator
 "use server";
 
 import prisma from "@/lib/prisma";
-import { Role, EduLevel } from "@prisma/client";
+import { EduLevel } from "@prisma/client";
+import { generateAIResponse } from "@/utils/openrouter";
 
 interface ChallengeGenerationRequest {
-  level: string; // HIGH_SCHOOL or UNIVERSITY
-  subject?: string; // specific subject like Physics, Computer Science, etc.
-  topic?: string; // specific topic within the subject
-  count?: number; // number of challenges to generate (default 1)
-  scheduledDate?: string; // optional date to schedule challenge for
+  level: string;
+  subject?: string;
+  topic?: string;
+  count?: number;
+  scheduledDate?: string;
 }
 
 interface GeneratedChallenge {
@@ -21,29 +21,14 @@ interface GeneratedChallenge {
   explanation: string;
 }
 
-// Generate challenges using AI
 export async function generateChallenges(request: ChallengeGenerationRequest): Promise<GeneratedChallenge[]> {
   try {
-    // Get AI settings from admin
-    const adminUser = await prisma.user.findFirst({
-      where: { role: Role.ADMIN },
-      select: { settings: true }
-    });
+    const { level, subject, topic, count = 1 } = request;
 
-    const settings = (adminUser?.settings || {}) as { googleAiKey?: string };
-    const apiKey = settings.googleAiKey || process.env.GOOGLE_AI_KEY;
-    
-    if (!apiKey) {
-      throw new Error("AI API key not configured. Please add it in Admin Settings.");
-    }
-
-    const { level, subject, topic, count = 1, scheduledDate } = request;
-    
-    // Construct the prompt
     const levelText = level === "UNIVERSITY" ? "university level" : "high school level";
     const subjectText = subject ? ` in ${subject}` : "";
     const topicText = topic ? ` focusing on ${topic}` : "";
-    
+
     const prompt = `Generate ${count} fun, engaging, and educational multiple-choice challenge${count > 1 ? 's' : ''} for ${levelText} students${subjectText}${topicText}. 
 
 For each challenge, provide:
@@ -65,61 +50,28 @@ Make the questions:
 - Appropriate for the education level
 - Include practical examples where relevant`;
 
-    // Call AI service
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{
-          parts: [{ text: prompt }]
-        }],
-        generationConfig: {
-          temperature: 0.7,
-          topK: 40,
-          topP: 0.95,
-          maxOutputTokens: 2048,
-        }
-      })
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(`AI generation failed: ${error.error?.message || 'Unknown error'}`);
+    const aiResponse = await generateAIResponse(prompt, subject, topic);
+    if (!aiResponse || aiResponse.includes("taking a break")) {
+      throw new Error("AI generation failed");
     }
 
-    const data = await response.json();
-    const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-
-    if (!generatedText) {
-      throw new Error("AI did not generate valid content");
-    }
-
-    // Parse the JSON from the response
     let challenges: GeneratedChallenge[] = [];
     try {
-      // Extract JSON from the response (it might be wrapped in markdown code blocks)
-      const jsonMatch = generatedText.match(/```json\n([\s\S]*?)\n```/) || 
-                         generatedText.match(/\[([\s\S]*?)\]/) ||
-                         generatedText.match(/\{[\s\S]*\}/);
-      
-      let jsonString = jsonMatch ? (jsonMatch[1] || jsonMatch[0]) : generatedText;
-      
-      // If it's a single object, wrap in array
-      if (!jsonString.trim().startsWith('[')) {
-        jsonString = `[${jsonString}]`;
-      }
-      
+      const jsonMatch = aiResponse.match(/```json\n([\s\S]*?)\n```/) ||
+                         aiResponse.match(/\[([\s\S]*?)\]/) ||
+                         aiResponse.match(/\{[\s\S]*\}/);
+
+      let jsonString = jsonMatch ? (jsonMatch[1] || jsonMatch[0]) : aiResponse;
+      if (!jsonString.trim().startsWith('[')) jsonString = `[${jsonString}]`;
       challenges = JSON.parse(jsonString);
     } catch (parseError) {
       console.error("Failed to parse AI response:", parseError);
       throw new Error("Failed to parse AI-generated challenges");
     }
 
-    // Determine the base date for challenges
-    const baseDate = scheduledDate ? new Date(scheduledDate) : new Date();
+    const baseDate = request.scheduledDate ? new Date(request.scheduledDate) : new Date();
     baseDate.setHours(0, 0, 0, 0);
 
-    // Validate and save challenges to database
     const savedChallenges = await Promise.all(
       challenges.map(async (challenge: GeneratedChallenge, index: number) => {
         const challengeDate = new Date(baseDate);
@@ -133,13 +85,13 @@ Make the questions:
             options: challenge.options,
             answer: challenge.answer,
             explanation: challenge.explanation,
-            date: challengeDate
-          }
+            date: challengeDate,
+          },
         });
       })
     );
 
-    return savedChallenges.map(c => ({
+    return savedChallenges.map((c) => ({
       id: c.id,
       subject: c.subject,
       level: c.level,
@@ -147,7 +99,7 @@ Make the questions:
       options: c.options as string[],
       answer: c.answer,
       explanation: c.explanation,
-      date: c.date.toISOString()
+      date: c.date.toISOString(),
     }));
   } catch (error) {
     console.error("Error generating challenges:", error);
@@ -155,22 +107,18 @@ Make the questions:
   }
 }
 
-// Get challenges for a student based on their education level
 export async function getChallengesForStudent(userLevel: string, subject?: string) {
   try {
     const whereClause: any = {
       level: userLevel,
-      date: { lte: new Date() }
+      date: { lte: new Date() },
     };
-
-    if (subject) {
-      whereClause.subject = subject;
-    }
+    if (subject) whereClause.subject = subject;
 
     const challenges = await prisma.dailyChallenge.findMany({
       where: whereClause,
-      orderBy: { date: 'desc' },
-      take: 10
+      orderBy: { date: "desc" },
+      take: 10,
     });
 
     return challenges;
@@ -180,44 +128,26 @@ export async function getChallengesForStudent(userLevel: string, subject?: strin
   }
 }
 
-// Save challenge attempt
 export async function saveChallengeAttempt(userId: string, challengeId: string, correct: boolean) {
   try {
-    const challenge = await prisma.dailyChallenge.findUnique({
-      where: { id: challengeId }
-    });
+    const challenge = await prisma.dailyChallenge.findUnique({ where: { id: challengeId } });
+    if (!challenge) throw new Error("Challenge not found");
 
-    if (!challenge) {
-      throw new Error("Challenge not found");
-    }
-
-    // Check if user already attempted this challenge
     const existingAttempt = await prisma.dailyChallengeAttempt.findFirst({
-      where: {
-        userId,
-        challengeId
-      }
+      where: { userId, challengeId },
     });
+
+    const pointsEarned = correct ? 50 : 0;
 
     if (existingAttempt) {
-      // Update existing attempt
       return await prisma.dailyChallengeAttempt.update({
         where: { id: existingAttempt.id },
-        data: {
-          correct,
-          pointsEarned: correct ? 50 : 0
-        }
+        data: { correct, pointsEarned },
       });
     }
 
-    // Create new attempt
     return await prisma.dailyChallengeAttempt.create({
-      data: {
-        userId,
-        challengeId,
-        correct,
-        pointsEarned: correct ? 50 : 0
-      }
+      data: { userId, challengeId, correct, pointsEarned },
     });
   } catch (error) {
     console.error("Error saving challenge attempt:", error);
@@ -225,35 +155,20 @@ export async function saveChallengeAttempt(userId: string, challengeId: string, 
   }
 }
 
-// Get challenge statistics for admin
 export async function getChallengeStats() {
   try {
     const [totalChallenges, activeChallenges, totalAttempts, correctAttempts] = await Promise.all([
       prisma.dailyChallenge.count(),
-      prisma.dailyChallenge.count({
-        where: { date: { lte: new Date() } }
-      }),
+      prisma.dailyChallenge.count({ where: { date: { lte: new Date() } } }),
       prisma.dailyChallengeAttempt.count(),
-      prisma.dailyChallengeAttempt.count({ where: { correct: true } })
+      prisma.dailyChallengeAttempt.count({ where: { correct: true } }),
     ]);
 
     const successRate = totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 0;
 
-    return {
-      totalChallenges,
-      activeChallenges,
-      totalAttempts,
-      correctAttempts,
-      successRate
-    };
+    return { totalChallenges, activeChallenges, totalAttempts, correctAttempts, successRate };
   } catch (error) {
     console.error("Error getting challenge stats:", error);
-    return {
-      totalChallenges: 0,
-      activeChallenges: 0,
-      totalAttempts: 0,
-      correctAttempts: 0,
-      successRate: 0
-    };
+    return { totalChallenges: 0, activeChallenges: 0, totalAttempts: 0, correctAttempts: 0, successRate: 0 };
   }
 }

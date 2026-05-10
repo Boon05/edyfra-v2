@@ -8,13 +8,13 @@ import {
   Settings, Award, MessageSquare, BarChart3,
   ShieldCheck, LogOut, Bell, Search,
   Activity, Globe, Terminal, Zap, Menu, X, ChevronLeft, Power, CheckCircle,
-  Trash2
+  Trash2, Sparkles, Newspaper, Star, Wrench, Cpu
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { motion, AnimatePresence } from "framer-motion";
-import { getUserData } from "@/app/actions/user";
+import { isFounderEmail } from "@/utils/admin-guard";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -25,53 +25,34 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    if (pathname === "/admin/register") {
-      setLoading(false);
-      return;
-    }
-
     const checkAdmin = async () => {
       try {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) {
-          router.push("/login");
-          return;
-        }
-
-        // Prisma is the source of truth for role. Metadata can be missing/outdated.
-        const dbUser = await getUserData();
-        const role = (dbUser?.role || (user.user_metadata?.role || "")).toUpperCase();
-        if (role !== "ADMIN") {
+        if (!user || !isFounderEmail(user.email)) {
           router.push("/dashboard");
           return;
         }
-
         setAdminUser(user);
-      } catch (error) {
-        console.error("Admin auth check failed:", error);
-        router.push("/login");
+      } catch {
+        router.push("/dashboard");
       } finally {
         setLoading(false);
       }
     };
-
     checkAdmin();
-  }, [pathname, supabase, router]);
+  }, [supabase, router]);
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [pathname]);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "unset";
     }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
+    return () => { document.body.style.overflow = "unset"; };
   }, [isMobileMenuOpen]);
 
   if (loading) {
@@ -82,22 +63,20 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     );
   }
 
-  if (pathname === "/admin/register") {
-    return <>{children}</>;
-  }
+  if (!adminUser) return null;
 
-  if (!adminUser) {
-    return null; // Middleware will redirect
-  }
+  if (!adminUser) return null;
 
   const navItems = [
     { href: "/admin", label: "Overview", icon: LayoutDashboard },
-    { href: "/admin/users", label: "Users", icon: Users },
-    { href: "/admin/tutors", label: "Tutor Approvals", icon: ShieldCheck },
-    { href: "/admin/sessions", label: "Sessions", icon: Zap },
-    { href: "/admin/notifications", label: "Notifications", icon: Bell },
-    { href: "/admin/reviews", label: "Reviews", icon: MessageSquare },
-    { href: "/admin/challenges", label: "Challenges", icon: Award },
+    { href: "/admin/users", label: "User Management", icon: Users },
+    { href: "/admin/tutors", label: "Tutor Management", icon: GraduationCap },
+    { href: "/admin/moderation", label: "Content Moderation", icon: ShieldCheck },
+    { href: "/admin/announcements", label: "Announcements", icon: Bell },
+    { href: "/admin/news", label: "Knowledge Feed", icon: Newspaper },
+    { href: "/admin/testimonials", label: "Testimonials", icon: Star },
+    { href: "/admin/challenges", label: "AI Challenges", icon: Award },
+    { href: "/admin/ai-settings", label: "AI Engine", icon: Cpu },
     { href: "/admin/settings", label: "Settings", icon: Settings },
   ];
 
@@ -252,78 +231,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 }
 
 function AdminSidebarContent({ pathname, navItems, adminUser, supabase, router, onClose }: any) {
-  const [isActionLoading, setIsActionLoading] = useState(false);
-  const [activationProgress, setActivationProgress] = useState(0);
-  const [actionLogs, setActionLogs] = useState<string[]>([]);
-
-  const handleForceAuthorize = async () => {
-    try {
-      setIsActionLoading(true);
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("No active session found");
-
-      // 1. Update Auth Metadata
-      await supabase.auth.updateUser({
-        data: { role: 'ADMIN', status: 'active' }
-      });
-
-      // 2. Update Database Profile Record (Crucial for Middleware consistency)
-      await supabase.from('profiles').update({ role: 'ADMIN', status: 'active' }).eq('id', user.id);
-
-       alert("Admin authorization forced. Refreshing session...");
-      router.refresh();
-    } catch (err: any) {
-      console.error(err);
-      alert("Authorization failed: " + err.message);
-    }
-    finally {
-      setIsActionLoading(false);
-    }
-  };
-
-  const handleActivateTutors = async () => {
-    try {
-      if (!confirm("Confirm bulk activation of all pending tutors? This action is irreversible.")) return;
-
-      setIsActionLoading(true);
-      setActionLogs(["System: Initializing bulk activation..."]);
-      setActivationProgress(10);
-
-      // Simulate progress while waiting for the server
-      const progressInterval = setInterval(() => {
-        setActivationProgress((prev) => (prev >= 90 ? 90 : prev + 5));
-      }, 400);
-
-      const { data, error } = await supabase.functions.invoke('activate-tutors', {
-        method: 'POST'
-      });
-
-      clearInterval(progressInterval);
-      setActivationProgress(100);
-
-      if (error) throw error;
-
-      if (data?.tutors && data.tutors.length > 0) {
-        setActionLogs(prev => [...prev, ...data.tutors.map((t: string) => `Success: Activated ${t}`)]);
-      } else {
-        setActionLogs(prev => [...prev, "System: No pending tutors were found."]);
-      }
-
-      alert(`System Success: ${data.message}`);
-      router.refresh();
-    } catch (err: any) {
-      console.error(err);
-      setActionLogs(prev => [...prev, `Critical: ${err.message || "Network Error"}`]);
-      alert("Activation failed: " + (err.message || "Check system logs"));
-    } finally {
-      setIsActionLoading(false);
-      // Reset progress after a delay
-      setTimeout(() => {
-        setActivationProgress(0);
-      }, 1000);
-    }
-  };
-
   return (
     <>
       <div className="p-8 border-b border-white/5 flex items-center gap-4">
@@ -369,102 +276,16 @@ function AdminSidebarContent({ pathname, navItems, adminUser, supabase, router, 
       </nav>
 
       <div className="p-6 border-t border-white/5 bg-black/20 space-y-4">
-        {/* System Power Controls */}
-        <div className="space-y-2">
-          <p className="text-[10px] font-black text-primary uppercase tracking-widest px-4">System Power</p>
-          <div className="grid grid-cols-2 gap-2 px-2">
-            <button
-              onClick={handleForceAuthorize}
-              disabled={isActionLoading}
-              title="Force Admin Authorization"
-              className="flex flex-col items-center justify-center gap-2 p-3 rounded-2xl bg-primary/10 border border-primary/20 text-primary hover:bg-primary hover:text-white transition-all group disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <ShieldCheck className={cn("h-4 w-4", isActionLoading && "animate-spin")} />
-              <span className="text-[7px] font-black uppercase">Authorize</span>
-            </button>
-            <button
-              onClick={handleActivateTutors}
-              disabled={isActionLoading}
-              title="Activate All Tutors"
-              className="flex flex-col items-center justify-center gap-2 p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 hover:bg-emerald-500 hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <CheckCircle className={cn("h-4 w-4", isActionLoading && "animate-bounce")} />
-              <span className="text-[7px] font-black uppercase">Act. Tutors</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Progress Bar for Bulk Actions */}
-        <AnimatePresence>
-          {isActionLoading && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="px-4 space-y-1.5"
-            >
-              <div className="flex justify-between text-[8px] font-black uppercase tracking-tighter text-muted-foreground">
-                <span>Processing Tutors...</span>
-                <span>{activationProgress}%</span>
-              </div>
-              <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden border border-white/5">
-                <motion.div
-                  className="h-full bg-primary"
-                  initial={{ width: "0%" }}
-                  animate={{ width: `${activationProgress}%` }}
-                  transition={{ type: "spring", bounce: 0, duration: 0.5 }}
-                />
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Log Window for Bulk Actions */}
-        <AnimatePresence>
-          {actionLogs.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="px-2"
-            >
-              <div className="bg-black/60 border border-white/5 rounded-xl p-3 font-mono text-[7px] leading-relaxed max-h-32 overflow-y-auto custom-scrollbar space-y-1.5 select-text shadow-inner">
-                <div className="flex items-center justify-between text-primary/40 mb-1 border-b border-white/5 pb-1 uppercase font-black tracking-tighter">
-                  <div className="flex items-center gap-1.5">
-                    <Terminal className="h-2 w-2" /> Execution logs
-                  </div>
-                  <button
-                    onClick={() => setActionLogs([])}
-                    className="hover:text-destructive transition-colors flex items-center gap-1 py-0.5 px-1 rounded-sm hover:bg-white/5"
-                  >
-                    <Trash2 className="h-2 w-2" /> Clear
-                  </button>
-                </div>
-                {actionLogs.map((log, i) => (
-                  <div key={i} className="flex gap-2 items-start group">
-                    <span className="text-primary/30 shrink-0 font-bold">{i + 1}</span>
-                    <span className={cn(
-                      "break-all",
-                      log.includes("Critical") ? "text-destructive/80" :
-                        log.includes("Success") ? "text-emerald-400/80" : "text-white/50"
-                    )}>{log}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
         <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 space-y-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary/20 to-primary/5 text-primary flex items-center justify-center font-black border border-primary/10">
               {adminUser?.email?.[0].toUpperCase()}
             </div>
             <div className="min-w-0">
-              <p className="text-sm font-black truncate">{adminUser?.user_metadata?.full_name || "Admin"}</p>
+              <p className="text-sm font-black truncate">{adminUser?.email || "Founder"}</p>
               <div className="flex items-center gap-1.5">
                 <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Active Admin</span>
+                <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Founder Access</span>
               </div>
             </div>
           </div>
