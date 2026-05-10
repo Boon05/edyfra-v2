@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 import { getSubjectsByLevel } from "@/utils/subjects";
 import { getUserData } from "@/app/actions/user";
 import { getVerifiedTutors } from "@/app/actions/tutor";
-import { toggleFollow } from "@/app/actions/social";
 import { User, TutorProfile } from "@prisma/client";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
@@ -40,8 +39,8 @@ export default function TutorsPage() {
         setTutors([]);
         return;
       }
-      // Fix for Type Error: Coalesce Prisma 'null' to 'undefined' for the server action
-      const data = await getVerifiedTutors(currentUser.educationLevel ?? undefined);
+      // Only show tutors who teach the student's education level
+      const data = await getVerifiedTutors(currentUser.educationLevel || 'HIGH_SCHOOL');
       setTutors(data);
     } catch (err) {
       console.error("Error fetching tutors:", err);
@@ -97,14 +96,13 @@ export default function TutorsPage() {
     if (direction === "right") {
       const tutor = tutors[currentIndex];
       try {
-        await toggleFollow(tutor.id);
-        toast.success(`Liked ${tutor.name}!`, {
-          description: "You connected!",
-          icon: "✨"
-        });
+        const { createDMChannel } = await import("@/app/actions/stream");
+        const channelId = await createDMChannel(userData!.id, tutor.id);
+        router.push(`/dashboard/messages?channel=${channelId}`);
       } catch (err) {
         toast.error("Failed to connect.");
       }
+      return;
     }
 
     setTimeout(() => {
