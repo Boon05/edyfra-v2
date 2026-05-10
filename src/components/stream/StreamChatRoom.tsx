@@ -6,6 +6,9 @@ import { Chat, Channel, ChannelHeader, MessageList, MessageComposer, Window, Loa
 import { getStreamToken, upsertStreamUser } from "@/app/actions/stream";
 import { useMashAI } from "./useMashAI";
 import "stream-chat-react/dist/css/index.css";
+import { polyfillClipboard } from "@/utils/clipboard-polyfill";
+
+polyfillClipboard();
 
 interface StreamChatRoomProps {
   channelId: string;
@@ -20,23 +23,6 @@ interface StreamChatRoomProps {
     subject: string;
     topic?: string;
   };
-}
-
-// Stream Chat requires clipboard API — provide safe fallback
-if (typeof navigator !== "undefined" && !navigator.clipboard) {
-  Object.defineProperty(navigator, "clipboard", {
-    value: {
-      writeText: async () => {},
-      readText: async () => "",
-      write: async () => {},
-      read: async () => [],
-      addEventListener: () => {},
-      removeEventListener: () => {},
-      dispatchEvent: () => false,
-    },
-    writable: false,
-    configurable: true,
-  });
 }
 
 export default function StreamChatRoom({

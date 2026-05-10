@@ -6,6 +6,9 @@ import { Chat, Channel, ChannelHeader, MessageList, MessageComposer, Window, use
 import { getStreamToken, upsertStreamUser } from "@/app/actions/stream";
 import { createClient } from "@/utils/supabase/client";
 import "stream-chat-react/dist/css/index.css";
+import { polyfillClipboard } from "@/utils/clipboard-polyfill";
+
+polyfillClipboard();
 
 const STREAM_KEY = process.env.NEXT_PUBLIC_STREAM_KEY!;
 
@@ -23,23 +26,6 @@ const StreamContext = createContext<StreamContextValue>({
 
 export function useStream() {
   return useContext(StreamContext);
-}
-
-// Stream Chat requires clipboard API — provide safe fallback
-if (typeof navigator !== "undefined" && !navigator.clipboard) {
-  Object.defineProperty(navigator, "clipboard", {
-    value: {
-      writeText: async () => {},
-      readText: async () => "",
-      write: async () => {},
-      read: async () => [],
-      addEventListener: () => {},
-      removeEventListener: () => {},
-      dispatchEvent: () => false,
-    },
-    writable: false,
-    configurable: true,
-  });
 }
 
 export function StreamChatProvider({ children }: { children: ReactNode }) {
