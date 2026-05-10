@@ -5,6 +5,7 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { SESSION_CONFIG } from "@/lib/config";
+import { recalibrateTier } from "./user";
 import { MatchTier, Role } from "@prisma/client";
 import { randomBytes } from "crypto";
 import { executeSmartMatching, sweepAndAIFallback } from "./match-algorithm";
@@ -345,12 +346,14 @@ export async function completeSession(sessionId: string) {
       where: { id: session.studentId },
       data: { points: { increment: SESSION_CONFIG.POINTS_STUDENT } }
     });
+    await recalibrateTier(session.studentId);
 
     if (session.partnerId) {
       await prisma.user.update({
         where: { id: session.partnerId },
         data: { points: { increment: SESSION_CONFIG.POINTS_TUTOR } }
       });
+      await recalibrateTier(session.partnerId);
     }
 
     revalidatePath("/dashboard/sessions");

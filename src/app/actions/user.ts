@@ -4,7 +4,7 @@ import { Role, EduLevel, Tier, VerifPath, Prisma, User, StudentProfile, TutorPro
 import prisma from "@/lib/prisma";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
-import { SESSION_CONFIG, TUTOR_CONFIG } from "@/lib/config";
+import { SESSION_CONFIG, TUTOR_CONFIG, TIER_CONFIG } from "@/lib/config";
 
 const getRoleFromMetadata = (metadataRole: string | undefined): Role => {
   if (!metadataRole) return Role.STUDENT; // Default role if metadata is missing
@@ -86,6 +86,16 @@ export async function getUserData(): Promise<(User & { studentProfile: StudentPr
           }
         });
       }
+    }
+
+    // Tier recalibration: keep tier in sync with points
+    const correctTier = TIER_CONFIG.getTierFromPoints(prismaUser.points);
+    if (prismaUser.tier !== correctTier) {
+      prismaUser = await prisma.user.update({
+        where: { id: prismaUser.id },
+        data: { tier: correctTier as Tier },
+        include: { studentProfile: true, tutorProfile: true }
+      });
     }
 
     // Keep Supabase metadata aligned for routing checks (middleware/layouts).
@@ -517,6 +527,19 @@ export async function getGlobalStats() {
   } catch (error) {
     console.error("Error in getGlobalStats:", error);
     return [];
+  }
+}
+
+export async function recalibrateTier(userId: string) {
+  try {
+    const user = await prisma.user.findUnique({ where: { id: userId }, select: { points: true, tier: true } });
+    if (!user) return;
+    const correctTier = TIER_CONFIG.getTierFromPoints(user.points);
+    if (user.tier !== correctTier) {
+      await prisma.user.update({ where: { id: userId }, data: { tier: correctTier as Tier } });
+    }
+  } catch (error) {
+    console.error("Error recalibrating tier:", error);
   }
 }
 

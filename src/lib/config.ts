@@ -27,17 +27,37 @@ export const TUTOR_CONFIG = {
 
 // Tier Configuration
 const TIER_DEFS = [
-  { minPoints: 1500, maxPoints: Infinity, name: "GOLD" },
-  { minPoints: 500, maxPoints: 1499, name: "SILVER" },
-  { minPoints: 0, maxPoints: 499, name: "BRONZE" },
+  { minPoints: 10000, maxPoints: Infinity, name: "LEGEND" },
+  { minPoints: 5000,  maxPoints: 9999,     name: "PLATINUM" },
+  { minPoints: 1500,  maxPoints: 4999,     name: "GOLD" },
+  { minPoints: 500,   maxPoints: 1499,     name: "SILVER" },
+  { minPoints: 0,     maxPoints: 499,      name: "BRONZE" },
 ];
 
 export const TIER_CONFIG = {
-  BRONZE: TIER_DEFS[2],
-  SILVER: TIER_DEFS[1],
-  GOLD: TIER_DEFS[0],
+  BRONZE: TIER_DEFS[4],
+  SILVER: TIER_DEFS[3],
+  GOLD: TIER_DEFS[2],
+  PLATINUM: TIER_DEFS[1],
+  LEGEND: TIER_DEFS[0],
   getTierFromPoints: (points: number): string => {
     return TIER_DEFS.find(t => points >= t.minPoints)?.name || "BRONZE";
+  },
+  getLevel: (points: number): number => Math.floor(points / 500) + 1,
+  getTierProgress: (points: number): { currentTier: string; nextTier: string | null; pointsInTier: number; pointsForNext: number; progressPercent: number } => {
+    const currentIdx = TIER_DEFS.findIndex(t => points >= t.minPoints && points <= t.maxPoints);
+    const current = TIER_DEFS[currentIdx];
+    const next = TIER_DEFS[currentIdx - 1];
+    if (!next) return { currentTier: current.name, nextTier: null, pointsInTier: points - current.minPoints, pointsForNext: 0, progressPercent: 100 };
+    const range = next.minPoints - current.minPoints;
+    const progressPercent = Math.min(100, Math.max(0, ((points - current.minPoints) / range) * 100));
+    return {
+      currentTier: current.name,
+      nextTier: next.name,
+      pointsInTier: points - current.minPoints,
+      pointsForNext: next.minPoints - points,
+      progressPercent,
+    };
   },
 };
 

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Zap, BookOpen, Flame, Trophy, TrendingUp, Users, ArrowRight, GraduationCap, Clock, CheckCircle2, XCircle, Loader2, Sparkles, Send, RefreshCw } from "lucide-react";
+import { Zap, BookOpen, Users, ArrowRight, GraduationCap, Clock, CheckCircle2, XCircle, Loader2, Sparkles, Send } from "lucide-react";
 import Link from "next/link";
 import { useSafeUserData, useSessionCounter } from "@/hooks/useAntigravityFixes";
 import { DashboardLoadingState, DashboardError } from "@/hooks/useAntigravityFixes";
@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { createClient } from "@/utils/supabase/client";
 import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
+import LevelXPBar from "@/components/dashboard/LevelXPBar";
 
 interface RecentSession {
   id: string;
@@ -192,12 +193,7 @@ export default function DashboardPageContent() {
     );
   }
 
-  const stats = [
-    { label: "Total Points", value: userData?.points?.toLocaleString() || "0", icon: Trophy },
-    { label: "Study Streak", value: `${userData?.streakDays || 0} Days`, icon: Flame },
-    { label: "Total Sessions", value: sessionCount.toString(), icon: BookOpen },
-    { label: "Current Rank", value: userData?.tier || "BRONZE", icon: TrendingUp },
-  ];
+
   const firstName = userData?.name?.split(" ")[0] || "there";
   const subjectFocus = userData?.studentProfile?.subjects?.[0] || "your toughest subject";
   const weakTopic = userData?.studentProfile?.weakTopics?.[0] || "one topic that needs attention";
@@ -225,20 +221,8 @@ export default function DashboardPageContent() {
          </Link>
       </div>
 
-      {/* Quick Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-8">
-        {stats.map((stat) => (
-          <div key={stat.label} className="p-6 sm:p-8 bg-secondary rounded-[2rem] md:rounded-[2.5rem] border border-border/50 space-y-4 sm:space-y-6 group hover:bg-background hover:shadow-2xl hover:translate-y-[-4px] transition-all">
-             <div className="flex items-center justify-between">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-background flex items-center justify-center text-primary shadow-sm border border-border group-hover:bg-primary group-hover:text-white transition-colors">
-                   <stat.icon className="h-5 w-5 sm:h-6 sm:w-6" />
-                </div>
-                <span className="text-[8px] sm:text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">{stat.label}</span>
-             </div>
-             <div className="text-2xl sm:text-3xl font-black tracking-tightest tabular-nums">{stat.value}</div>
-          </div>
-        ))}
-      </div>
+      {/* Level & XP Progress Bar */}
+      <LevelXPBar points={userData?.points || 0} streakDays={userData?.streakDays || 0} />
 
       {/* Main Grid Content */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">

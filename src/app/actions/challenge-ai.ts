@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import { EduLevel } from "@prisma/client";
 import { generateAIResponse } from "@/utils/openrouter";
 import { SESSION_CONFIG, CHALLENGE_CONFIG } from "@/lib/config";
+import { recalibrateTier } from "./user";
 
 interface ChallengeGenerationRequest {
   level: string;
@@ -253,6 +254,7 @@ export async function saveChallengeAttempt(userId: string, challengeId: string, 
         where: { id: userId },
         data: { points: { increment: pointsEarned } },
       });
+      await recalibrateTier(userId);
     }
 
     return attempt;

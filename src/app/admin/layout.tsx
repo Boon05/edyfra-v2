@@ -14,7 +14,6 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { motion, AnimatePresence } from "framer-motion";
-import { isFounderEmail } from "@/utils/admin-guard";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -28,7 +27,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     const checkAdmin = async () => {
       try {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user || !isFounderEmail(user.email)) {
+        if (!user) {
+          router.push("/dashboard");
+          return;
+        }
+        const { checkAdminStatus } = await import("@/app/actions/admin");
+        const isAdmin = await checkAdminStatus();
+        if (!isAdmin) {
           router.push("/dashboard");
           return;
         }

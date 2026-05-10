@@ -7,8 +7,19 @@ import { revalidatePath } from "next/cache";
 import { TUTOR_CONFIG } from "@/lib/config";
 import { isFounderEmail } from "@/utils/admin-guard";
 
-// Helper: check if current user is a founder
+// Helper: check if current user is a founder (used by server-only contexts)
 async function isAdmin(): Promise<boolean> {
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    return isFounderEmail(user?.email);
+  } catch {
+    return false;
+  }
+}
+
+// Client-callable admin check (env vars are not available in client components)
+export async function checkAdminStatus(): Promise<boolean> {
   try {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
