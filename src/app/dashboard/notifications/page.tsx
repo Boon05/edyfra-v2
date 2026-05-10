@@ -8,7 +8,7 @@ export default function NotificationsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Notifications</h1>
-          <p className="text-muted-foreground mt-1">Stay updated with your study activity.</p>
+          <p className="text-muted-foreground mt-1">See what&apos;s happened since your last visit.</p>
         </div>
         <Button variant="outline">Mark all as read</Button>
       </div>
@@ -17,8 +17,8 @@ export default function NotificationsPage() {
         <div className="bg-muted p-6 rounded-full mb-6">
           <BellOff className="h-10 w-10 text-muted-foreground" />
         </div>
-        <CardTitle>You&apos;re all caught up!</CardTitle>
-        <p className="text-muted-foreground mt-2">New notifications will appear here.</p>
+        <CardTitle>All caught up!</CardTitle>
+        <p className="text-muted-foreground mt-2">You&apos;ll see new activity here.</p>
       </Card>
     </div>
   );

@@ -75,7 +75,7 @@ export default function DashboardPageContent() {
       if (result.success) {
         setAppStatus('PENDING');
         toast.success("Application Submitted!", {
-          description: "Your tutor application is pending admin approval.",
+          description: "We'll review it and get back to you.",
         });
       } else {
         toast.error("Application failed", {
@@ -129,7 +129,7 @@ export default function DashboardPageContent() {
               Hey, <span className="text-primary">{firstName}.</span>
             </h1>
             <p className="text-muted-foreground text-base sm:text-lg md:text-xl font-medium max-w-xl">
-              Your study space is ready. Today&apos;s best move: {nextMove}
+              Ready to learn? {nextMove}
             </p>
          </div>
          <Link href="/dashboard/study">
@@ -161,7 +161,7 @@ export default function DashboardPageContent() {
         <div className="lg:col-span-2 p-6 sm:p-10 md:p-16 rounded-[2rem] sm:rounded-[3rem] bg-secondary border border-border/50 space-y-6 sm:space-y-8 relative overflow-hidden group">
            <div className="relative z-10 space-y-2">
               <h3 className="text-2xl sm:text-3xl font-black tracking-tightest">Your Activity</h3>
-              <p className="text-[8px] sm:text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">{recentSessions.length > 0 ? `Showing ${recentSessions.length} recent sessions` : "Your study sessions and progress will show up here"}</p>
+              <p className="text-[8px] sm:text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">{recentSessions.length > 0 ? `Showing ${recentSessions.length} recent sessions` : "Your recent activity will show up here"}</p>
            </div>
            {loadingRecent ? (
              <div className="relative z-10 min-h-[200px] flex items-center justify-center">
@@ -199,7 +199,7 @@ export default function DashboardPageContent() {
                    <BookOpen className="h-8 w-8 sm:h-12 sm:w-12 text-muted-foreground/20" />
                 </div>
               <p className="text-muted-foreground font-medium text-base sm:text-lg max-w-sm">
-                  You haven&apos;t had any sessions yet. Start one and this space will turn into your personal study timeline.
+                   No sessions yet. Start your first study session and your activity will show up here.
                 </p>
              </div>
            )}
@@ -218,7 +218,7 @@ export default function DashboardPageContent() {
            </div>
            <div className="relative z-10 p-6 sm:p-8 bg-white/5 rounded-[1.5rem] sm:rounded-[2rem] border border-white/10 space-y-6 sm:space-y-8">
               <p className="text-base sm:text-lg font-medium leading-relaxed opacity-80">
-                Spend 20 minutes on {weakTopic}. You do not need a perfect plan, just one clear question to work through.
+                Try spending 20 minutes on {weakTopic}. You don&apos;t need a perfect plan — just start with one question.
               </p>
               <Link href="/dashboard/challenges" className="block w-full">
                 <Button className="w-full h-12 sm:h-14 bg-primary hover:bg-primary/90 text-white font-black text-xs tracking-widest uppercase rounded-full shadow-2xl transition-all active:scale-95">
@@ -241,7 +241,7 @@ export default function DashboardPageContent() {
                Get help when <br /> <span className="text-muted-foreground">you hit a wall.</span>
              </h1>
              <p className="text-muted-foreground font-medium text-base sm:text-lg md:text-xl">
-                Find someone who can explain {subjectFocus} in a way that finally clicks.
+                 Find someone who can explain {subjectFocus} in a way that makes sense to you.
              </p>
           </div>
           <Link href="/dashboard/tutors" className="w-full md:w-auto">
@@ -263,7 +263,7 @@ export default function DashboardPageContent() {
                  Become a <span className="text-primary">Tutor.</span>
                </h1>
                <p className="text-muted-foreground font-medium text-base sm:text-lg md:text-xl">
-                  If you are strong in {subjectFocus}, you can help other students while building your own profile.
+                   Good at {subjectFocus}? Turn your knowledge into impact (and income) by helping other students.
                </p>
             </div>
             <div className="w-full md:w-auto">
@@ -271,8 +271,8 @@ export default function DashboardPageContent() {
                 <div className="flex items-center gap-3 p-4 sm:p-6 rounded-2xl bg-yellow-500/10 border border-yellow-500/20 w-full md:w-auto">
                   <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-yellow-500 flex-shrink-0" />
                   <div>
-                    <p className="font-black text-xs sm:text-sm uppercase tracking-widest text-yellow-500">Application Pending</p>
-                    <p className="text-[10px] sm:text-xs text-muted-foreground">We'll notify you once approved</p>
+                    <p className="font-black text-xs sm:text-sm uppercase tracking-widest text-yellow-500">Pending Review</p>
+                     <p className="text-[10px] sm:text-xs text-muted-foreground">You&apos;ll hear from us once it&apos;s approved</p>
                   </div>
                 </div>
               ) : appStatus === 'APPROVED' ? (

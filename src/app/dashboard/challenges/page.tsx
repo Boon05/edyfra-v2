@@ -141,8 +141,8 @@ export default function ChallengesPage() {
     return (
       <div className="p-8 text-center py-20 space-y-4">
          <Sparkles className="h-16 w-16 text-muted-foreground mx-auto" />
-         <h2 className="text-2xl font-bold">No challenges available</h2>
-         <p className="text-muted-foreground">Check back later for new challenges!</p>
+         <h2 className="text-2xl font-bold">No challenges right now</h2>
+         <p className="text-muted-foreground">Come back later — new ones drop regularly!</p>
       </div>
     );
   }
@@ -156,7 +156,7 @@ export default function ChallengesPage() {
             Daily Challenges
             <Sparkles className="h-8 w-8 text-orange-500 animate-pulse" />
           </h1>
-          <p className="text-muted-foreground text-lg">Sharpen your skills with fun challenges!</p>
+          <p className="text-muted-foreground text-lg">Test yourself and earn points!</p>
         </div>
         <div className="flex gap-4">
            <Card className="bg-orange-500/10 border-orange-500/20 px-6 py-2 flex flex-col items-center">

@@ -108,8 +108,8 @@ export default function SettingsPage() {
   return (
     <div className="p-8 max-w-5xl mx-auto space-y-8 animate-in fade-in duration-500">
       <div className="flex flex-col gap-1">
-        <h1 className="text-4xl font-black tracking-tight text-primary">Academic Settings</h1>
-        <p className="text-muted-foreground text-lg">Personalize your learning environment and account security.</p>
+        <h1 className="text-4xl font-black tracking-tight text-primary">Settings</h1>
+        <p className="text-muted-foreground text-lg">Customize how Edyfra looks and works for you.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -136,7 +136,7 @@ export default function SettingsPage() {
               <div className="bg-primary/5 p-6 border-b border-primary/10 flex items-center justify-between">
                 <div>
                   <h2 className="text-xl font-bold">Educational Level</h2>
-                  <p className="text-sm text-muted-foreground">Your content is locked to this level for academic integrity.</p>
+                  <p className="text-sm text-muted-foreground">Your experience is tailored to this level.</p>
                 </div>
                 <Badge variant="outline" className="bg-white border-primary/20 text-primary px-4 py-1.5 text-sm font-bold">
                   {userData?.educationLevel?.replace("_", " ")}
@@ -147,8 +147,8 @@ export default function SettingsPage() {
             <TabsContent value="profile" className="mt-0">
               <Card className="border-2 border-primary/5 shadow-sm rounded-2xl">
                 <CardHeader>
-                  <CardTitle>Public Identity</CardTitle>
-                  <CardDescription>Update your scholarly profile and biography.</CardDescription>
+                  <CardTitle>Profile</CardTitle>
+                  <CardDescription>Update your name and bio.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="flex items-center gap-6">
@@ -161,7 +161,7 @@ export default function SettingsPage() {
                   </div>
                   <div className="grid gap-4">
                     <div className="space-y-2">
-                      <Label>Full Academic Name</Label>
+                      <Label>Full Name</Label>
                       <Input 
                         value={formData.name} 
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -190,8 +190,8 @@ export default function SettingsPage() {
             <TabsContent value="appearance" className="mt-0 space-y-6">
               <Card className="border-2 border-primary/5 shadow-sm rounded-2xl">
                 <CardHeader>
-                  <CardTitle>Environment Theme</CardTitle>
-                  <CardDescription>Choose the best lighting for your study sessions.</CardDescription>
+                  <CardTitle>Theme</CardTitle>
+                  <CardDescription>Pick your preferred look.</CardDescription>
                 </CardHeader>
                 <CardContent className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <Button 
@@ -221,7 +221,7 @@ export default function SettingsPage() {
               <Card className="border-2 border-primary/5 shadow-sm rounded-2xl">
                 <CardHeader>
                   <CardTitle>Accent Color</CardTitle>
-                  <CardDescription>Personalize the primary highlight color of the platform.</CardDescription>
+                  <CardDescription>Pick a color that feels right to you.</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="flex flex-wrap gap-4">
@@ -245,8 +245,8 @@ export default function SettingsPage() {
             <TabsContent value="notifications" className="mt-0">
               <Card className="border-2 border-primary/5 shadow-sm rounded-2xl">
                 <CardHeader>
-                  <CardTitle>Scholarly Alerts</CardTitle>
-                  <CardDescription>Manage how we notify you about matches and rewards.</CardDescription>
+                  <CardTitle>Notifications</CardTitle>
+                  <CardDescription>Choose what notifications you want to receive.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="flex items-center justify-between p-4 rounded-xl bg-primary/5">
@@ -270,8 +270,8 @@ export default function SettingsPage() {
             <TabsContent value="security" className="mt-0">
                <Card className="border-2 border-primary/5 shadow-sm rounded-2xl">
                  <CardHeader>
-                   <CardTitle>Account Security</CardTitle>
-                   <CardDescription>Update your password and security settings.</CardDescription>
+                    <CardTitle>Security</CardTitle>
+                    <CardDescription>Keep your account secure.</CardDescription>
                  </CardHeader>
                  <CardContent className="space-y-4">
                     <div className="space-y-2">

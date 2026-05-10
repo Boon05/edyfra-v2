@@ -60,8 +60,8 @@ export default function SessionsPage() {
     <div className="p-8 max-w-6xl mx-auto space-y-8 animate-in fade-in duration-500">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="space-y-1">
-          <h1 className="text-3xl font-bold tracking-tight text-primary">Your Study Log</h1>
-          <p className="text-muted-foreground text-lg">A chronological history of your learning journey.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-primary">Your Study History</h1>
+          <p className="text-muted-foreground text-lg">Your past sessions, all in one place.</p>
         </div>
         <Link href="/dashboard/study">
           <Button className="rounded-xl gap-2 font-bold px-6">
@@ -142,8 +142,8 @@ export default function SessionsPage() {
               <BookOpen className="h-10 w-10 text-primary/30" />
            </div>
            <div className="space-y-2">
-              <h3 className="text-2xl font-bold text-primary">No sessions logged yet</h3>
-              <p className="text-muted-foreground max-w-sm mx-auto italic">Your academic journey starts here. Match with a tutor or peer to see your study history.</p>
+               <h3 className="text-2xl font-bold text-primary">No sessions yet</h3>
+               <p className="text-muted-foreground max-w-sm mx-auto italic">Match with a tutor or peer and your history will show up here.</p>
            </div>
            <Link href="/dashboard/study">
               <Button className="rounded-xl px-8 py-6 font-black text-lg shadow-xl shadow-primary/20">

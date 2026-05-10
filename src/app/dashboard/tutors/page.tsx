@@ -97,7 +97,7 @@ export default function TutorsPage() {
       try {
         await toggleFollow(tutor.id);
         toast.success(`Liked ${tutor.name}!`, {
-          description: "Connection request sent successfully.",
+          description: "You connected!",
           icon: "✨"
         });
       } catch (err) {
@@ -115,7 +115,7 @@ export default function TutorsPage() {
     try {
       const { createTestTutorAction } = await import("@/app/actions/user");
       await createTestTutorAction();
-      toast.success("Authentic Mentor Created!");
+      toast.success("Test mentor created!");
       await fetchTutors(userData);
     } catch (err) {
       toast.error("Operation failed.");
@@ -130,7 +130,7 @@ export default function TutorsPage() {
         <div className="space-y-4">
           <p className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Find a Mentor</p>
           <h1 className="text-5xl md:text-7xl font-black tracking-tightest leading-none">
-            Get <br /> <span className="text-muted-foreground">Connected.</span>
+            Meet Your <br /> <span className="text-muted-foreground">Mentor.</span>
           </h1>
         </div>
         <div className="flex flex-col sm:row gap-4 w-full md:w-auto">
@@ -168,10 +168,10 @@ export default function TutorsPage() {
             <UsersIcon className="h-10 w-10 text-red-500 opacity-50" />
           </div>
           <div className="text-center space-y-2">
-            <h3 className="text-2xl font-black tracking-tight">Access Denied.</h3>
-            <p className="text-muted-foreground font-medium max-w-sm mx-auto">
-              You are not authorized to view this content. Please log in or ensure your account has the necessary permissions.
-            </p>
+            <h3 className="text-2xl font-black tracking-tight">Access Denied</h3>
+             <p className="text-muted-foreground font-medium max-w-sm mx-auto">
+               You need to log in to access this page.
+             </p>
           </div>
           <Link href="/login">
             <Button className="h-14 px-10 rounded-2xl bg-foreground text-background font-black text-[10px] tracking-widest uppercase shadow-xl transition-all active:scale-95">
@@ -269,11 +269,10 @@ export default function TutorsPage() {
             <Sparkles className="h-10 w-10 text-primary opacity-20" />
           </div>
           <div className="text-center space-y-2">
-            <h3 className="text-2xl font-black tracking-tight">Search Finished.</h3>
-            <p className="text-muted-foreground font-medium max-w-sm mx-auto">
-              We&apos;ve looked everywhere and couldn&apos;t find any new tutors matching your current needs.
-              New teachers are joining our community every hour—check back soon.
-            </p>
+            <h3 className="text-2xl font-black tracking-tight">No more tutors found</h3>
+             <p className="text-muted-foreground font-medium max-w-sm mx-auto">
+               We couldn&apos;t find any more tutors right now. New mentors join every day — check back later.
+             </p>
           </div>
              <div className="flex flex-col sm:flex-row gap-4">
               <Button onClick={() => { setSearch(""); setSubject("all"); setCurrentIndex(0); fetchTutors(userData); }} variant="outline" className="h-12 sm:h-14 px-6 sm:px-10 rounded-xl sm:rounded-2xl font-black text-[10px] sm:text-xs tracking-widest uppercase border-border hover:bg-secondary transition-all">

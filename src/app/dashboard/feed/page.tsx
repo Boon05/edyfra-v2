@@ -300,8 +300,8 @@ export default function FeedPage() {
                     <Sparkles className="h-10 w-10 text-muted-foreground/30" />
                  </div>
                  <div className="space-y-2">
-                    <h3 className="text-xl font-bold">The feed is quiet.</h3>
-                    <p className="text-muted-foreground font-medium">Be the first to share an update with the community.</p>
+                     <h3 className="text-xl font-bold">The feed is empty.</h3>
+                     <p className="text-muted-foreground font-medium">Be the first to share something with the community.</p>
                  </div>
               </div>
            )}
@@ -340,7 +340,7 @@ export default function FeedPage() {
                    )) : (
                      <div className="py-8 text-center space-y-2">
                        <Loader2 className="h-4 w-4 animate-spin text-muted-foreground mx-auto" />
-                       <p className="text-xs text-muted-foreground font-medium">Fetching global updates...</p>
+                        <p className="text-xs text-muted-foreground font-medium">Loading latest news...</p>
                      </div>
                    )}
                 </div>

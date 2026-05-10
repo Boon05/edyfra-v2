@@ -65,7 +65,7 @@ export default function LeaderboardPage() {
           <Trophy className="h-10 w-10 text-yellow-500 fill-yellow-500" />
           {userData?.educationLevel?.replace("_", " ")} Rankings
         </h1>
-        <p className="text-muted-foreground text-lg italic">The brightest minds in the community.</p>
+        <p className="text-muted-foreground text-lg italic">See how you stack up against your peers.</p>
       </div>
 
       {/* Podium */}
@@ -106,7 +106,7 @@ export default function LeaderboardPage() {
               </Avatar>
               <div>
                 <h3 className="font-black text-2xl truncate">{podium[0].name}</h3>
-                <Badge className="bg-yellow-500 text-white border-none px-4 py-1">ULTIMATE SCHOLAR</Badge>
+                <Badge className="bg-yellow-500 text-white border-none px-4 py-1">Top Scholar</Badge>
                 <p className="text-xl font-black text-yellow-600 mt-2">{podium[0].points.toLocaleString()} PTS</p>
               </div>
             </CardContent>
@@ -138,7 +138,7 @@ export default function LeaderboardPage() {
       {/* Others Table */}
       <Card className="border-2 border-primary/5 rounded-2xl overflow-hidden shadow-sm">
         <div className="bg-primary/5 p-4 border-b border-primary/10 flex items-center justify-between">
-           <h2 className="font-bold text-lg">Top 20 Scholars</h2>
+            <h2 className="font-bold text-lg">Leaderboard</h2>
            <Award className="h-5 w-5 text-primary" />
         </div>
         <CardContent className="p-0">

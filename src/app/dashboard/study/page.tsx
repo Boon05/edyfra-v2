@@ -161,12 +161,12 @@ export default function StudyPage() {
   return (
     <div className="p-4 md:p-12 max-w-5xl mx-auto space-y-12 animate-in fade-in duration-700 font-sans">
       <div className="space-y-4 text-center md:text-left">
-        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Find your study partner</p>
+        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Start a session</p>
         <h1 className="text-5xl md:text-7xl font-black tracking-tightest leading-[0.9]">
           Let&apos;s find you <br /> <span className="text-muted-foreground">some help.</span>
         </h1>
         <p className="text-muted-foreground text-lg md:text-xl font-medium max-w-2xl leading-relaxed">
-          Pick a subject and we&apos;ll connect you with a tutor, a study partner, or Mash AI — whoever&apos;s available first.
+          Pick a subject and we&apos;ll find someone to help — a tutor, a study buddy, or Mash AI.
         </p>
       </div>
 
@@ -204,7 +204,7 @@ export default function StudyPage() {
               className="w-full h-24 rounded-[2.5rem] bg-foreground text-background hover:bg-primary hover:text-white font-black text-xl tracking-[0.2em] uppercase shadow-2xl transition-all duration-500 active:scale-95 group"
             >
               <Zap className="h-8 w-8 mr-4 fill-primary text-primary group-hover:fill-white group-hover:text-white transition-colors" />
-              Find Me a Study Partner
+               Find Me Someone to Help
             </Button>
           </CardContent>
         </Card>
@@ -228,8 +228,8 @@ export default function StudyPage() {
                    </div>
                 </div>
                 <div className="space-y-4">
-                  <h2 className="text-4xl md:text-5xl font-black tracking-tightest">Looking for a tutor.</h2>
-                  <p className="text-muted-foreground text-lg font-medium">Checking if a verified tutor for {formData.subject} is available.</p>
+                  <h2 className="text-4xl md:text-5xl font-black tracking-tightest">Searching for a tutor...</h2>
+                  <p className="text-muted-foreground text-lg font-medium">Looking for someone who knows {formData.subject}.</p>
                   <div className="pt-6">
                      <span className="px-6 py-2 rounded-full bg-primary/10 text-primary font-black text-xs tracking-widest uppercase">{timer}s left</span>
                   </div>
@@ -252,8 +252,8 @@ export default function StudyPage() {
                    </div>
                 </div>
                 <div className="space-y-4">
-                  <h2 className="text-4xl md:text-5xl font-black tracking-tightest text-blue-500">Expanding to peers.</h2>
-                  <p className="text-muted-foreground text-lg font-medium">No tutor around — looking for a student who&apos;s great at {formData.subject}.</p>
+                  <h2 className="text-4xl md:text-5xl font-black tracking-tightest text-blue-500">Searching for a study partner...</h2>
+                  <p className="text-muted-foreground text-lg font-medium">No tutor available — looking for a peer who can help with {formData.subject}.</p>
                   <div className="pt-6">
                      <span className="px-6 py-2 rounded-full bg-blue-500/10 text-blue-500 font-black text-xs tracking-widest uppercase">{timer}s left</span>
                   </div>
@@ -276,8 +276,8 @@ export default function StudyPage() {
                    </div>
                 </div>
                 <div className="space-y-4">
-                  <h2 className="text-4xl md:text-5xl font-black tracking-tightest text-emerald-500">Connecting you to Mash AI.</h2>
-                  <p className="text-muted-foreground text-lg font-medium">No human available right now, but our AI tutor is ready to help.</p>
+                  <h2 className="text-4xl md:text-5xl font-black tracking-tightest text-emerald-500">Connecting you to Mash AI...</h2>
+                  <p className="text-muted-foreground text-lg font-medium">No one&apos;s available right now, but Mash AI is ready to step in.</p>
                   <div className="pt-6 flex justify-center gap-2">
                      <Loader2 className="h-4 w-4 animate-spin text-emerald-500" />
                      <span className="text-emerald-500 font-black text-xs tracking-widest uppercase">Connecting...</span>

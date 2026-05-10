@@ -86,7 +86,7 @@ export default function GroupsPage() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl md:text-4xl font-black tracking-tightest">Study Groups</h1>
-          <p className="text-muted-foreground font-medium mt-1">Join or create study groups with classmates</p>
+          <p className="text-muted-foreground font-medium mt-1">Study together, learn faster.</p>
         </div>
         <Button 
           onClick={() => setShowCreateModal(true)}
@@ -171,10 +171,10 @@ export default function GroupsPage() {
             <Users className="h-10 w-10 text-muted-foreground/30" />
           </div>
           <div className="space-y-2">
-            <h3 className="text-xl font-bold">No groups yet</h3>
-            <p className="text-muted-foreground max-w-md mx-auto">
-              Create a study group to collaborate with classmates on specific topics
-            </p>
+             <h3 className="text-xl font-bold">No groups yet</h3>
+             <p className="text-muted-foreground max-w-md mx-auto">
+               Start a group and invite classmates to study together.
+             </p>
           </div>
           <Button 
             onClick={() => setShowCreateModal(true)}
