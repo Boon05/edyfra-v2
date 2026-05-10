@@ -8,6 +8,21 @@ import { SESSION_CONFIG } from "@/lib/config";
 import { MatchTier } from "@prisma/client";
 import { randomBytes } from "crypto";
 import { executeSmartMatching, sweepAndAIFallback } from "./match-algorithm";
+import { StreamChat } from "stream-chat";
+
+const STREAM_KEY = process.env.NEXT_PUBLIC_STREAM_KEY!;
+const STREAM_SECRET = process.env.STREAM_SECRET!;
+
+async function upsertStreamUsers(users: { id: string; name: string; image?: string | null }[]) {
+  try {
+    const client = StreamChat.getInstance(STREAM_KEY, STREAM_SECRET);
+    for (const u of users) {
+      await client.upsertUser({ id: u.id, name: u.name, image: u.image || undefined });
+    }
+  } catch (err) {
+    console.error("Failed to upsert Stream users:", err);
+  }
+}
 
 export async function createMatchRequest(data: { subject: string; topic: string }) {
   const cookieStore = await cookies();
@@ -77,6 +92,15 @@ export async function acceptMatchRequest(requestId: string) {
   });
   
   const tier = userData?.role === "TUTOR" ? "TUTOR" : "PEER";
+
+  // Upsert both users to Stream Chat
+  try {
+    const studentData = await prisma.user.findUnique({ where: { id: matchRequest.studentId }, select: { name: true, avatar: true } });
+    await upsertStreamUsers([
+      { id: matchRequest.studentId, name: studentData?.name || "Student", image: studentData?.avatar },
+      { id: user.id, name: userData?.name || "Tutor", image: userData?.avatar },
+    ]);
+  } catch {}
 
   const roomId = `room-${randomBytes(8).toString('hex')}`;
   

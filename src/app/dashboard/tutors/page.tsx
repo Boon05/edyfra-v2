@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { GraduationCap, Search, Clock, Loader2, Sparkles, Users as UsersIcon } from "lucide-react";
+import { GraduationCap, Search, Clock, Loader2, Sparkles, MessageSquare, Users as UsersIcon } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { AvatarPremium } from "@/components/ui/avatar-premium";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -19,6 +20,7 @@ import { motion, AnimatePresence } from "framer-motion";
 type TutorWithProfile = User & { tutorProfile: TutorProfile | null };
 
 export default function TutorsPage() {
+  const router = useRouter();
   const [tutors, setTutors] = useState<TutorWithProfile[]>([]);
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState<User | null>(null);
@@ -241,7 +243,7 @@ export default function TutorsPage() {
                   {tutors[currentIndex].tutorProfile?.bio}
                 </p>
 
-                <div className="flex items-center justify-between pt-4">
+                 <div className="flex items-center justify-between pt-4">
                   <div className="flex flex-col">
                     <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Rate</span>
                     <span className="text-xl font-black">KSH {tutors[currentIndex].tutorProfile?.hourlyRate}</span>
@@ -249,6 +251,17 @@ export default function TutorsPage() {
                    <div className="flex gap-3">
                       <Button onClick={() => handleSwipe("left")} variant="outline" className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border-border hover:bg-red-500/10 hover:text-red-500 transition-all">
                         <Clock className="h-5 w-5 sm:h-6 sm:w-6" />
+                      </Button>
+                      <Button
+                        onClick={async () => {
+                          const { createDMChannel, getDMChannelId } = await import("@/app/actions/stream");
+                          const channelId = await createDMChannel(userData!.id, tutors[currentIndex].id);
+                          router.push(`/dashboard/messages`);
+                        }}
+                        variant="outline"
+                        className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border-border hover:bg-primary/10 hover:text-primary transition-all"
+                      >
+                        <MessageSquare className="h-5 w-5 sm:h-6 sm:w-6" />
                       </Button>
                       <Button onClick={() => handleSwipe("right")} className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-primary text-white shadow-xl shadow-primary/20 hover:scale-110 active:scale-95 transition-all">
                         <Sparkles className="h-5 w-5 sm:h-6 sm:w-6" />

@@ -11,6 +11,21 @@ import prisma from "@/lib/prisma";
 import { EduLevel } from "@prisma/client";
 import { SESSION_CONFIG } from "@/lib/config";
 import { randomBytes } from "crypto";
+import { StreamChat } from "stream-chat";
+
+const STREAM_KEY = process.env.NEXT_PUBLIC_STREAM_KEY!;
+const STREAM_SECRET = process.env.STREAM_SECRET!;
+
+async function upsertStreamUsers(users: { id: string; name: string; image?: string | null }[]) {
+  try {
+    const client = StreamChat.getInstance(STREAM_KEY, STREAM_SECRET);
+    for (const u of users) {
+      await client.upsertUser({ id: u.id, name: u.name, image: u.image || undefined });
+    }
+  } catch (err) {
+    console.error("Failed to upsert Stream users:", err);
+  }
+}
 
 /**
  * Fetch pending match requests filtered by tutor's subjects.
@@ -142,6 +157,12 @@ export async function createAISession(
   try {
     const roomId = `mash-${randomBytes(8).toString("hex")}`;
 
+    // Upsert student to Stream Chat
+    try {
+      const student = await prisma.user.findUnique({ where: { id: studentId }, select: { name: true, avatar: true } });
+      if (student) await upsertStreamUsers([{ id: studentId, name: student.name, image: student.avatar }]);
+    } catch {}
+
     const session = await prisma.session.create({
       data: {
         studentId,
@@ -270,6 +291,16 @@ export async function executeSmartMatching(
         tier: "MASH",
       };
     }
+
+    // Upsert both users to Stream Chat
+    try {
+      const student = await prisma.user.findUnique({ where: { id: matchRequest.studentId }, select: { name: true, avatar: true } });
+      const partner = await prisma.user.findUnique({ where: { id: partnerId }, select: { name: true, avatar: true } });
+      await upsertStreamUsers([
+        { id: matchRequest.studentId, name: student?.name || "Student", image: student?.avatar },
+        { id: partnerId, name: partner?.name || "Partner", image: partner?.avatar },
+      ]);
+    } catch {}
 
     // ============ CREATE SESSION WITH HUMAN PARTNER ============
     const roomId = `room-${randomBytes(8).toString("hex")}`;

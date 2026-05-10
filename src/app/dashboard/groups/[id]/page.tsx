@@ -1,34 +1,27 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { AvatarPremium } from "@/components/ui/avatar-premium";
 import { Badge } from "@/components/ui/badge";
-import { Send, Users, Loader2, ChevronLeft } from "lucide-react";
-import { getGroupById, sendGroupMessage } from "@/app/actions/groups";
+import { Users, Loader2, ChevronLeft } from "lucide-react";
+import { getGroupById } from "@/app/actions/groups";
 import { toast } from "sonner";
-import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
 
-interface GroupMessage {
-  id: string;
-  groupId: string;
-  content: string;
-  createdAt: string | Date;
-  sender?: { name: string; avatar?: string } | null;
-  senderId?: string;
-}
+const StreamChatRoom = dynamic(
+  () => import("@/components/stream/StreamChatRoom"),
+  { ssr: false, loading: () => <div className="flex items-center justify-center h-full"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div> }
+);
 
-interface Group {
+interface GroupData {
   id: string;
   name: string;
   subject: string;
   topic: string;
   level: string;
   members: string[];
-  groupMessages: GroupMessage[];
 }
 
 export default function GroupChatPage() {
@@ -37,93 +30,37 @@ export default function GroupChatPage() {
   const router = useRouter();
   const supabase = createClient();
 
-  const [group, setGroup] = useState<Group | null>(null);
-  const [messages, setMessages] = useState<GroupMessage[]>([]);
-  const [input, setInput] = useState("");
+  const [group, setGroup] = useState<GroupData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [currentUser, setCurrentUser] = useState<{ id: string } | null>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const scrollToBottom = useCallback(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, []);
+  const [currentUser, setCurrentUser] = useState<{ id: string; name?: string; avatar?: string } | null>(null);
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages, scrollToBottom]);
-
-  const getCurrentUser = useCallback(async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) setCurrentUser(user);
+    const init = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setCurrentUser({
+          id: user.id,
+          name: user.user_metadata?.name || user.email?.split("@")[0] || "User",
+          avatar: user.user_metadata?.avatar || undefined,
+        });
+      }
+    };
+    init();
   }, [supabase]);
 
-  const loadGroup = useCallback(async () => {
-    try {
-      const data = await getGroupById(groupId);
-      setGroup(data as any);
-      setMessages((data.groupMessages || []) as any);
-    } catch (e) {
-      toast.error("Failed to load group");
-    } finally {
-      setLoading(false);
-    }
+  useEffect(() => {
+    const loadGroup = async () => {
+      try {
+        const data = await getGroupById(groupId);
+        setGroup(data as any);
+      } catch {
+        toast.error("Failed to load group");
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadGroup();
   }, [groupId]);
-
-  useEffect(() => {
-    getCurrentUser();
-    loadGroup();
-  }, [getCurrentUser, loadGroup]);
-
-  useEffect(() => {
-    const pollInterval = setInterval(loadGroup, 3000);
-
-    const channel = supabase
-      .channel(`group-${groupId}`)
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "GroupMessage", filter: `groupId=eq.${groupId}` },
-        () => {
-          loadGroup();
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-      clearInterval(pollInterval);
-    };
-  }, [groupId, loadGroup, supabase]);
-
-  const handleSendMessage = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim() || !currentUser) return;
-
-    const currentInput = input;
-    setInput("");
-
-    // Optimistic update
-    const tempId = Math.random().toString();
-    const newMessage: GroupMessage = {
-      id: tempId,
-      groupId,
-      senderId: currentUser.id,
-      content: currentInput,
-      createdAt: new Date().toISOString(),
-      sender: { name: "You", avatar: undefined }
-    };
-    setMessages(prev => [...prev, newMessage]);
-
-    const { success } = await sendGroupMessage(groupId, currentInput);
-    if (!success) {
-      toast.error("Failed to send message");
-      setMessages(prev => prev.filter(m => m.id !== tempId));
-      return;
-    }
-
-    loadGroup();
-  };
 
   if (loading) return (
     <div className="h-screen flex flex-col items-center justify-center bg-background">
@@ -165,61 +102,18 @@ export default function GroupChatPage() {
         </div>
       </header>
 
-      {/* Chat */}
+      {/* Stream Chat */}
       <section className="flex-1 flex flex-col bg-background relative">
-        <div ref={scrollRef} className="flex-1 overflow-y-auto p-8 md:p-12 space-y-8 scroll-smooth">
-          <div className="max-w-4xl mx-auto space-y-8">
-            {messages.length === 0 && (
-              <div className="text-center py-12">
-                <p className="text-muted-foreground font-medium">Start the conversation!</p>
-              </div>
-            )}
-            {messages.map((msg) => {
-              const isMe = currentUser && msg.senderId === currentUser.id;
-              return (
-                <motion.div
-                  key={msg.id}
-                  initial={{ opacity: 0, x: isMe ? 20 : -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  className={`flex items-start gap-4 ${isMe ? "flex-row-reverse" : "flex-row"}`}
-                >
-                  <AvatarPremium seed={msg.sender?.name || "User"} size="md" />
-                  <div className={`space-y-2 max-w-[80%] ${isMe ? "items-end" : "items-start"}`}>
-                    <div className={`px-6 py-4 rounded-[2rem] text-sm md:text-base font-medium leading-relaxed shadow-sm border ${
-                      isMe ? "bg-primary text-white border-primary/20 rounded-tr-none" : "bg-secondary text-foreground border-border/50 rounded-tl-none"
-                    }`}>
-                      {msg.content}
-                    </div>
-                    <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground px-2">
-                      {msg.sender?.name || "User"} • {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    </p>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Input */}
-        <div className="p-8 bg-background/50 backdrop-blur-xl border-t border-border/50">
-          <form onSubmit={handleSendMessage} className="max-w-4xl mx-auto flex gap-4">
-            <div className="relative flex-1">
-              <Input
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Type a message to the group..."
-                className="h-16 pl-6 pr-20 rounded-[2rem] border-border bg-secondary shadow-inner focus-visible:ring-primary text-lg font-medium"
-              />
-            </div>
-            <Button
-              type="submit"
-              disabled={!input.trim()}
-              className="h-16 w-16 rounded-[2rem] bg-foreground text-background hover:bg-foreground/90 transition-all active:scale-90 shadow-xl"
-            >
-              <Send className="h-6 w-6" />
-            </Button>
-          </form>
-        </div>
+        {currentUser && (
+          <StreamChatRoom
+            channelId={groupId}
+            userId={currentUser.id}
+            userName={currentUser.name || "User"}
+            userImage={currentUser.avatar}
+            memberIds={group.members}
+            channelName={group.name}
+          />
+        )}
       </section>
     </div>
   );
