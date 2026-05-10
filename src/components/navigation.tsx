@@ -8,6 +8,7 @@ import { Menu, X, GraduationCap, ChevronRight, ChevronLeft } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
+import { createClient } from "@/utils/supabase/client";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -55,6 +56,27 @@ export function Navigation() {
     };
   }, [isOpen]);
 
+  // Fetch user data to check if logged in
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        const supabase = createClient();
+        const { data: { user: supabaseUser } } = await supabase.auth.getUser();
+        setUser(supabaseUser);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchUser();
+  }, []);
+
   const showBackButton = pathname !== "/" && !isOpen;
 
   return (
@@ -95,15 +117,28 @@ export function Navigation() {
 
         {/* Actions */}
         <div className="hidden lg:flex items-center gap-4">
-          <ThemeToggle />
-          <Link href="/login">
-            <Button variant="ghost" className="rounded-full px-6 font-semibold">Sign In</Button>
-          </Link>
-          <Link href="/signup">
-            <Button className="rounded-full px-6 font-bold bg-foreground text-background hover:bg-foreground/90 transition-all active:scale-95 shadow-xl">
-              Get Started
-            </Button>
-          </Link>
+          {user ? (
+            <>
+              <ThemeToggle />
+              <Link href="/dashboard">
+                <Button variant="ghost" className="rounded-full px-6 font-semibold">
+                  Dashboard
+                </Button>
+              </Link>
+            </>
+          ) : (
+            <>
+              <ThemeToggle />
+              <Link href="/login">
+                <Button variant="ghost" className="rounded-full px-6 font-semibold">Sign In</Button>
+              </Link>
+              <Link href="/signup">
+                <Button className="rounded-full px-6 font-bold bg-foreground text-background hover:bg-foreground/90 transition-all active:scale-95 shadow-xl">
+                  Get Started
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile Toggle */}
