@@ -190,7 +190,8 @@ export async function createAISession(
  * Updates matchRequest with result
  */
 export async function executeSmartMatching(
-  matchRequestId: string
+  matchRequestId: string,
+  options?: { skipAI?: boolean }
 ): Promise<{
   success: boolean;
   partnerId?: string;
@@ -266,6 +267,10 @@ export async function executeSmartMatching(
     }
 
     // ============ TIER 3: AI MATCH (ALWAYS SUCCEEDS) ============
+    if (!partnerId && options?.skipAI) {
+      return { success: false, error: "No human match found, AI skipped by caller" };
+    }
+
     if (!partnerId) {
       tier = "MASH";
       const aiSession = await createAISession(

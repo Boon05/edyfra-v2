@@ -29,6 +29,7 @@ export default function StudyPage() {
   const [currentRequestId, setCurrentRequestId] = useState<string | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const pollingRef = useRef<NodeJS.Timeout | null>(null);
+  const aiFallbackRef = useRef(false);
 
   useEffect(() => {
     getUserData().then((data) => {
@@ -52,6 +53,7 @@ export default function StudyPage() {
     setIsMatching(true);
     setMatchStep(1);
     setTimer(30);
+    aiFallbackRef.current = false;
 
     try {
       const result = await createMatchRequest(formData);
@@ -152,8 +154,10 @@ export default function StudyPage() {
       setMatchStep(2);
     }
     if (timer === 10 && matchStep === 2) {
-      if (timerRef.current) clearInterval(timerRef.current);
-      if (pollingRef.current) clearInterval(pollingRef.current);
+      setMatchStep(3);
+    }
+    if (timer === 0 && !aiFallbackRef.current) {
+      aiFallbackRef.current = true;
       handleAIFallback();
     }
   }, [timer, isMatching, matchStep, handleAIFallback]);
@@ -292,6 +296,7 @@ export default function StudyPage() {
               onClick={() => {
                 setIsMatching(false);
                 setCurrentRequestId(null);
+                aiFallbackRef.current = false;
               }}
               className="mt-16 text-muted-foreground hover:text-red-500 font-black text-[10px] tracking-widest uppercase transition-colors"
             >

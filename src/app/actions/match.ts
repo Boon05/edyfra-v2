@@ -53,6 +53,11 @@ export async function createMatchRequest(data: { subject: string; topic: string 
     },
   });
 
+  // Start automated matching immediately (skip AI - let client timer decide)
+  initiateAutoMatch(matchRequest.id, { skipAI: true }).catch((err) =>
+    console.error("Background auto-match failed:", err)
+  );
+
   revalidatePath("/tutor/requests");
   return { success: true, matchRequestId: matchRequest.id };
 }
@@ -163,9 +168,9 @@ export async function acceptMatchRequest(requestId: string) {
  * Called after student creates match request
  * Immediately tries tier1 → tier2 → tier3 matching
  */
-export async function initiateAutoMatch(requestId: string) {
+export async function initiateAutoMatch(requestId: string, options?: { skipAI?: boolean }) {
   try {
-    const result = await executeSmartMatching(requestId);
+    const result = await executeSmartMatching(requestId, options);
     
     if (!result.success) {
       return { success: false, error: result.error };
