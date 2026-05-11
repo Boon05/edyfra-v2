@@ -52,7 +52,7 @@ export default function AdminChallengesPage() {
   const fetchChallenges = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/challenges/list");
+      const res = await fetch("/api/admin/challenges");
       const data = await res.json();
       setChallenges(data.challenges || []);
     } catch (error) {
@@ -102,7 +102,7 @@ export default function AdminChallengesPage() {
     if (!confirm("Are you sure you want to delete this challenge?")) return;
     
     try {
-      const res = await fetch(`/api/admin/challenges/delete?id=${id}`, {
+      const res = await fetch(`/api/admin/challenges?id=${id}`, {
         method: "DELETE"
       });
       
