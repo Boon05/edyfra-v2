@@ -15,22 +15,27 @@ export default async function AdminDashboard() {
   console.log("[ADMIN GUARD] ADMIN_EMAIL_1:", process.env.ADMIN_EMAIL_1 ?? "(not set)");
   console.log("[ADMIN GUARD] ADMIN_EMAIL_2:", process.env.ADMIN_EMAIL_2 ?? "(not set)");
 
-  // Check 1: must be logged in and email must be in admin list
-  if (!user || !isFounderEmail(user.email)) {
-    console.log("[ADMIN GUARD] Blocked — email not in admin list, redirecting to /dashboard");
+  if (!user) {
+    console.log("[ADMIN GUARD] Blocked — no user session, redirecting to /dashboard");
     redirect("/dashboard");
   }
 
-  // Check 2: Prisma role must be ADMIN
+  // Check 1: email in founder env vars OR Prisma role is ADMIN
+  const isFounder = isFounderEmail(user.email);
+  
   const prismaUser = await prisma.user.findUnique({
     where: { id: user.id },
     select: { role: true },
   });
 
-  console.log("[ADMIN GUARD] Prisma role:", prismaUser?.role ?? "(user not found in DB)");
+  const isDbAdmin = prismaUser?.role === Role.ADMIN;
 
-  if (!prismaUser || prismaUser.role !== Role.ADMIN) {
-    console.log("[ADMIN GUARD] Blocked — Prisma role is not ADMIN, redirecting to /dashboard");
+  console.log("[ADMIN GUARD] Session email:", user.email);
+  console.log("[ADMIN GUARD] Is founder email:", isFounder);
+  console.log("[ADMIN GUARD] Prisma role:", prismaUser?.role ?? "(not in DB)");
+
+  if (!isFounder && !isDbAdmin) {
+    console.log("[ADMIN GUARD] Blocked — not authorized, redirecting to /dashboard");
     redirect("/dashboard");
   }
 

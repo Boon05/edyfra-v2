@@ -7,23 +7,45 @@ import { revalidatePath } from "next/cache";
 import { TUTOR_CONFIG } from "@/lib/config";
 import { isFounderEmail } from "@/utils/admin-guard";
 
-// Helper: check if current user is a founder (used by server-only contexts)
+// Helper: check if current user is an admin (used by server-only contexts)
 async function isAdmin(): Promise<boolean> {
   try {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
-    return isFounderEmail(user?.email);
+    if (!user) return false;
+
+    // Check founder env vars first
+    if (isFounderEmail(user?.email)) return true;
+
+    // Fallback to database role
+    const dbUser = await prisma.user.findUnique({
+      where: { id: user.id },
+      select: { role: true }
+    });
+    return dbUser?.role === Role.ADMIN;
   } catch {
     return false;
   }
 }
 
-// Client-callable admin check (env vars are not available in client components)
+// Client-callable admin check (checks both env vars AND database role)
 export async function checkAdminStatus(): Promise<boolean> {
   try {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
-    return isFounderEmail(user?.email);
+    if (!user) return false;
+
+    // First check if email is in founder env vars
+    if (isFounderEmail(user?.email)) return true;
+
+    // Also check Prisma role — supports users promoted to ADMIN via setupAdminUser()
+    const dbUser = await prisma.user.findUnique({
+      where: { id: user.id },
+      select: { role: true }
+    });
+    if (dbUser?.role === Role.ADMIN) return true;
+
+    return false;
   } catch {
     return false;
   }

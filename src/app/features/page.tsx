@@ -1,11 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import {
   Zap, Shield, Users, Target,
   MessageSquare, BarChart3, Globe,
   Search, BookOpen, GraduationCap,
-  Sparkles, Layers, ShieldCheck, Brain
+  Sparkles, Layers, ShieldCheck, Brain,
+  TrendingUp
 } from "lucide-react";
 
 const allFeatures = [
@@ -22,6 +24,21 @@ const allFeatures = [
 ];
 
 export default function FeaturesPage() {
+  const [stats, setStats] = useState<{ value: number; label: string }[]>([]);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const res = await fetch("/api/stats");
+        const data = await res.json();
+        if (data.stats) setStats(data.stats);
+      } catch {
+        // Show nothing if fail
+      }
+    };
+    fetchStats();
+  }, []);
+
   return (
     <div className="bg-background pt-32 pb-48">
       <div className="container-max space-y-32">
@@ -69,19 +86,33 @@ export default function FeaturesPage() {
               We kept it simple so you can focus on what matters — learning.
             </p>
           </div>
-          {/* Branded stat grid instead of stock photo */}
+          {/* Real platform stats */}
           <div className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-            {[
-              { value: "30s", label: "Avg Match" },
-              { value: "24/7", label: "Available" },
-              { value: "0", label: "Hassle" },
-              { value: "100%", label: "Yours" },
-            ].map(s => (
+            {stats.length > 0 ? stats.map(s => (
               <div key={s.label} className="p-6 rounded-2xl bg-white/5 border border-white/10 text-center space-y-2">
-                <p className="text-4xl font-black text-white">{s.value}</p>
+                <p className="text-4xl font-black text-white">{s.value > 0 ? s.value.toLocaleString() : "Growing Daily"}</p>
                 <p className="text-[10px] font-black uppercase tracking-widest text-white/40">{s.label}</p>
               </div>
-            ))}
+            )) : (
+              <>
+                <div className="p-6 rounded-2xl bg-white/5 border border-white/10 text-center space-y-2">
+                  <TrendingUp className="h-8 w-8 mx-auto text-white/40" />
+                  <p className="text-[10px] font-black uppercase tracking-widest text-white/40">Growing Daily</p>
+                </div>
+                <div className="p-6 rounded-2xl bg-white/5 border border-white/10 text-center space-y-2">
+                  <TrendingUp className="h-8 w-8 mx-auto text-white/40" />
+                  <p className="text-[10px] font-black uppercase tracking-widest text-white/40">Growing Daily</p>
+                </div>
+                <div className="p-6 rounded-2xl bg-white/5 border border-white/10 text-center space-y-2">
+                  <TrendingUp className="h-8 w-8 mx-auto text-white/40" />
+                  <p className="text-[10px] font-black uppercase tracking-widest text-white/40">Growing Daily</p>
+                </div>
+                <div className="p-6 rounded-2xl bg-white/5 border border-white/10 text-center space-y-2">
+                  <TrendingUp className="h-8 w-8 mx-auto text-white/40" />
+                  <p className="text-[10px] font-black uppercase tracking-widest text-white/40">Growing Daily</p>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

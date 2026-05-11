@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Check, Shield, Zap, Clock, Star, Crown, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 
-const plans = [
+const defaultPlans = [
   {
     name: "Free",
     price: "0",
@@ -60,6 +60,22 @@ export default function UpgradePage() {
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
+  const [plans, setPlans] = useState(defaultPlans);
+
+  useEffect(() => {
+    const fetchPlans = async () => {
+      try {
+        const res = await fetch("/api/plans");
+        const data = await res.json();
+        if (data.plans && data.plans.length > 0) {
+          setPlans(data.plans);
+        }
+      } catch {
+        // Fallback to default plans
+      }
+    };
+    fetchPlans();
+  }, []);
 
   const handleUpgrade = async (planType: string, amount: number, id: string) => {
     setLoading(true);

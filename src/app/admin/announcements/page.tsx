@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { isFounderEmail } from "@/utils/admin-guard";
+import { checkAdminStatus } from "@/app/actions/admin";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -32,7 +32,7 @@ export default function AnnouncementsPage() {
     const init = async () => {
       const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user || !isFounderEmail(user.email)) { router.push("/dashboard"); return; }
+      if (!user || !(await checkAdminStatus())) { router.push("/dashboard"); return; }
       await load();
     };
     init();
