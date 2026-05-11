@@ -204,15 +204,49 @@ export default function StreamChatRoom({
 
   // ─── Chat UI ─────────────────────────────────────────────────────────────────
   return (
-    <Chat client={chatClient} theme="str-chat__theme-dark">
-      <Channel channel={channel}>
-        <Window>
-          {!hideHeader && <ChannelHeader />}
-          <MessageList />
-          <MessageComposer />
-        </Window>
-        <Thread />
-      </Channel>
-    </Chat>
+    <div className="h-full w-full edyfra-chat-wrapper">
+      <style>{`
+        .str-chat__theme-dark {
+          --str-chat__primary-color: #06B6D4;
+          --str-chat__background-core-elevation-0: #080808;
+          --str-chat__background-core-elevation-1: #111827;
+          --str-chat__background-core-elevation-2: #1a1a2e;
+          --str-chat__background-core-elevation-3: #1e1e3a;
+          --str-chat__background-core-elevation-4: #222244;
+          --str-chat__font-family: DM Sans, system-ui;
+          --str-chat__font-family-geist: DM Sans, system-ui;
+          --str-chat__radius-md: 12px;
+          --str-chat__radius-lg: 16px;
+          --str-chat__text-primary: #ffffff;
+          --str-chat__text-secondary: #94a3b8;
+        }
+        .str-chat__theme-dark .str-chat__message-list {
+          background: #111827;
+        }
+        .str-chat__theme-dark .str-chat__message-input {
+          background: #1a1a2e;
+          border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .str-chat__theme-dark .str-chat__message-input-footer {
+          background: #1a1a2e;
+        }
+        .str-chat__theme-dark .str-chat__textarea {
+          background: #111827;
+        }
+        .str-chat__theme-dark .str-chat__message-attachment-card--content {
+          background: #1a1a2e;
+        }
+      `}</style>
+      <Chat client={chatClient} theme="str-chat__theme-dark">
+        <Channel channel={channel}>
+          <Window>
+            {!hideHeader && <ChannelHeader />}
+            <MessageList />
+            <MessageComposer />
+          </Window>
+          <Thread />
+        </Channel>
+      </Chat>
+    </div>
   );
 }
