@@ -4,11 +4,13 @@ import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Image from "next/image";
 import { 
   Heart, MessageCircle, Share2, 
-  Send, Image as ImageIcon, Search,
+  Send, Search,
   MoreHorizontal, Loader2, TrendingUp,
-  UserPlus, Hash, Users, Flame, Sparkles, Zap, Newspaper
+  UserPlus, Hash, Users, Flame, Sparkles, Zap, Newspaper,
+  ImageIcon
 } from "lucide-react";
 import { getPosts, createPost, likePost } from "@/app/actions/feed";
 import { createClient } from "@/utils/supabase/client";
@@ -241,7 +243,13 @@ export default function FeedPage() {
                        {post.image && (
                          <div className="pl-[44px] lg:pl-[52px]">
                             <div className="rounded-2xl overflow-hidden border border-border shadow-sm">
-                               <img src={post.image} alt="Post visual" className="w-full h-auto object-cover max-h-[400px] lg:max-h-[500px]" />
+                                <Image 
+                                  src={post.image} 
+                                  alt="Post visual" 
+                                  width={800}
+                                  height={500}
+                                  className="w-full h-auto object-cover max-h-[400px] lg:max-h-[500px]"
+                                />
                             </div>
                          </div>
                        )}

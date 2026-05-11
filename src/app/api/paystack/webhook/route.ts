@@ -52,93 +52,125 @@ export async function POST(req: NextRequest) {
         },
       });
 
-      // Handle specific payment types
-      const { paymentType, userId, planType, targetId } = payment;
+// Handle specific payment types
+       const { paymentType, userId, planType, targetId } = payment;
 
-      if (paymentType === "subscription") {
-        const durationDays = planType === "plus_yearly" ? 365 : 30;
-        const billingCycle = planType === "plus_yearly" ? "yearly" : "monthly";
+       if (paymentType === "subscription") {
+         const durationDays = planType === "plus_yearly" ? 365 : 30;
+         const billingCycle = planType === "plus_yearly" ? "yearly" : "monthly";
 
-        await prisma.user.update({
-          where: { id: userId },
-          data: {
-            plan: "plus",
-            planStartedAt: new Date(),
-            planExpiresAt: new Date(Date.now() + durationDays * 24 * 60 * 60 * 1000),
-            planBillingCycle: billingCycle,
-          },
-        });
+         await prisma.user.update({
+           where: { id: userId },
+           data: {
+             plan: "plus",
+             planStartedAt: new Date(),
+             planExpiresAt: new Date(Date.now() + durationDays * 24 * 60 * 60 * 1000),
+             planBillingCycle: billingCycle,
+           },
+         });
 
-        await prisma.notification.create({
-          data: {
-            userId: userId,
-            type: "SYSTEM",
-            title: "Welcome to Edyfra Plus!",
-            body: `Your account has been upgraded via Paystack. Enjoy unlimited Mash AI!`,
-          },
-        });
-      } else if (paymentType === "session") {
-        const session = await prisma.session.findUnique({
-          where: { id: targetId! },
-          include: { student: true, partner: true }
-        });
+         await prisma.notification.create({
+           data: {
+             userId: userId,
+             type: "SYSTEM",
+             title: "Welcome to Edyfra Plus!",
+             body: `Your account has been upgraded via Paystack. Enjoy unlimited Mash AI!`,
+           },
+         });
+       } else if (paymentType === "credit") {
+         // Handle credit purchase
+         const creditsPurchased = payment.amount; // Amount in KES equals credits
+         
+         await prisma.$transaction(async (tx) => {
+           // Add credits to user's balance
+           await tx.userCredits.upsert({
+             where: { userId },
+             update: { balance: { increment: creditsPurchased } },
+             create: { userId, balance: creditsPurchased }
+           });
+           
+           // Record transaction
+           await tx.creditTransaction.create({
+             data: {
+               userId,
+               amount: creditsPurchased, // Positive for credit
+               type: "purchase",
+               description: `Purchased ${creditsPurchased} study credits`,
+               reference: reference,
+             }
+           });
+         });
 
-        if (session) {
-          const gross = payment.amount;
-          const platformFee = Math.round(gross * 0.20);
-          const tutorPayout = gross - platformFee;
+         await prisma.notification.create({
+           data: {
+             userId: userId,
+             type: "SYSTEM",
+             title: "Credits Added!",
+             body: `${creditsPurchased} study credits have been added to your account.`,
+           },
+         });
+       } else if (paymentType === "session") {
+         const session = await prisma.session.findUnique({
+           where: { id: targetId! },
+           include: { student: true, partner: true }
+         });
 
-          await prisma.session.update({
-            where: { id: session.id },
-            data: { status: "ACTIVE", paymentStatus: "HELD" }
-          });
+         if (session) {
+           const gross = payment.amount;
+           const platformFee = Math.round(gross * 0.20);
+           const tutorPayout = gross - platformFee;
 
-          await prisma.sessionPayment.create({
-            data: {
-              sessionId: session.id,
-              studentId: session.studentId,
-              tutorId: session.partnerId!,
-              grossAmount: gross,
-              platformFee,
-              tutorPayout,
-              mpesaReceipt: data.id.toString(),
-              paidAt: new Date(),
-            }
-          });
+           await prisma.session.update({
+             where: { id: session.id },
+             data: { status: "ACTIVE", paymentStatus: "HELD" }
+           });
 
-          // Notifications...
-          await prisma.notification.create({
-            data: {
-              userId: session.partnerId!,
-              type: "SESSION",
-              title: "Session Paid",
-              body: `${session.student.name} has paid for the session. You can now start.`,
-            }
-          });
-        }
-      } else if (paymentType === "resource") {
-        const resource = await prisma.resource.findUnique({
-          where: { id: targetId! }
-        });
+           await prisma.sessionPayment.create({
+             data: {
+               sessionId: session.id,
+               studentId: session.studentId,
+               tutorId: session.partnerId!,
+               grossAmount: gross,
+               platformFee,
+               tutorPayout,
+               mpesaReceipt: data.id.toString(),
+               paidAt: new Date(),
+             }
+           });
 
-        if (resource) {
-          const gross = payment.amount;
-          const platformFee = Math.round(gross * 0.30);
-          const sellerPayout = gross - platformFee;
+           // Notifications...
+           await prisma.notification.create({
+             data: {
+               userId: session.partnerId!,
+               type: "SESSION",
+               title: "Session Paid",
+               body: `${session.student.name} has paid for the session. You can now start.`,
+             }
+           });
+         }
+       } else if (paymentType === "resource") {
+         const resource = await prisma.resource.findUnique({
+           where: { id: targetId! }
+         });
 
-          await prisma.resourcePurchase.create({
-            data: {
-              userId: userId,
-              resourceId: resource.id,
-              amount: gross,
-              platformFee,
-              sellerPayout,
-              mpesaReceipt: data.id.toString(),
-              paidAt: new Date(),
-            }
-          });
-        }
-      }
+         if (resource) {
+           const gross = payment.amount;
+           const platformFee = Math.round(gross * 0.30);
+           const sellerPayout = gross - platformFee;
+
+           await prisma.resourcePurchase.create({
+             data: {
+               userId: userId,
+               resourceId: resource.id,
+               amount: gross,
+               platformFee,
+               sellerPayout,
+               mpesaReceipt: data.id.toString(),
+               paidAt: new Date(),
+             }
+           });
+         }
+       }
     }
 
     return NextResponse.json({ status: "success" });

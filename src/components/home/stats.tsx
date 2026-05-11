@@ -59,7 +59,7 @@ function Counter({ value, label }: CounterProps) {
 export function HomeStats({ stats }: { stats: Stat[] }) {
   return (
     <section className="bg-black py-32 md:py-48 overflow-hidden relative">
-      <div className="container-max grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8">
+      <div className="container-max grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-8">
         {stats.map((stat) => (
           <Counter key={stat.label} value={stat.value} label={stat.label} />
         ))}

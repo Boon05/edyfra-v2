@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ChevronRight, Calendar } from "lucide-react";
 import { getLatestNews, NewsArticle } from "@/app/actions/news";
@@ -62,11 +63,13 @@ export function HomeNews() {
                   rel="noopener noreferrer"
                   className="space-y-6 block"
                 >
-                  <div className="aspect-[16/10] rounded-3xl overflow-hidden border border-border shadow-sm group-hover:shadow-2xl group-hover:translate-y-[-4px] transition-all duration-500">
-                      <img 
+                   <div className="relative aspect-[16/10] rounded-3xl overflow-hidden border border-border shadow-sm group-hover:shadow-2xl group-hover:translate-y-[-4px] transition-all duration-500">
+                      <Image 
                         src={item.cover_image} 
                         alt={item.title} 
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-1000"
                       />
                   </div>
                   <div className="space-y-4">

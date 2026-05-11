@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import Image from "next/image";
 import { Search, Loader2, UserPlus, GraduationCap, MapPin, SearchX, RefreshCcw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { searchStudents, Student } from "@/app/actions/search";
@@ -133,9 +134,11 @@ export default function SearchPage() {
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex gap-4">
                         <div className="relative">
-                          <img 
-                            src={student.avatar_url} 
+                          <Image 
+                            src={student.avatar_url || "/default-avatar.png"} 
                             alt={student.name} 
+                            width={64}
+                            height={64}
                             className="h-16 w-16 rounded-2xl bg-secondary object-cover ring-1 ring-border group-hover:ring-primary/30 transition-all"
                           />
                           <div className="absolute -bottom-1 -right-1 h-4 w-4 bg-green-500 rounded-full border-2 border-background" />

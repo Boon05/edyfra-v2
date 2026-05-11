@@ -124,6 +124,16 @@ export type Announcement = $Result.DefaultSelection<Prisma.$AnnouncementPayload>
  */
 export type NewsArticle = $Result.DefaultSelection<Prisma.$NewsArticlePayload>
 /**
+ * Model UserCredits
+ * 
+ */
+export type UserCredits = $Result.DefaultSelection<Prisma.$UserCreditsPayload>
+/**
+ * Model CreditTransaction
+ * 
+ */
+export type CreditTransaction = $Result.DefaultSelection<Prisma.$CreditTransactionPayload>
+/**
  * Model Testimonial
  * 
  */
@@ -168,6 +178,16 @@ export type SessionPayment = $Result.DefaultSelection<Prisma.$SessionPaymentPayl
  * 
  */
 export type TutorPayout = $Result.DefaultSelection<Prisma.$TutorPayoutPayload>
+/**
+ * Model SellerEarning
+ * 
+ */
+export type SellerEarning = $Result.DefaultSelection<Prisma.$SellerEarningPayload>
+/**
+ * Model CurriculumTopic
+ * 
+ */
+export type CurriculumTopic = $Result.DefaultSelection<Prisma.$CurriculumTopicPayload>
 /**
  * Model Resource
  * 
@@ -639,6 +659,26 @@ export class PrismaClient<
   get newsArticle(): Prisma.NewsArticleDelegate<ExtArgs>;
 
   /**
+   * `prisma.userCredits`: Exposes CRUD operations for the **UserCredits** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserCredits
+    * const userCredits = await prisma.userCredits.findMany()
+    * ```
+    */
+  get userCredits(): Prisma.UserCreditsDelegate<ExtArgs>;
+
+  /**
+   * `prisma.creditTransaction`: Exposes CRUD operations for the **CreditTransaction** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CreditTransactions
+    * const creditTransactions = await prisma.creditTransaction.findMany()
+    * ```
+    */
+  get creditTransaction(): Prisma.CreditTransactionDelegate<ExtArgs>;
+
+  /**
    * `prisma.testimonial`: Exposes CRUD operations for the **Testimonial** model.
     * Example usage:
     * ```ts
@@ -727,6 +767,26 @@ export class PrismaClient<
     * ```
     */
   get tutorPayout(): Prisma.TutorPayoutDelegate<ExtArgs>;
+
+  /**
+   * `prisma.sellerEarning`: Exposes CRUD operations for the **SellerEarning** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SellerEarnings
+    * const sellerEarnings = await prisma.sellerEarning.findMany()
+    * ```
+    */
+  get sellerEarning(): Prisma.SellerEarningDelegate<ExtArgs>;
+
+  /**
+   * `prisma.curriculumTopic`: Exposes CRUD operations for the **CurriculumTopic** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CurriculumTopics
+    * const curriculumTopics = await prisma.curriculumTopic.findMany()
+    * ```
+    */
+  get curriculumTopic(): Prisma.CurriculumTopicDelegate<ExtArgs>;
 
   /**
    * `prisma.resource`: Exposes CRUD operations for the **Resource** model.
@@ -1220,6 +1280,8 @@ export namespace Prisma {
     Report: 'Report',
     Announcement: 'Announcement',
     NewsArticle: 'NewsArticle',
+    UserCredits: 'UserCredits',
+    CreditTransaction: 'CreditTransaction',
     Testimonial: 'Testimonial',
     NotificationSettings: 'NotificationSettings',
     UserPreferences: 'UserPreferences',
@@ -1229,6 +1291,8 @@ export namespace Prisma {
     Payment: 'Payment',
     SessionPayment: 'SessionPayment',
     TutorPayout: 'TutorPayout',
+    SellerEarning: 'SellerEarning',
+    CurriculumTopic: 'CurriculumTopic',
     Resource: 'Resource',
     ResourcePurchase: 'ResourcePurchase',
     newsletter_subscribers: 'newsletter_subscribers'
@@ -1247,7 +1311,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "studentProfile" | "tutorProfile" | "matchRequest" | "session" | "message" | "review" | "dailyChallenge" | "dailyChallengeAttempt" | "struggleGroup" | "groupMessage" | "tutorApplication" | "notification" | "feedPost" | "postLike" | "comment" | "achievement" | "platformSettings" | "aiConversation" | "report" | "announcement" | "newsArticle" | "testimonial" | "notificationSettings" | "userPreferences" | "challenge" | "challengeCompletion" | "plan" | "payment" | "sessionPayment" | "tutorPayout" | "resource" | "resourcePurchase" | "newsletter_subscribers"
+      modelProps: "user" | "studentProfile" | "tutorProfile" | "matchRequest" | "session" | "message" | "review" | "dailyChallenge" | "dailyChallengeAttempt" | "struggleGroup" | "groupMessage" | "tutorApplication" | "notification" | "feedPost" | "postLike" | "comment" | "achievement" | "platformSettings" | "aiConversation" | "report" | "announcement" | "newsArticle" | "userCredits" | "creditTransaction" | "testimonial" | "notificationSettings" | "userPreferences" | "challenge" | "challengeCompletion" | "plan" | "payment" | "sessionPayment" | "tutorPayout" | "sellerEarning" | "curriculumTopic" | "resource" | "resourcePurchase" | "newsletter_subscribers"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2791,6 +2855,146 @@ export namespace Prisma {
           }
         }
       }
+      UserCredits: {
+        payload: Prisma.$UserCreditsPayload<ExtArgs>
+        fields: Prisma.UserCreditsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserCreditsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCreditsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserCreditsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCreditsPayload>
+          }
+          findFirst: {
+            args: Prisma.UserCreditsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCreditsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserCreditsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCreditsPayload>
+          }
+          findMany: {
+            args: Prisma.UserCreditsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCreditsPayload>[]
+          }
+          create: {
+            args: Prisma.UserCreditsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCreditsPayload>
+          }
+          createMany: {
+            args: Prisma.UserCreditsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserCreditsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCreditsPayload>[]
+          }
+          delete: {
+            args: Prisma.UserCreditsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCreditsPayload>
+          }
+          update: {
+            args: Prisma.UserCreditsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCreditsPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserCreditsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserCreditsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.UserCreditsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCreditsPayload>
+          }
+          aggregate: {
+            args: Prisma.UserCreditsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserCredits>
+          }
+          groupBy: {
+            args: Prisma.UserCreditsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserCreditsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserCreditsCountArgs<ExtArgs>
+            result: $Utils.Optional<UserCreditsCountAggregateOutputType> | number
+          }
+        }
+      }
+      CreditTransaction: {
+        payload: Prisma.$CreditTransactionPayload<ExtArgs>
+        fields: Prisma.CreditTransactionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CreditTransactionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CreditTransactionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CreditTransactionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CreditTransactionPayload>
+          }
+          findFirst: {
+            args: Prisma.CreditTransactionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CreditTransactionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CreditTransactionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CreditTransactionPayload>
+          }
+          findMany: {
+            args: Prisma.CreditTransactionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CreditTransactionPayload>[]
+          }
+          create: {
+            args: Prisma.CreditTransactionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CreditTransactionPayload>
+          }
+          createMany: {
+            args: Prisma.CreditTransactionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CreditTransactionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CreditTransactionPayload>[]
+          }
+          delete: {
+            args: Prisma.CreditTransactionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CreditTransactionPayload>
+          }
+          update: {
+            args: Prisma.CreditTransactionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CreditTransactionPayload>
+          }
+          deleteMany: {
+            args: Prisma.CreditTransactionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CreditTransactionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.CreditTransactionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CreditTransactionPayload>
+          }
+          aggregate: {
+            args: Prisma.CreditTransactionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCreditTransaction>
+          }
+          groupBy: {
+            args: Prisma.CreditTransactionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CreditTransactionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CreditTransactionCountArgs<ExtArgs>
+            result: $Utils.Optional<CreditTransactionCountAggregateOutputType> | number
+          }
+        }
+      }
       Testimonial: {
         payload: Prisma.$TestimonialPayload<ExtArgs>
         fields: Prisma.TestimonialFieldRefs
@@ -3421,6 +3625,146 @@ export namespace Prisma {
           }
         }
       }
+      SellerEarning: {
+        payload: Prisma.$SellerEarningPayload<ExtArgs>
+        fields: Prisma.SellerEarningFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SellerEarningFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SellerEarningPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SellerEarningFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SellerEarningPayload>
+          }
+          findFirst: {
+            args: Prisma.SellerEarningFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SellerEarningPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SellerEarningFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SellerEarningPayload>
+          }
+          findMany: {
+            args: Prisma.SellerEarningFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SellerEarningPayload>[]
+          }
+          create: {
+            args: Prisma.SellerEarningCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SellerEarningPayload>
+          }
+          createMany: {
+            args: Prisma.SellerEarningCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SellerEarningCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SellerEarningPayload>[]
+          }
+          delete: {
+            args: Prisma.SellerEarningDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SellerEarningPayload>
+          }
+          update: {
+            args: Prisma.SellerEarningUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SellerEarningPayload>
+          }
+          deleteMany: {
+            args: Prisma.SellerEarningDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SellerEarningUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.SellerEarningUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SellerEarningPayload>
+          }
+          aggregate: {
+            args: Prisma.SellerEarningAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSellerEarning>
+          }
+          groupBy: {
+            args: Prisma.SellerEarningGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SellerEarningGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SellerEarningCountArgs<ExtArgs>
+            result: $Utils.Optional<SellerEarningCountAggregateOutputType> | number
+          }
+        }
+      }
+      CurriculumTopic: {
+        payload: Prisma.$CurriculumTopicPayload<ExtArgs>
+        fields: Prisma.CurriculumTopicFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CurriculumTopicFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CurriculumTopicPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CurriculumTopicFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CurriculumTopicPayload>
+          }
+          findFirst: {
+            args: Prisma.CurriculumTopicFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CurriculumTopicPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CurriculumTopicFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CurriculumTopicPayload>
+          }
+          findMany: {
+            args: Prisma.CurriculumTopicFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CurriculumTopicPayload>[]
+          }
+          create: {
+            args: Prisma.CurriculumTopicCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CurriculumTopicPayload>
+          }
+          createMany: {
+            args: Prisma.CurriculumTopicCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CurriculumTopicCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CurriculumTopicPayload>[]
+          }
+          delete: {
+            args: Prisma.CurriculumTopicDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CurriculumTopicPayload>
+          }
+          update: {
+            args: Prisma.CurriculumTopicUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CurriculumTopicPayload>
+          }
+          deleteMany: {
+            args: Prisma.CurriculumTopicDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CurriculumTopicUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.CurriculumTopicUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CurriculumTopicPayload>
+          }
+          aggregate: {
+            args: Prisma.CurriculumTopicAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCurriculumTopic>
+          }
+          groupBy: {
+            args: Prisma.CurriculumTopicGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CurriculumTopicGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CurriculumTopicCountArgs<ExtArgs>
+            result: $Utils.Optional<CurriculumTopicCountAggregateOutputType> | number
+          }
+        }
+      }
       Resource: {
         payload: Prisma.$ResourcePayload<ExtArgs>
         fields: Prisma.ResourceFieldRefs
@@ -3810,6 +4154,9 @@ export namespace Prisma {
     sessionPaymentsAsTutor: number
     payouts: number
     matchRequests: number
+    newsArticles: number
+    creditTransactions: number
+    sellerEarnings: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3831,6 +4178,9 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: boolean | UserCountOutputTypeCountSessionPaymentsAsTutorArgs
     payouts?: boolean | UserCountOutputTypeCountPayoutsArgs
     matchRequests?: boolean | UserCountOutputTypeCountMatchRequestsArgs
+    newsArticles?: boolean | UserCountOutputTypeCountNewsArticlesArgs
+    creditTransactions?: boolean | UserCountOutputTypeCountCreditTransactionsArgs
+    sellerEarnings?: boolean | UserCountOutputTypeCountSellerEarningsArgs
   }
 
   // Custom InputTypes
@@ -3968,6 +4318,27 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountMatchRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MatchRequestWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountNewsArticlesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NewsArticleWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCreditTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CreditTransactionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSellerEarningsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SellerEarningWhereInput
   }
 
 
@@ -4150,10 +4521,12 @@ export namespace Prisma {
 
   export type ResourceCountOutputType = {
     purchases: number
+    sellerEarnings: number
   }
 
   export type ResourceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     purchases?: boolean | ResourceCountOutputTypeCountPurchasesArgs
+    sellerEarnings?: boolean | ResourceCountOutputTypeCountSellerEarningsArgs
   }
 
   // Custom InputTypes
@@ -4172,6 +4545,13 @@ export namespace Prisma {
    */
   export type ResourceCountOutputTypeCountPurchasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ResourcePurchaseWhereInput
+  }
+
+  /**
+   * ResourceCountOutputType without action
+   */
+  export type ResourceCountOutputTypeCountSellerEarningsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SellerEarningWhereInput
   }
 
 
@@ -4606,6 +4986,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: boolean | User$sessionPaymentsAsTutorArgs<ExtArgs>
     payouts?: boolean | User$payoutsArgs<ExtArgs>
     matchRequests?: boolean | User$matchRequestsArgs<ExtArgs>
+    newsArticles?: boolean | User$newsArticlesArgs<ExtArgs>
+    userCredits?: boolean | User$userCreditsArgs<ExtArgs>
+    creditTransactions?: boolean | User$creditTransactionsArgs<ExtArgs>
+    sellerEarnings?: boolean | User$sellerEarningsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -4695,6 +5079,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: boolean | User$sessionPaymentsAsTutorArgs<ExtArgs>
     payouts?: boolean | User$payoutsArgs<ExtArgs>
     matchRequests?: boolean | User$matchRequestsArgs<ExtArgs>
+    newsArticles?: boolean | User$newsArticlesArgs<ExtArgs>
+    userCredits?: boolean | User$userCreditsArgs<ExtArgs>
+    creditTransactions?: boolean | User$creditTransactionsArgs<ExtArgs>
+    sellerEarnings?: boolean | User$sellerEarningsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -4723,6 +5111,10 @@ export namespace Prisma {
       sessionPaymentsAsTutor: Prisma.$SessionPaymentPayload<ExtArgs>[]
       payouts: Prisma.$TutorPayoutPayload<ExtArgs>[]
       matchRequests: Prisma.$MatchRequestPayload<ExtArgs>[]
+      newsArticles: Prisma.$NewsArticlePayload<ExtArgs>[]
+      userCredits: Prisma.$UserCreditsPayload<ExtArgs> | null
+      creditTransactions: Prisma.$CreditTransactionPayload<ExtArgs>[]
+      sellerEarnings: Prisma.$SellerEarningPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5139,6 +5531,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor<T extends User$sessionPaymentsAsTutorArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionPaymentsAsTutorArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPaymentPayload<ExtArgs>, T, "findMany"> | Null>
     payouts<T extends User$payoutsArgs<ExtArgs> = {}>(args?: Subset<T, User$payoutsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TutorPayoutPayload<ExtArgs>, T, "findMany"> | Null>
     matchRequests<T extends User$matchRequestsArgs<ExtArgs> = {}>(args?: Subset<T, User$matchRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatchRequestPayload<ExtArgs>, T, "findMany"> | Null>
+    newsArticles<T extends User$newsArticlesArgs<ExtArgs> = {}>(args?: Subset<T, User$newsArticlesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NewsArticlePayload<ExtArgs>, T, "findMany"> | Null>
+    userCredits<T extends User$userCreditsArgs<ExtArgs> = {}>(args?: Subset<T, User$userCreditsArgs<ExtArgs>>): Prisma__UserCreditsClient<$Result.GetResult<Prisma.$UserCreditsPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    creditTransactions<T extends User$creditTransactionsArgs<ExtArgs> = {}>(args?: Subset<T, User$creditTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CreditTransactionPayload<ExtArgs>, T, "findMany"> | Null>
+    sellerEarnings<T extends User$sellerEarningsArgs<ExtArgs> = {}>(args?: Subset<T, User$sellerEarningsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SellerEarningPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5913,6 +6309,81 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MatchRequestScalarFieldEnum | MatchRequestScalarFieldEnum[]
+  }
+
+  /**
+   * User.newsArticles
+   */
+  export type User$newsArticlesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NewsArticle
+     */
+    select?: NewsArticleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsArticleInclude<ExtArgs> | null
+    where?: NewsArticleWhereInput
+    orderBy?: NewsArticleOrderByWithRelationInput | NewsArticleOrderByWithRelationInput[]
+    cursor?: NewsArticleWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NewsArticleScalarFieldEnum | NewsArticleScalarFieldEnum[]
+  }
+
+  /**
+   * User.userCredits
+   */
+  export type User$userCreditsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredits
+     */
+    select?: UserCreditsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCreditsInclude<ExtArgs> | null
+    where?: UserCreditsWhereInput
+  }
+
+  /**
+   * User.creditTransactions
+   */
+  export type User$creditTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CreditTransaction
+     */
+    select?: CreditTransactionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreditTransactionInclude<ExtArgs> | null
+    where?: CreditTransactionWhereInput
+    orderBy?: CreditTransactionOrderByWithRelationInput | CreditTransactionOrderByWithRelationInput[]
+    cursor?: CreditTransactionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CreditTransactionScalarFieldEnum | CreditTransactionScalarFieldEnum[]
+  }
+
+  /**
+   * User.sellerEarnings
+   */
+  export type User$sellerEarningsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SellerEarning
+     */
+    select?: SellerEarningSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SellerEarningInclude<ExtArgs> | null
+    where?: SellerEarningWhereInput
+    orderBy?: SellerEarningOrderByWithRelationInput | SellerEarningOrderByWithRelationInput[]
+    cursor?: SellerEarningWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SellerEarningScalarFieldEnum | SellerEarningScalarFieldEnum[]
   }
 
   /**
@@ -25553,7 +26024,10 @@ export namespace Prisma {
     summary: string | null
     publishedAt: Date | null
     isDraft: boolean | null
+    authorId: string | null
+    status: string | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type NewsArticleMaxAggregateOutputType = {
@@ -25566,7 +26040,10 @@ export namespace Prisma {
     summary: string | null
     publishedAt: Date | null
     isDraft: boolean | null
+    authorId: string | null
+    status: string | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type NewsArticleCountAggregateOutputType = {
@@ -25579,7 +26056,10 @@ export namespace Prisma {
     summary: number
     publishedAt: number
     isDraft: number
+    authorId: number
+    status: number
     createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -25594,7 +26074,10 @@ export namespace Prisma {
     summary?: true
     publishedAt?: true
     isDraft?: true
+    authorId?: true
+    status?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type NewsArticleMaxAggregateInputType = {
@@ -25607,7 +26090,10 @@ export namespace Prisma {
     summary?: true
     publishedAt?: true
     isDraft?: true
+    authorId?: true
+    status?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type NewsArticleCountAggregateInputType = {
@@ -25620,7 +26106,10 @@ export namespace Prisma {
     summary?: true
     publishedAt?: true
     isDraft?: true
+    authorId?: true
+    status?: true
     createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -25706,7 +26195,10 @@ export namespace Prisma {
     summary: string | null
     publishedAt: Date | null
     isDraft: boolean
+    authorId: string | null
+    status: string
     createdAt: Date
+    updatedAt: Date | null
     _count: NewsArticleCountAggregateOutputType | null
     _min: NewsArticleMinAggregateOutputType | null
     _max: NewsArticleMaxAggregateOutputType | null
@@ -25736,7 +26228,11 @@ export namespace Prisma {
     summary?: boolean
     publishedAt?: boolean
     isDraft?: boolean
+    authorId?: boolean
+    status?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
+    author?: boolean | NewsArticle$authorArgs<ExtArgs>
   }, ExtArgs["result"]["newsArticle"]>
 
   export type NewsArticleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -25749,7 +26245,11 @@ export namespace Prisma {
     summary?: boolean
     publishedAt?: boolean
     isDraft?: boolean
+    authorId?: boolean
+    status?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
+    author?: boolean | NewsArticle$authorArgs<ExtArgs>
   }, ExtArgs["result"]["newsArticle"]>
 
   export type NewsArticleSelectScalar = {
@@ -25762,13 +26262,24 @@ export namespace Prisma {
     summary?: boolean
     publishedAt?: boolean
     isDraft?: boolean
+    authorId?: boolean
+    status?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }
 
+  export type NewsArticleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    author?: boolean | NewsArticle$authorArgs<ExtArgs>
+  }
+  export type NewsArticleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    author?: boolean | NewsArticle$authorArgs<ExtArgs>
+  }
 
   export type $NewsArticlePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "NewsArticle"
-    objects: {}
+    objects: {
+      author: Prisma.$UserPayload<ExtArgs> | null
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       title: string
@@ -25779,7 +26290,10 @@ export namespace Prisma {
       summary: string | null
       publishedAt: Date | null
       isDraft: boolean
+      authorId: string | null
+      status: string
       createdAt: Date
+      updatedAt: Date | null
     }, ExtArgs["result"]["newsArticle"]>
     composites: {}
   }
@@ -26144,6 +26658,7 @@ export namespace Prisma {
    */
   export interface Prisma__NewsArticleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    author<T extends NewsArticle$authorArgs<ExtArgs> = {}>(args?: Subset<T, NewsArticle$authorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -26182,7 +26697,10 @@ export namespace Prisma {
     readonly summary: FieldRef<"NewsArticle", 'String'>
     readonly publishedAt: FieldRef<"NewsArticle", 'DateTime'>
     readonly isDraft: FieldRef<"NewsArticle", 'Boolean'>
+    readonly authorId: FieldRef<"NewsArticle", 'String'>
+    readonly status: FieldRef<"NewsArticle", 'String'>
     readonly createdAt: FieldRef<"NewsArticle", 'DateTime'>
+    readonly updatedAt: FieldRef<"NewsArticle", 'DateTime'>
   }
     
 
@@ -26195,6 +26713,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the NewsArticle
      */
     select?: NewsArticleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsArticleInclude<ExtArgs> | null
     /**
      * Filter, which NewsArticle to fetch.
      */
@@ -26210,6 +26732,10 @@ export namespace Prisma {
      */
     select?: NewsArticleSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsArticleInclude<ExtArgs> | null
+    /**
      * Filter, which NewsArticle to fetch.
      */
     where: NewsArticleWhereUniqueInput
@@ -26223,6 +26749,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the NewsArticle
      */
     select?: NewsArticleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsArticleInclude<ExtArgs> | null
     /**
      * Filter, which NewsArticle to fetch.
      */
@@ -26268,6 +26798,10 @@ export namespace Prisma {
      */
     select?: NewsArticleSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsArticleInclude<ExtArgs> | null
+    /**
      * Filter, which NewsArticle to fetch.
      */
     where?: NewsArticleWhereInput
@@ -26312,6 +26846,10 @@ export namespace Prisma {
      */
     select?: NewsArticleSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsArticleInclude<ExtArgs> | null
+    /**
      * Filter, which NewsArticles to fetch.
      */
     where?: NewsArticleWhereInput
@@ -26351,6 +26889,10 @@ export namespace Prisma {
      */
     select?: NewsArticleSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsArticleInclude<ExtArgs> | null
+    /**
      * The data needed to create a NewsArticle.
      */
     data: XOR<NewsArticleCreateInput, NewsArticleUncheckedCreateInput>
@@ -26380,6 +26922,10 @@ export namespace Prisma {
      */
     data: NewsArticleCreateManyInput | NewsArticleCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsArticleIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -26390,6 +26936,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the NewsArticle
      */
     select?: NewsArticleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsArticleInclude<ExtArgs> | null
     /**
      * The data needed to update a NewsArticle.
      */
@@ -26423,6 +26973,10 @@ export namespace Prisma {
      */
     select?: NewsArticleSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsArticleInclude<ExtArgs> | null
+    /**
      * The filter to search for the NewsArticle to update in case it exists.
      */
     where: NewsArticleWhereUniqueInput
@@ -26445,6 +26999,10 @@ export namespace Prisma {
      */
     select?: NewsArticleSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsArticleInclude<ExtArgs> | null
+    /**
      * Filter which NewsArticle to delete.
      */
     where: NewsArticleWhereUniqueInput
@@ -26461,6 +27019,21 @@ export namespace Prisma {
   }
 
   /**
+   * NewsArticle.author
+   */
+  export type NewsArticle$authorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
    * NewsArticle without action
    */
   export type NewsArticleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -26468,6 +27041,1956 @@ export namespace Prisma {
      * Select specific fields to fetch from the NewsArticle
      */
     select?: NewsArticleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NewsArticleInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserCredits
+   */
+
+  export type AggregateUserCredits = {
+    _count: UserCreditsCountAggregateOutputType | null
+    _avg: UserCreditsAvgAggregateOutputType | null
+    _sum: UserCreditsSumAggregateOutputType | null
+    _min: UserCreditsMinAggregateOutputType | null
+    _max: UserCreditsMaxAggregateOutputType | null
+  }
+
+  export type UserCreditsAvgAggregateOutputType = {
+    balance: number | null
+  }
+
+  export type UserCreditsSumAggregateOutputType = {
+    balance: number | null
+  }
+
+  export type UserCreditsMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    balance: number | null
+    updatedAt: Date | null
+  }
+
+  export type UserCreditsMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    balance: number | null
+    updatedAt: Date | null
+  }
+
+  export type UserCreditsCountAggregateOutputType = {
+    id: number
+    userId: number
+    balance: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type UserCreditsAvgAggregateInputType = {
+    balance?: true
+  }
+
+  export type UserCreditsSumAggregateInputType = {
+    balance?: true
+  }
+
+  export type UserCreditsMinAggregateInputType = {
+    id?: true
+    userId?: true
+    balance?: true
+    updatedAt?: true
+  }
+
+  export type UserCreditsMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    balance?: true
+    updatedAt?: true
+  }
+
+  export type UserCreditsCountAggregateInputType = {
+    id?: true
+    userId?: true
+    balance?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type UserCreditsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserCredits to aggregate.
+     */
+    where?: UserCreditsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserCredits to fetch.
+     */
+    orderBy?: UserCreditsOrderByWithRelationInput | UserCreditsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserCreditsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserCredits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserCredits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserCredits
+    **/
+    _count?: true | UserCreditsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UserCreditsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserCreditsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserCreditsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserCreditsMaxAggregateInputType
+  }
+
+  export type GetUserCreditsAggregateType<T extends UserCreditsAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserCredits]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserCredits[P]>
+      : GetScalarType<T[P], AggregateUserCredits[P]>
+  }
+
+
+
+
+  export type UserCreditsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserCreditsWhereInput
+    orderBy?: UserCreditsOrderByWithAggregationInput | UserCreditsOrderByWithAggregationInput[]
+    by: UserCreditsScalarFieldEnum[] | UserCreditsScalarFieldEnum
+    having?: UserCreditsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserCreditsCountAggregateInputType | true
+    _avg?: UserCreditsAvgAggregateInputType
+    _sum?: UserCreditsSumAggregateInputType
+    _min?: UserCreditsMinAggregateInputType
+    _max?: UserCreditsMaxAggregateInputType
+  }
+
+  export type UserCreditsGroupByOutputType = {
+    id: string
+    userId: string
+    balance: number
+    updatedAt: Date
+    _count: UserCreditsCountAggregateOutputType | null
+    _avg: UserCreditsAvgAggregateOutputType | null
+    _sum: UserCreditsSumAggregateOutputType | null
+    _min: UserCreditsMinAggregateOutputType | null
+    _max: UserCreditsMaxAggregateOutputType | null
+  }
+
+  type GetUserCreditsGroupByPayload<T extends UserCreditsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserCreditsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserCreditsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserCreditsGroupByOutputType[P]>
+            : GetScalarType<T[P], UserCreditsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserCreditsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    balance?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userCredits"]>
+
+  export type UserCreditsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    balance?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userCredits"]>
+
+  export type UserCreditsSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    balance?: boolean
+    updatedAt?: boolean
+  }
+
+  export type UserCreditsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserCreditsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $UserCreditsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserCredits"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      balance: number
+      updatedAt: Date
+    }, ExtArgs["result"]["userCredits"]>
+    composites: {}
+  }
+
+  type UserCreditsGetPayload<S extends boolean | null | undefined | UserCreditsDefaultArgs> = $Result.GetResult<Prisma.$UserCreditsPayload, S>
+
+  type UserCreditsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<UserCreditsFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: UserCreditsCountAggregateInputType | true
+    }
+
+  export interface UserCreditsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserCredits'], meta: { name: 'UserCredits' } }
+    /**
+     * Find zero or one UserCredits that matches the filter.
+     * @param {UserCreditsFindUniqueArgs} args - Arguments to find a UserCredits
+     * @example
+     * // Get one UserCredits
+     * const userCredits = await prisma.userCredits.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserCreditsFindUniqueArgs>(args: SelectSubset<T, UserCreditsFindUniqueArgs<ExtArgs>>): Prisma__UserCreditsClient<$Result.GetResult<Prisma.$UserCreditsPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one UserCredits that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {UserCreditsFindUniqueOrThrowArgs} args - Arguments to find a UserCredits
+     * @example
+     * // Get one UserCredits
+     * const userCredits = await prisma.userCredits.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserCreditsFindUniqueOrThrowArgs>(args: SelectSubset<T, UserCreditsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserCreditsClient<$Result.GetResult<Prisma.$UserCreditsPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first UserCredits that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCreditsFindFirstArgs} args - Arguments to find a UserCredits
+     * @example
+     * // Get one UserCredits
+     * const userCredits = await prisma.userCredits.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserCreditsFindFirstArgs>(args?: SelectSubset<T, UserCreditsFindFirstArgs<ExtArgs>>): Prisma__UserCreditsClient<$Result.GetResult<Prisma.$UserCreditsPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first UserCredits that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCreditsFindFirstOrThrowArgs} args - Arguments to find a UserCredits
+     * @example
+     * // Get one UserCredits
+     * const userCredits = await prisma.userCredits.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserCreditsFindFirstOrThrowArgs>(args?: SelectSubset<T, UserCreditsFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserCreditsClient<$Result.GetResult<Prisma.$UserCreditsPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more UserCredits that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCreditsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserCredits
+     * const userCredits = await prisma.userCredits.findMany()
+     * 
+     * // Get first 10 UserCredits
+     * const userCredits = await prisma.userCredits.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userCreditsWithIdOnly = await prisma.userCredits.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserCreditsFindManyArgs>(args?: SelectSubset<T, UserCreditsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserCreditsPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a UserCredits.
+     * @param {UserCreditsCreateArgs} args - Arguments to create a UserCredits.
+     * @example
+     * // Create one UserCredits
+     * const UserCredits = await prisma.userCredits.create({
+     *   data: {
+     *     // ... data to create a UserCredits
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserCreditsCreateArgs>(args: SelectSubset<T, UserCreditsCreateArgs<ExtArgs>>): Prisma__UserCreditsClient<$Result.GetResult<Prisma.$UserCreditsPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many UserCredits.
+     * @param {UserCreditsCreateManyArgs} args - Arguments to create many UserCredits.
+     * @example
+     * // Create many UserCredits
+     * const userCredits = await prisma.userCredits.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserCreditsCreateManyArgs>(args?: SelectSubset<T, UserCreditsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserCredits and returns the data saved in the database.
+     * @param {UserCreditsCreateManyAndReturnArgs} args - Arguments to create many UserCredits.
+     * @example
+     * // Create many UserCredits
+     * const userCredits = await prisma.userCredits.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserCredits and only return the `id`
+     * const userCreditsWithIdOnly = await prisma.userCredits.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserCreditsCreateManyAndReturnArgs>(args?: SelectSubset<T, UserCreditsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserCreditsPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a UserCredits.
+     * @param {UserCreditsDeleteArgs} args - Arguments to delete one UserCredits.
+     * @example
+     * // Delete one UserCredits
+     * const UserCredits = await prisma.userCredits.delete({
+     *   where: {
+     *     // ... filter to delete one UserCredits
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserCreditsDeleteArgs>(args: SelectSubset<T, UserCreditsDeleteArgs<ExtArgs>>): Prisma__UserCreditsClient<$Result.GetResult<Prisma.$UserCreditsPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one UserCredits.
+     * @param {UserCreditsUpdateArgs} args - Arguments to update one UserCredits.
+     * @example
+     * // Update one UserCredits
+     * const userCredits = await prisma.userCredits.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserCreditsUpdateArgs>(args: SelectSubset<T, UserCreditsUpdateArgs<ExtArgs>>): Prisma__UserCreditsClient<$Result.GetResult<Prisma.$UserCreditsPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more UserCredits.
+     * @param {UserCreditsDeleteManyArgs} args - Arguments to filter UserCredits to delete.
+     * @example
+     * // Delete a few UserCredits
+     * const { count } = await prisma.userCredits.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserCreditsDeleteManyArgs>(args?: SelectSubset<T, UserCreditsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserCredits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCreditsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserCredits
+     * const userCredits = await prisma.userCredits.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserCreditsUpdateManyArgs>(args: SelectSubset<T, UserCreditsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one UserCredits.
+     * @param {UserCreditsUpsertArgs} args - Arguments to update or create a UserCredits.
+     * @example
+     * // Update or create a UserCredits
+     * const userCredits = await prisma.userCredits.upsert({
+     *   create: {
+     *     // ... data to create a UserCredits
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserCredits we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserCreditsUpsertArgs>(args: SelectSubset<T, UserCreditsUpsertArgs<ExtArgs>>): Prisma__UserCreditsClient<$Result.GetResult<Prisma.$UserCreditsPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of UserCredits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCreditsCountArgs} args - Arguments to filter UserCredits to count.
+     * @example
+     * // Count the number of UserCredits
+     * const count = await prisma.userCredits.count({
+     *   where: {
+     *     // ... the filter for the UserCredits we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserCreditsCountArgs>(
+      args?: Subset<T, UserCreditsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserCreditsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserCredits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCreditsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserCreditsAggregateArgs>(args: Subset<T, UserCreditsAggregateArgs>): Prisma.PrismaPromise<GetUserCreditsAggregateType<T>>
+
+    /**
+     * Group by UserCredits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCreditsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserCreditsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserCreditsGroupByArgs['orderBy'] }
+        : { orderBy?: UserCreditsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserCreditsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserCreditsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserCredits model
+   */
+  readonly fields: UserCreditsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserCredits.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserCreditsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserCredits model
+   */ 
+  interface UserCreditsFieldRefs {
+    readonly id: FieldRef<"UserCredits", 'String'>
+    readonly userId: FieldRef<"UserCredits", 'String'>
+    readonly balance: FieldRef<"UserCredits", 'Int'>
+    readonly updatedAt: FieldRef<"UserCredits", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserCredits findUnique
+   */
+  export type UserCreditsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredits
+     */
+    select?: UserCreditsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCreditsInclude<ExtArgs> | null
+    /**
+     * Filter, which UserCredits to fetch.
+     */
+    where: UserCreditsWhereUniqueInput
+  }
+
+  /**
+   * UserCredits findUniqueOrThrow
+   */
+  export type UserCreditsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredits
+     */
+    select?: UserCreditsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCreditsInclude<ExtArgs> | null
+    /**
+     * Filter, which UserCredits to fetch.
+     */
+    where: UserCreditsWhereUniqueInput
+  }
+
+  /**
+   * UserCredits findFirst
+   */
+  export type UserCreditsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredits
+     */
+    select?: UserCreditsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCreditsInclude<ExtArgs> | null
+    /**
+     * Filter, which UserCredits to fetch.
+     */
+    where?: UserCreditsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserCredits to fetch.
+     */
+    orderBy?: UserCreditsOrderByWithRelationInput | UserCreditsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserCredits.
+     */
+    cursor?: UserCreditsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserCredits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserCredits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserCredits.
+     */
+    distinct?: UserCreditsScalarFieldEnum | UserCreditsScalarFieldEnum[]
+  }
+
+  /**
+   * UserCredits findFirstOrThrow
+   */
+  export type UserCreditsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredits
+     */
+    select?: UserCreditsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCreditsInclude<ExtArgs> | null
+    /**
+     * Filter, which UserCredits to fetch.
+     */
+    where?: UserCreditsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserCredits to fetch.
+     */
+    orderBy?: UserCreditsOrderByWithRelationInput | UserCreditsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserCredits.
+     */
+    cursor?: UserCreditsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserCredits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserCredits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserCredits.
+     */
+    distinct?: UserCreditsScalarFieldEnum | UserCreditsScalarFieldEnum[]
+  }
+
+  /**
+   * UserCredits findMany
+   */
+  export type UserCreditsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredits
+     */
+    select?: UserCreditsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCreditsInclude<ExtArgs> | null
+    /**
+     * Filter, which UserCredits to fetch.
+     */
+    where?: UserCreditsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserCredits to fetch.
+     */
+    orderBy?: UserCreditsOrderByWithRelationInput | UserCreditsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserCredits.
+     */
+    cursor?: UserCreditsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserCredits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserCredits.
+     */
+    skip?: number
+    distinct?: UserCreditsScalarFieldEnum | UserCreditsScalarFieldEnum[]
+  }
+
+  /**
+   * UserCredits create
+   */
+  export type UserCreditsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredits
+     */
+    select?: UserCreditsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCreditsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserCredits.
+     */
+    data: XOR<UserCreditsCreateInput, UserCreditsUncheckedCreateInput>
+  }
+
+  /**
+   * UserCredits createMany
+   */
+  export type UserCreditsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserCredits.
+     */
+    data: UserCreditsCreateManyInput | UserCreditsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserCredits createManyAndReturn
+   */
+  export type UserCreditsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredits
+     */
+    select?: UserCreditsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many UserCredits.
+     */
+    data: UserCreditsCreateManyInput | UserCreditsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCreditsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserCredits update
+   */
+  export type UserCreditsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredits
+     */
+    select?: UserCreditsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCreditsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserCredits.
+     */
+    data: XOR<UserCreditsUpdateInput, UserCreditsUncheckedUpdateInput>
+    /**
+     * Choose, which UserCredits to update.
+     */
+    where: UserCreditsWhereUniqueInput
+  }
+
+  /**
+   * UserCredits updateMany
+   */
+  export type UserCreditsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserCredits.
+     */
+    data: XOR<UserCreditsUpdateManyMutationInput, UserCreditsUncheckedUpdateManyInput>
+    /**
+     * Filter which UserCredits to update
+     */
+    where?: UserCreditsWhereInput
+  }
+
+  /**
+   * UserCredits upsert
+   */
+  export type UserCreditsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredits
+     */
+    select?: UserCreditsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCreditsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserCredits to update in case it exists.
+     */
+    where: UserCreditsWhereUniqueInput
+    /**
+     * In case the UserCredits found by the `where` argument doesn't exist, create a new UserCredits with this data.
+     */
+    create: XOR<UserCreditsCreateInput, UserCreditsUncheckedCreateInput>
+    /**
+     * In case the UserCredits was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserCreditsUpdateInput, UserCreditsUncheckedUpdateInput>
+  }
+
+  /**
+   * UserCredits delete
+   */
+  export type UserCreditsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredits
+     */
+    select?: UserCreditsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCreditsInclude<ExtArgs> | null
+    /**
+     * Filter which UserCredits to delete.
+     */
+    where: UserCreditsWhereUniqueInput
+  }
+
+  /**
+   * UserCredits deleteMany
+   */
+  export type UserCreditsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserCredits to delete
+     */
+    where?: UserCreditsWhereInput
+  }
+
+  /**
+   * UserCredits without action
+   */
+  export type UserCreditsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCredits
+     */
+    select?: UserCreditsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCreditsInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CreditTransaction
+   */
+
+  export type AggregateCreditTransaction = {
+    _count: CreditTransactionCountAggregateOutputType | null
+    _avg: CreditTransactionAvgAggregateOutputType | null
+    _sum: CreditTransactionSumAggregateOutputType | null
+    _min: CreditTransactionMinAggregateOutputType | null
+    _max: CreditTransactionMaxAggregateOutputType | null
+  }
+
+  export type CreditTransactionAvgAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type CreditTransactionSumAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type CreditTransactionMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    amount: number | null
+    type: string | null
+    description: string | null
+    reference: string | null
+    createdAt: Date | null
+  }
+
+  export type CreditTransactionMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    amount: number | null
+    type: string | null
+    description: string | null
+    reference: string | null
+    createdAt: Date | null
+  }
+
+  export type CreditTransactionCountAggregateOutputType = {
+    id: number
+    userId: number
+    amount: number
+    type: number
+    description: number
+    reference: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type CreditTransactionAvgAggregateInputType = {
+    amount?: true
+  }
+
+  export type CreditTransactionSumAggregateInputType = {
+    amount?: true
+  }
+
+  export type CreditTransactionMinAggregateInputType = {
+    id?: true
+    userId?: true
+    amount?: true
+    type?: true
+    description?: true
+    reference?: true
+    createdAt?: true
+  }
+
+  export type CreditTransactionMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    amount?: true
+    type?: true
+    description?: true
+    reference?: true
+    createdAt?: true
+  }
+
+  export type CreditTransactionCountAggregateInputType = {
+    id?: true
+    userId?: true
+    amount?: true
+    type?: true
+    description?: true
+    reference?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type CreditTransactionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CreditTransaction to aggregate.
+     */
+    where?: CreditTransactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CreditTransactions to fetch.
+     */
+    orderBy?: CreditTransactionOrderByWithRelationInput | CreditTransactionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CreditTransactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CreditTransactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CreditTransactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CreditTransactions
+    **/
+    _count?: true | CreditTransactionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CreditTransactionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CreditTransactionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CreditTransactionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CreditTransactionMaxAggregateInputType
+  }
+
+  export type GetCreditTransactionAggregateType<T extends CreditTransactionAggregateArgs> = {
+        [P in keyof T & keyof AggregateCreditTransaction]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCreditTransaction[P]>
+      : GetScalarType<T[P], AggregateCreditTransaction[P]>
+  }
+
+
+
+
+  export type CreditTransactionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CreditTransactionWhereInput
+    orderBy?: CreditTransactionOrderByWithAggregationInput | CreditTransactionOrderByWithAggregationInput[]
+    by: CreditTransactionScalarFieldEnum[] | CreditTransactionScalarFieldEnum
+    having?: CreditTransactionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CreditTransactionCountAggregateInputType | true
+    _avg?: CreditTransactionAvgAggregateInputType
+    _sum?: CreditTransactionSumAggregateInputType
+    _min?: CreditTransactionMinAggregateInputType
+    _max?: CreditTransactionMaxAggregateInputType
+  }
+
+  export type CreditTransactionGroupByOutputType = {
+    id: string
+    userId: string
+    amount: number
+    type: string
+    description: string | null
+    reference: string | null
+    createdAt: Date
+    _count: CreditTransactionCountAggregateOutputType | null
+    _avg: CreditTransactionAvgAggregateOutputType | null
+    _sum: CreditTransactionSumAggregateOutputType | null
+    _min: CreditTransactionMinAggregateOutputType | null
+    _max: CreditTransactionMaxAggregateOutputType | null
+  }
+
+  type GetCreditTransactionGroupByPayload<T extends CreditTransactionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CreditTransactionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CreditTransactionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CreditTransactionGroupByOutputType[P]>
+            : GetScalarType<T[P], CreditTransactionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CreditTransactionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    amount?: boolean
+    type?: boolean
+    description?: boolean
+    reference?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["creditTransaction"]>
+
+  export type CreditTransactionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    amount?: boolean
+    type?: boolean
+    description?: boolean
+    reference?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["creditTransaction"]>
+
+  export type CreditTransactionSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    amount?: boolean
+    type?: boolean
+    description?: boolean
+    reference?: boolean
+    createdAt?: boolean
+  }
+
+  export type CreditTransactionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type CreditTransactionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $CreditTransactionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CreditTransaction"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      amount: number
+      type: string
+      description: string | null
+      reference: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["creditTransaction"]>
+    composites: {}
+  }
+
+  type CreditTransactionGetPayload<S extends boolean | null | undefined | CreditTransactionDefaultArgs> = $Result.GetResult<Prisma.$CreditTransactionPayload, S>
+
+  type CreditTransactionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<CreditTransactionFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: CreditTransactionCountAggregateInputType | true
+    }
+
+  export interface CreditTransactionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CreditTransaction'], meta: { name: 'CreditTransaction' } }
+    /**
+     * Find zero or one CreditTransaction that matches the filter.
+     * @param {CreditTransactionFindUniqueArgs} args - Arguments to find a CreditTransaction
+     * @example
+     * // Get one CreditTransaction
+     * const creditTransaction = await prisma.creditTransaction.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CreditTransactionFindUniqueArgs>(args: SelectSubset<T, CreditTransactionFindUniqueArgs<ExtArgs>>): Prisma__CreditTransactionClient<$Result.GetResult<Prisma.$CreditTransactionPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one CreditTransaction that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {CreditTransactionFindUniqueOrThrowArgs} args - Arguments to find a CreditTransaction
+     * @example
+     * // Get one CreditTransaction
+     * const creditTransaction = await prisma.creditTransaction.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CreditTransactionFindUniqueOrThrowArgs>(args: SelectSubset<T, CreditTransactionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CreditTransactionClient<$Result.GetResult<Prisma.$CreditTransactionPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first CreditTransaction that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CreditTransactionFindFirstArgs} args - Arguments to find a CreditTransaction
+     * @example
+     * // Get one CreditTransaction
+     * const creditTransaction = await prisma.creditTransaction.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CreditTransactionFindFirstArgs>(args?: SelectSubset<T, CreditTransactionFindFirstArgs<ExtArgs>>): Prisma__CreditTransactionClient<$Result.GetResult<Prisma.$CreditTransactionPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first CreditTransaction that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CreditTransactionFindFirstOrThrowArgs} args - Arguments to find a CreditTransaction
+     * @example
+     * // Get one CreditTransaction
+     * const creditTransaction = await prisma.creditTransaction.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CreditTransactionFindFirstOrThrowArgs>(args?: SelectSubset<T, CreditTransactionFindFirstOrThrowArgs<ExtArgs>>): Prisma__CreditTransactionClient<$Result.GetResult<Prisma.$CreditTransactionPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more CreditTransactions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CreditTransactionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CreditTransactions
+     * const creditTransactions = await prisma.creditTransaction.findMany()
+     * 
+     * // Get first 10 CreditTransactions
+     * const creditTransactions = await prisma.creditTransaction.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const creditTransactionWithIdOnly = await prisma.creditTransaction.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CreditTransactionFindManyArgs>(args?: SelectSubset<T, CreditTransactionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CreditTransactionPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a CreditTransaction.
+     * @param {CreditTransactionCreateArgs} args - Arguments to create a CreditTransaction.
+     * @example
+     * // Create one CreditTransaction
+     * const CreditTransaction = await prisma.creditTransaction.create({
+     *   data: {
+     *     // ... data to create a CreditTransaction
+     *   }
+     * })
+     * 
+     */
+    create<T extends CreditTransactionCreateArgs>(args: SelectSubset<T, CreditTransactionCreateArgs<ExtArgs>>): Prisma__CreditTransactionClient<$Result.GetResult<Prisma.$CreditTransactionPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many CreditTransactions.
+     * @param {CreditTransactionCreateManyArgs} args - Arguments to create many CreditTransactions.
+     * @example
+     * // Create many CreditTransactions
+     * const creditTransaction = await prisma.creditTransaction.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CreditTransactionCreateManyArgs>(args?: SelectSubset<T, CreditTransactionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CreditTransactions and returns the data saved in the database.
+     * @param {CreditTransactionCreateManyAndReturnArgs} args - Arguments to create many CreditTransactions.
+     * @example
+     * // Create many CreditTransactions
+     * const creditTransaction = await prisma.creditTransaction.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CreditTransactions and only return the `id`
+     * const creditTransactionWithIdOnly = await prisma.creditTransaction.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CreditTransactionCreateManyAndReturnArgs>(args?: SelectSubset<T, CreditTransactionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CreditTransactionPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a CreditTransaction.
+     * @param {CreditTransactionDeleteArgs} args - Arguments to delete one CreditTransaction.
+     * @example
+     * // Delete one CreditTransaction
+     * const CreditTransaction = await prisma.creditTransaction.delete({
+     *   where: {
+     *     // ... filter to delete one CreditTransaction
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CreditTransactionDeleteArgs>(args: SelectSubset<T, CreditTransactionDeleteArgs<ExtArgs>>): Prisma__CreditTransactionClient<$Result.GetResult<Prisma.$CreditTransactionPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one CreditTransaction.
+     * @param {CreditTransactionUpdateArgs} args - Arguments to update one CreditTransaction.
+     * @example
+     * // Update one CreditTransaction
+     * const creditTransaction = await prisma.creditTransaction.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CreditTransactionUpdateArgs>(args: SelectSubset<T, CreditTransactionUpdateArgs<ExtArgs>>): Prisma__CreditTransactionClient<$Result.GetResult<Prisma.$CreditTransactionPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more CreditTransactions.
+     * @param {CreditTransactionDeleteManyArgs} args - Arguments to filter CreditTransactions to delete.
+     * @example
+     * // Delete a few CreditTransactions
+     * const { count } = await prisma.creditTransaction.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CreditTransactionDeleteManyArgs>(args?: SelectSubset<T, CreditTransactionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CreditTransactions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CreditTransactionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CreditTransactions
+     * const creditTransaction = await prisma.creditTransaction.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CreditTransactionUpdateManyArgs>(args: SelectSubset<T, CreditTransactionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one CreditTransaction.
+     * @param {CreditTransactionUpsertArgs} args - Arguments to update or create a CreditTransaction.
+     * @example
+     * // Update or create a CreditTransaction
+     * const creditTransaction = await prisma.creditTransaction.upsert({
+     *   create: {
+     *     // ... data to create a CreditTransaction
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CreditTransaction we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CreditTransactionUpsertArgs>(args: SelectSubset<T, CreditTransactionUpsertArgs<ExtArgs>>): Prisma__CreditTransactionClient<$Result.GetResult<Prisma.$CreditTransactionPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of CreditTransactions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CreditTransactionCountArgs} args - Arguments to filter CreditTransactions to count.
+     * @example
+     * // Count the number of CreditTransactions
+     * const count = await prisma.creditTransaction.count({
+     *   where: {
+     *     // ... the filter for the CreditTransactions we want to count
+     *   }
+     * })
+    **/
+    count<T extends CreditTransactionCountArgs>(
+      args?: Subset<T, CreditTransactionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CreditTransactionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CreditTransaction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CreditTransactionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CreditTransactionAggregateArgs>(args: Subset<T, CreditTransactionAggregateArgs>): Prisma.PrismaPromise<GetCreditTransactionAggregateType<T>>
+
+    /**
+     * Group by CreditTransaction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CreditTransactionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CreditTransactionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CreditTransactionGroupByArgs['orderBy'] }
+        : { orderBy?: CreditTransactionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CreditTransactionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCreditTransactionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CreditTransaction model
+   */
+  readonly fields: CreditTransactionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CreditTransaction.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CreditTransactionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CreditTransaction model
+   */ 
+  interface CreditTransactionFieldRefs {
+    readonly id: FieldRef<"CreditTransaction", 'String'>
+    readonly userId: FieldRef<"CreditTransaction", 'String'>
+    readonly amount: FieldRef<"CreditTransaction", 'Int'>
+    readonly type: FieldRef<"CreditTransaction", 'String'>
+    readonly description: FieldRef<"CreditTransaction", 'String'>
+    readonly reference: FieldRef<"CreditTransaction", 'String'>
+    readonly createdAt: FieldRef<"CreditTransaction", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CreditTransaction findUnique
+   */
+  export type CreditTransactionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CreditTransaction
+     */
+    select?: CreditTransactionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreditTransactionInclude<ExtArgs> | null
+    /**
+     * Filter, which CreditTransaction to fetch.
+     */
+    where: CreditTransactionWhereUniqueInput
+  }
+
+  /**
+   * CreditTransaction findUniqueOrThrow
+   */
+  export type CreditTransactionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CreditTransaction
+     */
+    select?: CreditTransactionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreditTransactionInclude<ExtArgs> | null
+    /**
+     * Filter, which CreditTransaction to fetch.
+     */
+    where: CreditTransactionWhereUniqueInput
+  }
+
+  /**
+   * CreditTransaction findFirst
+   */
+  export type CreditTransactionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CreditTransaction
+     */
+    select?: CreditTransactionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreditTransactionInclude<ExtArgs> | null
+    /**
+     * Filter, which CreditTransaction to fetch.
+     */
+    where?: CreditTransactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CreditTransactions to fetch.
+     */
+    orderBy?: CreditTransactionOrderByWithRelationInput | CreditTransactionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CreditTransactions.
+     */
+    cursor?: CreditTransactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CreditTransactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CreditTransactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CreditTransactions.
+     */
+    distinct?: CreditTransactionScalarFieldEnum | CreditTransactionScalarFieldEnum[]
+  }
+
+  /**
+   * CreditTransaction findFirstOrThrow
+   */
+  export type CreditTransactionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CreditTransaction
+     */
+    select?: CreditTransactionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreditTransactionInclude<ExtArgs> | null
+    /**
+     * Filter, which CreditTransaction to fetch.
+     */
+    where?: CreditTransactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CreditTransactions to fetch.
+     */
+    orderBy?: CreditTransactionOrderByWithRelationInput | CreditTransactionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CreditTransactions.
+     */
+    cursor?: CreditTransactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CreditTransactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CreditTransactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CreditTransactions.
+     */
+    distinct?: CreditTransactionScalarFieldEnum | CreditTransactionScalarFieldEnum[]
+  }
+
+  /**
+   * CreditTransaction findMany
+   */
+  export type CreditTransactionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CreditTransaction
+     */
+    select?: CreditTransactionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreditTransactionInclude<ExtArgs> | null
+    /**
+     * Filter, which CreditTransactions to fetch.
+     */
+    where?: CreditTransactionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CreditTransactions to fetch.
+     */
+    orderBy?: CreditTransactionOrderByWithRelationInput | CreditTransactionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CreditTransactions.
+     */
+    cursor?: CreditTransactionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CreditTransactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CreditTransactions.
+     */
+    skip?: number
+    distinct?: CreditTransactionScalarFieldEnum | CreditTransactionScalarFieldEnum[]
+  }
+
+  /**
+   * CreditTransaction create
+   */
+  export type CreditTransactionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CreditTransaction
+     */
+    select?: CreditTransactionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreditTransactionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CreditTransaction.
+     */
+    data: XOR<CreditTransactionCreateInput, CreditTransactionUncheckedCreateInput>
+  }
+
+  /**
+   * CreditTransaction createMany
+   */
+  export type CreditTransactionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CreditTransactions.
+     */
+    data: CreditTransactionCreateManyInput | CreditTransactionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CreditTransaction createManyAndReturn
+   */
+  export type CreditTransactionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CreditTransaction
+     */
+    select?: CreditTransactionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many CreditTransactions.
+     */
+    data: CreditTransactionCreateManyInput | CreditTransactionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreditTransactionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CreditTransaction update
+   */
+  export type CreditTransactionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CreditTransaction
+     */
+    select?: CreditTransactionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreditTransactionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CreditTransaction.
+     */
+    data: XOR<CreditTransactionUpdateInput, CreditTransactionUncheckedUpdateInput>
+    /**
+     * Choose, which CreditTransaction to update.
+     */
+    where: CreditTransactionWhereUniqueInput
+  }
+
+  /**
+   * CreditTransaction updateMany
+   */
+  export type CreditTransactionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CreditTransactions.
+     */
+    data: XOR<CreditTransactionUpdateManyMutationInput, CreditTransactionUncheckedUpdateManyInput>
+    /**
+     * Filter which CreditTransactions to update
+     */
+    where?: CreditTransactionWhereInput
+  }
+
+  /**
+   * CreditTransaction upsert
+   */
+  export type CreditTransactionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CreditTransaction
+     */
+    select?: CreditTransactionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreditTransactionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CreditTransaction to update in case it exists.
+     */
+    where: CreditTransactionWhereUniqueInput
+    /**
+     * In case the CreditTransaction found by the `where` argument doesn't exist, create a new CreditTransaction with this data.
+     */
+    create: XOR<CreditTransactionCreateInput, CreditTransactionUncheckedCreateInput>
+    /**
+     * In case the CreditTransaction was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CreditTransactionUpdateInput, CreditTransactionUncheckedUpdateInput>
+  }
+
+  /**
+   * CreditTransaction delete
+   */
+  export type CreditTransactionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CreditTransaction
+     */
+    select?: CreditTransactionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreditTransactionInclude<ExtArgs> | null
+    /**
+     * Filter which CreditTransaction to delete.
+     */
+    where: CreditTransactionWhereUniqueInput
+  }
+
+  /**
+   * CreditTransaction deleteMany
+   */
+  export type CreditTransactionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CreditTransactions to delete
+     */
+    where?: CreditTransactionWhereInput
+  }
+
+  /**
+   * CreditTransaction without action
+   */
+  export type CreditTransactionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CreditTransaction
+     */
+    select?: CreditTransactionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CreditTransactionInclude<ExtArgs> | null
   }
 
 
@@ -35278,6 +37801,1951 @@ export namespace Prisma {
 
 
   /**
+   * Model SellerEarning
+   */
+
+  export type AggregateSellerEarning = {
+    _count: SellerEarningCountAggregateOutputType | null
+    _avg: SellerEarningAvgAggregateOutputType | null
+    _sum: SellerEarningSumAggregateOutputType | null
+    _min: SellerEarningMinAggregateOutputType | null
+    _max: SellerEarningMaxAggregateOutputType | null
+  }
+
+  export type SellerEarningAvgAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type SellerEarningSumAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type SellerEarningMinAggregateOutputType = {
+    id: string | null
+    sellerId: string | null
+    resourceId: string | null
+    amount: number | null
+    mpesaReceipt: string | null
+    paidAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type SellerEarningMaxAggregateOutputType = {
+    id: string | null
+    sellerId: string | null
+    resourceId: string | null
+    amount: number | null
+    mpesaReceipt: string | null
+    paidAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type SellerEarningCountAggregateOutputType = {
+    id: number
+    sellerId: number
+    resourceId: number
+    amount: number
+    mpesaReceipt: number
+    paidAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type SellerEarningAvgAggregateInputType = {
+    amount?: true
+  }
+
+  export type SellerEarningSumAggregateInputType = {
+    amount?: true
+  }
+
+  export type SellerEarningMinAggregateInputType = {
+    id?: true
+    sellerId?: true
+    resourceId?: true
+    amount?: true
+    mpesaReceipt?: true
+    paidAt?: true
+    createdAt?: true
+  }
+
+  export type SellerEarningMaxAggregateInputType = {
+    id?: true
+    sellerId?: true
+    resourceId?: true
+    amount?: true
+    mpesaReceipt?: true
+    paidAt?: true
+    createdAt?: true
+  }
+
+  export type SellerEarningCountAggregateInputType = {
+    id?: true
+    sellerId?: true
+    resourceId?: true
+    amount?: true
+    mpesaReceipt?: true
+    paidAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type SellerEarningAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SellerEarning to aggregate.
+     */
+    where?: SellerEarningWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SellerEarnings to fetch.
+     */
+    orderBy?: SellerEarningOrderByWithRelationInput | SellerEarningOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SellerEarningWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SellerEarnings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SellerEarnings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SellerEarnings
+    **/
+    _count?: true | SellerEarningCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SellerEarningAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SellerEarningSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SellerEarningMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SellerEarningMaxAggregateInputType
+  }
+
+  export type GetSellerEarningAggregateType<T extends SellerEarningAggregateArgs> = {
+        [P in keyof T & keyof AggregateSellerEarning]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSellerEarning[P]>
+      : GetScalarType<T[P], AggregateSellerEarning[P]>
+  }
+
+
+
+
+  export type SellerEarningGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SellerEarningWhereInput
+    orderBy?: SellerEarningOrderByWithAggregationInput | SellerEarningOrderByWithAggregationInput[]
+    by: SellerEarningScalarFieldEnum[] | SellerEarningScalarFieldEnum
+    having?: SellerEarningScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SellerEarningCountAggregateInputType | true
+    _avg?: SellerEarningAvgAggregateInputType
+    _sum?: SellerEarningSumAggregateInputType
+    _min?: SellerEarningMinAggregateInputType
+    _max?: SellerEarningMaxAggregateInputType
+  }
+
+  export type SellerEarningGroupByOutputType = {
+    id: string
+    sellerId: string
+    resourceId: string
+    amount: number
+    mpesaReceipt: string | null
+    paidAt: Date | null
+    createdAt: Date | null
+    _count: SellerEarningCountAggregateOutputType | null
+    _avg: SellerEarningAvgAggregateOutputType | null
+    _sum: SellerEarningSumAggregateOutputType | null
+    _min: SellerEarningMinAggregateOutputType | null
+    _max: SellerEarningMaxAggregateOutputType | null
+  }
+
+  type GetSellerEarningGroupByPayload<T extends SellerEarningGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SellerEarningGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SellerEarningGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SellerEarningGroupByOutputType[P]>
+            : GetScalarType<T[P], SellerEarningGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SellerEarningSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    sellerId?: boolean
+    resourceId?: boolean
+    amount?: boolean
+    mpesaReceipt?: boolean
+    paidAt?: boolean
+    createdAt?: boolean
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+    seller?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["sellerEarning"]>
+
+  export type SellerEarningSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    sellerId?: boolean
+    resourceId?: boolean
+    amount?: boolean
+    mpesaReceipt?: boolean
+    paidAt?: boolean
+    createdAt?: boolean
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+    seller?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["sellerEarning"]>
+
+  export type SellerEarningSelectScalar = {
+    id?: boolean
+    sellerId?: boolean
+    resourceId?: boolean
+    amount?: boolean
+    mpesaReceipt?: boolean
+    paidAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type SellerEarningInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+    seller?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type SellerEarningIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    resource?: boolean | ResourceDefaultArgs<ExtArgs>
+    seller?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $SellerEarningPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SellerEarning"
+    objects: {
+      resource: Prisma.$ResourcePayload<ExtArgs>
+      seller: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      sellerId: string
+      resourceId: string
+      amount: number
+      mpesaReceipt: string | null
+      paidAt: Date | null
+      createdAt: Date | null
+    }, ExtArgs["result"]["sellerEarning"]>
+    composites: {}
+  }
+
+  type SellerEarningGetPayload<S extends boolean | null | undefined | SellerEarningDefaultArgs> = $Result.GetResult<Prisma.$SellerEarningPayload, S>
+
+  type SellerEarningCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<SellerEarningFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: SellerEarningCountAggregateInputType | true
+    }
+
+  export interface SellerEarningDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SellerEarning'], meta: { name: 'SellerEarning' } }
+    /**
+     * Find zero or one SellerEarning that matches the filter.
+     * @param {SellerEarningFindUniqueArgs} args - Arguments to find a SellerEarning
+     * @example
+     * // Get one SellerEarning
+     * const sellerEarning = await prisma.sellerEarning.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SellerEarningFindUniqueArgs>(args: SelectSubset<T, SellerEarningFindUniqueArgs<ExtArgs>>): Prisma__SellerEarningClient<$Result.GetResult<Prisma.$SellerEarningPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one SellerEarning that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {SellerEarningFindUniqueOrThrowArgs} args - Arguments to find a SellerEarning
+     * @example
+     * // Get one SellerEarning
+     * const sellerEarning = await prisma.sellerEarning.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SellerEarningFindUniqueOrThrowArgs>(args: SelectSubset<T, SellerEarningFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SellerEarningClient<$Result.GetResult<Prisma.$SellerEarningPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first SellerEarning that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SellerEarningFindFirstArgs} args - Arguments to find a SellerEarning
+     * @example
+     * // Get one SellerEarning
+     * const sellerEarning = await prisma.sellerEarning.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SellerEarningFindFirstArgs>(args?: SelectSubset<T, SellerEarningFindFirstArgs<ExtArgs>>): Prisma__SellerEarningClient<$Result.GetResult<Prisma.$SellerEarningPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first SellerEarning that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SellerEarningFindFirstOrThrowArgs} args - Arguments to find a SellerEarning
+     * @example
+     * // Get one SellerEarning
+     * const sellerEarning = await prisma.sellerEarning.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SellerEarningFindFirstOrThrowArgs>(args?: SelectSubset<T, SellerEarningFindFirstOrThrowArgs<ExtArgs>>): Prisma__SellerEarningClient<$Result.GetResult<Prisma.$SellerEarningPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more SellerEarnings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SellerEarningFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SellerEarnings
+     * const sellerEarnings = await prisma.sellerEarning.findMany()
+     * 
+     * // Get first 10 SellerEarnings
+     * const sellerEarnings = await prisma.sellerEarning.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const sellerEarningWithIdOnly = await prisma.sellerEarning.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SellerEarningFindManyArgs>(args?: SelectSubset<T, SellerEarningFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SellerEarningPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a SellerEarning.
+     * @param {SellerEarningCreateArgs} args - Arguments to create a SellerEarning.
+     * @example
+     * // Create one SellerEarning
+     * const SellerEarning = await prisma.sellerEarning.create({
+     *   data: {
+     *     // ... data to create a SellerEarning
+     *   }
+     * })
+     * 
+     */
+    create<T extends SellerEarningCreateArgs>(args: SelectSubset<T, SellerEarningCreateArgs<ExtArgs>>): Prisma__SellerEarningClient<$Result.GetResult<Prisma.$SellerEarningPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many SellerEarnings.
+     * @param {SellerEarningCreateManyArgs} args - Arguments to create many SellerEarnings.
+     * @example
+     * // Create many SellerEarnings
+     * const sellerEarning = await prisma.sellerEarning.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SellerEarningCreateManyArgs>(args?: SelectSubset<T, SellerEarningCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SellerEarnings and returns the data saved in the database.
+     * @param {SellerEarningCreateManyAndReturnArgs} args - Arguments to create many SellerEarnings.
+     * @example
+     * // Create many SellerEarnings
+     * const sellerEarning = await prisma.sellerEarning.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SellerEarnings and only return the `id`
+     * const sellerEarningWithIdOnly = await prisma.sellerEarning.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SellerEarningCreateManyAndReturnArgs>(args?: SelectSubset<T, SellerEarningCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SellerEarningPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a SellerEarning.
+     * @param {SellerEarningDeleteArgs} args - Arguments to delete one SellerEarning.
+     * @example
+     * // Delete one SellerEarning
+     * const SellerEarning = await prisma.sellerEarning.delete({
+     *   where: {
+     *     // ... filter to delete one SellerEarning
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SellerEarningDeleteArgs>(args: SelectSubset<T, SellerEarningDeleteArgs<ExtArgs>>): Prisma__SellerEarningClient<$Result.GetResult<Prisma.$SellerEarningPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one SellerEarning.
+     * @param {SellerEarningUpdateArgs} args - Arguments to update one SellerEarning.
+     * @example
+     * // Update one SellerEarning
+     * const sellerEarning = await prisma.sellerEarning.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SellerEarningUpdateArgs>(args: SelectSubset<T, SellerEarningUpdateArgs<ExtArgs>>): Prisma__SellerEarningClient<$Result.GetResult<Prisma.$SellerEarningPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more SellerEarnings.
+     * @param {SellerEarningDeleteManyArgs} args - Arguments to filter SellerEarnings to delete.
+     * @example
+     * // Delete a few SellerEarnings
+     * const { count } = await prisma.sellerEarning.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SellerEarningDeleteManyArgs>(args?: SelectSubset<T, SellerEarningDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SellerEarnings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SellerEarningUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SellerEarnings
+     * const sellerEarning = await prisma.sellerEarning.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SellerEarningUpdateManyArgs>(args: SelectSubset<T, SellerEarningUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one SellerEarning.
+     * @param {SellerEarningUpsertArgs} args - Arguments to update or create a SellerEarning.
+     * @example
+     * // Update or create a SellerEarning
+     * const sellerEarning = await prisma.sellerEarning.upsert({
+     *   create: {
+     *     // ... data to create a SellerEarning
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SellerEarning we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SellerEarningUpsertArgs>(args: SelectSubset<T, SellerEarningUpsertArgs<ExtArgs>>): Prisma__SellerEarningClient<$Result.GetResult<Prisma.$SellerEarningPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of SellerEarnings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SellerEarningCountArgs} args - Arguments to filter SellerEarnings to count.
+     * @example
+     * // Count the number of SellerEarnings
+     * const count = await prisma.sellerEarning.count({
+     *   where: {
+     *     // ... the filter for the SellerEarnings we want to count
+     *   }
+     * })
+    **/
+    count<T extends SellerEarningCountArgs>(
+      args?: Subset<T, SellerEarningCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SellerEarningCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SellerEarning.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SellerEarningAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SellerEarningAggregateArgs>(args: Subset<T, SellerEarningAggregateArgs>): Prisma.PrismaPromise<GetSellerEarningAggregateType<T>>
+
+    /**
+     * Group by SellerEarning.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SellerEarningGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SellerEarningGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SellerEarningGroupByArgs['orderBy'] }
+        : { orderBy?: SellerEarningGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SellerEarningGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSellerEarningGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SellerEarning model
+   */
+  readonly fields: SellerEarningFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SellerEarning.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SellerEarningClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    resource<T extends ResourceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ResourceDefaultArgs<ExtArgs>>): Prisma__ResourceClient<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    seller<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SellerEarning model
+   */ 
+  interface SellerEarningFieldRefs {
+    readonly id: FieldRef<"SellerEarning", 'String'>
+    readonly sellerId: FieldRef<"SellerEarning", 'String'>
+    readonly resourceId: FieldRef<"SellerEarning", 'String'>
+    readonly amount: FieldRef<"SellerEarning", 'Int'>
+    readonly mpesaReceipt: FieldRef<"SellerEarning", 'String'>
+    readonly paidAt: FieldRef<"SellerEarning", 'DateTime'>
+    readonly createdAt: FieldRef<"SellerEarning", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SellerEarning findUnique
+   */
+  export type SellerEarningFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SellerEarning
+     */
+    select?: SellerEarningSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SellerEarningInclude<ExtArgs> | null
+    /**
+     * Filter, which SellerEarning to fetch.
+     */
+    where: SellerEarningWhereUniqueInput
+  }
+
+  /**
+   * SellerEarning findUniqueOrThrow
+   */
+  export type SellerEarningFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SellerEarning
+     */
+    select?: SellerEarningSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SellerEarningInclude<ExtArgs> | null
+    /**
+     * Filter, which SellerEarning to fetch.
+     */
+    where: SellerEarningWhereUniqueInput
+  }
+
+  /**
+   * SellerEarning findFirst
+   */
+  export type SellerEarningFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SellerEarning
+     */
+    select?: SellerEarningSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SellerEarningInclude<ExtArgs> | null
+    /**
+     * Filter, which SellerEarning to fetch.
+     */
+    where?: SellerEarningWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SellerEarnings to fetch.
+     */
+    orderBy?: SellerEarningOrderByWithRelationInput | SellerEarningOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SellerEarnings.
+     */
+    cursor?: SellerEarningWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SellerEarnings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SellerEarnings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SellerEarnings.
+     */
+    distinct?: SellerEarningScalarFieldEnum | SellerEarningScalarFieldEnum[]
+  }
+
+  /**
+   * SellerEarning findFirstOrThrow
+   */
+  export type SellerEarningFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SellerEarning
+     */
+    select?: SellerEarningSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SellerEarningInclude<ExtArgs> | null
+    /**
+     * Filter, which SellerEarning to fetch.
+     */
+    where?: SellerEarningWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SellerEarnings to fetch.
+     */
+    orderBy?: SellerEarningOrderByWithRelationInput | SellerEarningOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SellerEarnings.
+     */
+    cursor?: SellerEarningWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SellerEarnings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SellerEarnings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SellerEarnings.
+     */
+    distinct?: SellerEarningScalarFieldEnum | SellerEarningScalarFieldEnum[]
+  }
+
+  /**
+   * SellerEarning findMany
+   */
+  export type SellerEarningFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SellerEarning
+     */
+    select?: SellerEarningSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SellerEarningInclude<ExtArgs> | null
+    /**
+     * Filter, which SellerEarnings to fetch.
+     */
+    where?: SellerEarningWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SellerEarnings to fetch.
+     */
+    orderBy?: SellerEarningOrderByWithRelationInput | SellerEarningOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SellerEarnings.
+     */
+    cursor?: SellerEarningWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SellerEarnings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SellerEarnings.
+     */
+    skip?: number
+    distinct?: SellerEarningScalarFieldEnum | SellerEarningScalarFieldEnum[]
+  }
+
+  /**
+   * SellerEarning create
+   */
+  export type SellerEarningCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SellerEarning
+     */
+    select?: SellerEarningSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SellerEarningInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SellerEarning.
+     */
+    data: XOR<SellerEarningCreateInput, SellerEarningUncheckedCreateInput>
+  }
+
+  /**
+   * SellerEarning createMany
+   */
+  export type SellerEarningCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SellerEarnings.
+     */
+    data: SellerEarningCreateManyInput | SellerEarningCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SellerEarning createManyAndReturn
+   */
+  export type SellerEarningCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SellerEarning
+     */
+    select?: SellerEarningSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many SellerEarnings.
+     */
+    data: SellerEarningCreateManyInput | SellerEarningCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SellerEarningIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SellerEarning update
+   */
+  export type SellerEarningUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SellerEarning
+     */
+    select?: SellerEarningSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SellerEarningInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SellerEarning.
+     */
+    data: XOR<SellerEarningUpdateInput, SellerEarningUncheckedUpdateInput>
+    /**
+     * Choose, which SellerEarning to update.
+     */
+    where: SellerEarningWhereUniqueInput
+  }
+
+  /**
+   * SellerEarning updateMany
+   */
+  export type SellerEarningUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SellerEarnings.
+     */
+    data: XOR<SellerEarningUpdateManyMutationInput, SellerEarningUncheckedUpdateManyInput>
+    /**
+     * Filter which SellerEarnings to update
+     */
+    where?: SellerEarningWhereInput
+  }
+
+  /**
+   * SellerEarning upsert
+   */
+  export type SellerEarningUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SellerEarning
+     */
+    select?: SellerEarningSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SellerEarningInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SellerEarning to update in case it exists.
+     */
+    where: SellerEarningWhereUniqueInput
+    /**
+     * In case the SellerEarning found by the `where` argument doesn't exist, create a new SellerEarning with this data.
+     */
+    create: XOR<SellerEarningCreateInput, SellerEarningUncheckedCreateInput>
+    /**
+     * In case the SellerEarning was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SellerEarningUpdateInput, SellerEarningUncheckedUpdateInput>
+  }
+
+  /**
+   * SellerEarning delete
+   */
+  export type SellerEarningDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SellerEarning
+     */
+    select?: SellerEarningSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SellerEarningInclude<ExtArgs> | null
+    /**
+     * Filter which SellerEarning to delete.
+     */
+    where: SellerEarningWhereUniqueInput
+  }
+
+  /**
+   * SellerEarning deleteMany
+   */
+  export type SellerEarningDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SellerEarnings to delete
+     */
+    where?: SellerEarningWhereInput
+  }
+
+  /**
+   * SellerEarning without action
+   */
+  export type SellerEarningDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SellerEarning
+     */
+    select?: SellerEarningSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SellerEarningInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CurriculumTopic
+   */
+
+  export type AggregateCurriculumTopic = {
+    _count: CurriculumTopicCountAggregateOutputType | null
+    _avg: CurriculumTopicAvgAggregateOutputType | null
+    _sum: CurriculumTopicSumAggregateOutputType | null
+    _min: CurriculumTopicMinAggregateOutputType | null
+    _max: CurriculumTopicMaxAggregateOutputType | null
+  }
+
+  export type CurriculumTopicAvgAggregateOutputType = {
+    formYear: number | null
+  }
+
+  export type CurriculumTopicSumAggregateOutputType = {
+    formYear: number | null
+  }
+
+  export type CurriculumTopicMinAggregateOutputType = {
+    id: string | null
+    subject: string | null
+    level: $Enums.EduLevel | null
+    formYear: number | null
+    topicName: string | null
+    description: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CurriculumTopicMaxAggregateOutputType = {
+    id: string | null
+    subject: string | null
+    level: $Enums.EduLevel | null
+    formYear: number | null
+    topicName: string | null
+    description: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CurriculumTopicCountAggregateOutputType = {
+    id: number
+    subject: number
+    level: number
+    formYear: number
+    topicName: number
+    description: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CurriculumTopicAvgAggregateInputType = {
+    formYear?: true
+  }
+
+  export type CurriculumTopicSumAggregateInputType = {
+    formYear?: true
+  }
+
+  export type CurriculumTopicMinAggregateInputType = {
+    id?: true
+    subject?: true
+    level?: true
+    formYear?: true
+    topicName?: true
+    description?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CurriculumTopicMaxAggregateInputType = {
+    id?: true
+    subject?: true
+    level?: true
+    formYear?: true
+    topicName?: true
+    description?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CurriculumTopicCountAggregateInputType = {
+    id?: true
+    subject?: true
+    level?: true
+    formYear?: true
+    topicName?: true
+    description?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CurriculumTopicAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CurriculumTopic to aggregate.
+     */
+    where?: CurriculumTopicWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CurriculumTopics to fetch.
+     */
+    orderBy?: CurriculumTopicOrderByWithRelationInput | CurriculumTopicOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CurriculumTopicWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CurriculumTopics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CurriculumTopics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CurriculumTopics
+    **/
+    _count?: true | CurriculumTopicCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CurriculumTopicAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CurriculumTopicSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CurriculumTopicMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CurriculumTopicMaxAggregateInputType
+  }
+
+  export type GetCurriculumTopicAggregateType<T extends CurriculumTopicAggregateArgs> = {
+        [P in keyof T & keyof AggregateCurriculumTopic]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCurriculumTopic[P]>
+      : GetScalarType<T[P], AggregateCurriculumTopic[P]>
+  }
+
+
+
+
+  export type CurriculumTopicGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CurriculumTopicWhereInput
+    orderBy?: CurriculumTopicOrderByWithAggregationInput | CurriculumTopicOrderByWithAggregationInput[]
+    by: CurriculumTopicScalarFieldEnum[] | CurriculumTopicScalarFieldEnum
+    having?: CurriculumTopicScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CurriculumTopicCountAggregateInputType | true
+    _avg?: CurriculumTopicAvgAggregateInputType
+    _sum?: CurriculumTopicSumAggregateInputType
+    _min?: CurriculumTopicMinAggregateInputType
+    _max?: CurriculumTopicMaxAggregateInputType
+  }
+
+  export type CurriculumTopicGroupByOutputType = {
+    id: string
+    subject: string
+    level: $Enums.EduLevel
+    formYear: number | null
+    topicName: string
+    description: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: CurriculumTopicCountAggregateOutputType | null
+    _avg: CurriculumTopicAvgAggregateOutputType | null
+    _sum: CurriculumTopicSumAggregateOutputType | null
+    _min: CurriculumTopicMinAggregateOutputType | null
+    _max: CurriculumTopicMaxAggregateOutputType | null
+  }
+
+  type GetCurriculumTopicGroupByPayload<T extends CurriculumTopicGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CurriculumTopicGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CurriculumTopicGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CurriculumTopicGroupByOutputType[P]>
+            : GetScalarType<T[P], CurriculumTopicGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CurriculumTopicSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    subject?: boolean
+    level?: boolean
+    formYear?: boolean
+    topicName?: boolean
+    description?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["curriculumTopic"]>
+
+  export type CurriculumTopicSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    subject?: boolean
+    level?: boolean
+    formYear?: boolean
+    topicName?: boolean
+    description?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["curriculumTopic"]>
+
+  export type CurriculumTopicSelectScalar = {
+    id?: boolean
+    subject?: boolean
+    level?: boolean
+    formYear?: boolean
+    topicName?: boolean
+    description?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+
+  export type $CurriculumTopicPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CurriculumTopic"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      subject: string
+      level: $Enums.EduLevel
+      formYear: number | null
+      topicName: string
+      description: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["curriculumTopic"]>
+    composites: {}
+  }
+
+  type CurriculumTopicGetPayload<S extends boolean | null | undefined | CurriculumTopicDefaultArgs> = $Result.GetResult<Prisma.$CurriculumTopicPayload, S>
+
+  type CurriculumTopicCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<CurriculumTopicFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: CurriculumTopicCountAggregateInputType | true
+    }
+
+  export interface CurriculumTopicDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CurriculumTopic'], meta: { name: 'CurriculumTopic' } }
+    /**
+     * Find zero or one CurriculumTopic that matches the filter.
+     * @param {CurriculumTopicFindUniqueArgs} args - Arguments to find a CurriculumTopic
+     * @example
+     * // Get one CurriculumTopic
+     * const curriculumTopic = await prisma.curriculumTopic.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CurriculumTopicFindUniqueArgs>(args: SelectSubset<T, CurriculumTopicFindUniqueArgs<ExtArgs>>): Prisma__CurriculumTopicClient<$Result.GetResult<Prisma.$CurriculumTopicPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one CurriculumTopic that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {CurriculumTopicFindUniqueOrThrowArgs} args - Arguments to find a CurriculumTopic
+     * @example
+     * // Get one CurriculumTopic
+     * const curriculumTopic = await prisma.curriculumTopic.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CurriculumTopicFindUniqueOrThrowArgs>(args: SelectSubset<T, CurriculumTopicFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CurriculumTopicClient<$Result.GetResult<Prisma.$CurriculumTopicPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first CurriculumTopic that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CurriculumTopicFindFirstArgs} args - Arguments to find a CurriculumTopic
+     * @example
+     * // Get one CurriculumTopic
+     * const curriculumTopic = await prisma.curriculumTopic.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CurriculumTopicFindFirstArgs>(args?: SelectSubset<T, CurriculumTopicFindFirstArgs<ExtArgs>>): Prisma__CurriculumTopicClient<$Result.GetResult<Prisma.$CurriculumTopicPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first CurriculumTopic that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CurriculumTopicFindFirstOrThrowArgs} args - Arguments to find a CurriculumTopic
+     * @example
+     * // Get one CurriculumTopic
+     * const curriculumTopic = await prisma.curriculumTopic.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CurriculumTopicFindFirstOrThrowArgs>(args?: SelectSubset<T, CurriculumTopicFindFirstOrThrowArgs<ExtArgs>>): Prisma__CurriculumTopicClient<$Result.GetResult<Prisma.$CurriculumTopicPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more CurriculumTopics that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CurriculumTopicFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CurriculumTopics
+     * const curriculumTopics = await prisma.curriculumTopic.findMany()
+     * 
+     * // Get first 10 CurriculumTopics
+     * const curriculumTopics = await prisma.curriculumTopic.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const curriculumTopicWithIdOnly = await prisma.curriculumTopic.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CurriculumTopicFindManyArgs>(args?: SelectSubset<T, CurriculumTopicFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CurriculumTopicPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a CurriculumTopic.
+     * @param {CurriculumTopicCreateArgs} args - Arguments to create a CurriculumTopic.
+     * @example
+     * // Create one CurriculumTopic
+     * const CurriculumTopic = await prisma.curriculumTopic.create({
+     *   data: {
+     *     // ... data to create a CurriculumTopic
+     *   }
+     * })
+     * 
+     */
+    create<T extends CurriculumTopicCreateArgs>(args: SelectSubset<T, CurriculumTopicCreateArgs<ExtArgs>>): Prisma__CurriculumTopicClient<$Result.GetResult<Prisma.$CurriculumTopicPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many CurriculumTopics.
+     * @param {CurriculumTopicCreateManyArgs} args - Arguments to create many CurriculumTopics.
+     * @example
+     * // Create many CurriculumTopics
+     * const curriculumTopic = await prisma.curriculumTopic.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CurriculumTopicCreateManyArgs>(args?: SelectSubset<T, CurriculumTopicCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CurriculumTopics and returns the data saved in the database.
+     * @param {CurriculumTopicCreateManyAndReturnArgs} args - Arguments to create many CurriculumTopics.
+     * @example
+     * // Create many CurriculumTopics
+     * const curriculumTopic = await prisma.curriculumTopic.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CurriculumTopics and only return the `id`
+     * const curriculumTopicWithIdOnly = await prisma.curriculumTopic.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CurriculumTopicCreateManyAndReturnArgs>(args?: SelectSubset<T, CurriculumTopicCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CurriculumTopicPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a CurriculumTopic.
+     * @param {CurriculumTopicDeleteArgs} args - Arguments to delete one CurriculumTopic.
+     * @example
+     * // Delete one CurriculumTopic
+     * const CurriculumTopic = await prisma.curriculumTopic.delete({
+     *   where: {
+     *     // ... filter to delete one CurriculumTopic
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CurriculumTopicDeleteArgs>(args: SelectSubset<T, CurriculumTopicDeleteArgs<ExtArgs>>): Prisma__CurriculumTopicClient<$Result.GetResult<Prisma.$CurriculumTopicPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one CurriculumTopic.
+     * @param {CurriculumTopicUpdateArgs} args - Arguments to update one CurriculumTopic.
+     * @example
+     * // Update one CurriculumTopic
+     * const curriculumTopic = await prisma.curriculumTopic.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CurriculumTopicUpdateArgs>(args: SelectSubset<T, CurriculumTopicUpdateArgs<ExtArgs>>): Prisma__CurriculumTopicClient<$Result.GetResult<Prisma.$CurriculumTopicPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more CurriculumTopics.
+     * @param {CurriculumTopicDeleteManyArgs} args - Arguments to filter CurriculumTopics to delete.
+     * @example
+     * // Delete a few CurriculumTopics
+     * const { count } = await prisma.curriculumTopic.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CurriculumTopicDeleteManyArgs>(args?: SelectSubset<T, CurriculumTopicDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CurriculumTopics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CurriculumTopicUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CurriculumTopics
+     * const curriculumTopic = await prisma.curriculumTopic.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CurriculumTopicUpdateManyArgs>(args: SelectSubset<T, CurriculumTopicUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one CurriculumTopic.
+     * @param {CurriculumTopicUpsertArgs} args - Arguments to update or create a CurriculumTopic.
+     * @example
+     * // Update or create a CurriculumTopic
+     * const curriculumTopic = await prisma.curriculumTopic.upsert({
+     *   create: {
+     *     // ... data to create a CurriculumTopic
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CurriculumTopic we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CurriculumTopicUpsertArgs>(args: SelectSubset<T, CurriculumTopicUpsertArgs<ExtArgs>>): Prisma__CurriculumTopicClient<$Result.GetResult<Prisma.$CurriculumTopicPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of CurriculumTopics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CurriculumTopicCountArgs} args - Arguments to filter CurriculumTopics to count.
+     * @example
+     * // Count the number of CurriculumTopics
+     * const count = await prisma.curriculumTopic.count({
+     *   where: {
+     *     // ... the filter for the CurriculumTopics we want to count
+     *   }
+     * })
+    **/
+    count<T extends CurriculumTopicCountArgs>(
+      args?: Subset<T, CurriculumTopicCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CurriculumTopicCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CurriculumTopic.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CurriculumTopicAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CurriculumTopicAggregateArgs>(args: Subset<T, CurriculumTopicAggregateArgs>): Prisma.PrismaPromise<GetCurriculumTopicAggregateType<T>>
+
+    /**
+     * Group by CurriculumTopic.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CurriculumTopicGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CurriculumTopicGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CurriculumTopicGroupByArgs['orderBy'] }
+        : { orderBy?: CurriculumTopicGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CurriculumTopicGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCurriculumTopicGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CurriculumTopic model
+   */
+  readonly fields: CurriculumTopicFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CurriculumTopic.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CurriculumTopicClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CurriculumTopic model
+   */ 
+  interface CurriculumTopicFieldRefs {
+    readonly id: FieldRef<"CurriculumTopic", 'String'>
+    readonly subject: FieldRef<"CurriculumTopic", 'String'>
+    readonly level: FieldRef<"CurriculumTopic", 'EduLevel'>
+    readonly formYear: FieldRef<"CurriculumTopic", 'Int'>
+    readonly topicName: FieldRef<"CurriculumTopic", 'String'>
+    readonly description: FieldRef<"CurriculumTopic", 'String'>
+    readonly createdAt: FieldRef<"CurriculumTopic", 'DateTime'>
+    readonly updatedAt: FieldRef<"CurriculumTopic", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CurriculumTopic findUnique
+   */
+  export type CurriculumTopicFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CurriculumTopic
+     */
+    select?: CurriculumTopicSelect<ExtArgs> | null
+    /**
+     * Filter, which CurriculumTopic to fetch.
+     */
+    where: CurriculumTopicWhereUniqueInput
+  }
+
+  /**
+   * CurriculumTopic findUniqueOrThrow
+   */
+  export type CurriculumTopicFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CurriculumTopic
+     */
+    select?: CurriculumTopicSelect<ExtArgs> | null
+    /**
+     * Filter, which CurriculumTopic to fetch.
+     */
+    where: CurriculumTopicWhereUniqueInput
+  }
+
+  /**
+   * CurriculumTopic findFirst
+   */
+  export type CurriculumTopicFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CurriculumTopic
+     */
+    select?: CurriculumTopicSelect<ExtArgs> | null
+    /**
+     * Filter, which CurriculumTopic to fetch.
+     */
+    where?: CurriculumTopicWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CurriculumTopics to fetch.
+     */
+    orderBy?: CurriculumTopicOrderByWithRelationInput | CurriculumTopicOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CurriculumTopics.
+     */
+    cursor?: CurriculumTopicWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CurriculumTopics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CurriculumTopics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CurriculumTopics.
+     */
+    distinct?: CurriculumTopicScalarFieldEnum | CurriculumTopicScalarFieldEnum[]
+  }
+
+  /**
+   * CurriculumTopic findFirstOrThrow
+   */
+  export type CurriculumTopicFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CurriculumTopic
+     */
+    select?: CurriculumTopicSelect<ExtArgs> | null
+    /**
+     * Filter, which CurriculumTopic to fetch.
+     */
+    where?: CurriculumTopicWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CurriculumTopics to fetch.
+     */
+    orderBy?: CurriculumTopicOrderByWithRelationInput | CurriculumTopicOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CurriculumTopics.
+     */
+    cursor?: CurriculumTopicWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CurriculumTopics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CurriculumTopics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CurriculumTopics.
+     */
+    distinct?: CurriculumTopicScalarFieldEnum | CurriculumTopicScalarFieldEnum[]
+  }
+
+  /**
+   * CurriculumTopic findMany
+   */
+  export type CurriculumTopicFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CurriculumTopic
+     */
+    select?: CurriculumTopicSelect<ExtArgs> | null
+    /**
+     * Filter, which CurriculumTopics to fetch.
+     */
+    where?: CurriculumTopicWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CurriculumTopics to fetch.
+     */
+    orderBy?: CurriculumTopicOrderByWithRelationInput | CurriculumTopicOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CurriculumTopics.
+     */
+    cursor?: CurriculumTopicWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CurriculumTopics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CurriculumTopics.
+     */
+    skip?: number
+    distinct?: CurriculumTopicScalarFieldEnum | CurriculumTopicScalarFieldEnum[]
+  }
+
+  /**
+   * CurriculumTopic create
+   */
+  export type CurriculumTopicCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CurriculumTopic
+     */
+    select?: CurriculumTopicSelect<ExtArgs> | null
+    /**
+     * The data needed to create a CurriculumTopic.
+     */
+    data: XOR<CurriculumTopicCreateInput, CurriculumTopicUncheckedCreateInput>
+  }
+
+  /**
+   * CurriculumTopic createMany
+   */
+  export type CurriculumTopicCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CurriculumTopics.
+     */
+    data: CurriculumTopicCreateManyInput | CurriculumTopicCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CurriculumTopic createManyAndReturn
+   */
+  export type CurriculumTopicCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CurriculumTopic
+     */
+    select?: CurriculumTopicSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many CurriculumTopics.
+     */
+    data: CurriculumTopicCreateManyInput | CurriculumTopicCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CurriculumTopic update
+   */
+  export type CurriculumTopicUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CurriculumTopic
+     */
+    select?: CurriculumTopicSelect<ExtArgs> | null
+    /**
+     * The data needed to update a CurriculumTopic.
+     */
+    data: XOR<CurriculumTopicUpdateInput, CurriculumTopicUncheckedUpdateInput>
+    /**
+     * Choose, which CurriculumTopic to update.
+     */
+    where: CurriculumTopicWhereUniqueInput
+  }
+
+  /**
+   * CurriculumTopic updateMany
+   */
+  export type CurriculumTopicUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CurriculumTopics.
+     */
+    data: XOR<CurriculumTopicUpdateManyMutationInput, CurriculumTopicUncheckedUpdateManyInput>
+    /**
+     * Filter which CurriculumTopics to update
+     */
+    where?: CurriculumTopicWhereInput
+  }
+
+  /**
+   * CurriculumTopic upsert
+   */
+  export type CurriculumTopicUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CurriculumTopic
+     */
+    select?: CurriculumTopicSelect<ExtArgs> | null
+    /**
+     * The filter to search for the CurriculumTopic to update in case it exists.
+     */
+    where: CurriculumTopicWhereUniqueInput
+    /**
+     * In case the CurriculumTopic found by the `where` argument doesn't exist, create a new CurriculumTopic with this data.
+     */
+    create: XOR<CurriculumTopicCreateInput, CurriculumTopicUncheckedCreateInput>
+    /**
+     * In case the CurriculumTopic was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CurriculumTopicUpdateInput, CurriculumTopicUncheckedUpdateInput>
+  }
+
+  /**
+   * CurriculumTopic delete
+   */
+  export type CurriculumTopicDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CurriculumTopic
+     */
+    select?: CurriculumTopicSelect<ExtArgs> | null
+    /**
+     * Filter which CurriculumTopic to delete.
+     */
+    where: CurriculumTopicWhereUniqueInput
+  }
+
+  /**
+   * CurriculumTopic deleteMany
+   */
+  export type CurriculumTopicDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CurriculumTopics to delete
+     */
+    where?: CurriculumTopicWhereInput
+  }
+
+  /**
+   * CurriculumTopic without action
+   */
+  export type CurriculumTopicDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CurriculumTopic
+     */
+    select?: CurriculumTopicSelect<ExtArgs> | null
+  }
+
+
+  /**
    * Model Resource
    */
 
@@ -35307,6 +39775,8 @@ export namespace Prisma {
     title: string | null
     subject: string | null
     educationLevel: string | null
+    resourceType: string | null
+    topic: string | null
     description: string | null
     price: number | null
     filePath: string | null
@@ -35322,6 +39792,8 @@ export namespace Prisma {
     title: string | null
     subject: string | null
     educationLevel: string | null
+    resourceType: string | null
+    topic: string | null
     description: string | null
     price: number | null
     filePath: string | null
@@ -35337,6 +39809,8 @@ export namespace Prisma {
     title: number
     subject: number
     educationLevel: number
+    resourceType: number
+    topic: number
     description: number
     price: number
     filePath: number
@@ -35366,6 +39840,8 @@ export namespace Prisma {
     title?: true
     subject?: true
     educationLevel?: true
+    resourceType?: true
+    topic?: true
     description?: true
     price?: true
     filePath?: true
@@ -35381,6 +39857,8 @@ export namespace Prisma {
     title?: true
     subject?: true
     educationLevel?: true
+    resourceType?: true
+    topic?: true
     description?: true
     price?: true
     filePath?: true
@@ -35396,6 +39874,8 @@ export namespace Prisma {
     title?: true
     subject?: true
     educationLevel?: true
+    resourceType?: true
+    topic?: true
     description?: true
     price?: true
     filePath?: true
@@ -35498,6 +39978,8 @@ export namespace Prisma {
     title: string
     subject: string
     educationLevel: string
+    resourceType: string | null
+    topic: string | null
     description: string | null
     price: number
     filePath: string
@@ -35532,6 +40014,8 @@ export namespace Prisma {
     title?: boolean
     subject?: boolean
     educationLevel?: boolean
+    resourceType?: boolean
+    topic?: boolean
     description?: boolean
     price?: boolean
     filePath?: boolean
@@ -35540,6 +40024,7 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     purchases?: boolean | Resource$purchasesArgs<ExtArgs>
+    sellerEarnings?: boolean | Resource$sellerEarningsArgs<ExtArgs>
     seller?: boolean | UserDefaultArgs<ExtArgs>
     _count?: boolean | ResourceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["resource"]>
@@ -35550,6 +40035,8 @@ export namespace Prisma {
     title?: boolean
     subject?: boolean
     educationLevel?: boolean
+    resourceType?: boolean
+    topic?: boolean
     description?: boolean
     price?: boolean
     filePath?: boolean
@@ -35566,6 +40053,8 @@ export namespace Prisma {
     title?: boolean
     subject?: boolean
     educationLevel?: boolean
+    resourceType?: boolean
+    topic?: boolean
     description?: boolean
     price?: boolean
     filePath?: boolean
@@ -35577,6 +40066,7 @@ export namespace Prisma {
 
   export type ResourceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     purchases?: boolean | Resource$purchasesArgs<ExtArgs>
+    sellerEarnings?: boolean | Resource$sellerEarningsArgs<ExtArgs>
     seller?: boolean | UserDefaultArgs<ExtArgs>
     _count?: boolean | ResourceCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -35588,6 +40078,7 @@ export namespace Prisma {
     name: "Resource"
     objects: {
       purchases: Prisma.$ResourcePurchasePayload<ExtArgs>[]
+      sellerEarnings: Prisma.$SellerEarningPayload<ExtArgs>[]
       seller: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -35596,6 +40087,8 @@ export namespace Prisma {
       title: string
       subject: string
       educationLevel: string
+      resourceType: string | null
+      topic: string | null
       description: string | null
       price: number
       filePath: string
@@ -35968,6 +40461,7 @@ export namespace Prisma {
   export interface Prisma__ResourceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     purchases<T extends Resource$purchasesArgs<ExtArgs> = {}>(args?: Subset<T, Resource$purchasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourcePurchasePayload<ExtArgs>, T, "findMany"> | Null>
+    sellerEarnings<T extends Resource$sellerEarningsArgs<ExtArgs> = {}>(args?: Subset<T, Resource$sellerEarningsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SellerEarningPayload<ExtArgs>, T, "findMany"> | Null>
     seller<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -36003,6 +40497,8 @@ export namespace Prisma {
     readonly title: FieldRef<"Resource", 'String'>
     readonly subject: FieldRef<"Resource", 'String'>
     readonly educationLevel: FieldRef<"Resource", 'String'>
+    readonly resourceType: FieldRef<"Resource", 'String'>
+    readonly topic: FieldRef<"Resource", 'String'>
     readonly description: FieldRef<"Resource", 'String'>
     readonly price: FieldRef<"Resource", 'Int'>
     readonly filePath: FieldRef<"Resource", 'String'>
@@ -36345,6 +40841,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ResourcePurchaseScalarFieldEnum | ResourcePurchaseScalarFieldEnum[]
+  }
+
+  /**
+   * Resource.sellerEarnings
+   */
+  export type Resource$sellerEarningsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SellerEarning
+     */
+    select?: SellerEarningSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SellerEarningInclude<ExtArgs> | null
+    where?: SellerEarningWhereInput
+    orderBy?: SellerEarningOrderByWithRelationInput | SellerEarningOrderByWithRelationInput[]
+    cursor?: SellerEarningWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SellerEarningScalarFieldEnum | SellerEarningScalarFieldEnum[]
   }
 
   /**
@@ -38584,10 +43100,36 @@ export namespace Prisma {
     summary: 'summary',
     publishedAt: 'publishedAt',
     isDraft: 'isDraft',
-    createdAt: 'createdAt'
+    authorId: 'authorId',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type NewsArticleScalarFieldEnum = (typeof NewsArticleScalarFieldEnum)[keyof typeof NewsArticleScalarFieldEnum]
+
+
+  export const UserCreditsScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    balance: 'balance',
+    updatedAt: 'updatedAt'
+  };
+
+  export type UserCreditsScalarFieldEnum = (typeof UserCreditsScalarFieldEnum)[keyof typeof UserCreditsScalarFieldEnum]
+
+
+  export const CreditTransactionScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    amount: 'amount',
+    type: 'type',
+    description: 'description',
+    reference: 'reference',
+    createdAt: 'createdAt'
+  };
+
+  export type CreditTransactionScalarFieldEnum = (typeof CreditTransactionScalarFieldEnum)[keyof typeof CreditTransactionScalarFieldEnum]
 
 
   export const TestimonialScalarFieldEnum: {
@@ -38725,12 +43267,41 @@ export namespace Prisma {
   export type TutorPayoutScalarFieldEnum = (typeof TutorPayoutScalarFieldEnum)[keyof typeof TutorPayoutScalarFieldEnum]
 
 
+  export const SellerEarningScalarFieldEnum: {
+    id: 'id',
+    sellerId: 'sellerId',
+    resourceId: 'resourceId',
+    amount: 'amount',
+    mpesaReceipt: 'mpesaReceipt',
+    paidAt: 'paidAt',
+    createdAt: 'createdAt'
+  };
+
+  export type SellerEarningScalarFieldEnum = (typeof SellerEarningScalarFieldEnum)[keyof typeof SellerEarningScalarFieldEnum]
+
+
+  export const CurriculumTopicScalarFieldEnum: {
+    id: 'id',
+    subject: 'subject',
+    level: 'level',
+    formYear: 'formYear',
+    topicName: 'topicName',
+    description: 'description',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CurriculumTopicScalarFieldEnum = (typeof CurriculumTopicScalarFieldEnum)[keyof typeof CurriculumTopicScalarFieldEnum]
+
+
   export const ResourceScalarFieldEnum: {
     id: 'id',
     sellerId: 'sellerId',
     title: 'title',
     subject: 'subject',
     educationLevel: 'educationLevel',
+    resourceType: 'resourceType',
+    topic: 'topic',
     description: 'description',
     price: 'price',
     filePath: 'filePath',
@@ -39051,6 +43622,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentListRelationFilter
     payouts?: TutorPayoutListRelationFilter
     matchRequests?: MatchRequestListRelationFilter
+    newsArticles?: NewsArticleListRelationFilter
+    userCredits?: XOR<UserCreditsNullableRelationFilter, UserCreditsWhereInput> | null
+    creditTransactions?: CreditTransactionListRelationFilter
+    sellerEarnings?: SellerEarningListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -39104,6 +43679,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentOrderByRelationAggregateInput
     payouts?: TutorPayoutOrderByRelationAggregateInput
     matchRequests?: MatchRequestOrderByRelationAggregateInput
+    newsArticles?: NewsArticleOrderByRelationAggregateInput
+    userCredits?: UserCreditsOrderByWithRelationInput
+    creditTransactions?: CreditTransactionOrderByRelationAggregateInput
+    sellerEarnings?: SellerEarningOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -39160,6 +43739,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentListRelationFilter
     payouts?: TutorPayoutListRelationFilter
     matchRequests?: MatchRequestListRelationFilter
+    newsArticles?: NewsArticleListRelationFilter
+    userCredits?: XOR<UserCreditsNullableRelationFilter, UserCreditsWhereInput> | null
+    creditTransactions?: CreditTransactionListRelationFilter
+    sellerEarnings?: SellerEarningListRelationFilter
   }, "id" | "email" | "phone">
 
   export type UserOrderByWithAggregationInput = {
@@ -40688,7 +45271,11 @@ export namespace Prisma {
     summary?: StringNullableFilter<"NewsArticle"> | string | null
     publishedAt?: DateTimeNullableFilter<"NewsArticle"> | Date | string | null
     isDraft?: BoolFilter<"NewsArticle"> | boolean
+    authorId?: StringNullableFilter<"NewsArticle"> | string | null
+    status?: StringFilter<"NewsArticle"> | string
     createdAt?: DateTimeFilter<"NewsArticle"> | Date | string
+    updatedAt?: DateTimeNullableFilter<"NewsArticle"> | Date | string | null
+    author?: XOR<UserNullableRelationFilter, UserWhereInput> | null
   }
 
   export type NewsArticleOrderByWithRelationInput = {
@@ -40701,7 +45288,11 @@ export namespace Prisma {
     summary?: SortOrderInput | SortOrder
     publishedAt?: SortOrderInput | SortOrder
     isDraft?: SortOrder
+    authorId?: SortOrderInput | SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrderInput | SortOrder
+    author?: UserOrderByWithRelationInput
   }
 
   export type NewsArticleWhereUniqueInput = Prisma.AtLeast<{
@@ -40717,7 +45308,11 @@ export namespace Prisma {
     summary?: StringNullableFilter<"NewsArticle"> | string | null
     publishedAt?: DateTimeNullableFilter<"NewsArticle"> | Date | string | null
     isDraft?: BoolFilter<"NewsArticle"> | boolean
+    authorId?: StringNullableFilter<"NewsArticle"> | string | null
+    status?: StringFilter<"NewsArticle"> | string
     createdAt?: DateTimeFilter<"NewsArticle"> | Date | string
+    updatedAt?: DateTimeNullableFilter<"NewsArticle"> | Date | string | null
+    author?: XOR<UserNullableRelationFilter, UserWhereInput> | null
   }, "id" | "slug">
 
   export type NewsArticleOrderByWithAggregationInput = {
@@ -40730,7 +45325,10 @@ export namespace Prisma {
     summary?: SortOrderInput | SortOrder
     publishedAt?: SortOrderInput | SortOrder
     isDraft?: SortOrder
+    authorId?: SortOrderInput | SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrderInput | SortOrder
     _count?: NewsArticleCountOrderByAggregateInput
     _max?: NewsArticleMaxOrderByAggregateInput
     _min?: NewsArticleMinOrderByAggregateInput
@@ -40749,7 +45347,129 @@ export namespace Prisma {
     summary?: StringNullableWithAggregatesFilter<"NewsArticle"> | string | null
     publishedAt?: DateTimeNullableWithAggregatesFilter<"NewsArticle"> | Date | string | null
     isDraft?: BoolWithAggregatesFilter<"NewsArticle"> | boolean
+    authorId?: StringNullableWithAggregatesFilter<"NewsArticle"> | string | null
+    status?: StringWithAggregatesFilter<"NewsArticle"> | string
     createdAt?: DateTimeWithAggregatesFilter<"NewsArticle"> | Date | string
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"NewsArticle"> | Date | string | null
+  }
+
+  export type UserCreditsWhereInput = {
+    AND?: UserCreditsWhereInput | UserCreditsWhereInput[]
+    OR?: UserCreditsWhereInput[]
+    NOT?: UserCreditsWhereInput | UserCreditsWhereInput[]
+    id?: StringFilter<"UserCredits"> | string
+    userId?: StringFilter<"UserCredits"> | string
+    balance?: IntFilter<"UserCredits"> | number
+    updatedAt?: DateTimeFilter<"UserCredits"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type UserCreditsOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    balance?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type UserCreditsWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: UserCreditsWhereInput | UserCreditsWhereInput[]
+    OR?: UserCreditsWhereInput[]
+    NOT?: UserCreditsWhereInput | UserCreditsWhereInput[]
+    balance?: IntFilter<"UserCredits"> | number
+    updatedAt?: DateTimeFilter<"UserCredits"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id" | "userId">
+
+  export type UserCreditsOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    balance?: SortOrder
+    updatedAt?: SortOrder
+    _count?: UserCreditsCountOrderByAggregateInput
+    _avg?: UserCreditsAvgOrderByAggregateInput
+    _max?: UserCreditsMaxOrderByAggregateInput
+    _min?: UserCreditsMinOrderByAggregateInput
+    _sum?: UserCreditsSumOrderByAggregateInput
+  }
+
+  export type UserCreditsScalarWhereWithAggregatesInput = {
+    AND?: UserCreditsScalarWhereWithAggregatesInput | UserCreditsScalarWhereWithAggregatesInput[]
+    OR?: UserCreditsScalarWhereWithAggregatesInput[]
+    NOT?: UserCreditsScalarWhereWithAggregatesInput | UserCreditsScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserCredits"> | string
+    userId?: StringWithAggregatesFilter<"UserCredits"> | string
+    balance?: IntWithAggregatesFilter<"UserCredits"> | number
+    updatedAt?: DateTimeWithAggregatesFilter<"UserCredits"> | Date | string
+  }
+
+  export type CreditTransactionWhereInput = {
+    AND?: CreditTransactionWhereInput | CreditTransactionWhereInput[]
+    OR?: CreditTransactionWhereInput[]
+    NOT?: CreditTransactionWhereInput | CreditTransactionWhereInput[]
+    id?: StringFilter<"CreditTransaction"> | string
+    userId?: StringFilter<"CreditTransaction"> | string
+    amount?: IntFilter<"CreditTransaction"> | number
+    type?: StringFilter<"CreditTransaction"> | string
+    description?: StringNullableFilter<"CreditTransaction"> | string | null
+    reference?: StringNullableFilter<"CreditTransaction"> | string | null
+    createdAt?: DateTimeFilter<"CreditTransaction"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type CreditTransactionOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    amount?: SortOrder
+    type?: SortOrder
+    description?: SortOrderInput | SortOrder
+    reference?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type CreditTransactionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CreditTransactionWhereInput | CreditTransactionWhereInput[]
+    OR?: CreditTransactionWhereInput[]
+    NOT?: CreditTransactionWhereInput | CreditTransactionWhereInput[]
+    userId?: StringFilter<"CreditTransaction"> | string
+    amount?: IntFilter<"CreditTransaction"> | number
+    type?: StringFilter<"CreditTransaction"> | string
+    description?: StringNullableFilter<"CreditTransaction"> | string | null
+    reference?: StringNullableFilter<"CreditTransaction"> | string | null
+    createdAt?: DateTimeFilter<"CreditTransaction"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type CreditTransactionOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    amount?: SortOrder
+    type?: SortOrder
+    description?: SortOrderInput | SortOrder
+    reference?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: CreditTransactionCountOrderByAggregateInput
+    _avg?: CreditTransactionAvgOrderByAggregateInput
+    _max?: CreditTransactionMaxOrderByAggregateInput
+    _min?: CreditTransactionMinOrderByAggregateInput
+    _sum?: CreditTransactionSumOrderByAggregateInput
+  }
+
+  export type CreditTransactionScalarWhereWithAggregatesInput = {
+    AND?: CreditTransactionScalarWhereWithAggregatesInput | CreditTransactionScalarWhereWithAggregatesInput[]
+    OR?: CreditTransactionScalarWhereWithAggregatesInput[]
+    NOT?: CreditTransactionScalarWhereWithAggregatesInput | CreditTransactionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CreditTransaction"> | string
+    userId?: StringWithAggregatesFilter<"CreditTransaction"> | string
+    amount?: IntWithAggregatesFilter<"CreditTransaction"> | number
+    type?: StringWithAggregatesFilter<"CreditTransaction"> | string
+    description?: StringNullableWithAggregatesFilter<"CreditTransaction"> | string | null
+    reference?: StringNullableWithAggregatesFilter<"CreditTransaction"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"CreditTransaction"> | Date | string
   }
 
   export type TestimonialWhereInput = {
@@ -41432,6 +46152,145 @@ export namespace Prisma {
     status?: StringWithAggregatesFilter<"TutorPayout"> | string
   }
 
+  export type SellerEarningWhereInput = {
+    AND?: SellerEarningWhereInput | SellerEarningWhereInput[]
+    OR?: SellerEarningWhereInput[]
+    NOT?: SellerEarningWhereInput | SellerEarningWhereInput[]
+    id?: UuidFilter<"SellerEarning"> | string
+    sellerId?: StringFilter<"SellerEarning"> | string
+    resourceId?: UuidFilter<"SellerEarning"> | string
+    amount?: IntFilter<"SellerEarning"> | number
+    mpesaReceipt?: StringNullableFilter<"SellerEarning"> | string | null
+    paidAt?: DateTimeNullableFilter<"SellerEarning"> | Date | string | null
+    createdAt?: DateTimeNullableFilter<"SellerEarning"> | Date | string | null
+    resource?: XOR<ResourceRelationFilter, ResourceWhereInput>
+    seller?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type SellerEarningOrderByWithRelationInput = {
+    id?: SortOrder
+    sellerId?: SortOrder
+    resourceId?: SortOrder
+    amount?: SortOrder
+    mpesaReceipt?: SortOrderInput | SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrderInput | SortOrder
+    resource?: ResourceOrderByWithRelationInput
+    seller?: UserOrderByWithRelationInput
+  }
+
+  export type SellerEarningWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    mpesaReceipt?: string
+    AND?: SellerEarningWhereInput | SellerEarningWhereInput[]
+    OR?: SellerEarningWhereInput[]
+    NOT?: SellerEarningWhereInput | SellerEarningWhereInput[]
+    sellerId?: StringFilter<"SellerEarning"> | string
+    resourceId?: UuidFilter<"SellerEarning"> | string
+    amount?: IntFilter<"SellerEarning"> | number
+    paidAt?: DateTimeNullableFilter<"SellerEarning"> | Date | string | null
+    createdAt?: DateTimeNullableFilter<"SellerEarning"> | Date | string | null
+    resource?: XOR<ResourceRelationFilter, ResourceWhereInput>
+    seller?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id" | "mpesaReceipt">
+
+  export type SellerEarningOrderByWithAggregationInput = {
+    id?: SortOrder
+    sellerId?: SortOrder
+    resourceId?: SortOrder
+    amount?: SortOrder
+    mpesaReceipt?: SortOrderInput | SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrderInput | SortOrder
+    _count?: SellerEarningCountOrderByAggregateInput
+    _avg?: SellerEarningAvgOrderByAggregateInput
+    _max?: SellerEarningMaxOrderByAggregateInput
+    _min?: SellerEarningMinOrderByAggregateInput
+    _sum?: SellerEarningSumOrderByAggregateInput
+  }
+
+  export type SellerEarningScalarWhereWithAggregatesInput = {
+    AND?: SellerEarningScalarWhereWithAggregatesInput | SellerEarningScalarWhereWithAggregatesInput[]
+    OR?: SellerEarningScalarWhereWithAggregatesInput[]
+    NOT?: SellerEarningScalarWhereWithAggregatesInput | SellerEarningScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"SellerEarning"> | string
+    sellerId?: StringWithAggregatesFilter<"SellerEarning"> | string
+    resourceId?: UuidWithAggregatesFilter<"SellerEarning"> | string
+    amount?: IntWithAggregatesFilter<"SellerEarning"> | number
+    mpesaReceipt?: StringNullableWithAggregatesFilter<"SellerEarning"> | string | null
+    paidAt?: DateTimeNullableWithAggregatesFilter<"SellerEarning"> | Date | string | null
+    createdAt?: DateTimeNullableWithAggregatesFilter<"SellerEarning"> | Date | string | null
+  }
+
+  export type CurriculumTopicWhereInput = {
+    AND?: CurriculumTopicWhereInput | CurriculumTopicWhereInput[]
+    OR?: CurriculumTopicWhereInput[]
+    NOT?: CurriculumTopicWhereInput | CurriculumTopicWhereInput[]
+    id?: UuidFilter<"CurriculumTopic"> | string
+    subject?: StringFilter<"CurriculumTopic"> | string
+    level?: EnumEduLevelFilter<"CurriculumTopic"> | $Enums.EduLevel
+    formYear?: IntNullableFilter<"CurriculumTopic"> | number | null
+    topicName?: StringFilter<"CurriculumTopic"> | string
+    description?: StringNullableFilter<"CurriculumTopic"> | string | null
+    createdAt?: DateTimeFilter<"CurriculumTopic"> | Date | string
+    updatedAt?: DateTimeFilter<"CurriculumTopic"> | Date | string
+  }
+
+  export type CurriculumTopicOrderByWithRelationInput = {
+    id?: SortOrder
+    subject?: SortOrder
+    level?: SortOrder
+    formYear?: SortOrderInput | SortOrder
+    topicName?: SortOrder
+    description?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CurriculumTopicWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CurriculumTopicWhereInput | CurriculumTopicWhereInput[]
+    OR?: CurriculumTopicWhereInput[]
+    NOT?: CurriculumTopicWhereInput | CurriculumTopicWhereInput[]
+    subject?: StringFilter<"CurriculumTopic"> | string
+    level?: EnumEduLevelFilter<"CurriculumTopic"> | $Enums.EduLevel
+    formYear?: IntNullableFilter<"CurriculumTopic"> | number | null
+    topicName?: StringFilter<"CurriculumTopic"> | string
+    description?: StringNullableFilter<"CurriculumTopic"> | string | null
+    createdAt?: DateTimeFilter<"CurriculumTopic"> | Date | string
+    updatedAt?: DateTimeFilter<"CurriculumTopic"> | Date | string
+  }, "id">
+
+  export type CurriculumTopicOrderByWithAggregationInput = {
+    id?: SortOrder
+    subject?: SortOrder
+    level?: SortOrder
+    formYear?: SortOrderInput | SortOrder
+    topicName?: SortOrder
+    description?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CurriculumTopicCountOrderByAggregateInput
+    _avg?: CurriculumTopicAvgOrderByAggregateInput
+    _max?: CurriculumTopicMaxOrderByAggregateInput
+    _min?: CurriculumTopicMinOrderByAggregateInput
+    _sum?: CurriculumTopicSumOrderByAggregateInput
+  }
+
+  export type CurriculumTopicScalarWhereWithAggregatesInput = {
+    AND?: CurriculumTopicScalarWhereWithAggregatesInput | CurriculumTopicScalarWhereWithAggregatesInput[]
+    OR?: CurriculumTopicScalarWhereWithAggregatesInput[]
+    NOT?: CurriculumTopicScalarWhereWithAggregatesInput | CurriculumTopicScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"CurriculumTopic"> | string
+    subject?: StringWithAggregatesFilter<"CurriculumTopic"> | string
+    level?: EnumEduLevelWithAggregatesFilter<"CurriculumTopic"> | $Enums.EduLevel
+    formYear?: IntNullableWithAggregatesFilter<"CurriculumTopic"> | number | null
+    topicName?: StringWithAggregatesFilter<"CurriculumTopic"> | string
+    description?: StringNullableWithAggregatesFilter<"CurriculumTopic"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"CurriculumTopic"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CurriculumTopic"> | Date | string
+  }
+
   export type ResourceWhereInput = {
     AND?: ResourceWhereInput | ResourceWhereInput[]
     OR?: ResourceWhereInput[]
@@ -41441,6 +46300,8 @@ export namespace Prisma {
     title?: StringFilter<"Resource"> | string
     subject?: StringFilter<"Resource"> | string
     educationLevel?: StringFilter<"Resource"> | string
+    resourceType?: StringNullableFilter<"Resource"> | string | null
+    topic?: StringNullableFilter<"Resource"> | string | null
     description?: StringNullableFilter<"Resource"> | string | null
     price?: IntFilter<"Resource"> | number
     filePath?: StringFilter<"Resource"> | string
@@ -41449,6 +46310,7 @@ export namespace Prisma {
     status?: StringFilter<"Resource"> | string
     createdAt?: DateTimeNullableFilter<"Resource"> | Date | string | null
     purchases?: ResourcePurchaseListRelationFilter
+    sellerEarnings?: SellerEarningListRelationFilter
     seller?: XOR<UserRelationFilter, UserWhereInput>
   }
 
@@ -41458,6 +46320,8 @@ export namespace Prisma {
     title?: SortOrder
     subject?: SortOrder
     educationLevel?: SortOrder
+    resourceType?: SortOrderInput | SortOrder
+    topic?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     price?: SortOrder
     filePath?: SortOrder
@@ -41466,6 +46330,7 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrderInput | SortOrder
     purchases?: ResourcePurchaseOrderByRelationAggregateInput
+    sellerEarnings?: SellerEarningOrderByRelationAggregateInput
     seller?: UserOrderByWithRelationInput
   }
 
@@ -41478,6 +46343,8 @@ export namespace Prisma {
     title?: StringFilter<"Resource"> | string
     subject?: StringFilter<"Resource"> | string
     educationLevel?: StringFilter<"Resource"> | string
+    resourceType?: StringNullableFilter<"Resource"> | string | null
+    topic?: StringNullableFilter<"Resource"> | string | null
     description?: StringNullableFilter<"Resource"> | string | null
     price?: IntFilter<"Resource"> | number
     filePath?: StringFilter<"Resource"> | string
@@ -41486,6 +46353,7 @@ export namespace Prisma {
     status?: StringFilter<"Resource"> | string
     createdAt?: DateTimeNullableFilter<"Resource"> | Date | string | null
     purchases?: ResourcePurchaseListRelationFilter
+    sellerEarnings?: SellerEarningListRelationFilter
     seller?: XOR<UserRelationFilter, UserWhereInput>
   }, "id">
 
@@ -41495,6 +46363,8 @@ export namespace Prisma {
     title?: SortOrder
     subject?: SortOrder
     educationLevel?: SortOrder
+    resourceType?: SortOrderInput | SortOrder
+    topic?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     price?: SortOrder
     filePath?: SortOrder
@@ -41518,6 +46388,8 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Resource"> | string
     subject?: StringWithAggregatesFilter<"Resource"> | string
     educationLevel?: StringWithAggregatesFilter<"Resource"> | string
+    resourceType?: StringNullableWithAggregatesFilter<"Resource"> | string | null
+    topic?: StringNullableWithAggregatesFilter<"Resource"> | string | null
     description?: StringNullableWithAggregatesFilter<"Resource"> | string | null
     price?: IntWithAggregatesFilter<"Resource"> | number
     filePath?: StringWithAggregatesFilter<"Resource"> | string
@@ -41700,6 +46572,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -41753,6 +46629,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserUpdateInput = {
@@ -41806,6 +46686,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -41859,6 +46743,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -43514,7 +48402,10 @@ export namespace Prisma {
     summary?: string | null
     publishedAt?: Date | string | null
     isDraft?: boolean
+    status?: string
     createdAt?: Date | string
+    updatedAt?: Date | string | null
+    author?: UserCreateNestedOneWithoutNewsArticlesInput
   }
 
   export type NewsArticleUncheckedCreateInput = {
@@ -43527,7 +48418,10 @@ export namespace Prisma {
     summary?: string | null
     publishedAt?: Date | string | null
     isDraft?: boolean
+    authorId?: string | null
+    status?: string
     createdAt?: Date | string
+    updatedAt?: Date | string | null
   }
 
   export type NewsArticleUpdateInput = {
@@ -43540,7 +48434,10 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isDraft?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    author?: UserUpdateOneWithoutNewsArticlesNestedInput
   }
 
   export type NewsArticleUncheckedUpdateInput = {
@@ -43553,7 +48450,10 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isDraft?: BoolFieldUpdateOperationsInput | boolean
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type NewsArticleCreateManyInput = {
@@ -43566,7 +48466,10 @@ export namespace Prisma {
     summary?: string | null
     publishedAt?: Date | string | null
     isDraft?: boolean
+    authorId?: string | null
+    status?: string
     createdAt?: Date | string
+    updatedAt?: Date | string | null
   }
 
   export type NewsArticleUpdateManyMutationInput = {
@@ -43579,7 +48482,9 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isDraft?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type NewsArticleUncheckedUpdateManyInput = {
@@ -43592,6 +48497,126 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isDraft?: BoolFieldUpdateOperationsInput | boolean
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type UserCreditsCreateInput = {
+    id?: string
+    balance?: number
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutUserCreditsInput
+  }
+
+  export type UserCreditsUncheckedCreateInput = {
+    id?: string
+    userId: string
+    balance?: number
+    updatedAt?: Date | string
+  }
+
+  export type UserCreditsUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    balance?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutUserCreditsNestedInput
+  }
+
+  export type UserCreditsUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    balance?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserCreditsCreateManyInput = {
+    id?: string
+    userId: string
+    balance?: number
+    updatedAt?: Date | string
+  }
+
+  export type UserCreditsUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    balance?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserCreditsUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    balance?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CreditTransactionCreateInput = {
+    id?: string
+    amount: number
+    type: string
+    description?: string | null
+    reference?: string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutCreditTransactionsInput
+  }
+
+  export type CreditTransactionUncheckedCreateInput = {
+    id?: string
+    userId: string
+    amount: number
+    type: string
+    description?: string | null
+    reference?: string | null
+    createdAt?: Date | string
+  }
+
+  export type CreditTransactionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCreditTransactionsNestedInput
+  }
+
+  export type CreditTransactionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CreditTransactionCreateManyInput = {
+    id?: string
+    userId: string
+    amount: number
+    type: string
+    description?: string | null
+    reference?: string | null
+    createdAt?: Date | string
+  }
+
+  export type CreditTransactionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CreditTransactionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -44349,11 +49374,158 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
   }
 
+  export type SellerEarningCreateInput = {
+    id?: string
+    amount: number
+    mpesaReceipt?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string | null
+    resource: ResourceCreateNestedOneWithoutSellerEarningsInput
+    seller: UserCreateNestedOneWithoutSellerEarningsInput
+  }
+
+  export type SellerEarningUncheckedCreateInput = {
+    id?: string
+    sellerId: string
+    resourceId: string
+    amount: number
+    mpesaReceipt?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string | null
+  }
+
+  export type SellerEarningUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    mpesaReceipt?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resource?: ResourceUpdateOneRequiredWithoutSellerEarningsNestedInput
+    seller?: UserUpdateOneRequiredWithoutSellerEarningsNestedInput
+  }
+
+  export type SellerEarningUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sellerId?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    mpesaReceipt?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SellerEarningCreateManyInput = {
+    id?: string
+    sellerId: string
+    resourceId: string
+    amount: number
+    mpesaReceipt?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string | null
+  }
+
+  export type SellerEarningUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    mpesaReceipt?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SellerEarningUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sellerId?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    mpesaReceipt?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CurriculumTopicCreateInput = {
+    id?: string
+    subject: string
+    level: $Enums.EduLevel
+    formYear?: number | null
+    topicName: string
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CurriculumTopicUncheckedCreateInput = {
+    id?: string
+    subject: string
+    level: $Enums.EduLevel
+    formYear?: number | null
+    topicName: string
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CurriculumTopicUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    level?: EnumEduLevelFieldUpdateOperationsInput | $Enums.EduLevel
+    formYear?: NullableIntFieldUpdateOperationsInput | number | null
+    topicName?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CurriculumTopicUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    level?: EnumEduLevelFieldUpdateOperationsInput | $Enums.EduLevel
+    formYear?: NullableIntFieldUpdateOperationsInput | number | null
+    topicName?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CurriculumTopicCreateManyInput = {
+    id?: string
+    subject: string
+    level: $Enums.EduLevel
+    formYear?: number | null
+    topicName: string
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CurriculumTopicUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    level?: EnumEduLevelFieldUpdateOperationsInput | $Enums.EduLevel
+    formYear?: NullableIntFieldUpdateOperationsInput | number | null
+    topicName?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CurriculumTopicUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    level?: EnumEduLevelFieldUpdateOperationsInput | $Enums.EduLevel
+    formYear?: NullableIntFieldUpdateOperationsInput | number | null
+    topicName?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ResourceCreateInput = {
     id?: string
     title: string
     subject: string
     educationLevel: string
+    resourceType?: string | null
+    topic?: string | null
     description?: string | null
     price: number
     filePath: string
@@ -44362,6 +49534,7 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string | null
     purchases?: ResourcePurchaseCreateNestedManyWithoutResourceInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutResourceInput
     seller: UserCreateNestedOneWithoutResourcesInput
   }
 
@@ -44371,6 +49544,8 @@ export namespace Prisma {
     title: string
     subject: string
     educationLevel: string
+    resourceType?: string | null
+    topic?: string | null
     description?: string | null
     price: number
     filePath: string
@@ -44379,6 +49554,7 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string | null
     purchases?: ResourcePurchaseUncheckedCreateNestedManyWithoutResourceInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutResourceInput
   }
 
   export type ResourceUpdateInput = {
@@ -44386,6 +49562,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     educationLevel?: StringFieldUpdateOperationsInput | string
+    resourceType?: NullableStringFieldUpdateOperationsInput | string | null
+    topic?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     filePath?: StringFieldUpdateOperationsInput | string
@@ -44394,6 +49572,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     purchases?: ResourcePurchaseUpdateManyWithoutResourceNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutResourceNestedInput
     seller?: UserUpdateOneRequiredWithoutResourcesNestedInput
   }
 
@@ -44403,6 +49582,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     educationLevel?: StringFieldUpdateOperationsInput | string
+    resourceType?: NullableStringFieldUpdateOperationsInput | string | null
+    topic?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     filePath?: StringFieldUpdateOperationsInput | string
@@ -44411,6 +49592,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     purchases?: ResourcePurchaseUncheckedUpdateManyWithoutResourceNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutResourceNestedInput
   }
 
   export type ResourceCreateManyInput = {
@@ -44419,6 +49601,8 @@ export namespace Prisma {
     title: string
     subject: string
     educationLevel: string
+    resourceType?: string | null
+    topic?: string | null
     description?: string | null
     price: number
     filePath: string
@@ -44433,6 +49617,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     educationLevel?: StringFieldUpdateOperationsInput | string
+    resourceType?: NullableStringFieldUpdateOperationsInput | string | null
+    topic?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     filePath?: StringFieldUpdateOperationsInput | string
@@ -44448,6 +49634,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     educationLevel?: StringFieldUpdateOperationsInput | string
+    resourceType?: NullableStringFieldUpdateOperationsInput | string | null
+    topic?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     filePath?: StringFieldUpdateOperationsInput | string
@@ -44808,6 +49996,29 @@ export namespace Prisma {
     none?: MatchRequestWhereInput
   }
 
+  export type NewsArticleListRelationFilter = {
+    every?: NewsArticleWhereInput
+    some?: NewsArticleWhereInput
+    none?: NewsArticleWhereInput
+  }
+
+  export type UserCreditsNullableRelationFilter = {
+    is?: UserCreditsWhereInput | null
+    isNot?: UserCreditsWhereInput | null
+  }
+
+  export type CreditTransactionListRelationFilter = {
+    every?: CreditTransactionWhereInput
+    some?: CreditTransactionWhereInput
+    none?: CreditTransactionWhereInput
+  }
+
+  export type SellerEarningListRelationFilter = {
+    every?: SellerEarningWhereInput
+    some?: SellerEarningWhereInput
+    none?: SellerEarningWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -44870,6 +50081,18 @@ export namespace Prisma {
   }
 
   export type MatchRequestOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type NewsArticleOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CreditTransactionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SellerEarningOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -46076,7 +51299,10 @@ export namespace Prisma {
     summary?: SortOrder
     publishedAt?: SortOrder
     isDraft?: SortOrder
+    authorId?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type NewsArticleMaxOrderByAggregateInput = {
@@ -46089,7 +51315,10 @@ export namespace Prisma {
     summary?: SortOrder
     publishedAt?: SortOrder
     isDraft?: SortOrder
+    authorId?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type NewsArticleMinOrderByAggregateInput = {
@@ -46102,7 +51331,77 @@ export namespace Prisma {
     summary?: SortOrder
     publishedAt?: SortOrder
     isDraft?: SortOrder
+    authorId?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserCreditsCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    balance?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserCreditsAvgOrderByAggregateInput = {
+    balance?: SortOrder
+  }
+
+  export type UserCreditsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    balance?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserCreditsMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    balance?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserCreditsSumOrderByAggregateInput = {
+    balance?: SortOrder
+  }
+
+  export type CreditTransactionCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    amount?: SortOrder
+    type?: SortOrder
+    description?: SortOrder
+    reference?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CreditTransactionAvgOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type CreditTransactionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    amount?: SortOrder
+    type?: SortOrder
+    description?: SortOrder
+    reference?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CreditTransactionMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    amount?: SortOrder
+    type?: SortOrder
+    description?: SortOrder
+    reference?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CreditTransactionSumOrderByAggregateInput = {
+    amount?: SortOrder
   }
 
   export type TestimonialCountOrderByAggregateInput = {
@@ -46517,6 +51816,90 @@ export namespace Prisma {
     amount?: SortOrder
   }
 
+  export type ResourceRelationFilter = {
+    is?: ResourceWhereInput
+    isNot?: ResourceWhereInput
+  }
+
+  export type SellerEarningCountOrderByAggregateInput = {
+    id?: SortOrder
+    sellerId?: SortOrder
+    resourceId?: SortOrder
+    amount?: SortOrder
+    mpesaReceipt?: SortOrder
+    paidAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SellerEarningAvgOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type SellerEarningMaxOrderByAggregateInput = {
+    id?: SortOrder
+    sellerId?: SortOrder
+    resourceId?: SortOrder
+    amount?: SortOrder
+    mpesaReceipt?: SortOrder
+    paidAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SellerEarningMinOrderByAggregateInput = {
+    id?: SortOrder
+    sellerId?: SortOrder
+    resourceId?: SortOrder
+    amount?: SortOrder
+    mpesaReceipt?: SortOrder
+    paidAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SellerEarningSumOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type CurriculumTopicCountOrderByAggregateInput = {
+    id?: SortOrder
+    subject?: SortOrder
+    level?: SortOrder
+    formYear?: SortOrder
+    topicName?: SortOrder
+    description?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CurriculumTopicAvgOrderByAggregateInput = {
+    formYear?: SortOrder
+  }
+
+  export type CurriculumTopicMaxOrderByAggregateInput = {
+    id?: SortOrder
+    subject?: SortOrder
+    level?: SortOrder
+    formYear?: SortOrder
+    topicName?: SortOrder
+    description?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CurriculumTopicMinOrderByAggregateInput = {
+    id?: SortOrder
+    subject?: SortOrder
+    level?: SortOrder
+    formYear?: SortOrder
+    topicName?: SortOrder
+    description?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CurriculumTopicSumOrderByAggregateInput = {
+    formYear?: SortOrder
+  }
+
   export type FloatNullableFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
@@ -46534,6 +51917,8 @@ export namespace Prisma {
     title?: SortOrder
     subject?: SortOrder
     educationLevel?: SortOrder
+    resourceType?: SortOrder
+    topic?: SortOrder
     description?: SortOrder
     price?: SortOrder
     filePath?: SortOrder
@@ -46555,6 +51940,8 @@ export namespace Prisma {
     title?: SortOrder
     subject?: SortOrder
     educationLevel?: SortOrder
+    resourceType?: SortOrder
+    topic?: SortOrder
     description?: SortOrder
     price?: SortOrder
     filePath?: SortOrder
@@ -46570,6 +51957,8 @@ export namespace Prisma {
     title?: SortOrder
     subject?: SortOrder
     educationLevel?: SortOrder
+    resourceType?: SortOrder
+    topic?: SortOrder
     description?: SortOrder
     price?: SortOrder
     filePath?: SortOrder
@@ -46599,11 +51988,6 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
-  }
-
-  export type ResourceRelationFilter = {
-    is?: ResourceWhereInput
-    isNot?: ResourceWhereInput
   }
 
   export type ResourcePurchaseCountOrderByAggregateInput = {
@@ -46816,6 +52200,33 @@ export namespace Prisma {
     connect?: MatchRequestWhereUniqueInput | MatchRequestWhereUniqueInput[]
   }
 
+  export type NewsArticleCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<NewsArticleCreateWithoutAuthorInput, NewsArticleUncheckedCreateWithoutAuthorInput> | NewsArticleCreateWithoutAuthorInput[] | NewsArticleUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: NewsArticleCreateOrConnectWithoutAuthorInput | NewsArticleCreateOrConnectWithoutAuthorInput[]
+    createMany?: NewsArticleCreateManyAuthorInputEnvelope
+    connect?: NewsArticleWhereUniqueInput | NewsArticleWhereUniqueInput[]
+  }
+
+  export type UserCreditsCreateNestedOneWithoutUserInput = {
+    create?: XOR<UserCreditsCreateWithoutUserInput, UserCreditsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserCreditsCreateOrConnectWithoutUserInput
+    connect?: UserCreditsWhereUniqueInput
+  }
+
+  export type CreditTransactionCreateNestedManyWithoutUserInput = {
+    create?: XOR<CreditTransactionCreateWithoutUserInput, CreditTransactionUncheckedCreateWithoutUserInput> | CreditTransactionCreateWithoutUserInput[] | CreditTransactionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CreditTransactionCreateOrConnectWithoutUserInput | CreditTransactionCreateOrConnectWithoutUserInput[]
+    createMany?: CreditTransactionCreateManyUserInputEnvelope
+    connect?: CreditTransactionWhereUniqueInput | CreditTransactionWhereUniqueInput[]
+  }
+
+  export type SellerEarningCreateNestedManyWithoutSellerInput = {
+    create?: XOR<SellerEarningCreateWithoutSellerInput, SellerEarningUncheckedCreateWithoutSellerInput> | SellerEarningCreateWithoutSellerInput[] | SellerEarningUncheckedCreateWithoutSellerInput[]
+    connectOrCreate?: SellerEarningCreateOrConnectWithoutSellerInput | SellerEarningCreateOrConnectWithoutSellerInput[]
+    createMany?: SellerEarningCreateManySellerInputEnvelope
+    connect?: SellerEarningWhereUniqueInput | SellerEarningWhereUniqueInput[]
+  }
+
   export type AchievementUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AchievementCreateWithoutUserInput, AchievementUncheckedCreateWithoutUserInput> | AchievementCreateWithoutUserInput[] | AchievementUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AchievementCreateOrConnectWithoutUserInput | AchievementCreateOrConnectWithoutUserInput[]
@@ -46958,6 +52369,33 @@ export namespace Prisma {
     connectOrCreate?: MatchRequestCreateOrConnectWithoutStudentInput | MatchRequestCreateOrConnectWithoutStudentInput[]
     createMany?: MatchRequestCreateManyStudentInputEnvelope
     connect?: MatchRequestWhereUniqueInput | MatchRequestWhereUniqueInput[]
+  }
+
+  export type NewsArticleUncheckedCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<NewsArticleCreateWithoutAuthorInput, NewsArticleUncheckedCreateWithoutAuthorInput> | NewsArticleCreateWithoutAuthorInput[] | NewsArticleUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: NewsArticleCreateOrConnectWithoutAuthorInput | NewsArticleCreateOrConnectWithoutAuthorInput[]
+    createMany?: NewsArticleCreateManyAuthorInputEnvelope
+    connect?: NewsArticleWhereUniqueInput | NewsArticleWhereUniqueInput[]
+  }
+
+  export type UserCreditsUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<UserCreditsCreateWithoutUserInput, UserCreditsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserCreditsCreateOrConnectWithoutUserInput
+    connect?: UserCreditsWhereUniqueInput
+  }
+
+  export type CreditTransactionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<CreditTransactionCreateWithoutUserInput, CreditTransactionUncheckedCreateWithoutUserInput> | CreditTransactionCreateWithoutUserInput[] | CreditTransactionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CreditTransactionCreateOrConnectWithoutUserInput | CreditTransactionCreateOrConnectWithoutUserInput[]
+    createMany?: CreditTransactionCreateManyUserInputEnvelope
+    connect?: CreditTransactionWhereUniqueInput | CreditTransactionWhereUniqueInput[]
+  }
+
+  export type SellerEarningUncheckedCreateNestedManyWithoutSellerInput = {
+    create?: XOR<SellerEarningCreateWithoutSellerInput, SellerEarningUncheckedCreateWithoutSellerInput> | SellerEarningCreateWithoutSellerInput[] | SellerEarningUncheckedCreateWithoutSellerInput[]
+    connectOrCreate?: SellerEarningCreateOrConnectWithoutSellerInput | SellerEarningCreateOrConnectWithoutSellerInput[]
+    createMany?: SellerEarningCreateManySellerInputEnvelope
+    connect?: SellerEarningWhereUniqueInput | SellerEarningWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -47290,6 +52728,58 @@ export namespace Prisma {
     deleteMany?: MatchRequestScalarWhereInput | MatchRequestScalarWhereInput[]
   }
 
+  export type NewsArticleUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<NewsArticleCreateWithoutAuthorInput, NewsArticleUncheckedCreateWithoutAuthorInput> | NewsArticleCreateWithoutAuthorInput[] | NewsArticleUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: NewsArticleCreateOrConnectWithoutAuthorInput | NewsArticleCreateOrConnectWithoutAuthorInput[]
+    upsert?: NewsArticleUpsertWithWhereUniqueWithoutAuthorInput | NewsArticleUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: NewsArticleCreateManyAuthorInputEnvelope
+    set?: NewsArticleWhereUniqueInput | NewsArticleWhereUniqueInput[]
+    disconnect?: NewsArticleWhereUniqueInput | NewsArticleWhereUniqueInput[]
+    delete?: NewsArticleWhereUniqueInput | NewsArticleWhereUniqueInput[]
+    connect?: NewsArticleWhereUniqueInput | NewsArticleWhereUniqueInput[]
+    update?: NewsArticleUpdateWithWhereUniqueWithoutAuthorInput | NewsArticleUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: NewsArticleUpdateManyWithWhereWithoutAuthorInput | NewsArticleUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: NewsArticleScalarWhereInput | NewsArticleScalarWhereInput[]
+  }
+
+  export type UserCreditsUpdateOneWithoutUserNestedInput = {
+    create?: XOR<UserCreditsCreateWithoutUserInput, UserCreditsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserCreditsCreateOrConnectWithoutUserInput
+    upsert?: UserCreditsUpsertWithoutUserInput
+    disconnect?: UserCreditsWhereInput | boolean
+    delete?: UserCreditsWhereInput | boolean
+    connect?: UserCreditsWhereUniqueInput
+    update?: XOR<XOR<UserCreditsUpdateToOneWithWhereWithoutUserInput, UserCreditsUpdateWithoutUserInput>, UserCreditsUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CreditTransactionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CreditTransactionCreateWithoutUserInput, CreditTransactionUncheckedCreateWithoutUserInput> | CreditTransactionCreateWithoutUserInput[] | CreditTransactionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CreditTransactionCreateOrConnectWithoutUserInput | CreditTransactionCreateOrConnectWithoutUserInput[]
+    upsert?: CreditTransactionUpsertWithWhereUniqueWithoutUserInput | CreditTransactionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CreditTransactionCreateManyUserInputEnvelope
+    set?: CreditTransactionWhereUniqueInput | CreditTransactionWhereUniqueInput[]
+    disconnect?: CreditTransactionWhereUniqueInput | CreditTransactionWhereUniqueInput[]
+    delete?: CreditTransactionWhereUniqueInput | CreditTransactionWhereUniqueInput[]
+    connect?: CreditTransactionWhereUniqueInput | CreditTransactionWhereUniqueInput[]
+    update?: CreditTransactionUpdateWithWhereUniqueWithoutUserInput | CreditTransactionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CreditTransactionUpdateManyWithWhereWithoutUserInput | CreditTransactionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CreditTransactionScalarWhereInput | CreditTransactionScalarWhereInput[]
+  }
+
+  export type SellerEarningUpdateManyWithoutSellerNestedInput = {
+    create?: XOR<SellerEarningCreateWithoutSellerInput, SellerEarningUncheckedCreateWithoutSellerInput> | SellerEarningCreateWithoutSellerInput[] | SellerEarningUncheckedCreateWithoutSellerInput[]
+    connectOrCreate?: SellerEarningCreateOrConnectWithoutSellerInput | SellerEarningCreateOrConnectWithoutSellerInput[]
+    upsert?: SellerEarningUpsertWithWhereUniqueWithoutSellerInput | SellerEarningUpsertWithWhereUniqueWithoutSellerInput[]
+    createMany?: SellerEarningCreateManySellerInputEnvelope
+    set?: SellerEarningWhereUniqueInput | SellerEarningWhereUniqueInput[]
+    disconnect?: SellerEarningWhereUniqueInput | SellerEarningWhereUniqueInput[]
+    delete?: SellerEarningWhereUniqueInput | SellerEarningWhereUniqueInput[]
+    connect?: SellerEarningWhereUniqueInput | SellerEarningWhereUniqueInput[]
+    update?: SellerEarningUpdateWithWhereUniqueWithoutSellerInput | SellerEarningUpdateWithWhereUniqueWithoutSellerInput[]
+    updateMany?: SellerEarningUpdateManyWithWhereWithoutSellerInput | SellerEarningUpdateManyWithWhereWithoutSellerInput[]
+    deleteMany?: SellerEarningScalarWhereInput | SellerEarningScalarWhereInput[]
+  }
+
   export type AchievementUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AchievementCreateWithoutUserInput, AchievementUncheckedCreateWithoutUserInput> | AchievementCreateWithoutUserInput[] | AchievementUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AchievementCreateOrConnectWithoutUserInput | AchievementCreateOrConnectWithoutUserInput[]
@@ -47570,6 +53060,58 @@ export namespace Prisma {
     update?: MatchRequestUpdateWithWhereUniqueWithoutStudentInput | MatchRequestUpdateWithWhereUniqueWithoutStudentInput[]
     updateMany?: MatchRequestUpdateManyWithWhereWithoutStudentInput | MatchRequestUpdateManyWithWhereWithoutStudentInput[]
     deleteMany?: MatchRequestScalarWhereInput | MatchRequestScalarWhereInput[]
+  }
+
+  export type NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<NewsArticleCreateWithoutAuthorInput, NewsArticleUncheckedCreateWithoutAuthorInput> | NewsArticleCreateWithoutAuthorInput[] | NewsArticleUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: NewsArticleCreateOrConnectWithoutAuthorInput | NewsArticleCreateOrConnectWithoutAuthorInput[]
+    upsert?: NewsArticleUpsertWithWhereUniqueWithoutAuthorInput | NewsArticleUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: NewsArticleCreateManyAuthorInputEnvelope
+    set?: NewsArticleWhereUniqueInput | NewsArticleWhereUniqueInput[]
+    disconnect?: NewsArticleWhereUniqueInput | NewsArticleWhereUniqueInput[]
+    delete?: NewsArticleWhereUniqueInput | NewsArticleWhereUniqueInput[]
+    connect?: NewsArticleWhereUniqueInput | NewsArticleWhereUniqueInput[]
+    update?: NewsArticleUpdateWithWhereUniqueWithoutAuthorInput | NewsArticleUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: NewsArticleUpdateManyWithWhereWithoutAuthorInput | NewsArticleUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: NewsArticleScalarWhereInput | NewsArticleScalarWhereInput[]
+  }
+
+  export type UserCreditsUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<UserCreditsCreateWithoutUserInput, UserCreditsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserCreditsCreateOrConnectWithoutUserInput
+    upsert?: UserCreditsUpsertWithoutUserInput
+    disconnect?: UserCreditsWhereInput | boolean
+    delete?: UserCreditsWhereInput | boolean
+    connect?: UserCreditsWhereUniqueInput
+    update?: XOR<XOR<UserCreditsUpdateToOneWithWhereWithoutUserInput, UserCreditsUpdateWithoutUserInput>, UserCreditsUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CreditTransactionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CreditTransactionCreateWithoutUserInput, CreditTransactionUncheckedCreateWithoutUserInput> | CreditTransactionCreateWithoutUserInput[] | CreditTransactionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CreditTransactionCreateOrConnectWithoutUserInput | CreditTransactionCreateOrConnectWithoutUserInput[]
+    upsert?: CreditTransactionUpsertWithWhereUniqueWithoutUserInput | CreditTransactionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CreditTransactionCreateManyUserInputEnvelope
+    set?: CreditTransactionWhereUniqueInput | CreditTransactionWhereUniqueInput[]
+    disconnect?: CreditTransactionWhereUniqueInput | CreditTransactionWhereUniqueInput[]
+    delete?: CreditTransactionWhereUniqueInput | CreditTransactionWhereUniqueInput[]
+    connect?: CreditTransactionWhereUniqueInput | CreditTransactionWhereUniqueInput[]
+    update?: CreditTransactionUpdateWithWhereUniqueWithoutUserInput | CreditTransactionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CreditTransactionUpdateManyWithWhereWithoutUserInput | CreditTransactionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CreditTransactionScalarWhereInput | CreditTransactionScalarWhereInput[]
+  }
+
+  export type SellerEarningUncheckedUpdateManyWithoutSellerNestedInput = {
+    create?: XOR<SellerEarningCreateWithoutSellerInput, SellerEarningUncheckedCreateWithoutSellerInput> | SellerEarningCreateWithoutSellerInput[] | SellerEarningUncheckedCreateWithoutSellerInput[]
+    connectOrCreate?: SellerEarningCreateOrConnectWithoutSellerInput | SellerEarningCreateOrConnectWithoutSellerInput[]
+    upsert?: SellerEarningUpsertWithWhereUniqueWithoutSellerInput | SellerEarningUpsertWithWhereUniqueWithoutSellerInput[]
+    createMany?: SellerEarningCreateManySellerInputEnvelope
+    set?: SellerEarningWhereUniqueInput | SellerEarningWhereUniqueInput[]
+    disconnect?: SellerEarningWhereUniqueInput | SellerEarningWhereUniqueInput[]
+    delete?: SellerEarningWhereUniqueInput | SellerEarningWhereUniqueInput[]
+    connect?: SellerEarningWhereUniqueInput | SellerEarningWhereUniqueInput[]
+    update?: SellerEarningUpdateWithWhereUniqueWithoutSellerInput | SellerEarningUpdateWithWhereUniqueWithoutSellerInput[]
+    updateMany?: SellerEarningUpdateManyWithWhereWithoutSellerInput | SellerEarningUpdateManyWithWhereWithoutSellerInput[]
+    deleteMany?: SellerEarningScalarWhereInput | SellerEarningScalarWhereInput[]
   }
 
   export type StudentProfileCreatesubjectsInput = {
@@ -48262,6 +53804,50 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAchievementsInput, UserUpdateWithoutAchievementsInput>, UserUncheckedUpdateWithoutAchievementsInput>
   }
 
+  export type UserCreateNestedOneWithoutNewsArticlesInput = {
+    create?: XOR<UserCreateWithoutNewsArticlesInput, UserUncheckedCreateWithoutNewsArticlesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutNewsArticlesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneWithoutNewsArticlesNestedInput = {
+    create?: XOR<UserCreateWithoutNewsArticlesInput, UserUncheckedCreateWithoutNewsArticlesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutNewsArticlesInput
+    upsert?: UserUpsertWithoutNewsArticlesInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNewsArticlesInput, UserUpdateWithoutNewsArticlesInput>, UserUncheckedUpdateWithoutNewsArticlesInput>
+  }
+
+  export type UserCreateNestedOneWithoutUserCreditsInput = {
+    create?: XOR<UserCreateWithoutUserCreditsInput, UserUncheckedCreateWithoutUserCreditsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUserCreditsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutUserCreditsNestedInput = {
+    create?: XOR<UserCreateWithoutUserCreditsInput, UserUncheckedCreateWithoutUserCreditsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUserCreditsInput
+    upsert?: UserUpsertWithoutUserCreditsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUserCreditsInput, UserUpdateWithoutUserCreditsInput>, UserUncheckedUpdateWithoutUserCreditsInput>
+  }
+
+  export type UserCreateNestedOneWithoutCreditTransactionsInput = {
+    create?: XOR<UserCreateWithoutCreditTransactionsInput, UserUncheckedCreateWithoutCreditTransactionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCreditTransactionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutCreditTransactionsNestedInput = {
+    create?: XOR<UserCreateWithoutCreditTransactionsInput, UserUncheckedCreateWithoutCreditTransactionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCreditTransactionsInput
+    upsert?: UserUpsertWithoutCreditTransactionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCreditTransactionsInput, UserUpdateWithoutCreditTransactionsInput>, UserUncheckedUpdateWithoutCreditTransactionsInput>
+  }
+
   export type ChallengeCreateoptionsInput = {
     set: string[]
   }
@@ -48397,11 +53983,46 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPayoutsInput, UserUpdateWithoutPayoutsInput>, UserUncheckedUpdateWithoutPayoutsInput>
   }
 
+  export type ResourceCreateNestedOneWithoutSellerEarningsInput = {
+    create?: XOR<ResourceCreateWithoutSellerEarningsInput, ResourceUncheckedCreateWithoutSellerEarningsInput>
+    connectOrCreate?: ResourceCreateOrConnectWithoutSellerEarningsInput
+    connect?: ResourceWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutSellerEarningsInput = {
+    create?: XOR<UserCreateWithoutSellerEarningsInput, UserUncheckedCreateWithoutSellerEarningsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSellerEarningsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ResourceUpdateOneRequiredWithoutSellerEarningsNestedInput = {
+    create?: XOR<ResourceCreateWithoutSellerEarningsInput, ResourceUncheckedCreateWithoutSellerEarningsInput>
+    connectOrCreate?: ResourceCreateOrConnectWithoutSellerEarningsInput
+    upsert?: ResourceUpsertWithoutSellerEarningsInput
+    connect?: ResourceWhereUniqueInput
+    update?: XOR<XOR<ResourceUpdateToOneWithWhereWithoutSellerEarningsInput, ResourceUpdateWithoutSellerEarningsInput>, ResourceUncheckedUpdateWithoutSellerEarningsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutSellerEarningsNestedInput = {
+    create?: XOR<UserCreateWithoutSellerEarningsInput, UserUncheckedCreateWithoutSellerEarningsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSellerEarningsInput
+    upsert?: UserUpsertWithoutSellerEarningsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSellerEarningsInput, UserUpdateWithoutSellerEarningsInput>, UserUncheckedUpdateWithoutSellerEarningsInput>
+  }
+
   export type ResourcePurchaseCreateNestedManyWithoutResourceInput = {
     create?: XOR<ResourcePurchaseCreateWithoutResourceInput, ResourcePurchaseUncheckedCreateWithoutResourceInput> | ResourcePurchaseCreateWithoutResourceInput[] | ResourcePurchaseUncheckedCreateWithoutResourceInput[]
     connectOrCreate?: ResourcePurchaseCreateOrConnectWithoutResourceInput | ResourcePurchaseCreateOrConnectWithoutResourceInput[]
     createMany?: ResourcePurchaseCreateManyResourceInputEnvelope
     connect?: ResourcePurchaseWhereUniqueInput | ResourcePurchaseWhereUniqueInput[]
+  }
+
+  export type SellerEarningCreateNestedManyWithoutResourceInput = {
+    create?: XOR<SellerEarningCreateWithoutResourceInput, SellerEarningUncheckedCreateWithoutResourceInput> | SellerEarningCreateWithoutResourceInput[] | SellerEarningUncheckedCreateWithoutResourceInput[]
+    connectOrCreate?: SellerEarningCreateOrConnectWithoutResourceInput | SellerEarningCreateOrConnectWithoutResourceInput[]
+    createMany?: SellerEarningCreateManyResourceInputEnvelope
+    connect?: SellerEarningWhereUniqueInput | SellerEarningWhereUniqueInput[]
   }
 
   export type UserCreateNestedOneWithoutResourcesInput = {
@@ -48415,6 +54036,13 @@ export namespace Prisma {
     connectOrCreate?: ResourcePurchaseCreateOrConnectWithoutResourceInput | ResourcePurchaseCreateOrConnectWithoutResourceInput[]
     createMany?: ResourcePurchaseCreateManyResourceInputEnvelope
     connect?: ResourcePurchaseWhereUniqueInput | ResourcePurchaseWhereUniqueInput[]
+  }
+
+  export type SellerEarningUncheckedCreateNestedManyWithoutResourceInput = {
+    create?: XOR<SellerEarningCreateWithoutResourceInput, SellerEarningUncheckedCreateWithoutResourceInput> | SellerEarningCreateWithoutResourceInput[] | SellerEarningUncheckedCreateWithoutResourceInput[]
+    connectOrCreate?: SellerEarningCreateOrConnectWithoutResourceInput | SellerEarningCreateOrConnectWithoutResourceInput[]
+    createMany?: SellerEarningCreateManyResourceInputEnvelope
+    connect?: SellerEarningWhereUniqueInput | SellerEarningWhereUniqueInput[]
   }
 
   export type NullableFloatFieldUpdateOperationsInput = {
@@ -48439,6 +54067,20 @@ export namespace Prisma {
     deleteMany?: ResourcePurchaseScalarWhereInput | ResourcePurchaseScalarWhereInput[]
   }
 
+  export type SellerEarningUpdateManyWithoutResourceNestedInput = {
+    create?: XOR<SellerEarningCreateWithoutResourceInput, SellerEarningUncheckedCreateWithoutResourceInput> | SellerEarningCreateWithoutResourceInput[] | SellerEarningUncheckedCreateWithoutResourceInput[]
+    connectOrCreate?: SellerEarningCreateOrConnectWithoutResourceInput | SellerEarningCreateOrConnectWithoutResourceInput[]
+    upsert?: SellerEarningUpsertWithWhereUniqueWithoutResourceInput | SellerEarningUpsertWithWhereUniqueWithoutResourceInput[]
+    createMany?: SellerEarningCreateManyResourceInputEnvelope
+    set?: SellerEarningWhereUniqueInput | SellerEarningWhereUniqueInput[]
+    disconnect?: SellerEarningWhereUniqueInput | SellerEarningWhereUniqueInput[]
+    delete?: SellerEarningWhereUniqueInput | SellerEarningWhereUniqueInput[]
+    connect?: SellerEarningWhereUniqueInput | SellerEarningWhereUniqueInput[]
+    update?: SellerEarningUpdateWithWhereUniqueWithoutResourceInput | SellerEarningUpdateWithWhereUniqueWithoutResourceInput[]
+    updateMany?: SellerEarningUpdateManyWithWhereWithoutResourceInput | SellerEarningUpdateManyWithWhereWithoutResourceInput[]
+    deleteMany?: SellerEarningScalarWhereInput | SellerEarningScalarWhereInput[]
+  }
+
   export type UserUpdateOneRequiredWithoutResourcesNestedInput = {
     create?: XOR<UserCreateWithoutResourcesInput, UserUncheckedCreateWithoutResourcesInput>
     connectOrCreate?: UserCreateOrConnectWithoutResourcesInput
@@ -48459,6 +54101,20 @@ export namespace Prisma {
     update?: ResourcePurchaseUpdateWithWhereUniqueWithoutResourceInput | ResourcePurchaseUpdateWithWhereUniqueWithoutResourceInput[]
     updateMany?: ResourcePurchaseUpdateManyWithWhereWithoutResourceInput | ResourcePurchaseUpdateManyWithWhereWithoutResourceInput[]
     deleteMany?: ResourcePurchaseScalarWhereInput | ResourcePurchaseScalarWhereInput[]
+  }
+
+  export type SellerEarningUncheckedUpdateManyWithoutResourceNestedInput = {
+    create?: XOR<SellerEarningCreateWithoutResourceInput, SellerEarningUncheckedCreateWithoutResourceInput> | SellerEarningCreateWithoutResourceInput[] | SellerEarningUncheckedCreateWithoutResourceInput[]
+    connectOrCreate?: SellerEarningCreateOrConnectWithoutResourceInput | SellerEarningCreateOrConnectWithoutResourceInput[]
+    upsert?: SellerEarningUpsertWithWhereUniqueWithoutResourceInput | SellerEarningUpsertWithWhereUniqueWithoutResourceInput[]
+    createMany?: SellerEarningCreateManyResourceInputEnvelope
+    set?: SellerEarningWhereUniqueInput | SellerEarningWhereUniqueInput[]
+    disconnect?: SellerEarningWhereUniqueInput | SellerEarningWhereUniqueInput[]
+    delete?: SellerEarningWhereUniqueInput | SellerEarningWhereUniqueInput[]
+    connect?: SellerEarningWhereUniqueInput | SellerEarningWhereUniqueInput[]
+    update?: SellerEarningUpdateWithWhereUniqueWithoutResourceInput | SellerEarningUpdateWithWhereUniqueWithoutResourceInput[]
+    updateMany?: SellerEarningUpdateManyWithWhereWithoutResourceInput | SellerEarningUpdateManyWithWhereWithoutResourceInput[]
+    deleteMany?: SellerEarningScalarWhereInput | SellerEarningScalarWhereInput[]
   }
 
   export type ResourceCreateNestedOneWithoutPurchasesInput = {
@@ -49451,6 +55107,8 @@ export namespace Prisma {
     title: string
     subject: string
     educationLevel: string
+    resourceType?: string | null
+    topic?: string | null
     description?: string | null
     price: number
     filePath: string
@@ -49459,6 +55117,7 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string | null
     purchases?: ResourcePurchaseCreateNestedManyWithoutResourceInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutResourceInput
   }
 
   export type ResourceUncheckedCreateWithoutSellerInput = {
@@ -49466,6 +55125,8 @@ export namespace Prisma {
     title: string
     subject: string
     educationLevel: string
+    resourceType?: string | null
+    topic?: string | null
     description?: string | null
     price: number
     filePath: string
@@ -49474,6 +55135,7 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string | null
     purchases?: ResourcePurchaseUncheckedCreateNestedManyWithoutResourceInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutResourceInput
   }
 
   export type ResourceCreateOrConnectWithoutSellerInput = {
@@ -49619,6 +55281,119 @@ export namespace Prisma {
 
   export type MatchRequestCreateManyStudentInputEnvelope = {
     data: MatchRequestCreateManyStudentInput | MatchRequestCreateManyStudentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type NewsArticleCreateWithoutAuthorInput = {
+    id?: string
+    title: string
+    slug: string
+    category: string
+    body: string
+    coverImage?: string | null
+    summary?: string | null
+    publishedAt?: Date | string | null
+    isDraft?: boolean
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+  }
+
+  export type NewsArticleUncheckedCreateWithoutAuthorInput = {
+    id?: string
+    title: string
+    slug: string
+    category: string
+    body: string
+    coverImage?: string | null
+    summary?: string | null
+    publishedAt?: Date | string | null
+    isDraft?: boolean
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+  }
+
+  export type NewsArticleCreateOrConnectWithoutAuthorInput = {
+    where: NewsArticleWhereUniqueInput
+    create: XOR<NewsArticleCreateWithoutAuthorInput, NewsArticleUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type NewsArticleCreateManyAuthorInputEnvelope = {
+    data: NewsArticleCreateManyAuthorInput | NewsArticleCreateManyAuthorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserCreditsCreateWithoutUserInput = {
+    id?: string
+    balance?: number
+    updatedAt?: Date | string
+  }
+
+  export type UserCreditsUncheckedCreateWithoutUserInput = {
+    id?: string
+    balance?: number
+    updatedAt?: Date | string
+  }
+
+  export type UserCreditsCreateOrConnectWithoutUserInput = {
+    where: UserCreditsWhereUniqueInput
+    create: XOR<UserCreditsCreateWithoutUserInput, UserCreditsUncheckedCreateWithoutUserInput>
+  }
+
+  export type CreditTransactionCreateWithoutUserInput = {
+    id?: string
+    amount: number
+    type: string
+    description?: string | null
+    reference?: string | null
+    createdAt?: Date | string
+  }
+
+  export type CreditTransactionUncheckedCreateWithoutUserInput = {
+    id?: string
+    amount: number
+    type: string
+    description?: string | null
+    reference?: string | null
+    createdAt?: Date | string
+  }
+
+  export type CreditTransactionCreateOrConnectWithoutUserInput = {
+    where: CreditTransactionWhereUniqueInput
+    create: XOR<CreditTransactionCreateWithoutUserInput, CreditTransactionUncheckedCreateWithoutUserInput>
+  }
+
+  export type CreditTransactionCreateManyUserInputEnvelope = {
+    data: CreditTransactionCreateManyUserInput | CreditTransactionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SellerEarningCreateWithoutSellerInput = {
+    id?: string
+    amount: number
+    mpesaReceipt?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string | null
+    resource: ResourceCreateNestedOneWithoutSellerEarningsInput
+  }
+
+  export type SellerEarningUncheckedCreateWithoutSellerInput = {
+    id?: string
+    resourceId: string
+    amount: number
+    mpesaReceipt?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string | null
+  }
+
+  export type SellerEarningCreateOrConnectWithoutSellerInput = {
+    where: SellerEarningWhereUniqueInput
+    create: XOR<SellerEarningCreateWithoutSellerInput, SellerEarningUncheckedCreateWithoutSellerInput>
+  }
+
+  export type SellerEarningCreateManySellerInputEnvelope = {
+    data: SellerEarningCreateManySellerInput | SellerEarningCreateManySellerInput[]
     skipDuplicates?: boolean
   }
 
@@ -50117,6 +55892,8 @@ export namespace Prisma {
     title?: StringFilter<"Resource"> | string
     subject?: StringFilter<"Resource"> | string
     educationLevel?: StringFilter<"Resource"> | string
+    resourceType?: StringNullableFilter<"Resource"> | string | null
+    topic?: StringNullableFilter<"Resource"> | string | null
     description?: StringNullableFilter<"Resource"> | string | null
     price?: IntFilter<"Resource"> | number
     filePath?: StringFilter<"Resource"> | string
@@ -50237,6 +56014,122 @@ export namespace Prisma {
     resolvedAt?: DateTimeNullableFilter<"MatchRequest"> | Date | string | null
   }
 
+  export type NewsArticleUpsertWithWhereUniqueWithoutAuthorInput = {
+    where: NewsArticleWhereUniqueInput
+    update: XOR<NewsArticleUpdateWithoutAuthorInput, NewsArticleUncheckedUpdateWithoutAuthorInput>
+    create: XOR<NewsArticleCreateWithoutAuthorInput, NewsArticleUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type NewsArticleUpdateWithWhereUniqueWithoutAuthorInput = {
+    where: NewsArticleWhereUniqueInput
+    data: XOR<NewsArticleUpdateWithoutAuthorInput, NewsArticleUncheckedUpdateWithoutAuthorInput>
+  }
+
+  export type NewsArticleUpdateManyWithWhereWithoutAuthorInput = {
+    where: NewsArticleScalarWhereInput
+    data: XOR<NewsArticleUpdateManyMutationInput, NewsArticleUncheckedUpdateManyWithoutAuthorInput>
+  }
+
+  export type NewsArticleScalarWhereInput = {
+    AND?: NewsArticleScalarWhereInput | NewsArticleScalarWhereInput[]
+    OR?: NewsArticleScalarWhereInput[]
+    NOT?: NewsArticleScalarWhereInput | NewsArticleScalarWhereInput[]
+    id?: StringFilter<"NewsArticle"> | string
+    title?: StringFilter<"NewsArticle"> | string
+    slug?: StringFilter<"NewsArticle"> | string
+    category?: StringFilter<"NewsArticle"> | string
+    body?: StringFilter<"NewsArticle"> | string
+    coverImage?: StringNullableFilter<"NewsArticle"> | string | null
+    summary?: StringNullableFilter<"NewsArticle"> | string | null
+    publishedAt?: DateTimeNullableFilter<"NewsArticle"> | Date | string | null
+    isDraft?: BoolFilter<"NewsArticle"> | boolean
+    authorId?: StringNullableFilter<"NewsArticle"> | string | null
+    status?: StringFilter<"NewsArticle"> | string
+    createdAt?: DateTimeFilter<"NewsArticle"> | Date | string
+    updatedAt?: DateTimeNullableFilter<"NewsArticle"> | Date | string | null
+  }
+
+  export type UserCreditsUpsertWithoutUserInput = {
+    update: XOR<UserCreditsUpdateWithoutUserInput, UserCreditsUncheckedUpdateWithoutUserInput>
+    create: XOR<UserCreditsCreateWithoutUserInput, UserCreditsUncheckedCreateWithoutUserInput>
+    where?: UserCreditsWhereInput
+  }
+
+  export type UserCreditsUpdateToOneWithWhereWithoutUserInput = {
+    where?: UserCreditsWhereInput
+    data: XOR<UserCreditsUpdateWithoutUserInput, UserCreditsUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserCreditsUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    balance?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserCreditsUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    balance?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CreditTransactionUpsertWithWhereUniqueWithoutUserInput = {
+    where: CreditTransactionWhereUniqueInput
+    update: XOR<CreditTransactionUpdateWithoutUserInput, CreditTransactionUncheckedUpdateWithoutUserInput>
+    create: XOR<CreditTransactionCreateWithoutUserInput, CreditTransactionUncheckedCreateWithoutUserInput>
+  }
+
+  export type CreditTransactionUpdateWithWhereUniqueWithoutUserInput = {
+    where: CreditTransactionWhereUniqueInput
+    data: XOR<CreditTransactionUpdateWithoutUserInput, CreditTransactionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CreditTransactionUpdateManyWithWhereWithoutUserInput = {
+    where: CreditTransactionScalarWhereInput
+    data: XOR<CreditTransactionUpdateManyMutationInput, CreditTransactionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type CreditTransactionScalarWhereInput = {
+    AND?: CreditTransactionScalarWhereInput | CreditTransactionScalarWhereInput[]
+    OR?: CreditTransactionScalarWhereInput[]
+    NOT?: CreditTransactionScalarWhereInput | CreditTransactionScalarWhereInput[]
+    id?: StringFilter<"CreditTransaction"> | string
+    userId?: StringFilter<"CreditTransaction"> | string
+    amount?: IntFilter<"CreditTransaction"> | number
+    type?: StringFilter<"CreditTransaction"> | string
+    description?: StringNullableFilter<"CreditTransaction"> | string | null
+    reference?: StringNullableFilter<"CreditTransaction"> | string | null
+    createdAt?: DateTimeFilter<"CreditTransaction"> | Date | string
+  }
+
+  export type SellerEarningUpsertWithWhereUniqueWithoutSellerInput = {
+    where: SellerEarningWhereUniqueInput
+    update: XOR<SellerEarningUpdateWithoutSellerInput, SellerEarningUncheckedUpdateWithoutSellerInput>
+    create: XOR<SellerEarningCreateWithoutSellerInput, SellerEarningUncheckedCreateWithoutSellerInput>
+  }
+
+  export type SellerEarningUpdateWithWhereUniqueWithoutSellerInput = {
+    where: SellerEarningWhereUniqueInput
+    data: XOR<SellerEarningUpdateWithoutSellerInput, SellerEarningUncheckedUpdateWithoutSellerInput>
+  }
+
+  export type SellerEarningUpdateManyWithWhereWithoutSellerInput = {
+    where: SellerEarningScalarWhereInput
+    data: XOR<SellerEarningUpdateManyMutationInput, SellerEarningUncheckedUpdateManyWithoutSellerInput>
+  }
+
+  export type SellerEarningScalarWhereInput = {
+    AND?: SellerEarningScalarWhereInput | SellerEarningScalarWhereInput[]
+    OR?: SellerEarningScalarWhereInput[]
+    NOT?: SellerEarningScalarWhereInput | SellerEarningScalarWhereInput[]
+    id?: UuidFilter<"SellerEarning"> | string
+    sellerId?: StringFilter<"SellerEarning"> | string
+    resourceId?: UuidFilter<"SellerEarning"> | string
+    amount?: IntFilter<"SellerEarning"> | number
+    mpesaReceipt?: StringNullableFilter<"SellerEarning"> | string | null
+    paidAt?: DateTimeNullableFilter<"SellerEarning"> | Date | string | null
+    createdAt?: DateTimeNullableFilter<"SellerEarning"> | Date | string | null
+  }
+
   export type UserCreateWithoutStudentProfileInput = {
     id?: string
     email: string
@@ -50287,6 +56180,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutStudentProfileInput = {
@@ -50339,6 +56236,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutStudentProfileInput = {
@@ -50407,6 +56308,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStudentProfileInput = {
@@ -50459,6 +56364,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type UserCreateWithoutTutorProfileInput = {
@@ -50511,6 +56420,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutTutorProfileInput = {
@@ -50563,6 +56476,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutTutorProfileInput = {
@@ -50631,6 +56548,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTutorProfileInput = {
@@ -50683,6 +56604,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type UserCreateWithoutMatchRequestsInput = {
@@ -50735,6 +56660,10 @@ export namespace Prisma {
     sessionPaymentsAsStudent?: SessionPaymentCreateNestedManyWithoutStudentInput
     sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutMatchRequestsInput = {
@@ -50787,6 +56716,10 @@ export namespace Prisma {
     sessionPaymentsAsStudent?: SessionPaymentUncheckedCreateNestedManyWithoutStudentInput
     sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutMatchRequestsInput = {
@@ -50855,6 +56788,10 @@ export namespace Prisma {
     sessionPaymentsAsStudent?: SessionPaymentUpdateManyWithoutStudentNestedInput
     sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMatchRequestsInput = {
@@ -50907,6 +56844,10 @@ export namespace Prisma {
     sessionPaymentsAsStudent?: SessionPaymentUncheckedUpdateManyWithoutStudentNestedInput
     sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type MessageCreateWithoutSessionInput = {
@@ -51010,6 +56951,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutSessionsAsTutorInput = {
@@ -51062,6 +57007,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutSessionsAsTutorInput = {
@@ -51119,6 +57068,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutSessionsAsStudentInput = {
@@ -51171,6 +57124,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutSessionsAsStudentInput = {
@@ -51320,6 +57277,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsAsTutorInput = {
@@ -51372,6 +57333,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUpsertWithoutSessionsAsStudentInput = {
@@ -51435,6 +57400,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsAsStudentInput = {
@@ -51487,6 +57456,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type SessionPaymentUpsertWithWhereUniqueWithoutSessionInput = {
@@ -51555,6 +57528,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutMessagesInput = {
@@ -51607,6 +57584,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutMessagesInput = {
@@ -51720,6 +57701,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessagesInput = {
@@ -51772,6 +57757,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type SessionUpsertWithoutMessagesInput = {
@@ -51875,6 +57864,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutReviewsRecvInput = {
@@ -51927,6 +57920,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutReviewsRecvInput = {
@@ -51984,6 +57981,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutReviewsGivenInput = {
@@ -52036,6 +58037,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutReviewsGivenInput = {
@@ -52149,6 +58154,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewsRecvInput = {
@@ -52201,6 +58210,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUpsertWithoutReviewsGivenInput = {
@@ -52264,6 +58277,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewsGivenInput = {
@@ -52316,6 +58333,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type SessionUpsertWithoutReviewInput = {
@@ -52490,6 +58511,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutChallengesInput = {
@@ -52542,6 +58567,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutChallengesInput = {
@@ -52645,6 +58674,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutChallengesInput = {
@@ -52697,6 +58730,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type GroupMessageCreateWithoutGroupInput = {
@@ -52864,6 +58901,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutTutorApplicationInput = {
@@ -52916,6 +58957,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutTutorApplicationInput = {
@@ -52984,6 +59029,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTutorApplicationInput = {
@@ -53036,6 +59085,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type UserCreateWithoutNotificationsInput = {
@@ -53088,6 +59141,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -53140,6 +59197,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -53208,6 +59269,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -53260,6 +59325,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type CommentCreateWithoutPostInput = {
@@ -53336,6 +59405,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutFeedPostsInput = {
@@ -53388,6 +59461,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutFeedPostsInput = {
@@ -53494,6 +59571,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFeedPostsInput = {
@@ -53546,6 +59627,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type PostLikeUpsertWithWhereUniqueWithoutPostInput = {
@@ -53643,6 +59728,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutPostLikesInput = {
@@ -53695,6 +59784,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutPostLikesInput = {
@@ -53798,6 +59891,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostLikesInput = {
@@ -53850,6 +59947,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type FeedPostCreateWithoutCommentsInput = {
@@ -53931,6 +60032,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutCommentsInput = {
@@ -53983,6 +60088,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutCommentsInput = {
@@ -54086,6 +60195,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -54138,6 +60251,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type UserCreateWithoutAchievementsInput = {
@@ -54190,6 +60307,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutAchievementsInput = {
@@ -54242,6 +60363,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutAchievementsInput = {
@@ -54310,6 +60435,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAchievementsInput = {
@@ -54362,6 +60491,730 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
+  }
+
+  export type UserCreateWithoutNewsArticlesInput = {
+    id?: string
+    email: string
+    phone?: string | null
+    name: string
+    avatar?: string | null
+    role?: $Enums.Role
+    educationLevel?: $Enums.EduLevel | null
+    formYear?: number | null
+    county: string
+    points?: number
+    tier?: $Enums.Tier
+    streakDays?: number
+    lastActiveAt?: Date | string | null
+    isUnder18?: boolean
+    strikes?: number
+    createdAt?: Date | string
+    bio?: string | null
+    settings?: JsonNullValueInput | InputJsonValue
+    curriculum?: string | null
+    dailyMessageCount?: number
+    dailySearchCount?: number
+    lastCountReset?: Date | string | null
+    subscriptionTier?: string | null
+    banned?: boolean
+    suspended?: boolean
+    plan?: string
+    planStartedAt?: Date | string | null
+    planExpiresAt?: Date | string | null
+    planBillingCycle?: string | null
+    achievements?: AchievementCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
+    challenges?: DailyChallengeAttemptCreateNestedManyWithoutUserInput
+    feedPosts?: FeedPostCreateNestedManyWithoutUserInput
+    messages?: MessageCreateNestedManyWithoutSenderInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    postLikes?: PostLikeCreateNestedManyWithoutUserInput
+    reviewsRecv?: ReviewCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
+    sessionsAsTutor?: SessionCreateNestedManyWithoutPartnerInput
+    sessionsAsStudent?: SessionCreateNestedManyWithoutStudentInput
+    studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
+    tutorApplication?: TutorApplicationCreateNestedOneWithoutUserInput
+    tutorProfile?: TutorProfileCreateNestedOneWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    resourcePurchases?: ResourcePurchaseCreateNestedManyWithoutUserInput
+    resources?: ResourceCreateNestedManyWithoutSellerInput
+    sessionPaymentsAsStudent?: SessionPaymentCreateNestedManyWithoutStudentInput
+    sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
+    payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
+    matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
+  }
+
+  export type UserUncheckedCreateWithoutNewsArticlesInput = {
+    id?: string
+    email: string
+    phone?: string | null
+    name: string
+    avatar?: string | null
+    role?: $Enums.Role
+    educationLevel?: $Enums.EduLevel | null
+    formYear?: number | null
+    county: string
+    points?: number
+    tier?: $Enums.Tier
+    streakDays?: number
+    lastActiveAt?: Date | string | null
+    isUnder18?: boolean
+    strikes?: number
+    createdAt?: Date | string
+    bio?: string | null
+    settings?: JsonNullValueInput | InputJsonValue
+    curriculum?: string | null
+    dailyMessageCount?: number
+    dailySearchCount?: number
+    lastCountReset?: Date | string | null
+    subscriptionTier?: string | null
+    banned?: boolean
+    suspended?: boolean
+    plan?: string
+    planStartedAt?: Date | string | null
+    planExpiresAt?: Date | string | null
+    planBillingCycle?: string | null
+    achievements?: AchievementUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+    challenges?: DailyChallengeAttemptUncheckedCreateNestedManyWithoutUserInput
+    feedPosts?: FeedPostUncheckedCreateNestedManyWithoutUserInput
+    messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    postLikes?: PostLikeUncheckedCreateNestedManyWithoutUserInput
+    reviewsRecv?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
+    sessionsAsTutor?: SessionUncheckedCreateNestedManyWithoutPartnerInput
+    sessionsAsStudent?: SessionUncheckedCreateNestedManyWithoutStudentInput
+    studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
+    tutorApplication?: TutorApplicationUncheckedCreateNestedOneWithoutUserInput
+    tutorProfile?: TutorProfileUncheckedCreateNestedOneWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    resourcePurchases?: ResourcePurchaseUncheckedCreateNestedManyWithoutUserInput
+    resources?: ResourceUncheckedCreateNestedManyWithoutSellerInput
+    sessionPaymentsAsStudent?: SessionPaymentUncheckedCreateNestedManyWithoutStudentInput
+    sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
+    payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
+    matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
+  }
+
+  export type UserCreateOrConnectWithoutNewsArticlesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutNewsArticlesInput, UserUncheckedCreateWithoutNewsArticlesInput>
+  }
+
+  export type UserUpsertWithoutNewsArticlesInput = {
+    update: XOR<UserUpdateWithoutNewsArticlesInput, UserUncheckedUpdateWithoutNewsArticlesInput>
+    create: XOR<UserCreateWithoutNewsArticlesInput, UserUncheckedCreateWithoutNewsArticlesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutNewsArticlesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutNewsArticlesInput, UserUncheckedUpdateWithoutNewsArticlesInput>
+  }
+
+  export type UserUpdateWithoutNewsArticlesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    educationLevel?: NullableEnumEduLevelFieldUpdateOperationsInput | $Enums.EduLevel | null
+    formYear?: NullableIntFieldUpdateOperationsInput | number | null
+    county?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    tier?: EnumTierFieldUpdateOperationsInput | $Enums.Tier
+    streakDays?: IntFieldUpdateOperationsInput | number
+    lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isUnder18?: BoolFieldUpdateOperationsInput | boolean
+    strikes?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    settings?: JsonNullValueInput | InputJsonValue
+    curriculum?: NullableStringFieldUpdateOperationsInput | string | null
+    dailyMessageCount?: IntFieldUpdateOperationsInput | number
+    dailySearchCount?: IntFieldUpdateOperationsInput | number
+    lastCountReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionTier?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    suspended?: BoolFieldUpdateOperationsInput | boolean
+    plan?: StringFieldUpdateOperationsInput | string
+    planStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planBillingCycle?: NullableStringFieldUpdateOperationsInput | string | null
+    achievements?: AchievementUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
+    challenges?: DailyChallengeAttemptUpdateManyWithoutUserNestedInput
+    feedPosts?: FeedPostUpdateManyWithoutUserNestedInput
+    messages?: MessageUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    postLikes?: PostLikeUpdateManyWithoutUserNestedInput
+    reviewsRecv?: ReviewUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
+    sessionsAsTutor?: SessionUpdateManyWithoutPartnerNestedInput
+    sessionsAsStudent?: SessionUpdateManyWithoutStudentNestedInput
+    studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
+    tutorApplication?: TutorApplicationUpdateOneWithoutUserNestedInput
+    tutorProfile?: TutorProfileUpdateOneWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    resourcePurchases?: ResourcePurchaseUpdateManyWithoutUserNestedInput
+    resources?: ResourceUpdateManyWithoutSellerNestedInput
+    sessionPaymentsAsStudent?: SessionPaymentUpdateManyWithoutStudentNestedInput
+    sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
+    payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
+    matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutNewsArticlesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    educationLevel?: NullableEnumEduLevelFieldUpdateOperationsInput | $Enums.EduLevel | null
+    formYear?: NullableIntFieldUpdateOperationsInput | number | null
+    county?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    tier?: EnumTierFieldUpdateOperationsInput | $Enums.Tier
+    streakDays?: IntFieldUpdateOperationsInput | number
+    lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isUnder18?: BoolFieldUpdateOperationsInput | boolean
+    strikes?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    settings?: JsonNullValueInput | InputJsonValue
+    curriculum?: NullableStringFieldUpdateOperationsInput | string | null
+    dailyMessageCount?: IntFieldUpdateOperationsInput | number
+    dailySearchCount?: IntFieldUpdateOperationsInput | number
+    lastCountReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionTier?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    suspended?: BoolFieldUpdateOperationsInput | boolean
+    plan?: StringFieldUpdateOperationsInput | string
+    planStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planBillingCycle?: NullableStringFieldUpdateOperationsInput | string | null
+    achievements?: AchievementUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    challenges?: DailyChallengeAttemptUncheckedUpdateManyWithoutUserNestedInput
+    feedPosts?: FeedPostUncheckedUpdateManyWithoutUserNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    postLikes?: PostLikeUncheckedUpdateManyWithoutUserNestedInput
+    reviewsRecv?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    sessionsAsTutor?: SessionUncheckedUpdateManyWithoutPartnerNestedInput
+    sessionsAsStudent?: SessionUncheckedUpdateManyWithoutStudentNestedInput
+    studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
+    tutorApplication?: TutorApplicationUncheckedUpdateOneWithoutUserNestedInput
+    tutorProfile?: TutorProfileUncheckedUpdateOneWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    resourcePurchases?: ResourcePurchaseUncheckedUpdateManyWithoutUserNestedInput
+    resources?: ResourceUncheckedUpdateManyWithoutSellerNestedInput
+    sessionPaymentsAsStudent?: SessionPaymentUncheckedUpdateManyWithoutStudentNestedInput
+    sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
+    payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
+    matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
+  }
+
+  export type UserCreateWithoutUserCreditsInput = {
+    id?: string
+    email: string
+    phone?: string | null
+    name: string
+    avatar?: string | null
+    role?: $Enums.Role
+    educationLevel?: $Enums.EduLevel | null
+    formYear?: number | null
+    county: string
+    points?: number
+    tier?: $Enums.Tier
+    streakDays?: number
+    lastActiveAt?: Date | string | null
+    isUnder18?: boolean
+    strikes?: number
+    createdAt?: Date | string
+    bio?: string | null
+    settings?: JsonNullValueInput | InputJsonValue
+    curriculum?: string | null
+    dailyMessageCount?: number
+    dailySearchCount?: number
+    lastCountReset?: Date | string | null
+    subscriptionTier?: string | null
+    banned?: boolean
+    suspended?: boolean
+    plan?: string
+    planStartedAt?: Date | string | null
+    planExpiresAt?: Date | string | null
+    planBillingCycle?: string | null
+    achievements?: AchievementCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
+    challenges?: DailyChallengeAttemptCreateNestedManyWithoutUserInput
+    feedPosts?: FeedPostCreateNestedManyWithoutUserInput
+    messages?: MessageCreateNestedManyWithoutSenderInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    postLikes?: PostLikeCreateNestedManyWithoutUserInput
+    reviewsRecv?: ReviewCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
+    sessionsAsTutor?: SessionCreateNestedManyWithoutPartnerInput
+    sessionsAsStudent?: SessionCreateNestedManyWithoutStudentInput
+    studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
+    tutorApplication?: TutorApplicationCreateNestedOneWithoutUserInput
+    tutorProfile?: TutorProfileCreateNestedOneWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    resourcePurchases?: ResourcePurchaseCreateNestedManyWithoutUserInput
+    resources?: ResourceCreateNestedManyWithoutSellerInput
+    sessionPaymentsAsStudent?: SessionPaymentCreateNestedManyWithoutStudentInput
+    sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
+    payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
+    matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
+  }
+
+  export type UserUncheckedCreateWithoutUserCreditsInput = {
+    id?: string
+    email: string
+    phone?: string | null
+    name: string
+    avatar?: string | null
+    role?: $Enums.Role
+    educationLevel?: $Enums.EduLevel | null
+    formYear?: number | null
+    county: string
+    points?: number
+    tier?: $Enums.Tier
+    streakDays?: number
+    lastActiveAt?: Date | string | null
+    isUnder18?: boolean
+    strikes?: number
+    createdAt?: Date | string
+    bio?: string | null
+    settings?: JsonNullValueInput | InputJsonValue
+    curriculum?: string | null
+    dailyMessageCount?: number
+    dailySearchCount?: number
+    lastCountReset?: Date | string | null
+    subscriptionTier?: string | null
+    banned?: boolean
+    suspended?: boolean
+    plan?: string
+    planStartedAt?: Date | string | null
+    planExpiresAt?: Date | string | null
+    planBillingCycle?: string | null
+    achievements?: AchievementUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+    challenges?: DailyChallengeAttemptUncheckedCreateNestedManyWithoutUserInput
+    feedPosts?: FeedPostUncheckedCreateNestedManyWithoutUserInput
+    messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    postLikes?: PostLikeUncheckedCreateNestedManyWithoutUserInput
+    reviewsRecv?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
+    sessionsAsTutor?: SessionUncheckedCreateNestedManyWithoutPartnerInput
+    sessionsAsStudent?: SessionUncheckedCreateNestedManyWithoutStudentInput
+    studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
+    tutorApplication?: TutorApplicationUncheckedCreateNestedOneWithoutUserInput
+    tutorProfile?: TutorProfileUncheckedCreateNestedOneWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    resourcePurchases?: ResourcePurchaseUncheckedCreateNestedManyWithoutUserInput
+    resources?: ResourceUncheckedCreateNestedManyWithoutSellerInput
+    sessionPaymentsAsStudent?: SessionPaymentUncheckedCreateNestedManyWithoutStudentInput
+    sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
+    payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
+    matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
+  }
+
+  export type UserCreateOrConnectWithoutUserCreditsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutUserCreditsInput, UserUncheckedCreateWithoutUserCreditsInput>
+  }
+
+  export type UserUpsertWithoutUserCreditsInput = {
+    update: XOR<UserUpdateWithoutUserCreditsInput, UserUncheckedUpdateWithoutUserCreditsInput>
+    create: XOR<UserCreateWithoutUserCreditsInput, UserUncheckedCreateWithoutUserCreditsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutUserCreditsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutUserCreditsInput, UserUncheckedUpdateWithoutUserCreditsInput>
+  }
+
+  export type UserUpdateWithoutUserCreditsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    educationLevel?: NullableEnumEduLevelFieldUpdateOperationsInput | $Enums.EduLevel | null
+    formYear?: NullableIntFieldUpdateOperationsInput | number | null
+    county?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    tier?: EnumTierFieldUpdateOperationsInput | $Enums.Tier
+    streakDays?: IntFieldUpdateOperationsInput | number
+    lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isUnder18?: BoolFieldUpdateOperationsInput | boolean
+    strikes?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    settings?: JsonNullValueInput | InputJsonValue
+    curriculum?: NullableStringFieldUpdateOperationsInput | string | null
+    dailyMessageCount?: IntFieldUpdateOperationsInput | number
+    dailySearchCount?: IntFieldUpdateOperationsInput | number
+    lastCountReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionTier?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    suspended?: BoolFieldUpdateOperationsInput | boolean
+    plan?: StringFieldUpdateOperationsInput | string
+    planStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planBillingCycle?: NullableStringFieldUpdateOperationsInput | string | null
+    achievements?: AchievementUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
+    challenges?: DailyChallengeAttemptUpdateManyWithoutUserNestedInput
+    feedPosts?: FeedPostUpdateManyWithoutUserNestedInput
+    messages?: MessageUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    postLikes?: PostLikeUpdateManyWithoutUserNestedInput
+    reviewsRecv?: ReviewUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
+    sessionsAsTutor?: SessionUpdateManyWithoutPartnerNestedInput
+    sessionsAsStudent?: SessionUpdateManyWithoutStudentNestedInput
+    studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
+    tutorApplication?: TutorApplicationUpdateOneWithoutUserNestedInput
+    tutorProfile?: TutorProfileUpdateOneWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    resourcePurchases?: ResourcePurchaseUpdateManyWithoutUserNestedInput
+    resources?: ResourceUpdateManyWithoutSellerNestedInput
+    sessionPaymentsAsStudent?: SessionPaymentUpdateManyWithoutStudentNestedInput
+    sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
+    payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
+    matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutUserCreditsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    educationLevel?: NullableEnumEduLevelFieldUpdateOperationsInput | $Enums.EduLevel | null
+    formYear?: NullableIntFieldUpdateOperationsInput | number | null
+    county?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    tier?: EnumTierFieldUpdateOperationsInput | $Enums.Tier
+    streakDays?: IntFieldUpdateOperationsInput | number
+    lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isUnder18?: BoolFieldUpdateOperationsInput | boolean
+    strikes?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    settings?: JsonNullValueInput | InputJsonValue
+    curriculum?: NullableStringFieldUpdateOperationsInput | string | null
+    dailyMessageCount?: IntFieldUpdateOperationsInput | number
+    dailySearchCount?: IntFieldUpdateOperationsInput | number
+    lastCountReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionTier?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    suspended?: BoolFieldUpdateOperationsInput | boolean
+    plan?: StringFieldUpdateOperationsInput | string
+    planStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planBillingCycle?: NullableStringFieldUpdateOperationsInput | string | null
+    achievements?: AchievementUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    challenges?: DailyChallengeAttemptUncheckedUpdateManyWithoutUserNestedInput
+    feedPosts?: FeedPostUncheckedUpdateManyWithoutUserNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    postLikes?: PostLikeUncheckedUpdateManyWithoutUserNestedInput
+    reviewsRecv?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    sessionsAsTutor?: SessionUncheckedUpdateManyWithoutPartnerNestedInput
+    sessionsAsStudent?: SessionUncheckedUpdateManyWithoutStudentNestedInput
+    studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
+    tutorApplication?: TutorApplicationUncheckedUpdateOneWithoutUserNestedInput
+    tutorProfile?: TutorProfileUncheckedUpdateOneWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    resourcePurchases?: ResourcePurchaseUncheckedUpdateManyWithoutUserNestedInput
+    resources?: ResourceUncheckedUpdateManyWithoutSellerNestedInput
+    sessionPaymentsAsStudent?: SessionPaymentUncheckedUpdateManyWithoutStudentNestedInput
+    sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
+    payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
+    matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
+  }
+
+  export type UserCreateWithoutCreditTransactionsInput = {
+    id?: string
+    email: string
+    phone?: string | null
+    name: string
+    avatar?: string | null
+    role?: $Enums.Role
+    educationLevel?: $Enums.EduLevel | null
+    formYear?: number | null
+    county: string
+    points?: number
+    tier?: $Enums.Tier
+    streakDays?: number
+    lastActiveAt?: Date | string | null
+    isUnder18?: boolean
+    strikes?: number
+    createdAt?: Date | string
+    bio?: string | null
+    settings?: JsonNullValueInput | InputJsonValue
+    curriculum?: string | null
+    dailyMessageCount?: number
+    dailySearchCount?: number
+    lastCountReset?: Date | string | null
+    subscriptionTier?: string | null
+    banned?: boolean
+    suspended?: boolean
+    plan?: string
+    planStartedAt?: Date | string | null
+    planExpiresAt?: Date | string | null
+    planBillingCycle?: string | null
+    achievements?: AchievementCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
+    challenges?: DailyChallengeAttemptCreateNestedManyWithoutUserInput
+    feedPosts?: FeedPostCreateNestedManyWithoutUserInput
+    messages?: MessageCreateNestedManyWithoutSenderInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    postLikes?: PostLikeCreateNestedManyWithoutUserInput
+    reviewsRecv?: ReviewCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
+    sessionsAsTutor?: SessionCreateNestedManyWithoutPartnerInput
+    sessionsAsStudent?: SessionCreateNestedManyWithoutStudentInput
+    studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
+    tutorApplication?: TutorApplicationCreateNestedOneWithoutUserInput
+    tutorProfile?: TutorProfileCreateNestedOneWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    resourcePurchases?: ResourcePurchaseCreateNestedManyWithoutUserInput
+    resources?: ResourceCreateNestedManyWithoutSellerInput
+    sessionPaymentsAsStudent?: SessionPaymentCreateNestedManyWithoutStudentInput
+    sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
+    payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
+    matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
+  }
+
+  export type UserUncheckedCreateWithoutCreditTransactionsInput = {
+    id?: string
+    email: string
+    phone?: string | null
+    name: string
+    avatar?: string | null
+    role?: $Enums.Role
+    educationLevel?: $Enums.EduLevel | null
+    formYear?: number | null
+    county: string
+    points?: number
+    tier?: $Enums.Tier
+    streakDays?: number
+    lastActiveAt?: Date | string | null
+    isUnder18?: boolean
+    strikes?: number
+    createdAt?: Date | string
+    bio?: string | null
+    settings?: JsonNullValueInput | InputJsonValue
+    curriculum?: string | null
+    dailyMessageCount?: number
+    dailySearchCount?: number
+    lastCountReset?: Date | string | null
+    subscriptionTier?: string | null
+    banned?: boolean
+    suspended?: boolean
+    plan?: string
+    planStartedAt?: Date | string | null
+    planExpiresAt?: Date | string | null
+    planBillingCycle?: string | null
+    achievements?: AchievementUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+    challenges?: DailyChallengeAttemptUncheckedCreateNestedManyWithoutUserInput
+    feedPosts?: FeedPostUncheckedCreateNestedManyWithoutUserInput
+    messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    postLikes?: PostLikeUncheckedCreateNestedManyWithoutUserInput
+    reviewsRecv?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
+    sessionsAsTutor?: SessionUncheckedCreateNestedManyWithoutPartnerInput
+    sessionsAsStudent?: SessionUncheckedCreateNestedManyWithoutStudentInput
+    studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
+    tutorApplication?: TutorApplicationUncheckedCreateNestedOneWithoutUserInput
+    tutorProfile?: TutorProfileUncheckedCreateNestedOneWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    resourcePurchases?: ResourcePurchaseUncheckedCreateNestedManyWithoutUserInput
+    resources?: ResourceUncheckedCreateNestedManyWithoutSellerInput
+    sessionPaymentsAsStudent?: SessionPaymentUncheckedCreateNestedManyWithoutStudentInput
+    sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
+    payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
+    matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
+  }
+
+  export type UserCreateOrConnectWithoutCreditTransactionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCreditTransactionsInput, UserUncheckedCreateWithoutCreditTransactionsInput>
+  }
+
+  export type UserUpsertWithoutCreditTransactionsInput = {
+    update: XOR<UserUpdateWithoutCreditTransactionsInput, UserUncheckedUpdateWithoutCreditTransactionsInput>
+    create: XOR<UserCreateWithoutCreditTransactionsInput, UserUncheckedCreateWithoutCreditTransactionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCreditTransactionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCreditTransactionsInput, UserUncheckedUpdateWithoutCreditTransactionsInput>
+  }
+
+  export type UserUpdateWithoutCreditTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    educationLevel?: NullableEnumEduLevelFieldUpdateOperationsInput | $Enums.EduLevel | null
+    formYear?: NullableIntFieldUpdateOperationsInput | number | null
+    county?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    tier?: EnumTierFieldUpdateOperationsInput | $Enums.Tier
+    streakDays?: IntFieldUpdateOperationsInput | number
+    lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isUnder18?: BoolFieldUpdateOperationsInput | boolean
+    strikes?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    settings?: JsonNullValueInput | InputJsonValue
+    curriculum?: NullableStringFieldUpdateOperationsInput | string | null
+    dailyMessageCount?: IntFieldUpdateOperationsInput | number
+    dailySearchCount?: IntFieldUpdateOperationsInput | number
+    lastCountReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionTier?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    suspended?: BoolFieldUpdateOperationsInput | boolean
+    plan?: StringFieldUpdateOperationsInput | string
+    planStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planBillingCycle?: NullableStringFieldUpdateOperationsInput | string | null
+    achievements?: AchievementUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
+    challenges?: DailyChallengeAttemptUpdateManyWithoutUserNestedInput
+    feedPosts?: FeedPostUpdateManyWithoutUserNestedInput
+    messages?: MessageUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    postLikes?: PostLikeUpdateManyWithoutUserNestedInput
+    reviewsRecv?: ReviewUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
+    sessionsAsTutor?: SessionUpdateManyWithoutPartnerNestedInput
+    sessionsAsStudent?: SessionUpdateManyWithoutStudentNestedInput
+    studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
+    tutorApplication?: TutorApplicationUpdateOneWithoutUserNestedInput
+    tutorProfile?: TutorProfileUpdateOneWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    resourcePurchases?: ResourcePurchaseUpdateManyWithoutUserNestedInput
+    resources?: ResourceUpdateManyWithoutSellerNestedInput
+    sessionPaymentsAsStudent?: SessionPaymentUpdateManyWithoutStudentNestedInput
+    sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
+    payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
+    matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCreditTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    educationLevel?: NullableEnumEduLevelFieldUpdateOperationsInput | $Enums.EduLevel | null
+    formYear?: NullableIntFieldUpdateOperationsInput | number | null
+    county?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    tier?: EnumTierFieldUpdateOperationsInput | $Enums.Tier
+    streakDays?: IntFieldUpdateOperationsInput | number
+    lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isUnder18?: BoolFieldUpdateOperationsInput | boolean
+    strikes?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    settings?: JsonNullValueInput | InputJsonValue
+    curriculum?: NullableStringFieldUpdateOperationsInput | string | null
+    dailyMessageCount?: IntFieldUpdateOperationsInput | number
+    dailySearchCount?: IntFieldUpdateOperationsInput | number
+    lastCountReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionTier?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    suspended?: BoolFieldUpdateOperationsInput | boolean
+    plan?: StringFieldUpdateOperationsInput | string
+    planStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planBillingCycle?: NullableStringFieldUpdateOperationsInput | string | null
+    achievements?: AchievementUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    challenges?: DailyChallengeAttemptUncheckedUpdateManyWithoutUserNestedInput
+    feedPosts?: FeedPostUncheckedUpdateManyWithoutUserNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    postLikes?: PostLikeUncheckedUpdateManyWithoutUserNestedInput
+    reviewsRecv?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    sessionsAsTutor?: SessionUncheckedUpdateManyWithoutPartnerNestedInput
+    sessionsAsStudent?: SessionUncheckedUpdateManyWithoutStudentNestedInput
+    studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
+    tutorApplication?: TutorApplicationUncheckedUpdateOneWithoutUserNestedInput
+    tutorProfile?: TutorProfileUncheckedUpdateOneWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    resourcePurchases?: ResourcePurchaseUncheckedUpdateManyWithoutUserNestedInput
+    resources?: ResourceUncheckedUpdateManyWithoutSellerNestedInput
+    sessionPaymentsAsStudent?: SessionPaymentUncheckedUpdateManyWithoutStudentNestedInput
+    sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
+    payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
+    matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type ChallengeCompletionCreateWithoutChallengeInput = {
@@ -54537,6 +61390,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutPaymentsInput = {
@@ -54589,6 +61446,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutPaymentsInput = {
@@ -54657,6 +61518,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPaymentsInput = {
@@ -54709,6 +61574,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type SessionCreateWithoutPaymentsInput = {
@@ -54806,6 +61675,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutSessionPaymentsAsStudentInput = {
@@ -54858,6 +61731,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutSessionPaymentsAsStudentInput = {
@@ -54915,6 +61792,10 @@ export namespace Prisma {
     sessionPaymentsAsStudent?: SessionPaymentCreateNestedManyWithoutStudentInput
     payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutSessionPaymentsAsTutorInput = {
@@ -54967,6 +61848,10 @@ export namespace Prisma {
     sessionPaymentsAsStudent?: SessionPaymentUncheckedCreateNestedManyWithoutStudentInput
     payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutSessionPaymentsAsTutorInput = {
@@ -55086,6 +61971,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionPaymentsAsStudentInput = {
@@ -55138,6 +62027,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUpsertWithoutSessionPaymentsAsTutorInput = {
@@ -55201,6 +62094,10 @@ export namespace Prisma {
     sessionPaymentsAsStudent?: SessionPaymentUpdateManyWithoutStudentNestedInput
     payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionPaymentsAsTutorInput = {
@@ -55253,6 +62150,10 @@ export namespace Prisma {
     sessionPaymentsAsStudent?: SessionPaymentUncheckedUpdateManyWithoutStudentNestedInput
     payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type UserCreateWithoutPayoutsInput = {
@@ -55305,6 +62206,10 @@ export namespace Prisma {
     sessionPaymentsAsStudent?: SessionPaymentCreateNestedManyWithoutStudentInput
     sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutPayoutsInput = {
@@ -55357,6 +62262,10 @@ export namespace Prisma {
     sessionPaymentsAsStudent?: SessionPaymentUncheckedCreateNestedManyWithoutStudentInput
     sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutPayoutsInput = {
@@ -55425,6 +62334,10 @@ export namespace Prisma {
     sessionPaymentsAsStudent?: SessionPaymentUpdateManyWithoutStudentNestedInput
     sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPayoutsInput = {
@@ -55477,6 +62390,338 @@ export namespace Prisma {
     sessionPaymentsAsStudent?: SessionPaymentUncheckedUpdateManyWithoutStudentNestedInput
     sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
+  }
+
+  export type ResourceCreateWithoutSellerEarningsInput = {
+    id?: string
+    title: string
+    subject: string
+    educationLevel: string
+    resourceType?: string | null
+    topic?: string | null
+    description?: string | null
+    price: number
+    filePath: string
+    downloads?: number | null
+    rating?: number | null
+    status?: string
+    createdAt?: Date | string | null
+    purchases?: ResourcePurchaseCreateNestedManyWithoutResourceInput
+    seller: UserCreateNestedOneWithoutResourcesInput
+  }
+
+  export type ResourceUncheckedCreateWithoutSellerEarningsInput = {
+    id?: string
+    sellerId: string
+    title: string
+    subject: string
+    educationLevel: string
+    resourceType?: string | null
+    topic?: string | null
+    description?: string | null
+    price: number
+    filePath: string
+    downloads?: number | null
+    rating?: number | null
+    status?: string
+    createdAt?: Date | string | null
+    purchases?: ResourcePurchaseUncheckedCreateNestedManyWithoutResourceInput
+  }
+
+  export type ResourceCreateOrConnectWithoutSellerEarningsInput = {
+    where: ResourceWhereUniqueInput
+    create: XOR<ResourceCreateWithoutSellerEarningsInput, ResourceUncheckedCreateWithoutSellerEarningsInput>
+  }
+
+  export type UserCreateWithoutSellerEarningsInput = {
+    id?: string
+    email: string
+    phone?: string | null
+    name: string
+    avatar?: string | null
+    role?: $Enums.Role
+    educationLevel?: $Enums.EduLevel | null
+    formYear?: number | null
+    county: string
+    points?: number
+    tier?: $Enums.Tier
+    streakDays?: number
+    lastActiveAt?: Date | string | null
+    isUnder18?: boolean
+    strikes?: number
+    createdAt?: Date | string
+    bio?: string | null
+    settings?: JsonNullValueInput | InputJsonValue
+    curriculum?: string | null
+    dailyMessageCount?: number
+    dailySearchCount?: number
+    lastCountReset?: Date | string | null
+    subscriptionTier?: string | null
+    banned?: boolean
+    suspended?: boolean
+    plan?: string
+    planStartedAt?: Date | string | null
+    planExpiresAt?: Date | string | null
+    planBillingCycle?: string | null
+    achievements?: AchievementCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
+    challenges?: DailyChallengeAttemptCreateNestedManyWithoutUserInput
+    feedPosts?: FeedPostCreateNestedManyWithoutUserInput
+    messages?: MessageCreateNestedManyWithoutSenderInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    postLikes?: PostLikeCreateNestedManyWithoutUserInput
+    reviewsRecv?: ReviewCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
+    sessionsAsTutor?: SessionCreateNestedManyWithoutPartnerInput
+    sessionsAsStudent?: SessionCreateNestedManyWithoutStudentInput
+    studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
+    tutorApplication?: TutorApplicationCreateNestedOneWithoutUserInput
+    tutorProfile?: TutorProfileCreateNestedOneWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    resourcePurchases?: ResourcePurchaseCreateNestedManyWithoutUserInput
+    resources?: ResourceCreateNestedManyWithoutSellerInput
+    sessionPaymentsAsStudent?: SessionPaymentCreateNestedManyWithoutStudentInput
+    sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
+    payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
+    matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutSellerEarningsInput = {
+    id?: string
+    email: string
+    phone?: string | null
+    name: string
+    avatar?: string | null
+    role?: $Enums.Role
+    educationLevel?: $Enums.EduLevel | null
+    formYear?: number | null
+    county: string
+    points?: number
+    tier?: $Enums.Tier
+    streakDays?: number
+    lastActiveAt?: Date | string | null
+    isUnder18?: boolean
+    strikes?: number
+    createdAt?: Date | string
+    bio?: string | null
+    settings?: JsonNullValueInput | InputJsonValue
+    curriculum?: string | null
+    dailyMessageCount?: number
+    dailySearchCount?: number
+    lastCountReset?: Date | string | null
+    subscriptionTier?: string | null
+    banned?: boolean
+    suspended?: boolean
+    plan?: string
+    planStartedAt?: Date | string | null
+    planExpiresAt?: Date | string | null
+    planBillingCycle?: string | null
+    achievements?: AchievementUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+    challenges?: DailyChallengeAttemptUncheckedCreateNestedManyWithoutUserInput
+    feedPosts?: FeedPostUncheckedCreateNestedManyWithoutUserInput
+    messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    postLikes?: PostLikeUncheckedCreateNestedManyWithoutUserInput
+    reviewsRecv?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
+    sessionsAsTutor?: SessionUncheckedCreateNestedManyWithoutPartnerInput
+    sessionsAsStudent?: SessionUncheckedCreateNestedManyWithoutStudentInput
+    studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
+    tutorApplication?: TutorApplicationUncheckedCreateNestedOneWithoutUserInput
+    tutorProfile?: TutorProfileUncheckedCreateNestedOneWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    resourcePurchases?: ResourcePurchaseUncheckedCreateNestedManyWithoutUserInput
+    resources?: ResourceUncheckedCreateNestedManyWithoutSellerInput
+    sessionPaymentsAsStudent?: SessionPaymentUncheckedCreateNestedManyWithoutStudentInput
+    sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
+    payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
+    matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutSellerEarningsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSellerEarningsInput, UserUncheckedCreateWithoutSellerEarningsInput>
+  }
+
+  export type ResourceUpsertWithoutSellerEarningsInput = {
+    update: XOR<ResourceUpdateWithoutSellerEarningsInput, ResourceUncheckedUpdateWithoutSellerEarningsInput>
+    create: XOR<ResourceCreateWithoutSellerEarningsInput, ResourceUncheckedCreateWithoutSellerEarningsInput>
+    where?: ResourceWhereInput
+  }
+
+  export type ResourceUpdateToOneWithWhereWithoutSellerEarningsInput = {
+    where?: ResourceWhereInput
+    data: XOR<ResourceUpdateWithoutSellerEarningsInput, ResourceUncheckedUpdateWithoutSellerEarningsInput>
+  }
+
+  export type ResourceUpdateWithoutSellerEarningsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    educationLevel?: StringFieldUpdateOperationsInput | string
+    resourceType?: NullableStringFieldUpdateOperationsInput | string | null
+    topic?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    filePath?: StringFieldUpdateOperationsInput | string
+    downloads?: NullableIntFieldUpdateOperationsInput | number | null
+    rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    purchases?: ResourcePurchaseUpdateManyWithoutResourceNestedInput
+    seller?: UserUpdateOneRequiredWithoutResourcesNestedInput
+  }
+
+  export type ResourceUncheckedUpdateWithoutSellerEarningsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sellerId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    educationLevel?: StringFieldUpdateOperationsInput | string
+    resourceType?: NullableStringFieldUpdateOperationsInput | string | null
+    topic?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    filePath?: StringFieldUpdateOperationsInput | string
+    downloads?: NullableIntFieldUpdateOperationsInput | number | null
+    rating?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    purchases?: ResourcePurchaseUncheckedUpdateManyWithoutResourceNestedInput
+  }
+
+  export type UserUpsertWithoutSellerEarningsInput = {
+    update: XOR<UserUpdateWithoutSellerEarningsInput, UserUncheckedUpdateWithoutSellerEarningsInput>
+    create: XOR<UserCreateWithoutSellerEarningsInput, UserUncheckedCreateWithoutSellerEarningsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSellerEarningsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSellerEarningsInput, UserUncheckedUpdateWithoutSellerEarningsInput>
+  }
+
+  export type UserUpdateWithoutSellerEarningsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    educationLevel?: NullableEnumEduLevelFieldUpdateOperationsInput | $Enums.EduLevel | null
+    formYear?: NullableIntFieldUpdateOperationsInput | number | null
+    county?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    tier?: EnumTierFieldUpdateOperationsInput | $Enums.Tier
+    streakDays?: IntFieldUpdateOperationsInput | number
+    lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isUnder18?: BoolFieldUpdateOperationsInput | boolean
+    strikes?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    settings?: JsonNullValueInput | InputJsonValue
+    curriculum?: NullableStringFieldUpdateOperationsInput | string | null
+    dailyMessageCount?: IntFieldUpdateOperationsInput | number
+    dailySearchCount?: IntFieldUpdateOperationsInput | number
+    lastCountReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionTier?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    suspended?: BoolFieldUpdateOperationsInput | boolean
+    plan?: StringFieldUpdateOperationsInput | string
+    planStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planBillingCycle?: NullableStringFieldUpdateOperationsInput | string | null
+    achievements?: AchievementUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
+    challenges?: DailyChallengeAttemptUpdateManyWithoutUserNestedInput
+    feedPosts?: FeedPostUpdateManyWithoutUserNestedInput
+    messages?: MessageUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    postLikes?: PostLikeUpdateManyWithoutUserNestedInput
+    reviewsRecv?: ReviewUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
+    sessionsAsTutor?: SessionUpdateManyWithoutPartnerNestedInput
+    sessionsAsStudent?: SessionUpdateManyWithoutStudentNestedInput
+    studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
+    tutorApplication?: TutorApplicationUpdateOneWithoutUserNestedInput
+    tutorProfile?: TutorProfileUpdateOneWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    resourcePurchases?: ResourcePurchaseUpdateManyWithoutUserNestedInput
+    resources?: ResourceUpdateManyWithoutSellerNestedInput
+    sessionPaymentsAsStudent?: SessionPaymentUpdateManyWithoutStudentNestedInput
+    sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
+    payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
+    matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSellerEarningsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    educationLevel?: NullableEnumEduLevelFieldUpdateOperationsInput | $Enums.EduLevel | null
+    formYear?: NullableIntFieldUpdateOperationsInput | number | null
+    county?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    tier?: EnumTierFieldUpdateOperationsInput | $Enums.Tier
+    streakDays?: IntFieldUpdateOperationsInput | number
+    lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isUnder18?: BoolFieldUpdateOperationsInput | boolean
+    strikes?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    settings?: JsonNullValueInput | InputJsonValue
+    curriculum?: NullableStringFieldUpdateOperationsInput | string | null
+    dailyMessageCount?: IntFieldUpdateOperationsInput | number
+    dailySearchCount?: IntFieldUpdateOperationsInput | number
+    lastCountReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionTier?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    suspended?: BoolFieldUpdateOperationsInput | boolean
+    plan?: StringFieldUpdateOperationsInput | string
+    planStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planBillingCycle?: NullableStringFieldUpdateOperationsInput | string | null
+    achievements?: AchievementUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    challenges?: DailyChallengeAttemptUncheckedUpdateManyWithoutUserNestedInput
+    feedPosts?: FeedPostUncheckedUpdateManyWithoutUserNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    postLikes?: PostLikeUncheckedUpdateManyWithoutUserNestedInput
+    reviewsRecv?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    sessionsAsTutor?: SessionUncheckedUpdateManyWithoutPartnerNestedInput
+    sessionsAsStudent?: SessionUncheckedUpdateManyWithoutStudentNestedInput
+    studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
+    tutorApplication?: TutorApplicationUncheckedUpdateOneWithoutUserNestedInput
+    tutorProfile?: TutorProfileUncheckedUpdateOneWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    resourcePurchases?: ResourcePurchaseUncheckedUpdateManyWithoutUserNestedInput
+    resources?: ResourceUncheckedUpdateManyWithoutSellerNestedInput
+    sessionPaymentsAsStudent?: SessionPaymentUncheckedUpdateManyWithoutStudentNestedInput
+    sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
+    payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
+    matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ResourcePurchaseCreateWithoutResourceInput = {
@@ -55506,6 +62751,34 @@ export namespace Prisma {
 
   export type ResourcePurchaseCreateManyResourceInputEnvelope = {
     data: ResourcePurchaseCreateManyResourceInput | ResourcePurchaseCreateManyResourceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SellerEarningCreateWithoutResourceInput = {
+    id?: string
+    amount: number
+    mpesaReceipt?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string | null
+    seller: UserCreateNestedOneWithoutSellerEarningsInput
+  }
+
+  export type SellerEarningUncheckedCreateWithoutResourceInput = {
+    id?: string
+    sellerId: string
+    amount: number
+    mpesaReceipt?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string | null
+  }
+
+  export type SellerEarningCreateOrConnectWithoutResourceInput = {
+    where: SellerEarningWhereUniqueInput
+    create: XOR<SellerEarningCreateWithoutResourceInput, SellerEarningUncheckedCreateWithoutResourceInput>
+  }
+
+  export type SellerEarningCreateManyResourceInputEnvelope = {
+    data: SellerEarningCreateManyResourceInput | SellerEarningCreateManyResourceInput[]
     skipDuplicates?: boolean
   }
 
@@ -55559,6 +62832,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutResourcesInput = {
@@ -55611,6 +62888,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutResourcesInput = {
@@ -55632,6 +62913,22 @@ export namespace Prisma {
   export type ResourcePurchaseUpdateManyWithWhereWithoutResourceInput = {
     where: ResourcePurchaseScalarWhereInput
     data: XOR<ResourcePurchaseUpdateManyMutationInput, ResourcePurchaseUncheckedUpdateManyWithoutResourceInput>
+  }
+
+  export type SellerEarningUpsertWithWhereUniqueWithoutResourceInput = {
+    where: SellerEarningWhereUniqueInput
+    update: XOR<SellerEarningUpdateWithoutResourceInput, SellerEarningUncheckedUpdateWithoutResourceInput>
+    create: XOR<SellerEarningCreateWithoutResourceInput, SellerEarningUncheckedCreateWithoutResourceInput>
+  }
+
+  export type SellerEarningUpdateWithWhereUniqueWithoutResourceInput = {
+    where: SellerEarningWhereUniqueInput
+    data: XOR<SellerEarningUpdateWithoutResourceInput, SellerEarningUncheckedUpdateWithoutResourceInput>
+  }
+
+  export type SellerEarningUpdateManyWithWhereWithoutResourceInput = {
+    where: SellerEarningScalarWhereInput
+    data: XOR<SellerEarningUpdateManyMutationInput, SellerEarningUncheckedUpdateManyWithoutResourceInput>
   }
 
   export type UserUpsertWithoutResourcesInput = {
@@ -55695,6 +62992,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutResourcesInput = {
@@ -55747,6 +63048,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type ResourceCreateWithoutPurchasesInput = {
@@ -55754,6 +63059,8 @@ export namespace Prisma {
     title: string
     subject: string
     educationLevel: string
+    resourceType?: string | null
+    topic?: string | null
     description?: string | null
     price: number
     filePath: string
@@ -55761,6 +63068,7 @@ export namespace Prisma {
     rating?: number | null
     status?: string
     createdAt?: Date | string | null
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutResourceInput
     seller: UserCreateNestedOneWithoutResourcesInput
   }
 
@@ -55770,6 +63078,8 @@ export namespace Prisma {
     title: string
     subject: string
     educationLevel: string
+    resourceType?: string | null
+    topic?: string | null
     description?: string | null
     price: number
     filePath: string
@@ -55777,6 +63087,7 @@ export namespace Prisma {
     rating?: number | null
     status?: string
     createdAt?: Date | string | null
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutResourceInput
   }
 
   export type ResourceCreateOrConnectWithoutPurchasesInput = {
@@ -55834,6 +63145,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutResourcePurchasesInput = {
@@ -55886,6 +63201,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
     payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
     matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutResourcePurchasesInput = {
@@ -55909,6 +63228,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     educationLevel?: StringFieldUpdateOperationsInput | string
+    resourceType?: NullableStringFieldUpdateOperationsInput | string | null
+    topic?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     filePath?: StringFieldUpdateOperationsInput | string
@@ -55916,6 +63237,7 @@ export namespace Prisma {
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sellerEarnings?: SellerEarningUpdateManyWithoutResourceNestedInput
     seller?: UserUpdateOneRequiredWithoutResourcesNestedInput
   }
 
@@ -55925,6 +63247,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     educationLevel?: StringFieldUpdateOperationsInput | string
+    resourceType?: NullableStringFieldUpdateOperationsInput | string | null
+    topic?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     filePath?: StringFieldUpdateOperationsInput | string
@@ -55932,6 +63256,7 @@ export namespace Prisma {
     rating?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutResourceNestedInput
   }
 
   export type UserUpsertWithoutResourcePurchasesInput = {
@@ -55995,6 +63320,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutResourcePurchasesInput = {
@@ -56047,6 +63376,10 @@ export namespace Prisma {
     sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
     payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
     matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type AchievementCreateManyUserInput = {
@@ -56189,6 +63522,8 @@ export namespace Prisma {
     title: string
     subject: string
     educationLevel: string
+    resourceType?: string | null
+    topic?: string | null
     description?: string | null
     price: number
     filePath: string
@@ -56244,6 +63579,39 @@ export namespace Prisma {
     sessionId?: string | null
     createdAt?: Date | string
     resolvedAt?: Date | string | null
+  }
+
+  export type NewsArticleCreateManyAuthorInput = {
+    id?: string
+    title: string
+    slug: string
+    category: string
+    body: string
+    coverImage?: string | null
+    summary?: string | null
+    publishedAt?: Date | string | null
+    isDraft?: boolean
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+  }
+
+  export type CreditTransactionCreateManyUserInput = {
+    id?: string
+    amount: number
+    type: string
+    description?: string | null
+    reference?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SellerEarningCreateManySellerInput = {
+    id?: string
+    resourceId: string
+    amount: number
+    mpesaReceipt?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string | null
   }
 
   export type AchievementUpdateWithoutUserInput = {
@@ -56672,6 +64040,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     educationLevel?: StringFieldUpdateOperationsInput | string
+    resourceType?: NullableStringFieldUpdateOperationsInput | string | null
+    topic?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     filePath?: StringFieldUpdateOperationsInput | string
@@ -56680,6 +64050,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     purchases?: ResourcePurchaseUpdateManyWithoutResourceNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutResourceNestedInput
   }
 
   export type ResourceUncheckedUpdateWithoutSellerInput = {
@@ -56687,6 +64058,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     educationLevel?: StringFieldUpdateOperationsInput | string
+    resourceType?: NullableStringFieldUpdateOperationsInput | string | null
+    topic?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     filePath?: StringFieldUpdateOperationsInput | string
@@ -56695,6 +64068,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     purchases?: ResourcePurchaseUncheckedUpdateManyWithoutResourceNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutResourceNestedInput
   }
 
   export type ResourceUncheckedUpdateManyWithoutSellerInput = {
@@ -56702,6 +64076,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     educationLevel?: StringFieldUpdateOperationsInput | string
+    resourceType?: NullableStringFieldUpdateOperationsInput | string | null
+    topic?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     filePath?: StringFieldUpdateOperationsInput | string
@@ -56853,6 +64229,105 @@ export namespace Prisma {
     sessionId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type NewsArticleUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDraft?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type NewsArticleUncheckedUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDraft?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type NewsArticleUncheckedUpdateManyWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDraft?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CreditTransactionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CreditTransactionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CreditTransactionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SellerEarningUpdateWithoutSellerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    mpesaReceipt?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resource?: ResourceUpdateOneRequiredWithoutSellerEarningsNestedInput
+  }
+
+  export type SellerEarningUncheckedUpdateWithoutSellerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    mpesaReceipt?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SellerEarningUncheckedUpdateManyWithoutSellerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    resourceId?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    mpesaReceipt?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type MessageCreateManySessionInput = {
@@ -57093,6 +64568,15 @@ export namespace Prisma {
     paidAt?: Date | string | null
   }
 
+  export type SellerEarningCreateManyResourceInput = {
+    id?: string
+    sellerId: string
+    amount: number
+    mpesaReceipt?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string | null
+  }
+
   export type ResourcePurchaseUpdateWithoutResourceInput = {
     id?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
@@ -57121,6 +64605,33 @@ export namespace Prisma {
     sellerPayout?: IntFieldUpdateOperationsInput | number
     mpesaReceipt?: NullableStringFieldUpdateOperationsInput | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SellerEarningUpdateWithoutResourceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    mpesaReceipt?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    seller?: UserUpdateOneRequiredWithoutSellerEarningsNestedInput
+  }
+
+  export type SellerEarningUncheckedUpdateWithoutResourceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sellerId?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    mpesaReceipt?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SellerEarningUncheckedUpdateManyWithoutResourceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sellerId?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    mpesaReceipt?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
 
@@ -57245,6 +64756,14 @@ export namespace Prisma {
      */
     export type NewsArticleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = NewsArticleDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use UserCreditsDefaultArgs instead
+     */
+    export type UserCreditsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserCreditsDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use CreditTransactionDefaultArgs instead
+     */
+    export type CreditTransactionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CreditTransactionDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use TestimonialDefaultArgs instead
      */
     export type TestimonialArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = TestimonialDefaultArgs<ExtArgs>
@@ -57280,6 +64799,14 @@ export namespace Prisma {
      * @deprecated Use TutorPayoutDefaultArgs instead
      */
     export type TutorPayoutArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = TutorPayoutDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use SellerEarningDefaultArgs instead
+     */
+    export type SellerEarningArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SellerEarningDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use CurriculumTopicDefaultArgs instead
+     */
+    export type CurriculumTopicArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CurriculumTopicDefaultArgs<ExtArgs>
     /**
      * @deprecated Use ResourceDefaultArgs instead
      */

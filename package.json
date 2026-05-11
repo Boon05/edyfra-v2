@@ -34,6 +34,7 @@
     "paystack-api": "^2.0.6",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-dropzone": "^15.0.0",
     "react-hook-form": "^7.75.0",
     "resend": "^6.12.2",
     "shadcn": "^4.6.0",

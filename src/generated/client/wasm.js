@@ -384,6 +384,26 @@ exports.Prisma.NewsArticleScalarFieldEnum = {
   summary: 'summary',
   publishedAt: 'publishedAt',
   isDraft: 'isDraft',
+  authorId: 'authorId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.UserCreditsScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  balance: 'balance',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CreditTransactionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  amount: 'amount',
+  type: 'type',
+  description: 'description',
+  reference: 'reference',
   createdAt: 'createdAt'
 };
 
@@ -495,12 +515,35 @@ exports.Prisma.TutorPayoutScalarFieldEnum = {
   status: 'status'
 };
 
+exports.Prisma.SellerEarningScalarFieldEnum = {
+  id: 'id',
+  sellerId: 'sellerId',
+  resourceId: 'resourceId',
+  amount: 'amount',
+  mpesaReceipt: 'mpesaReceipt',
+  paidAt: 'paidAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CurriculumTopicScalarFieldEnum = {
+  id: 'id',
+  subject: 'subject',
+  level: 'level',
+  formYear: 'formYear',
+  topicName: 'topicName',
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ResourceScalarFieldEnum = {
   id: 'id',
   sellerId: 'sellerId',
   title: 'title',
   subject: 'subject',
   educationLevel: 'educationLevel',
+  resourceType: 'resourceType',
+  topic: 'topic',
   description: 'description',
   price: 'price',
   filePath: 'filePath',
@@ -625,6 +668,8 @@ exports.Prisma.ModelName = {
   Report: 'Report',
   Announcement: 'Announcement',
   NewsArticle: 'NewsArticle',
+  UserCredits: 'UserCredits',
+  CreditTransaction: 'CreditTransaction',
   Testimonial: 'Testimonial',
   NotificationSettings: 'NotificationSettings',
   UserPreferences: 'UserPreferences',
@@ -634,6 +679,8 @@ exports.Prisma.ModelName = {
   Payment: 'Payment',
   SessionPayment: 'SessionPayment',
   TutorPayout: 'TutorPayout',
+  SellerEarning: 'SellerEarning',
+  CurriculumTopic: 'CurriculumTopic',
   Resource: 'Resource',
   ResourcePurchase: 'ResourcePurchase',
   newsletter_subscribers: 'newsletter_subscribers'

@@ -13,6 +13,7 @@ export interface NewsArticle {
   author: string;
   published_at: string;
   reading_time?: string;
+  isDraft?: boolean;
 }
 
 import { RSSService, RSSItem } from "@/utils/rss-service";
@@ -24,6 +25,7 @@ export async function getLatestNews(limit = 10): Promise<NewsArticle[]> {
   const { data, error } = await supabase
     .from("news_articles")
     .select("*")
+    .eq("status", "published")
     .order("published_at", { ascending: false })
     .limit(limit);
 

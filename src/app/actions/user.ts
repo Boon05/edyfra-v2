@@ -513,16 +513,18 @@ export async function changeEmail(newEmail: string) {
 
 export async function getGlobalStats() {
   try {
-    const [studentCount, tutorCount, sessionCount] = await Promise.all([
+    const [studentCount, tutorCount, sessionCount, resourceCount] = await Promise.all([
       prisma.user.count({ where: { role: Role.STUDENT } }),
-      prisma.user.count({ where: { role: Role.TUTOR } }),
+      prisma.tutorProfile.count({ where: { isVerified: true } }),
       prisma.session.count({ where: { status: "COMPLETED" } }),
+      prisma.resource.count({ where: { status: "approved" } }),
     ]);
 
     return [
-      { value: studentCount, label: "Students" },
-      { value: tutorCount, label: "Verified Mentors" },
-      { value: sessionCount, label: "Study Sessions" },
+      { value: studentCount, label: "Students Joined" },
+      { value: tutorCount, label: "Verified Tutors" },
+      { value: sessionCount, label: "Sessions Completed" },
+      { value: resourceCount, label: "Resources Shared" },
     ];
   } catch (error) {
     console.error("Error in getGlobalStats:", error);

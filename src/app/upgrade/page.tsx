@@ -40,6 +40,19 @@ const plans = [
     buttonText: "Upgrade to Plus",
     popular: true,
   },
+  {
+    name: "Study Credits",
+    price: "One-time",
+    description: "Buy credits as you need them, no subscription",
+    features: [
+      "Spend on extra Mash AI chats",
+      "Spend on priority matching",
+      "Spend on unlocking tutor sessions",
+      "Credits never expire",
+      "Available to all students",
+    ],
+    buttonText: "Buy Credits",
+  },
 ];
 
 export default function UpgradePage() {
@@ -48,19 +61,16 @@ export default function UpgradePage() {
   const [loading, setLoading] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
 
-  const handleUpgrade = async () => {
+  const handleUpgrade = async (planType: string, amount: number, id: string) => {
     setLoading(true);
     try {
-      const planId = billingCycle === "monthly" ? "plus_monthly" : "plus_yearly";
-      const amount = billingCycle === "monthly" ? 299 : 2499;
-
       const res = await fetch("/api/paystack/initialize", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           amount,
-          type: "subscription",
-          id: planId,
+          type: planType,
+          id,
         }),
       });
 
@@ -112,53 +122,124 @@ export default function UpgradePage() {
 
         {/* Plans Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-          {plans.map((plan) => (
-            <div 
-              key={plan.name}
-              className={`p-8 rounded-[2.5rem] border ${plan.popular ? "border-primary bg-primary/5 ring-1 ring-primary/20" : "border-border bg-secondary/20"} space-y-8 relative overflow-hidden`}
-            >
-              {plan.popular && (
-                <div className="absolute top-6 right-6 bg-primary text-white text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest shadow-lg shadow-primary/20 flex items-center gap-1.5">
-                  <Crown className="h-3 w-3" /> Most Popular
-                </div>
-              )}
-              
-              <div className="space-y-2">
-                <h3 className="text-2xl font-black tracking-tightest">{plan.name}</h3>
-                <p className="text-muted-foreground text-sm font-medium">{plan.description}</p>
+{plans.map((plan) => {
+  // For Study Credits plan, we'll handle it differently
+  if (plan.name === "Study Credits") {
+    return (
+      <div 
+        key={plan.name}
+        className={`p-8 rounded-[2.5rem] border border-border bg-secondary/20 space-y-8 relative overflow-hidden`}
+      >
+        <div className="space-y-2">
+          <h3 className="text-2xl font-black tracking-tightest">{plan.name}</h3>
+          <p className="text-muted-foreground text-sm font-medium">{plan.description}</p>
+        </div>
+        
+        <div className="space-y-4">
+          {plan.features.map((feature) => (
+            <li key={feature} className="flex items-center gap-3 text-sm font-medium text-foreground/80">
+              <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                <Check className="h-3 w-3 text-primary" />
               </div>
-
-              <div className="flex items-baseline gap-1">
-                <span className="text-4xl font-black tracking-tightest">KES {billingCycle === "yearly" && plan.yearlyPrice ? plan.yearlyPrice : plan.price}</span>
-                <span className="text-muted-foreground font-medium text-sm">/{billingCycle === "yearly" ? "year" : "month"}</span>
-              </div>
-
-              <ul className="space-y-4">
-                {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-center gap-3 text-sm font-medium text-foreground/80">
-                    <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                      <Check className="h-3 w-3 text-primary" />
-                    </div>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-
-              {plan.current ? (
-                <Button disabled variant="outline" className="w-full h-14 rounded-2xl border-2 font-black text-xs uppercase tracking-widest">
-                  Current Plan
-                </Button>
-              ) : (
-                <Button 
-                  onClick={handleUpgrade}
-                  disabled={loading}
-                  className="w-full h-14 rounded-2xl bg-primary text-white hover:bg-primary/90 font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/20 transition-all active:scale-95"
-                >
-                  {loading ? "Preparing..." : "Confirm Upgrade"}
-                </Button>
-              )}
-            </div>
+              {feature}
+            </li>
           ))}
+        </div>
+        
+        {/* Credit purchase options */}
+        <div className="space-y-4">
+          <div className="border rounded-xl p-4">
+            <p className="font-medium mb-2">Choose credit pack:</p>
+            <div className="space-y-3">
+              <Button 
+                onClick={() => handleUpgrade("credit", 500, "credits_500")}
+                className="w-full flex items-center justify-between px-4 py-3 bg-secondary/50 hover:bg-secondary/100 rounded-lg transition-colors"
+              >
+                <span className="text-left w-1/2">
+                  500 Credits
+                </span>
+                <span className="text-right font-semibold">KES 500</span>
+              </Button>
+              
+              <Button 
+                onClick={() => handleUpgrade("credit", 1000, "credits_1000")}
+                className="w-full flex items-center justify-between px-4 py-3 bg-secondary/50 hover:bg-secondary/100 rounded-lg transition-colors"
+              >
+                <span className="text-left w-1/2">
+                  1,000 Credits
+                </span>
+                <span className="text-right font-semibold">KES 1,000</span>
+              </Button>
+              
+              <Button 
+                onClick={() => handleUpgrade("credit", 2000, "credits_2000")}
+                className="w-full flex items-center justify-between px-4 py-3 bg-secondary/50 hover:bg-secondary/100 rounded-lg transition-colors"
+              >
+                <span className="text-left w-1/2">
+                  2,000 Credits
+                </span>
+                <span className="text-right font-semibold">KES 2,000</span>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  
+  // For subscription plans (Free and Plus)
+  return (
+    <div 
+      key={plan.name}
+      className={`p-8 rounded-[2.5rem] border ${plan.popular ? "border-primary bg-primary/5 ring-1 ring-primary/20" : "border-border bg-secondary/20"} space-y-8 relative overflow-hidden`}
+    >
+      {plan.popular && (
+        <div className="absolute top-6 right-6 bg-primary text-white text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest shadow-lg shadow-primary/20 flex items-center gap-1.5">
+          <Crown className="h-3 w-3" /> Most Popular
+        </div>
+      )}
+      
+      <div className="space-y-2">
+        <h3 className="text-2xl font-black tracking-tightest">{plan.name}</h3>
+        <p className="text-muted-foreground text-sm font-medium">{plan.description}</p>
+      </div>
+      
+      <div className="flex items-baseline gap-1">
+        <span className="text-4xl font-black tracking-tightest">KES {billingCycle === "yearly" && plan.yearlyPrice ? plan.yearlyPrice : plan.price}</span>
+        <span className="text-muted-foreground font-medium text-sm">/{billingCycle === "yearly" ? "year" : "month"}</span>
+      </div>
+      
+      <ul className="space-y-4">
+        {plan.features.map((feature) => (
+          <li key={feature} className="flex items-center gap-3 text-sm font-medium text-foreground/80">
+            <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+              <Check className="h-3 w-3 text-primary" />
+            </div>
+            {feature}
+          </li>
+        ))}
+      </ul>
+      
+      {plan.current ? (
+        <Button disabled variant="outline" className="w-full h-14 rounded-2xl border-2 font-black text-xs uppercase tracking-widest">
+          Current Plan
+        </Button>
+      ) : (
+        <Button 
+          onClick={() => handleUpgrade(
+            "subscription", 
+            billingCycle === "monthly" ? 299 : 2499, 
+            billingCycle === "monthly" ? "plus_monthly" : "plus_yearly"
+          )}
+          disabled={loading}
+          className="w-full h-14 rounded-2xl bg-primary text-white hover:bg-primary/90 font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/20 transition-all active:scale-95"
+        >
+          {loading ? "Preparing..." : "Confirm Upgrade"}
+        </Button>
+      )}
+    </div>
+  );
+})}
         </div>
 
         <div className="flex items-center justify-center gap-6 opacity-40">

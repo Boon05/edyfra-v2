@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -58,7 +59,13 @@ export default function AboutPage() {
                   className="space-y-6 text-center group"
                 >
                    <div className="aspect-square rounded-[3rem] overflow-hidden border border-border shadow-sm group-hover:shadow-2xl group-hover:translate-y-[-4px] transition-all duration-500">
-                      <img src={member.image} alt={member.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                       <Image 
+                         src={member.image} 
+                         alt={member.name} 
+                         width={300}
+                         height={300}
+                         className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
+                       />
                    </div>
                    <div className="space-y-1">
                       <h4 className="font-black text-xl tracking-tight">{member.name}</h4>

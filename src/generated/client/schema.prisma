@@ -60,6 +60,10 @@ model User {
   sessionPaymentsAsTutor   SessionPayment[]        @relation("TutorSessionPayments")
   payouts                  TutorPayout[]
   matchRequests            MatchRequest[]
+  newsArticles             NewsArticle[]
+  userCredits              UserCredits?
+  creditTransactions       CreditTransaction[]
+  sellerEarnings           SellerEarning[]
 }
 
 model StudentProfile {
@@ -326,7 +330,36 @@ model NewsArticle {
   summary     String?
   publishedAt DateTime?
   isDraft     Boolean   @default(true)
+  authorId    String?
+  status      String    @default("draft")
   createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+
+  author User? @relation(fields: [authorId], references: [id])
+}
+
+model UserCredits {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  balance   Int      @default(0)
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model CreditTransaction {
+  id          String   @id @default(cuid())
+  userId      String
+  amount      Int // Positive for credit, negative for debit
+  type        String // "purchase", "earning", "bonus", "refund"
+  description String?
+  reference   String? // External reference like Paystack transaction ID
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([createdAt])
 }
 
 model Testimonial {
@@ -454,12 +487,42 @@ model TutorPayout {
   @@map("tutor_payouts")
 }
 
+model SellerEarning {
+  id           String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  sellerId     String    @map("seller_id")
+  resourceId   String    @map("resource_id") @db.Uuid
+  amount       Int
+  mpesaReceipt String?   @unique @map("mpesa_receipt")
+  paidAt       DateTime? @map("paid_at") @db.Timestamptz(6)
+  createdAt    DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+  resource     Resource  @relation(fields: [resourceId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  seller       User      @relation(fields: [sellerId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@map("seller_earnings")
+}
+
+model CurriculumTopic {
+  id          String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  subject     String
+  level       EduLevel
+  formYear    Int?
+  topicName   String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([subject, level])
+  @@index([level, formYear])
+}
+
 model Resource {
   id             String             @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   sellerId       String             @map("seller_id")
   title          String
   subject        String
   educationLevel String             @map("education_level")
+  resourceType   String?            @map("resource_type")
+  topic          String?            @map("topic")
   description    String?
   price          Int
   filePath       String             @map("file_path")
@@ -468,6 +531,7 @@ model Resource {
   status         String             @default("pending")
   createdAt      DateTime?          @default(now()) @map("created_at") @db.Timestamptz(6)
   purchases      ResourcePurchase[]
+  sellerEarnings SellerEarning[]
   seller         User               @relation(fields: [sellerId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@map("resources")
