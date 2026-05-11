@@ -9,7 +9,13 @@ import { generateAIResponse } from "@/utils/openrouter";
 async function guard() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user || !isFounderEmail(user.email)) throw new Error("Unauthorized");
+  if (!user) throw new Error("Unauthorized");
+  if (isFounderEmail(user.email)) return;
+  const dbUser = await prisma.user.findUnique({
+    where: { id: user.id },
+    select: { role: true },
+  });
+  if (dbUser?.role !== "ADMIN") throw new Error("Unauthorized");
 }
 
 export async function getPlatformSetting(key: string) {
