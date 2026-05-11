@@ -8,7 +8,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { EduLevel } from "@prisma/client";
+import { EduLevel } from "@/generated/client";
 import { SESSION_CONFIG } from "@/lib/config";
 import { randomBytes } from "crypto";
 import { StreamChat } from "stream-chat";

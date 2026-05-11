@@ -8,7 +8,7 @@ import { Trophy, Medal, Crown, TrendingUp, Search, Loader2, Award } from "lucide
 import { createClient } from "@/utils/supabase/client";
 import { getUserData } from "@/app/actions/user";
 
-import { User } from "@prisma/client";
+import { User } from "@/generated/client";
 
 interface Leader {
   id: string;

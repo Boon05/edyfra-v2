@@ -1,6 +1,6 @@
 "use server";
 
-import { Role, EduLevel, Tier, VerifPath } from "@prisma/client";
+import { Role, EduLevel, Tier, VerifPath } from "@/generated/client";
 import prisma from "@/lib/prisma";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";

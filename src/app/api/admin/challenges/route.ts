@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { Role } from "@prisma/client";
+import { Role } from "@/generated/client";
 import { getUserData } from "@/app/actions/user";
 
 // List all challenges (for admin)

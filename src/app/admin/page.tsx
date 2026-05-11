@@ -4,7 +4,7 @@ import { AdminDashboardClient } from "./dashboard-client";
 import { getAdminDashboardMetrics, getTutorApplications } from "@/app/actions/admin";
 import prisma from "@/lib/prisma";
 import { isFounderEmail } from "@/utils/admin-guard";
-import { Role } from "@prisma/client";
+import { Role } from "@/generated/client";
 
 export default async function AdminDashboard() {
   const supabase = await createClient();

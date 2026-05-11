@@ -9,7 +9,7 @@ import { getUserData } from "@/app/actions/user";
 import Link from "next/link";
 import { format } from "date-fns";
 
-import { User as PrismaUser, Session } from "@prisma/client";
+import { User as PrismaUser, Session } from "@/generated/client";
 
 interface SessionWithMessages extends Session {
   _count?: { messages: number };

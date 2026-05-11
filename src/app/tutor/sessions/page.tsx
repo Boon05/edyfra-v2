@@ -14,7 +14,7 @@ import { Loader2 } from "lucide-react";
 
 import { getTutorSessions } from "@/app/actions/tutor";
 import { formatDistanceToNow } from "date-fns";
-import { Session } from "@prisma/client";
+import { Session } from "@/generated/client";
 
 type SessionWithStudent = Session & { student: { name: string, avatar: string | null } };
 

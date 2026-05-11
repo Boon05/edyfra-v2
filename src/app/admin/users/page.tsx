@@ -20,7 +20,7 @@ import {
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
-import { Role } from "@prisma/client";
+import { Role } from "@/generated/client";
 
 export default function AdminUsersPage() {
   const [users, setUsers] = useState<any[]>([]);

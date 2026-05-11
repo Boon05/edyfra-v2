@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { getSubjectsByLevel } from "@/utils/subjects";
 import { getUserData } from "@/app/actions/user";
 import { getVerifiedTutors } from "@/app/actions/tutor";
-import { User, TutorProfile } from "@prisma/client";
+import { User, TutorProfile } from "@/generated/client";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateChallenges } from "@/app/actions/challenge-ai";
 import { getUserData } from "@/app/actions/user";
-import { Role } from "@prisma/client";
+import { Role } from "@/generated/client";
 
 export async function POST(req: NextRequest) {
   try {
