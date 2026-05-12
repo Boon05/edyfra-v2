@@ -215,72 +215,138 @@ export default function StreamChatRoom({
       <style>{`
         .str-chat__theme-dark {
           --str-chat__primary-color: var(--primary, #06B6D4);
-          --str-chat__background-core-elevation-0: #050505;
-          --str-chat__background-core-elevation-1: #0a0a0a;
-          --str-chat__background-core-elevation-2: #111111;
-          --str-chat__background-core-elevation-3: #1a1a1a;
-          --str-chat__background-core-elevation-4: #222222;
+          --str-chat__background-core-elevation-0: transparent;
+          --str-chat__background-core-elevation-1: rgba(10, 10, 10, 0.4);
+          --str-chat__background-core-elevation-2: rgba(17, 17, 17, 0.6);
+          --str-chat__background-core-elevation-3: rgba(26, 26, 26, 0.8);
+          --str-chat__background-core-elevation-4: rgba(34, 34, 34, 0.9);
           --str-chat__font-family: var(--font-sans), system-ui;
-          --str-chat__radius-md: 16px;
-          --str-chat__radius-lg: 24px;
+          --str-chat__radius-md: 20px;
+          --str-chat__radius-lg: 32px;
           --str-chat__text-primary: #ffffff;
-          --str-chat__text-secondary: #a1a1aa;
+          --str-chat__text-secondary: #94a3b8;
+          --str-chat__border-radius-circle: 50%;
         }
         
-        /* Message List */
-        .str-chat__theme-dark .str-chat__message-list {
+        /* Glassmorphism for the Container */
+        .edyfra-chat-wrapper {
           background: #050505;
-          padding: 1rem;
-        }
-        
-        /* Message Bubbles */
-        .str-chat__theme-dark .str-chat__message-simple-text-inner {
-          border-radius: 1.5rem !important;
-          padding: 0.75rem 1.25rem !important;
-          font-size: 0.95rem;
-          line-height: 1.5;
-          box-shadow: 0 4px 20px -5px rgba(0,0,0,0.3);
-        }
-        
-        /* User messages (outgoing) */
-        .str-chat__theme-dark .str-chat__message--me .str-chat__message-simple-text-inner {
-          background: linear-gradient(135deg, var(--primary, #06B6D4) 0%, rgba(6, 182, 212, 0.8) 100%) !important;
-          color: white;
-          border-bottom-right-radius: 4px !important;
-        }
-        
-        /* Other messages (incoming) */
-        .str-chat__theme-dark .str-chat__message-simple-text-inner {
-          background: #111111 !important;
-          border: 1px solid rgba(255,255,255,0.05);
-          border-bottom-left-radius: 4px !important;
+          position: relative;
         }
 
-        /* Composer/Input */
-        .str-chat__theme-dark .str-chat__message-input {
-          background: #0a0a0a;
-          border-top: 1px solid rgba(255,255,255,0.05);
-          padding: 1rem;
+        /* Message List Container */
+        .str-chat__theme-dark .str-chat__message-list {
+          background: #050505;
+          padding: 1.5rem;
+          scrollbar-width: thin;
+          scrollbar-color: rgba(255,255,255,0.1) transparent;
         }
-        .str-chat__theme-dark .str-chat__message-input-inner {
-          background: #111111;
-          border-radius: 1.5rem;
-          border: 1px solid rgba(255,255,255,0.1);
-          transition: all 0.2s ease;
+
+        /* Date Separator */
+        .str-chat__theme-dark .str-chat__date-separator-line {
+          border-color: rgba(255,255,255,0.05);
         }
-        .str-chat__theme-dark .str-chat__message-input-inner:focus-within {
-          border-color: var(--primary, #06B6D4);
-          box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.2);
-        }
-        .str-chat__theme-dark .str-chat__textarea {
-          background: transparent;
+        .str-chat__theme-dark .str-chat__date-separator-date {
+          font-size: 10px;
+          font-weight: 900;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          color: #64748b;
         }
         
-        /* Channel Header */
+        /* Message Bubbles - High End Style */
+        .str-chat__theme-dark .str-chat__message-simple-text-inner {
+          border-radius: 1.75rem !important;
+          padding: 0.85rem 1.35rem !important;
+          font-size: 0.9rem;
+          font-weight: 500;
+          line-height: 1.6;
+          box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+          position: relative;
+        }
+        
+        /* Outgoing Messages (Me) */
+        .str-chat__theme-dark .str-chat__message--me .str-chat__message-simple-text-inner {
+          background: linear-gradient(135deg, var(--primary, #06B6D4) 0%, #0891b2 100%) !important;
+          color: white;
+          border-bottom-right-radius: 6px !important;
+          border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Incoming Messages (Others) */
+        .str-chat__theme-dark .str-chat__message--regular .str-chat__message-simple-text-inner {
+          background: #111111 !important;
+          border: 1px solid rgba(255,255,255,0.05);
+          border-bottom-left-radius: 6px !important;
+          color: #e2e8f0;
+        }
+
+        /* Message Metadata (Time/Status) */
+        .str-chat__theme-dark .str-chat__message-simple__timestamp {
+          font-size: 9px;
+          font-weight: 700;
+          text-transform: uppercase;
+          opacity: 0.5;
+        }
+
+        /* Input Area - Futuristic Glass */
+        .str-chat__theme-dark .str-chat__message-input {
+          background: rgba(5, 5, 5, 0.8);
+          backdrop-blur: 12px;
+          border-top: 1px solid rgba(255,255,255,0.05);
+          padding: 1.25rem;
+        }
+
+        .str-chat__theme-dark .str-chat__message-input-inner {
+          background: rgba(255,255,255,0.03);
+          border-radius: 1.5rem;
+          border: 1px solid rgba(255,255,255,0.08);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          padding: 4px;
+        }
+
+        .str-chat__theme-dark .str-chat__message-input-inner:focus-within {
+          border-color: var(--primary, #06B6D4);
+          background: rgba(255,255,255,0.05);
+          box-shadow: 0 0 30px -10px rgba(6, 182, 212, 0.3);
+        }
+
+        .str-chat__theme-dark .str-chat__textarea {
+          background: transparent;
+          color: #ffffff;
+          font-size: 0.95rem;
+          padding: 12px 16px;
+        }
+        
+        /* Header - Minimalist */
         .str-chat__theme-dark .str-chat__header-livestream {
-          background: #0a0a0a;
+          background: rgba(10, 10, 10, 0.8);
+          backdrop-blur: 20px;
           border-bottom: 1px solid rgba(255,255,255,0.05);
-          padding: 1rem 1.5rem;
+          padding: 1.25rem 2rem;
+        }
+
+        .str-chat__theme-dark .str-chat__header-livestream-left-title {
+          font-size: 14px;
+          font-weight: 900;
+          text-transform: uppercase;
+          letter-spacing: 0.2em;
+          color: #ffffff;
+        }
+
+        /* Custom Scrollbar for Edyfra */
+        .edyfra-chat-wrapper ::-webkit-scrollbar {
+          width: 4px;
+        }
+        .edyfra-chat-wrapper ::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .edyfra-chat-wrapper ::-webkit-scrollbar-thumb {
+          background: rgba(255,255,255,0.1);
+          border-radius: 10px;
+        }
+        .edyfra-chat-wrapper ::-webkit-scrollbar-thumb:hover {
+          background: var(--primary, #06B6D4);
         }
       `}</style>
       <Chat client={chatClient} theme="str-chat__theme-dark">
