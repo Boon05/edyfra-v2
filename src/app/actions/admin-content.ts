@@ -59,7 +59,9 @@ export async function createAnnouncement(data: { title: string; body: string; ta
   await guard();
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  await prisma.announcement.create({
+
+  // 1. Save the announcement record
+  const announcement = await prisma.announcement.create({
     data: {
       title: data.title,
       body: data.body,
@@ -70,7 +72,46 @@ export async function createAnnouncement(data: { title: string; body: string; ta
       createdBy: user?.id,
     },
   });
+
+  // 2. Fan out as individual Notification rows to all matching users
+  try {
+    let whereClause: any = {};
+    if (data.targetAudience === "students") {
+      whereClause = { role: "STUDENT" };
+    } else if (data.targetAudience === "tutors") {
+      whereClause = { role: "TUTOR" };
+    } else if (data.targetAudience === "highschool") {
+      whereClause = { educationLevel: "HIGH_SCHOOL" };
+    } else if (data.targetAudience === "university") {
+      whereClause = { educationLevel: "UNIVERSITY" };
+    }
+    // "all" = no filter
+
+    const targetUsers = await prisma.user.findMany({
+      where: Object.keys(whereClause).length ? whereClause : undefined,
+      select: { id: true },
+    });
+
+    if (targetUsers.length > 0) {
+      await prisma.notification.createMany({
+        data: targetUsers.map(u => ({
+          userId: u.id,
+          type: "ANNOUNCEMENT",
+          title: `📢 ${data.title}`,
+          body: data.body,
+          actionUrl: "/dashboard/notifications",
+          read: false,
+        })),
+        skipDuplicates: true,
+      });
+    }
+  } catch (err) {
+    console.error("Failed to fan out announcement notifications:", err);
+  }
+
   revalidatePath("/admin/announcements");
+  revalidatePath("/dashboard/notifications");
+  return { success: true, announcementId: announcement.id };
 }
 
 export async function deleteAnnouncement(id: string) {

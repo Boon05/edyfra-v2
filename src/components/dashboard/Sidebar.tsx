@@ -6,7 +6,7 @@ import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { 
   LayoutDashboard, BookOpen, GraduationCap,
-  Bell, Settings, LogOut, Zap, Flame, Trophy,
+  Settings, LogOut, Zap, Flame, Trophy,
   Sparkles, Share2, UserSearch, Users, MessageSquare, LibraryBig
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -15,6 +15,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { useEffect, useState } from "react";
 import { getUserData } from "@/app/actions/user";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { NotificationBell } from "@/components/dashboard/NotificationBell";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -93,12 +94,7 @@ export default function DashboardSidebar({ user, onClose }: { user: User; onClos
       <div className="p-4 border-t border-border/50 space-y-4">
         <div className="flex items-center justify-between px-2">
            <ThemeToggle />
-           <Link
-             href="/dashboard/notifications"
-             className="p-2 rounded-xl text-muted-foreground hover:text-primary hover:bg-primary/5 transition-all"
-           >
-             <Bell className="h-5 w-5" />
-           </Link>
+           <NotificationBell />
            <Link
              href="/dashboard/settings"
              className="p-2 rounded-xl text-muted-foreground hover:text-primary hover:bg-primary/5 transition-all"
