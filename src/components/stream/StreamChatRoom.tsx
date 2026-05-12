@@ -12,13 +12,22 @@ import {
   LoadingIndicator,
   Thread,
 } from "stream-chat-react";
+import { 
+  StreamVideoClient, 
+  StreamVideo, 
+  StreamCall,
+  User
+} from "@getstream/video-react-sdk";
+import { VideoCallUI } from "./VideoCallUI";
+import "@getstream/video-react-sdk/dist/css/index.css";
 import { getStreamToken, upsertStreamUser } from "@/app/actions/stream";
 import { useMashAI } from "./useMashAI";
 import "stream-chat-react/dist/css/index.css";
 import { polyfillClipboard } from "@/utils/clipboard-polyfill";
-import { Loader2, RefreshCw } from "lucide-react";
+import { Loader2, RefreshCw, Video, VideoOff, Maximize2, X, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useModeration } from "./useModeration";
+import { cn } from "@/lib/utils";
 
 polyfillClipboard();
 
@@ -50,10 +59,14 @@ export default function StreamChatRoom({
   mashAI,
 }: StreamChatRoomProps) {
   const [chatClient, setChatClient] = useState<StreamChat | null>(null);
+  const [videoClient, setVideoClient] = useState<StreamVideoClient | null>(null);
   const [channel, setChannel] = useState<any>(null);
+  const [activeCall, setActiveCall] = useState<any>(null);
+  const [isVideoActive, setIsVideoActive] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isRetrying, setIsRetrying] = useState(false);
   const clientRef = useRef<StreamChat | null>(null);
+  const videoClientRef = useRef<StreamVideoClient | null>(null);
 
   useMashAI({
     client: chatClient,
@@ -106,7 +119,21 @@ export default function StreamChatRoom({
           token
         );
 
-        console.log(`[StreamChatRoom] User connected: ${userId}`);
+        // Initialize Video Client
+        const vClient = new StreamVideoClient({
+          apiKey: STREAM_KEY,
+          user: {
+            id: userId,
+            name: userName,
+            image: userImage || undefined,
+          },
+          token,
+        });
+
+        videoClientRef.current = vClient;
+        setVideoClient(vClient);
+
+        console.log(`[StreamChatRoom] Chat & Video connected: ${userId}`);
       } else {
         console.log(`[StreamChatRoom] User already connected: ${userId}`);
       }
@@ -159,9 +186,17 @@ export default function StreamChatRoom({
       // Disconnect only when the component unmounts
       const client = clientRef.current;
       if (client && client.userID) {
-        console.log("[StreamChatRoom] Disconnecting user on unmount");
+        console.log("[StreamChatRoom] Disconnecting chat user on unmount");
         client.disconnectUser().catch((err) =>
-          console.warn("[StreamChatRoom] Disconnect error:", err)
+          console.warn("[StreamChatRoom] Chat disconnect error:", err)
+        );
+      }
+      
+      const vClient = videoClientRef.current;
+      if (vClient) {
+        console.log("[StreamChatRoom] Disconnecting video client on unmount");
+        vClient.disconnectUser().catch((err) =>
+          console.warn("[StreamChatRoom] Video disconnect error:", err)
         );
       }
     };
@@ -348,16 +383,82 @@ export default function StreamChatRoom({
         .edyfra-chat-wrapper ::-webkit-scrollbar-thumb:hover {
           background: var(--primary, #06B6D4);
         }
+
+        .video-call-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          z-index: 40;
+          background: #000;
+          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
       `}</style>
       <Chat client={chatClient} theme="str-chat__theme-dark">
-        <Channel channel={channel}>
-          <Window>
-            {!hideHeader && <ChannelHeader />}
-            <MessageList />
-            <MessageComposer />
-          </Window>
-          <Thread />
-        </Channel>
+        <StreamVideo client={videoClient!}>
+          <div className="flex flex-col h-full relative">
+            {/* Custom Premium Header */}
+            {!hideHeader && (
+              <div className="flex items-center justify-between px-6 py-4 bg-background/50 backdrop-blur-xl border-bottom border-white/5 z-20">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20">
+                    <GraduationCap className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-black uppercase tracking-widest text-foreground">
+                      {channelName || "Study Room"}
+                    </h3>
+                    <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-tighter">
+                      Active Session • {memberIds?.length || 1} Members
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Button
+                    onClick={async () => {
+                      if (!videoClient) return;
+                      const call = videoClient.call("default", channelId);
+                      await call.getOrCreate();
+                      setActiveCall(call);
+                      setIsVideoActive(true);
+                    }}
+                    variant="outline"
+                    size="sm"
+                    className="rounded-full bg-secondary hover:bg-primary hover:text-white border-white/5 transition-all"
+                  >
+                    <Video className="h-4 w-4 mr-2" />
+                    <span className="text-[10px] font-black uppercase tracking-widest">Start Call</span>
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            <div className="flex-1 relative overflow-hidden">
+              {/* Video Layer */}
+              {isVideoActive && activeCall && (
+                <div className="video-call-overlay p-4">
+                  <StreamCall call={activeCall}>
+                    <VideoCallUI onLeave={() => {
+                      setIsVideoActive(false);
+                      setActiveCall(null);
+                    }} />
+                  </StreamCall>
+                </div>
+              )}
+
+              {/* Chat Components */}
+              <Channel channel={channel}>
+                <Window>
+                  <MessageList />
+                  <MessageComposer />
+                </Window>
+                <Thread />
+              </Channel>
+            </div>
+          </div>
+        </StreamVideo>
       </Chat>
     </div>
   );
