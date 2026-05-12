@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -37,15 +37,30 @@ export const metadata: Metadata = {
     title: "Edyfra — Kenya's Institutional Study Platform",
     description: "Connect with verified tutors across Kenya. Study smarter.",
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
   },
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
 };
 
-
+export const viewport: Viewport = {
+  themeColor: "#2D1FE8",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 export default function RootLayout({
   children,
 }: Readonly<{
