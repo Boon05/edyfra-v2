@@ -17,9 +17,9 @@ import {
   StreamVideo, 
   StreamCall,
   User
-} from "@getstream/video-react-sdk";
+} from "@stream-io/video-react-sdk";
 import { VideoCallUI } from "./VideoCallUI";
-import "@getstream/video-react-sdk/dist/css/index.css";
+import "@stream-io/video-react-sdk/dist/css/styles.css";
 import { getStreamToken, upsertStreamUser } from "@/app/actions/stream";
 import { useMashAI } from "./useMashAI";
 import "stream-chat-react/dist/css/index.css";
