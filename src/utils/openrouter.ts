@@ -39,9 +39,29 @@ function getGeminiModel(openRouterModel: string): string {
 
 function shouldUseGemini(settings: Record<string, any>): boolean {
   const provider = settings.ai_provider as string || "auto";
-  if (provider === "gemini") return !!GOOGLE_AI_KEY;
-  if (provider === "openrouter") return false;
-  return !OPENROUTER_API_KEY && !!GOOGLE_AI_KEY;
+  
+  if (provider === "gemini") {
+    if (!GOOGLE_AI_KEY) {
+      console.warn("Gemini provider selected but GOOGLE_AI_KEY not configured");
+      return false;
+    }
+    return true;
+  }
+  
+  if (provider === "openrouter") {
+    if (!OPENROUTER_API_KEY) {
+      console.warn("OpenRouter provider selected but OPENROUTER_API_KEY not configured");
+      return false;
+    }
+    return false;
+  }
+  
+  // Auto mode: prefer OpenRouter, fallback to Gemini
+  if (OPENROUTER_API_KEY) return false;
+  if (GOOGLE_AI_KEY) return true;
+  
+  console.warn("No AI provider configured - both OPENROUTER_API_KEY and GOOGLE_AI_KEY missing");
+  return false;
 }
 
 interface OpenRouterOptions {
@@ -65,6 +85,37 @@ export async function getActiveSettings() {
   } catch {
     return {};
   }
+}
+
+export async function getAIConfigurationStatus() {
+  const settings = await getActiveSettings();
+  
+  const status = {
+    openrouter: !!OPENROUTER_API_KEY,
+    gemini: !!GOOGLE_AI_KEY,
+    activeProvider: settings.ai_provider || "auto",
+    activeModel: settings.active_ai_model || DEFAULT_MODEL,
+    hasSystemPrompt: !!settings.mash_system_prompt,
+    hasSafetySettings: !!(settings.safety_blocklist || settings.refuse_offtopic || settings.safe_mode_under18),
+    configured: false,
+    issues: [] as string[]
+  };
+
+  // Check configuration issues
+  if (!OPENROUTER_API_KEY && !GOOGLE_AI_KEY) {
+    status.issues.push("No AI API keys configured");
+  }
+  
+  if (status.activeProvider === "openrouter" && !OPENROUTER_API_KEY) {
+    status.issues.push("OpenRouter selected but API key missing");
+  }
+  
+  if (status.activeProvider === "gemini" && !GOOGLE_AI_KEY) {
+    status.issues.push("Gemini selected but API key missing");
+  }
+
+  status.configured = status.issues.length === 0;
+  return status;
 }
 
 export async function generateAIResponse(
@@ -136,7 +187,25 @@ export async function generateAIResponse(
       if (!response.ok) {
         const errText = await response.text();
         console.error("OpenRouter error:", response.status, errText);
-        return "Mash is taking a break — try again in a moment.";
+        
+        // Try Gemini fallback if OpenRouter fails
+        if (OPENROUTER_API_KEY && GOOGLE_AI_KEY) {
+          try {
+            const genAI = new GoogleGenerativeAI(GOOGLE_AI_KEY);
+            const geminiModel = genAI.getGenerativeModel({
+              model: `models/${getGeminiModel(model)}`,
+              systemInstruction: systemPrompt,
+            });
+            const result = await geminiModel.generateContent(userMessage);
+            const text = result.response.text();
+            tokenCount = Math.ceil(text.length / 4);
+            return text;
+          } catch (geminiError) {
+            console.error("Gemini fallback also failed:", geminiError);
+          }
+        }
+        
+        return "I'm having trouble connecting right now. Please try again in a moment.";
       }
 
       const data = await response.json();
@@ -168,7 +237,15 @@ export async function generateAIResponse(
     return text;
   } catch (error) {
     console.error("AI error:", error);
-    return "Mash is taking a break — try again in a moment.";
+    
+    // Final fallback - provide helpful educational response
+    const educationalFallbacks = [
+      "I'm experiencing technical difficulties. However, I'd be happy to help you with your question once I'm back online. Please try again in a moment.",
+      "My connection is temporarily unavailable. I'm here to help with academic questions - please give me another moment to reconnect.",
+      "I'm having trouble connecting right now. As your study companion, I want to help - please try again shortly."
+    ];
+    
+    return educationalFallbacks[Math.floor(Math.random() * educationalFallbacks.length)];
   }
 }
 

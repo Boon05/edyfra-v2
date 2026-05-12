@@ -90,6 +90,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true, message: aiMessage });
   } catch (error) {
     console.error("AI Error:", error);
-    return NextResponse.json({ error: "Mash is taking a break — try again in a moment." }, { status: 500 });
+    return NextResponse.json({ 
+      error: "AI_SERVICE_UNAVAILABLE", 
+      message: "I'm having trouble connecting right now. Please try again in a moment." 
+    }, { status: 500 });
   }
 }

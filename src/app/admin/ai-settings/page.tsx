@@ -21,15 +21,17 @@ export default function AISettingsPage() {
   const [loading, setLoading] = useState(true);
   const [settings, setSettings] = useState<Record<string, any>>({});
   const [analytics, setAnalytics] = useState<any>(null);
+  const [configStatus, setConfigStatus] = useState<any>(null);
   const [activeTab, setActiveTab] = useState("model");
   const [blocklistInput, setBlocklistInput] = useState("");
 
   const load = async () => {
-    const { getAllPlatformSettings, getAIUsageAnalytics } = await import("@/app/actions/admin-ai-settings");
-    const [s, a] = await Promise.all([getAllPlatformSettings(), getAIUsageAnalytics()]);
+    const { getAllPlatformSettings, getAIUsageAnalytics, getAIConfigurationStatus } = await import("@/app/actions/admin-ai-settings");
+    const [s, a, configStatus] = await Promise.all([getAllPlatformSettings(), getAIUsageAnalytics(), getAIConfigurationStatus()]);
     setSettings(s);
     setAnalytics(a);
     setBlocklistInput((s.safety_blocklist as string[])?.join("\n") || "");
+    setConfigStatus(configStatus);
     setLoading(false);
   };
 
@@ -79,36 +81,88 @@ export default function AISettingsPage() {
       </div>
 
       {activeTab === "model" && (
-        <Card className="rounded-[2rem] border-border/50">
-          <CardContent className="p-8 space-y-8">
-            <div className="space-y-2">
-              <Label className="font-black text-sm">AI Provider</Label>
-              <Select value={settings.ai_provider as string || "auto"} onValueChange={(v) => save("ai_provider", v)}>
-                <SelectTrigger className="rounded-xl"><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="auto">Auto (OpenRouter → Gemini fallback)</SelectItem>
-                  <SelectItem value="openrouter">OpenRouter Only</SelectItem>
-                  <SelectItem value="gemini">Google Gemini Direct</SelectItem>
-                </SelectContent>
-              </Select>
-              <p className="text-xs text-muted-foreground mt-1">Choose which AI backend powers Mash across the entire site</p>
-            </div>
-            <div className="space-y-2">
-              <Label className="font-black text-sm">Active AI Model</Label>
-              <Select value={settings.active_ai_model as string || "google/gemini-2.0-flash-exp:free"} onValueChange={(v) => save("active_ai_model", v)}>
-                <SelectTrigger className="rounded-xl"><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  {AVAILABLE_MODELS.map((m) => (
-                    <SelectItem key={m.id} value={m.id}>
-                      {m.label} {m.costPer1K > 0 ? `(KSH ${(m.costPer1K * 130).toFixed(2)}/1K tokens)` : "(Free)"}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <p className="text-xs text-muted-foreground mt-1">Changes apply immediately across all study sessions and Mash AI</p>
-            </div>
-          </CardContent>
-        </Card>
+        <>
+          {/* Configuration Status */}
+          {configStatus && (
+            <Card className={`rounded-[2rem] border-border/50 ${configStatus.configured ? 'bg-green-50/50 border-green-200' : 'bg-red-50/50 border-red-200'}`}>
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className={`w-3 h-3 rounded-full ${configStatus.configured ? 'bg-green-500' : 'bg-red-500'} animate-pulse`} />
+                  <h3 className="font-black text-lg">AI Configuration Status</h3>
+                </div>
+                
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                  <div className="text-center">
+                    <div className={`text-2xl font-bold ${configStatus.openrouter ? 'text-green-600' : 'text-gray-400'}`}>
+                      {configStatus.openrouter ? '✓' : '✗'}
+                    </div>
+                    <div className="text-xs text-muted-foreground">OpenRouter</div>
+                  </div>
+                  <div className="text-center">
+                    <div className={`text-2xl font-bold ${configStatus.gemini ? 'text-green-600' : 'text-gray-400'}`}>
+                      {configStatus.gemini ? '✓' : '✗'}
+                    </div>
+                    <div className="text-xs text-muted-foreground">Gemini</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-lg font-bold text-blue-600">
+                      {configStatus.activeProvider}
+                    </div>
+                    <div className="text-xs text-muted-foreground">Active Provider</div>
+                  </div>
+                  <div className="text-center">
+                    <div className={`text-lg font-bold ${configStatus.configured ? 'text-green-600' : 'text-red-600'}`}>
+                      {configStatus.configured ? 'OK' : 'ERROR'}
+                    </div>
+                    <div className="text-xs text-muted-foreground">Status</div>
+                  </div>
+                </div>
+
+                {!configStatus.configured && configStatus.issues.length > 0 && (
+                  <div className="space-y-2">
+                    <Label className="font-black text-sm text-red-600">Configuration Issues:</Label>
+                    {configStatus.issues.map((issue: string, i: number) => (
+                      <div key={i} className="text-sm text-red-600 bg-red-50 p-2 rounded-lg">
+                        • {issue}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
+
+          <Card className="rounded-[2rem] border-border/50">
+            <CardContent className="p-8 space-y-8">
+              <div className="space-y-2">
+                <Label className="font-black text-sm">AI Provider</Label>
+                <Select value={settings.ai_provider as string || "auto"} onValueChange={(v) => save("ai_provider", v)}>
+                  <SelectTrigger className="rounded-xl"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="auto">Auto (OpenRouter → Gemini fallback)</SelectItem>
+                    <SelectItem value="openrouter">OpenRouter Only</SelectItem>
+                    <SelectItem value="gemini">Google Gemini Direct</SelectItem>
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-muted-foreground mt-1">Choose which AI backend powers Mash across the entire site</p>
+              </div>
+              <div className="space-y-2">
+                <Label className="font-black text-sm">Active AI Model</Label>
+                <Select value={settings.active_ai_model as string || "google/gemini-2.0-flash-exp:free"} onValueChange={(v) => save("active_ai_model", v)}>
+                  <SelectTrigger className="rounded-xl"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {AVAILABLE_MODELS.map((m) => (
+                      <SelectItem key={m.id} value={m.id}>
+                        {m.label} {m.costPer1K > 0 ? `(KSH ${(m.costPer1K * 130).toFixed(2)}/1K tokens)` : "(Free)"}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-muted-foreground mt-1">Changes apply immediately across all study sessions and Mash AI</p>
+              </div>
+            </CardContent>
+          </Card>
+        </>
       )}
 
       {activeTab === "personality" && (

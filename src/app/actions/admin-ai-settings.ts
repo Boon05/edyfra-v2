@@ -72,3 +72,9 @@ export async function getAIUsageAnalytics() {
     recentConversations,
   };
 }
+
+export async function getAIConfigurationStatus() {
+  await guard();
+  const { getAIConfigurationStatus: getAIStatus } = await import("@/utils/openrouter");
+  return await getAIStatus();
+}
