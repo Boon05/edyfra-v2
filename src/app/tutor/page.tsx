@@ -65,6 +65,23 @@ export default function TutorDashboard() {
             }
           }
         )
+        .on(
+          "postgres_changes",
+          { event: "UPDATE", schema: "public", table: "MatchRequest" },
+          (payload: any) => {
+            // If the request was matched (sessionId set), remove it from the feed
+            if (payload.new?.sessionId) {
+              setPendingRequests((prev) => prev.filter(req => req.id !== payload.new.id));
+            }
+          }
+        )
+        .on(
+          "postgres_changes",
+          { event: "DELETE", schema: "public", table: "MatchRequest" },
+          (payload: any) => {
+            setPendingRequests((prev) => prev.filter(req => req.id !== payload.old.id));
+          }
+        )
         .subscribe();
     };
 

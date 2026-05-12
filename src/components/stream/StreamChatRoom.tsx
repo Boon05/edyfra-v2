@@ -171,6 +171,23 @@ export default function StreamChatRoom({
       clientRef.current = client;
       setChannel(c);
       setChatClient(client);
+
+      // Auto-detect active call for this channel
+      if (vClient) {
+        const { calls } = await vClient.queryCalls({
+          filter_conditions: {
+            id: { $eq: channelId },
+            ringing: { $eq: false },
+          },
+        });
+        
+        if (calls.length > 0) {
+          const call = calls[0];
+          await call.join();
+          setActiveCall(call);
+          setIsVideoActive(true);
+        }
+      }
     } catch (err: any) {
       console.error("[StreamChatRoom] Initialization failed:", err);
       setError(err.message || "Chat failed to load");
@@ -182,7 +199,21 @@ export default function StreamChatRoom({
   useEffect(() => {
     init();
 
+    // Listen for call created events to auto-join
+    let unsubscribe: () => void;
+    if (videoClient) {
+      unsubscribe = videoClient.on("call.created", async (event) => {
+        if (event.call?.id === channelId) {
+          const call = videoClient.call("default", channelId);
+          await call.join();
+          setActiveCall(call);
+          setIsVideoActive(true);
+        }
+      });
+    }
+
     return () => {
+      if (unsubscribe) unsubscribe();
       // Disconnect only when the component unmounts
       const client = clientRef.current;
       if (client && client.userID) {
@@ -419,10 +450,15 @@ export default function StreamChatRoom({
                   <Button
                     onClick={async () => {
                       if (!videoClient) return;
-                      const call = videoClient.call("default", channelId);
-                      await call.getOrCreate();
-                      setActiveCall(call);
-                      setIsVideoActive(true);
+                      try {
+                        const call = videoClient.call("default", channelId);
+                        await call.getOrCreate();
+                        await call.join({ create: true });
+                        setActiveCall(call);
+                        setIsVideoActive(true);
+                      } catch (err) {
+                        console.error("Failed to start video call:", err);
+                      }
                     }}
                     variant="outline"
                     size="sm"
