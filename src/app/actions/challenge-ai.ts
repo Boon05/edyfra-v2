@@ -35,6 +35,12 @@ export async function generateChallenges(request: ChallengeGenerationRequest): P
 
     const prompt = `Generate ${count} fun, engaging, and educational multiple-choice challenge${count > 1 ? 's' : ''} for ${levelText} students${subjectText}${topicText}. 
 
+IMPORTANT: 
+- Make questions progressively harder based on performance
+- Include real-world Kenyan examples where possible
+- Align with KCSE/University curriculum standards
+- Use critical thinking over memorization 
+
 For each challenge, provide:
 1. A clear, interesting question that makes students think logically
 2. Exactly 4 options (A, B, C, D) - make distractors plausible but clearly wrong
@@ -142,33 +148,70 @@ export async function getOrCreateDailyChallenge(level: string, subject?: string)
     return challenges[0];
   } catch (error) {
     console.error("Error getting/creating daily challenge:", error);
-    // Fallback: create a hardcoded challenge when AI fails
+    // Enhanced fallback: try multiple subjects and retry AI generation
     try {
-      const fallback = {
-        question: level === "UNIVERSITY"
-          ? "What is the derivative of f(x) = x²?"
-          : "What is the chemical symbol for water?",
-        options: level === "UNIVERSITY"
-          ? ["2x", "x²", "2", "x"]
-          : ["H₂O", "CO₂", "NaCl", "O₂"],
-        answer: level === "UNIVERSITY" ? "2x" : "H₂O",
-        explanation: level === "UNIVERSITY"
-          ? "The power rule states that d/dx(xⁿ) = nxⁿ⁻¹, so d/dx(x²) = 2x."
-          : "Water's chemical name is dihydrogen monoxide, with the formula H₂O.",
-        subject: subject || "General",
-      };
+      const fallbackSubjects = ["Mathematics", "Science", "English", "History"];
+      const randomSubject = fallbackSubjects[Math.floor(Math.random() * fallbackSubjects.length)];
+      
+      // Retry AI generation with simpler prompt
+      const retryPrompt = `Create a simple multiple-choice question for ${level === "UNIVERSITY" ? "university" : "high school"} level ${randomSubject}. 
+      Format: {"question": "...", "options": ["A", "B", "C", "D"], "answer": "A", "explanation": "..."}`;
+      
+      const aiResponse = await generateAIResponse(retryPrompt, randomSubject);
+      if (aiResponse && !aiResponse.includes("taking a break")) {
+        try {
+          const jsonMatch = aiResponse.match(/\{[\s\S]*\}/);
+          const jsonString = jsonMatch ? jsonMatch[0] : aiResponse;
+          const parsed = JSON.parse(jsonString);
+          
+          return await prisma.dailyChallenge.create({
+            data: {
+              subject: randomSubject,
+              level: level as EduLevel,
+              question: parsed.question,
+              options: parsed.options,
+              answer: parsed.answer,
+              explanation: parsed.explanation,
+              date: new Date(),
+            },
+          });
+        } catch (parseError) {
+          console.error("Failed to parse retry AI response:", parseError);
+        }
+      }
+      
+      // Final fallback: create a basic challenge template
+      const templates = [
+        {
+          question: `Solve this ${randomSubject.toLowerCase()} problem: What is 15% of 200?`,
+          options: ["25", "30", "35", "40"],
+          answer: "30",
+          explanation: "15% of 200 = 0.15 × 200 = 30",
+          subject: randomSubject,
+        },
+        {
+          question: `Which of these is the correct formula for calculating area of a circle?`,
+          options: ["πr²", "2πr", "πd", "r²"],
+          answer: "πr²",
+          explanation: "The area of a circle is calculated using the formula A = πr²",
+          subject: randomSubject,
+        }
+      ];
+      
+      const template = templates[Math.floor(Math.random() * templates.length)];
       return await prisma.dailyChallenge.create({
         data: {
-          subject: fallback.subject,
+          subject: template.subject,
           level: level as EduLevel,
-          question: fallback.question,
-          options: fallback.options,
-          answer: fallback.answer,
-          explanation: fallback.explanation,
+          question: template.question,
+          options: template.options,
+          answer: template.answer,
+          explanation: template.explanation,
           date: new Date(),
         },
       });
-    } catch {
+    } catch (fallbackError) {
+      console.error("All fallback methods failed:", fallbackError);
       return null;
     }
   }
@@ -315,5 +358,93 @@ export async function getChallengeStats() {
   } catch (error) {
     console.error("Error getting challenge stats:", error);
     return { totalChallenges: 0, activeChallenges: 0, totalAttempts: 0, correctAttempts: 0, successRate: 0 };
+  }
+}
+
+export async function generatePersonalizedChallenge(userId: string, level: string) {
+  try {
+    // Get user's recent performance to personalize difficulty
+    const recentAttempts = await prisma.dailyChallengeAttempt.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+      take: 10,
+      include: {
+        challenge: {
+          select: { subject: true, level: true }
+        }
+      }
+    });
+
+    // Analyze performance patterns
+    const subjectPerformance: Record<string, { correct: number; total: number }> = {};
+    recentAttempts.forEach(attempt => {
+      const subject = attempt.challenge.subject;
+      if (!subjectPerformance[subject]) {
+        subjectPerformance[subject] = { correct: 0, total: 0 };
+      }
+      subjectPerformance[subject].total++;
+      if (attempt.correct) {
+        subjectPerformance[subject].correct++;
+      }
+    });
+
+    // Find weakest subject for targeted improvement
+    let weakestSubject = "Mathematics";
+    let lowestScore = 100;
+    Object.entries(subjectPerformance).forEach(([subject, performance]) => {
+      if (performance.total >= 3) { // Only consider subjects with enough data
+        const score = (performance.correct / performance.total) * 100;
+        if (score < lowestScore) {
+          lowestScore = score;
+          weakestSubject = subject;
+        }
+      }
+    });
+
+    // Generate adaptive challenge based on performance
+    const adaptivePrompt = `Create a challenging but achievable multiple-choice question for ${level === "UNIVERSITY" ? "university" : "high school"} level students.
+
+STUDENT PERFORMANCE ANALYSIS:
+- Recent success rate: ${recentAttempts.length > 0 ? Math.round((recentAttempts.filter(a => a.correct).length / recentAttempts.length) * 100) : 0}%
+- Weakest subject: ${weakestSubject} (${lowestScore}% success rate)
+- Subjects attempted: ${Object.keys(subjectPerformance).join(", ")}
+
+TASK:
+Generate a question for ${weakestSubject} that:
+1. Is slightly challenging (target 60-70% success rate)
+2. Addresses common misconceptions in this subject
+3. Includes real-world Kenyan context
+4. Builds confidence while teaching critical thinking
+
+Format: {"question": "...", "options": ["A", "B", "C", "D"], "answer": "A", "explanation": "..."}`;
+
+    const aiResponse = await generateAIResponse(adaptivePrompt, weakestSubject);
+    if (!aiResponse || aiResponse.includes("taking a break")) {
+      throw new Error("AI generation failed");
+    }
+
+    try {
+      const jsonMatch = aiResponse.match(/\{[\s\S]*\}/);
+      const jsonString = jsonMatch ? jsonMatch[0] : aiResponse;
+      const parsed = JSON.parse(jsonString);
+
+      return await prisma.dailyChallenge.create({
+        data: {
+          subject: weakestSubject,
+          level: level as EduLevel,
+          question: parsed.question,
+          options: parsed.options,
+          answer: parsed.answer,
+          explanation: parsed.explanation,
+          date: new Date(),
+        },
+      });
+    } catch (parseError) {
+      console.error("Failed to parse personalized AI response:", parseError);
+      throw new Error("Failed to parse AI-generated challenge");
+    }
+  } catch (error) {
+    console.error("Error generating personalized challenge:", error);
+    throw error instanceof Error ? error : new Error("Failed to generate personalized challenge");
   }
 }

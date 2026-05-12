@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useSafeUserData, useSessionCounter } from "@/hooks/useAntigravityFixes";
 import { DashboardLoadingState, DashboardError } from "@/hooks/useAntigravityFixes";
 import { applyToBecomeTutor } from "@/app/actions/admin-tutor";
-import { getOrCreateDailyChallenge, evaluateChallengeAnswer, saveChallengeAttempt, getTodaysChallenge, getChallengeCompletion } from "@/app/actions/challenge-ai";
+import { getOrCreateDailyChallenge, evaluateChallengeAnswer, saveChallengeAttempt, getTodaysChallenge, getChallengeCompletion, generatePersonalizedChallenge } from "@/app/actions/challenge-ai";
 import { toast } from "sonner";
 import { createClient } from "@/utils/supabase/client";
 import { motion, AnimatePresence } from "framer-motion";
@@ -41,6 +41,7 @@ export default function DashboardPageContent() {
   const [completed, setCompleted] = useState(false);
   const [countdown, setCountdown] = useState("");
   const [completedAttempt, setCompletedAttempt] = useState<any>(null);
+  const [generatingPersonalized, setGeneratingPersonalized] = useState(false);
 
   useEffect(() => {
     if (!userData?.id || !userData?.educationLevel) return;
@@ -179,6 +180,26 @@ export default function DashboardPageContent() {
 
   const handleRetry = () => {
     setRetryCount(prev => prev + 1);
+  };
+
+  const handleGeneratePersonalized = async () => {
+    if (!userData?.educationLevel || !userData?.id) return;
+    setGeneratingPersonalized(true);
+    try {
+      const personalizedChallenge = await generatePersonalizedChallenge(userData.id, userData.educationLevel);
+      if (personalizedChallenge) {
+        setChallenge(personalizedChallenge);
+        toast.success("Personalized challenge generated!", {
+          description: "Based on your recent performance",
+        });
+      }
+    } catch (error) {
+      toast.error("Failed to generate personalized challenge", {
+        description: "Please try again",
+      });
+    } finally {
+      setGeneratingPersonalized(false);
+    }
   };
 
   if (userDataError) {
@@ -342,7 +363,7 @@ export default function DashboardPageContent() {
                    </Badge>
                  </div>
                  <p className="text-lg font-medium leading-relaxed text-white/90">
-                   {challenge?.question || "What is the powerhouse of the cell?"}
+                   {challenge?.question || "Loading challenge..."}
                  </p>
                  <div className="flex gap-2">
                    <Input
@@ -358,6 +379,17 @@ export default function DashboardPageContent() {
                      className="bg-primary hover:bg-primary/90 text-white rounded-xl h-12 px-4"
                    >
                      {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+                   </Button>
+                 </div>
+                 <div className="mt-4 pt-4 border-t border-white/10">
+                   <Button
+                     onClick={handleGeneratePersonalized}
+                     disabled={generatingPersonalized}
+                     variant="outline"
+                     className="w-full bg-white/10 border-white/20 text-white hover:bg-white/20 font-black text-xs tracking-widest uppercase"
+                   >
+                     {generatingPersonalized ? <Loader2 className="h-3 w-3 mr-2 animate-spin" /> : <Sparkles className="h-3 w-3 mr-2" />}
+                     Generate AI-Personalized Challenge
                    </Button>
                  </div>
                </div>
