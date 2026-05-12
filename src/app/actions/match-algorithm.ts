@@ -85,8 +85,8 @@ export async function findTier1Match(
   educationLevel?: EduLevel | null
 ): Promise<string | null> {
   try {
-    // Find tutors with matching subject
-    const tutor = await prisma.user.findFirst({
+    // First try: Strict matching (verified, online, exact subject)
+    let tutor = await prisma.user.findFirst({
       where: {
         id: { not: studentId },
         role: "TUTOR",
@@ -106,16 +106,36 @@ export async function findTier1Match(
       ],
     });
 
-    if (!tutor) return null;
+    if (tutor) {
+      // Check online status
+      const availability = tutor.tutorProfile?.availability;
+      const isOnline = typeof availability === 'object' && availability !== null 
+        ? (availability as { isOnline?: boolean }).isOnline 
+        : false;
+      if (isOnline) return tutor.id;
+    }
 
-    // Verify tutor is online
-    const availability = tutor.tutorProfile?.availability;
-    const isOnline = typeof availability === 'object' && availability !== null 
-      ? (availability as { isOnline?: boolean }).isOnline 
-      : false;
-    if (!isOnline) return null;
+    // Second try: More flexible - include unverified tutors, ignore online status
+    tutor = await prisma.user.findFirst({
+      where: {
+        id: { not: studentId },
+        role: "TUTOR",
+        tutorProfile: {
+          subjects: { hasSome: [requestedSubject] },
+          // Remove isVerified requirement to increase pool
+          // Remove online status requirement
+        },
+        // Not in active session
+        sessionsAsTutor: { none: { status: "ACTIVE" } },
+      },
+      include: { tutorProfile: true },
+      orderBy: [
+        { tutorProfile: { rating: "desc" } },
+        { createdAt: "asc" },
+      ],
+    });
 
-    return tutor.id;
+    return tutor?.id || null;
   } catch (error) {
     console.error("Error in findTier1Match:", error);
     return null;
@@ -137,7 +157,8 @@ export async function findTier2Match(
   educationLevel?: EduLevel | null
 ): Promise<string | null> {
   try {
-    const peer = await prisma.user.findFirst({
+    // First try: Strict matching (same education level, overlapping subjects)
+    let peer = await prisma.user.findFirst({
       where: {
         id: { not: studentId },
         role: "STUDENT",
@@ -153,6 +174,47 @@ export async function findTier2Match(
         { streakDays: "desc" }, // Engaged streaks first
         { points: "desc" }, // Then by points
         { createdAt: "asc" }, // Tiebreaker
+      ],
+    });
+
+    if (peer) return peer.id;
+
+    // Second try: More flexible - ignore education level, relax subject requirements
+    peer = await prisma.user.findFirst({
+      where: {
+        id: { not: studentId },
+        role: "STUDENT",
+        // Remove education level filter to increase pool
+        studentProfile: {
+          subjects: { hasSome: requestedSubjects },
+        },
+        // Not in active session
+        sessionsAsStudent: { none: { status: "ACTIVE" } },
+      },
+      include: { studentProfile: true },
+      orderBy: [
+        { streakDays: "desc" },
+        { points: "desc" },
+        { createdAt: "asc" },
+      ],
+    });
+
+    if (peer) return peer.id;
+
+    // Third try: Most flexible - any student peer (even without subject overlap)
+    peer = await prisma.user.findFirst({
+      where: {
+        id: { not: studentId },
+        role: "STUDENT",
+        // Remove subject requirement entirely
+        // Not in active session
+        sessionsAsStudent: { none: { status: "ACTIVE" } },
+      },
+      include: { studentProfile: true },
+      orderBy: [
+        { streakDays: "desc" },
+        { points: "desc" },
+        { createdAt: "asc" },
       ],
     });
 
@@ -217,6 +279,12 @@ export async function executeSmartMatching(
   roomId?: string;
   tier?: "TUTOR" | "PEER" | "MASH";
   error?: string;
+  debug?: {
+    availableTutors: number;
+    availablePeers: number;
+    studentLevel: string;
+    requestedSubject: string;
+  };
 }> {
   try {
     // Fetch match request with student data
@@ -243,6 +311,32 @@ export async function executeSmartMatching(
 
     let partnerId: string | null = null;
     let tier: "TUTOR" | "PEER" | "MASH" = "MASH";
+
+    // Collect debug information
+    const availableTutors = await prisma.user.count({
+      where: {
+        id: { not: matchRequest.studentId },
+        role: "TUTOR",
+        tutorProfile: { subjects: { hasSome: [matchRequest.subject] } },
+        sessionsAsTutor: { none: { status: "ACTIVE" } },
+      },
+    });
+
+    const availablePeers = await prisma.user.count({
+      where: {
+        id: { not: matchRequest.studentId },
+        role: "STUDENT",
+        studentProfile: { subjects: { hasSome: [matchRequest.subject] } },
+        sessionsAsStudent: { none: { status: "ACTIVE" } },
+      },
+    });
+
+    const debugInfo = {
+      availableTutors,
+      availablePeers,
+      studentLevel: student.educationLevel || "UNKNOWN",
+      requestedSubject: matchRequest.subject,
+    };
 
     // ============ TIER 1: TUTOR MATCH ============
     if (!matchRequest.tier1Tried) {
@@ -286,7 +380,7 @@ export async function executeSmartMatching(
 
     // ============ TIER 3: AI MATCH (ALWAYS SUCCEEDS) ============
     if (!partnerId && options?.skipAI) {
-      return { success: false, error: "No human match found, AI skipped by caller" };
+      return { success: false, error: "No human match found, AI skipped by caller", debug: debugInfo };
     }
 
     if (!partnerId) {
@@ -312,6 +406,7 @@ export async function executeSmartMatching(
         sessionId: aiSession.sessionId,
         roomId: aiSession.roomId,
         tier: "MASH",
+        debug: debugInfo,
       };
     }
 
@@ -357,12 +452,14 @@ export async function executeSmartMatching(
       sessionId: session.id,
       roomId,
       tier,
+      debug: debugInfo,
     };
   } catch (error) {
     console.error("Error in executeSmartMatching:", error);
     return {
       success: false,
       error: error instanceof Error ? error.message : "Unknown error",
+      debug: { availableTutors: 0, availablePeers: 0, studentLevel: "UNKNOWN", requestedSubject: "UNKNOWN" },
     };
   }
 }
