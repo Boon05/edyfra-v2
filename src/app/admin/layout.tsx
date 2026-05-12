@@ -4,11 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import {
-  LayoutDashboard, Users, GraduationCap,
-  Settings, Award, MessageSquare, BarChart3,
-  ShieldCheck, LogOut, Bell, Search,
-  Activity, Globe, Terminal, Zap, Menu, X, ChevronLeft, Power, CheckCircle,
-  Trash2, Sparkles, Newspaper, Star, Wrench, Cpu,   FileText, TrendingUp, BookMarked
+  ChevronLeft, Menu, Activity, Globe, Users, LayoutDashboard, GraduationCap, ShieldCheck, FileText, BookMarked, Bell, Newspaper, Star, MessageSquare, Award, TrendingUp, Cpu, Settings 
 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import Link from "next/link";
@@ -128,7 +124,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           )}
           <Link href="/admin" className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center shadow-2xl">
-              <Terminal className="text-white h-5 w-5" />
+              <svg className="text-white h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M3 9l9-7 9 7v11l-9-7-9-7z"/>
+                <path d="M21 16l-6-6 6 6v2l-6-6-6-6z"/>
+              </svg>
             </div>
             <span className="text-xl font-black text-primary tracking-tighter">Edyfra Admin</span>
           </Link>
@@ -165,7 +164,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10"
                 >
-                  <X className="h-5 w-5 text-slate-300" />
+                  <Menu className="h-6 w-6 text-slate-300" />
                 </button>
               </div>
               <AdminSidebarContent

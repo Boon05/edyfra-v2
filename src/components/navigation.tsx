@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, GraduationCap, ChevronRight, ChevronLeft } from "lucide-react";
@@ -28,16 +27,11 @@ export function Navigation() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Use requestAnimationFrame for better performance
       requestAnimationFrame(() => {
         setScrolled(window.scrollY > 20);
       });
     };
-    
-    // Add scroll event with passive option for better performance
     window.addEventListener("scroll", handleScroll, { passive: true });
-    
-    // Also check on initial mount in case page loads already scrolled
     requestAnimationFrame(() => {
       setScrolled(window.scrollY > 20);
     });
@@ -57,7 +51,6 @@ export function Navigation() {
     };
   }, [isOpen]);
 
-  // Fetch user data to check if logged in
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -74,7 +67,6 @@ export function Navigation() {
         setLoading(false);
       }
     }
-
     fetchUser();
   }, []);
 
@@ -89,15 +81,14 @@ export function Navigation() {
       aria-label="Main navigation"
     >
       <div className="container mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
-        <Link href="/" className="flex items-center group" aria-label="Edyfra Home">
-          <Image
-            src="/logo.png"
-            alt="Edyfra"
-            width={130}
-            height={38}
-            className="h-9 w-auto object-contain dark:invert transition-opacity group-hover:opacity-80"
-            priority
-          />
+        {/* Logo — icon + text */}
+        <Link href="/" className="flex items-center gap-2.5 group" aria-label="Edyfra Home">
+          <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
+            <GraduationCap className="h-5 w-5 text-white" />
+          </div>
+          <span className="text-xl font-black tracking-tight text-foreground group-hover:text-primary transition-colors">
+            edyfra
+          </span>
         </Link>
 
         {/* Desktop Links */}
@@ -106,7 +97,7 @@ export function Navigation() {
             <Link
               key={link.name}
               href={link.href}
-              aria-current={pathname === link.href ? 'page' : undefined}
+              aria-current={pathname === link.href ? "page" : undefined}
               className={cn(
                 "text-sm font-medium transition-colors relative group",
                 pathname === link.href ? "text-primary" : "text-muted-foreground hover:text-foreground"
@@ -121,7 +112,7 @@ export function Navigation() {
           ))}
         </div>
 
-        {/* Actions */}
+        {/* Desktop Actions */}
         <div className="hidden lg:flex items-center gap-4">
           {user ? (
             <>
@@ -181,14 +172,13 @@ export function Navigation() {
             className="fixed inset-0 w-full bg-background z-[60] p-4 sm:p-6 flex flex-col lg:hidden overflow-y-auto overscroll-y-contain"
           >
             <div className="flex items-center justify-between mb-8 sm:mb-12">
-              <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center">
-                <Image
-                  src="/logo.png"
-                  alt="Edyfra"
-                  width={120}
-                  height={36}
-                  className="h-9 w-auto object-contain dark:invert"
-                />
+              <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center shadow-lg">
+                  <GraduationCap className="h-5 w-5 text-white" />
+                </div>
+                <span className="text-xl font-black tracking-tight text-foreground">
+                  edyfra
+                </span>
               </Link>
               <button onClick={() => setIsOpen(false)} className="p-2" aria-label="Close menu">
                 <X />
