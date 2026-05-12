@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import {
-  ChevronLeft, Menu, Activity, Globe, Users, LayoutDashboard, GraduationCap, ShieldCheck, FileText, BookMarked, Bell, Newspaper, Star, MessageSquare, Award, TrendingUp, Cpu, Settings 
+  ChevronLeft, Menu, Activity, Globe, Users, LayoutDashboard, GraduationCap, ShieldCheck, FileText, BookMarked, Bell, Newspaper, Star, MessageSquare, Award, TrendingUp, Cpu, Settings, Search, Terminal, LogOut 
 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import Link from "next/link";
