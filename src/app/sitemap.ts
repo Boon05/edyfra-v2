@@ -4,7 +4,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://edyfra.space';
 
   // Add the main public routes
-  const routes = ['', '/features', '/about', '/contact', '/login', '/signup'].map((route) => ({
+  const routes = [
+    '',
+    '/features',
+    '/about',
+    '/contact',
+    '/login',
+    '/signup',
+    '/community',
+    '/news',
+    '/privacy',
+    '/roadmap',
+    '/terms',
+    '/forgot-password'
+  ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,

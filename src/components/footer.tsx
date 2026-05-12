@@ -143,13 +143,13 @@ export function Footer() {
               The all-in-one platform where students discover, connect, and grow.
             </p>
             <div className="flex items-center gap-4">
-              <Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors p-2 bg-secondary rounded-full">
+              <Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors p-2 bg-secondary rounded-full" aria-label="Contact Edyfra via Email" title="Email Us">
                 <Mail className="h-4 w-4" />
               </Link>
-              <Link href={WHATSAPP_CHANNEL} target="_blank" className="text-muted-foreground hover:text-emerald-500 transition-colors p-2 bg-secondary rounded-full">
+              <Link href={WHATSAPP_CHANNEL} target="_blank" className="text-muted-foreground hover:text-emerald-500 transition-colors p-2 bg-secondary rounded-full" aria-label="Join Edyfra WhatsApp Channel" title="WhatsApp Channel">
                 <MessageCircle className="h-4 w-4" />
               </Link>
-              <Link href="/" className="text-muted-foreground hover:text-primary transition-colors p-2 bg-secondary rounded-full">
+              <Link href="/" className="text-muted-foreground hover:text-primary transition-colors p-2 bg-secondary rounded-full" aria-label="Edyfra Global" title="Global Site">
                 <Globe className="h-4 w-4" />
               </Link>
             </div>

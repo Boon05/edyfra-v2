@@ -86,9 +86,10 @@ export function Navigation() {
         "fixed top-0 w-full z-50 transition-all duration-300 border-b border-transparent",
         scrolled ? "bg-background/80 backdrop-blur-xl h-14 sm:h-16 border-border shadow-sm" : "h-16 sm:h-20"
       )}
+      aria-label="Main navigation"
     >
       <div className="container mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
-        <Link href="/" className="flex items-center group">
+        <Link href="/" className="flex items-center group" aria-label="Edyfra Home">
           <Image
             src="/logo.png"
             alt="Edyfra"
@@ -105,6 +106,7 @@ export function Navigation() {
             <Link
               key={link.name}
               href={link.href}
+              aria-current={pathname === link.href ? 'page' : undefined}
               className={cn(
                 "text-sm font-medium transition-colors relative group",
                 pathname === link.href ? "text-primary" : "text-muted-foreground hover:text-foreground"
@@ -188,7 +190,7 @@ export function Navigation() {
                   className="h-9 w-auto object-contain dark:invert"
                 />
               </Link>
-              <button onClick={() => setIsOpen(false)} className="p-2">
+              <button onClick={() => setIsOpen(false)} className="p-2" aria-label="Close menu">
                 <X />
               </button>
             </div>

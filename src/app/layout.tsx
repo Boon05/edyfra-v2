@@ -52,6 +52,12 @@ export const metadata: Metadata = {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
   },
+  other: {
+    "geo.region": "KE",
+    "geo.placename": "Nairobi",
+    "geo.position": "-1.286389;36.817223",
+    "ICBM": "-1.286389, 36.817223",
+  },
 };
 
 export const viewport: Viewport = {
