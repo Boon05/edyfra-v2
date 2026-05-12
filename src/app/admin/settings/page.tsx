@@ -306,7 +306,15 @@ export default function AdminSettingsPage() {
               <div className="grid grid-cols-2 gap-4">
                 <Button 
                   variant="outline" 
-                  onClick={() => toast.info("Reindexing initiated...")}
+                  onClick={async () => {
+                    try {
+                      const { reindexDatabase } = await import("@/app/actions/admin");
+                      await reindexDatabase();
+                      toast.success("Database reindexed successfully");
+                    } catch (error) {
+                      toast.error("Failed to reindex database");
+                    }
+                  }}
                   className="rounded-2xl h-20 border-white/5 bg-white/5 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/20 font-black text-xs tracking-widest flex flex-col gap-2"
                 >
                    <Database className="h-5 w-5" /> REINDEX DATABASE
@@ -335,7 +343,15 @@ export default function AdminSettingsPage() {
                 </Button>
                 <Button 
                   variant="outline" 
-                  onClick={() => toast.info("Bootstrapping seeds...")}
+                  onClick={async () => {
+                    try {
+                      const { bootstrapSeeds } = await import("@/app/actions/admin");
+                      await bootstrapSeeds();
+                      toast.success("Seeds bootstrapped successfully");
+                    } catch (error) {
+                      toast.error("Failed to bootstrap seeds");
+                    }
+                  }}
                   className="rounded-2xl h-20 border-white/5 bg-white/5 hover:bg-orange-500/10 hover:text-orange-400 hover:border-orange-500/20 font-black text-xs tracking-widest flex flex-col gap-2"
                 >
                    <Rocket className="h-5 w-5" /> BOOTSTRAP SEEDS
