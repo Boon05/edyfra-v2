@@ -164,7 +164,7 @@ export default function AdminSettingsPage() {
             </div>
             <div className="space-y-4">
               <Label className="text-sm font-black uppercase tracking-widest">Primary Data Cluster</Label>
-              <Select value={dataCluster} onValueChange={setDataCluster}>
+              <Select value={dataCluster} onValueChange={(value) => setDataCluster(value || 'eu-central')}>
                 <SelectTrigger className="h-14 rounded-2xl bg-white/5 border-white/10 font-bold">
                   <SelectValue />
                 </SelectTrigger>
@@ -212,7 +212,7 @@ export default function AdminSettingsPage() {
 
             <div className="space-y-4">
               <Label className="text-sm font-black uppercase tracking-widest">Primary AI Provider</Label>
-              <Select value={aiProvider} onValueChange={setAiProvider}>
+              <Select value={aiProvider} onValueChange={(value) => setAiProvider(value || 'auto')}>
                 <SelectTrigger className="h-14 rounded-2xl bg-white/5 border-white/10 font-bold">
                   <SelectValue />
                 </SelectTrigger>
@@ -244,7 +244,7 @@ export default function AdminSettingsPage() {
           <CardContent className="p-10 space-y-8">
             <div className="space-y-4">
               <Label className="text-sm font-black uppercase tracking-widest">Global Points Multiplier</Label>
-              <Select value={pointsMultiplier} onValueChange={setPointsMultiplier}>
+              <Select value={pointsMultiplier} onValueChange={(value) => setPointsMultiplier(value || '1x')}>
                 <SelectTrigger className="h-14 rounded-2xl bg-white/5 border-white/10 font-bold text-orange-400">
                   <SelectValue />
                 </SelectTrigger>
