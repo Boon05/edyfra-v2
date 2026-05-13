@@ -1,0 +1,59 @@
+"use server";
+
+import { createClient } from "@/utils/supabase/server";
+import { createAdminClient } from "@/utils/supabase/admin";
+
+export async function uploadResource(formData: FormData) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { error: "You must be signed in to upload resources." };
+  }
+
+  const file = formData.get("file") as File;
+  const title = formData.get("title") as string;
+  const subject = formData.get("subject") as string;
+  const education_level = formData.get("education_level") as string;
+  const resource_type = formData.get("resource_type") as string;
+  const topic = formData.get("topic") as string;
+  const description = formData.get("description") as string;
+  const price = Number(formData.get("price"));
+
+  if (!file || !title || !subject || !education_level || !resource_type) {
+    return { error: "Missing required fields" };
+  }
+
+  const adminClient = createAdminClient();
+  const fileExt = file.name.split(".").pop();
+  const fileName = `${user.id}/${Date.now()}.${fileExt}`;
+
+  const { error: uploadError } = await adminClient.storage
+    .from("resources")
+    .upload(fileName, file, { cacheControl: "3600", upsert: false });
+
+  if (uploadError) {
+    return { error: uploadError.message };
+  }
+
+  const { data: { publicUrl } } = adminClient.storage.from("resources").getPublicUrl(fileName);
+
+  const { error: insertError } = await adminClient.from("resources").insert({
+    seller_id: user.id,
+    title,
+    subject,
+    education_level,
+    resource_type,
+    topic: topic || null,
+    description: description || null,
+    price,
+    file_path: publicUrl,
+    status: "pending",
+  });
+
+  if (insertError) {
+    return { error: insertError.message };
+  }
+
+  return { success: true };
+}

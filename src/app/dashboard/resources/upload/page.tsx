@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
-import { createClient } from "@/utils/supabase/client";
+import { uploadResource } from "@/app/actions/upload-resource";
 
 const SUBJECTS = [
   "Mathematics",
@@ -82,49 +82,20 @@ const [description, setDescription] = useState("");
 
     setIsUploading(true);
     try {
-      const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        toast.error("Please sign in to upload resources");
-        return;
-      }
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("title", title);
+      formData.append("subject", subject);
+      formData.append("education_level", level);
+      formData.append("resource_type", type);
+      formData.append("topic", topic);
+      formData.append("description", description);
+      formData.append("price", String(price));
 
-      // 1. Upload file to Supabase Storage
-      const fileExt = file.name.split(".").pop();
-      const fileName = `${user.id}/${Date.now()}.${fileExt}`;
-      const { data: uploadData, error: uploadError } = await supabase.storage
-        .from("resources")
-        .upload(fileName, file, {
-          cacheControl: "3600",
-          upsert: false,
-        });
+      const result = await uploadResource(formData);
 
-      if (uploadError) {
-        toast.error(uploadError.message);
-        return;
-      }
-
-      // 2. Get the public URL
-      const { data: { publicUrl } } = supabase.storage
-        .from("resources")
-        .getPublicUrl(fileName);
-
-      // 3. Insert metadata into the resources table
-      const { error: insertError } = await supabase.from("resources").insert({
-        seller_id: user.id,
-        title,
-        subject,
-        education_level: level,
-        resource_type: type,
-        topic: topic || null,
-        description: description || null,
-        price,
-        file_path: publicUrl,
-        status: "pending",
-      });
-
-      if (insertError) {
-        toast.error(insertError.message);
+      if (result.error) {
+        toast.error(result.error);
         return;
       }
 
