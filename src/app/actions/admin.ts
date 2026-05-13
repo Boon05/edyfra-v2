@@ -245,7 +245,8 @@ export async function approveTutorApplication(applicationId: string) {
     await prisma.tutorProfile.upsert({
       where: { userId: app.userId },
       create: {
-        userId: app.userId, subjects: app.subjects, verificationPath: app.path,
+        userId: app.userId, subjects: app.subjects || [], levelsTaught: [],
+        verificationPath: app.path,
         hourlyRate: TUTOR_CONFIG.DEFAULT_HOURLY_RATE_KSH, bio: app.notes || TUTOR_CONFIG.DEFAULT_BIO, isVerified: true, verifiedAt: new Date(),
         availability: { isOnline: false }
       },

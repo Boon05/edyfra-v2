@@ -1,6 +1,8 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
+import { createAdminClient } from "@/utils/supabase/admin";
+import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
 export async function toggleFollow(targetUserId: string) {
@@ -9,8 +11,9 @@ export async function toggleFollow(targetUserId: string) {
 
   if (!user) throw new Error("Authentication required");
 
-  // Check if already following
-  const { data: existing } = await supabase
+  const admin = createAdminClient();
+
+  const { data: existing } = await admin
     .from("connections")
     .select("id")
     .eq("follower_id", user.id)
@@ -18,26 +21,20 @@ export async function toggleFollow(targetUserId: string) {
     .single();
 
   if (existing) {
-    // Unfollow
-    await supabase
-      .from("connections")
-      .delete()
-      .eq("id", existing.id);
+    await admin.from("connections").delete().eq("id", existing.id);
   } else {
-    // Follow
-    await supabase
-      .from("connections")
-      .insert({
-        follower_id: user.id,
-        following_id: targetUserId,
-      });
-    
-    // Create notification
-    await supabase.from("Notification").insert({
-      userId: targetUserId,
-      type: "FOLLOW",
-      title: "New Follower",
-      body: "Someone just started following your academic journey.",
+    await admin.from("connections").insert({
+      follower_id: user.id,
+      following_id: targetUserId,
+    });
+
+    await prisma.notification.create({
+      data: {
+        userId: targetUserId,
+        type: "FOLLOW",
+        title: "New Follower",
+        body: "Someone just started following your academic journey.",
+      },
     });
   }
 
@@ -48,7 +45,8 @@ export async function trackProfileView(profileId: string) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  await supabase.from("profile_views").insert({
+  const admin = createAdminClient();
+  await admin.from("profile_views").insert({
     viewer_id: user?.id || null,
     profile_id: profileId,
   });

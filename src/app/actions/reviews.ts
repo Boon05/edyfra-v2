@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { createClient } from "@/utils/supabase/server";
+import { createAdminClient } from "@/utils/supabase/admin";
 import { revalidatePath } from "next/cache";
 
 // ─── Landing Page Testimonials (Supabase reviews table) ──────────────
@@ -20,8 +21,6 @@ export async function submitReview(data: {
   school: string;
   quote: string;
 }) {
-  const supabase = await createClient();
-
   if (!data.author_name?.trim() || !data.quote?.trim()) {
     return { error: "Name and review are required." };
   }
@@ -32,7 +31,8 @@ export async function submitReview(data: {
     return { error: "Review must be under 500 characters." };
   }
 
-  const { error } = await supabase.from("reviews").insert({
+  const admin = createAdminClient();
+  const { error } = await admin.from("reviews").insert({
     author_name: data.author_name.trim(),
     school: data.school?.trim() || "Edyfra Scholar",
     quote: data.quote.trim(),
@@ -62,8 +62,8 @@ export async function getApprovedReviews(): Promise<Review[]> {
 }
 
 export async function getPendingReviews(): Promise<Review[]> {
-  const supabase = await createClient();
-  const { data, error } = await supabase
+  const admin = createAdminClient();
+  const { data, error } = await admin
     .from("reviews")
     .select("*")
     .eq("approved", false)
@@ -88,7 +88,9 @@ export async function approveReview(id: string) {
   if (!user || dbUser?.role !== "ADMIN") {
     return { error: "Unauthorized" };
   }
-  await supabase.from("reviews").update({ approved: true }).eq("id", id);
+  const admin = createAdminClient();
+  const { error } = await admin.from("reviews").update({ approved: true }).eq("id", id);
+  if (error) return { error: error.message };
   revalidatePath("/");
   return { success: true };
 }
@@ -108,7 +110,9 @@ export async function deleteReview(id: string) {
   if (!user || dbUser?.role !== "ADMIN") {
     return { error: "Unauthorized" };
   }
-  await supabase.from("reviews").delete().eq("id", id);
+  const admin = createAdminClient();
+  const { error } = await admin.from("reviews").delete().eq("id", id);
+  if (error) return { error: error.message };
   revalidatePath("/");
   return { success: true };
 }

@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
         email: user.email!,
         amount: amountInKobo,
         reference: `edyfra-credits-${user.id}-${Date.now()}`,
-        callback_url: `${process.env.NEXTAUTH_URL}/api/paystack/webhook`,
+        callback_url: `${process.env.NEXT_PUBLIC_APP_URL || "https://edyfra.space"}/api/paystack/webhook`,
         metadata: {
           user_id: user.id,
           type: "credit_purchase",

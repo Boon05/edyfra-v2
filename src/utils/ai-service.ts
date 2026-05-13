@@ -1,18 +1,25 @@
 import OpenAI from "openai";
 
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
+const DEFAULT_MODEL = "deepseek/deepseek-chat";
 
-// Create OpenAI client pointing to OpenRouter
-const openai = new OpenAI({
-  baseURL: "https://openrouter.ai/api/v1",
-  apiKey: OPENROUTER_API_KEY || "missing-key",
-  defaultHeaders: {
-    "HTTP-Referer": "https://edyfra.space",
-    "X-Title": "Edyfra",
-  },
-});
+let openaiInstance: OpenAI | null = null;
 
-const DEFAULT_MODEL = "meta-llama/llama-3-8b-instruct:free";
+function getOpenAI() {
+  const apiKey = process.env.OPENROUTER_API_KEY;
+  if (!apiKey) return null;
+  
+  if (!openaiInstance) {
+    openaiInstance = new OpenAI({
+      baseURL: "https://openrouter.ai/api/v1",
+      apiKey: apiKey,
+      defaultHeaders: {
+        "HTTP-Referer": "https://edyfra.space",
+        "X-Title": "Edyfra",
+      },
+    });
+  }
+  return openaiInstance;
+}
 
 export class AIService {
   static async generateCompletion(
@@ -20,7 +27,8 @@ export class AIService {
     systemPrompt: string = "You are an expert educational assistant.",
     model: string = DEFAULT_MODEL
   ): Promise<string> {
-    if (!OPENROUTER_API_KEY || OPENROUTER_API_KEY === "missing-key") {
+    const openai = getOpenAI();
+    if (!openai) {
       console.warn("[AIService] OPENROUTER_API_KEY is missing. Returning fallback.");
       return "AI services are currently offline. Please ensure your API key is configured.";
     }

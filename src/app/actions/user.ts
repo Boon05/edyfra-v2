@@ -268,12 +268,6 @@ export async function updateUserPreferences(prefs: {
   accentColor?: string;
   layout?: string;
   fontSize?: string;
-  reducedMotion?: boolean;
-  compactMode?: boolean;
-  highContrast?: boolean;
-  emailNotifications?: boolean;
-  pushNotifications?: boolean;
-  smsNotifications?: boolean;
   preferredLanguage?: string;
   studyTime?: string;
   sessionLength?: string;
@@ -288,17 +282,28 @@ export async function updateUserPreferences(prefs: {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new Error("Unauthorized");
 
+    const allowed = [
+      "theme", "accentColor", "layout", "fontSize", "preferredLanguage",
+      "studyTime", "sessionLength", "sessionTypePref", "showProfile",
+      "showOnlineStatus", "allowTutorRequests", "enableMashFallback",
+    ];
+    const cleanPrefs = Object.fromEntries(
+      Object.entries(prefs).filter(([k]) => allowed.includes(k) && prefs[k as keyof typeof prefs] !== undefined)
+    );
+
     const existing = await prisma.userPreferences.findUnique({
       where: { userId: user.id },
     });
 
-    const merged = { ...(existing || {}), ...prefs };
+    const merged = { ...(existing || {}), ...cleanPrefs };
     delete (merged as any).id;
     delete (merged as any).userId;
+    delete (merged as any).updatedAt;
+    delete (merged as any).createdAt;
 
     await prisma.userPreferences.upsert({
       where: { userId: user.id },
-      create: { userId: user.id, ...prefs },
+      create: { userId: user.id, ...cleanPrefs },
       update: merged,
     });
 
