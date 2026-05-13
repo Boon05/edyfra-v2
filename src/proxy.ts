@@ -1,13 +1,12 @@
 import { type NextRequest } from 'next/server'
 import { updateSession } from '@/utils/supabase/middleware'
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   return await updateSession(request)
 }
 
 // Role-based access control is handled in page server components using Prisma
-// Middleware only validates authentication state (cookie/session presence)
-// See: src/app/admin/page.tsx, src/app/tutor/page.tsx, src/app/dashboard/page.tsx
+// Proxy only validates authentication state (cookie/session presence)
 
 export const config = {
   matcher: [

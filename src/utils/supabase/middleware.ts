@@ -48,7 +48,6 @@ export async function updateSession(request: NextRequest) {
 
   if (user) {
     const role = user.user_metadata?.role;
-    const email = user.email;
 
     // Redirect already logged in users away from auth pages
     if (isAuthRoute) {

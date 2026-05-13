@@ -7,11 +7,14 @@ import { User } from "@supabase/supabase-js";
 import { 
   LayoutDashboard, BookOpen, GraduationCap,
   Settings, LogOut, Zap, Flame, Trophy,
-  Sparkles, Share2, UserSearch, Users, MessageSquare, LibraryBig
+  Sparkles, Share2, UserSearch, Users, MessageSquare, LibraryBig,
+  ChevronsUpDown, Search, X
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { getUserData } from "@/app/actions/user";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -57,38 +60,74 @@ export default function DashboardSidebar({ user, onClose }: { user: User; onClos
 
   return (
     <aside className={cn(
-      "w-64 h-[calc(100vh-5rem)] sticky top-20 border-r border-border flex-col bg-background/50 backdrop-blur-xl hidden lg:flex",
-      onClose && "flex h-full sticky top-0 border-r-0"
+      "flex flex-col bg-background border-r border-border transition-all duration-200",
+      onClose ? "h-full w-full" : "w-64 h-[calc(100vh-5rem)] sticky top-20 hidden lg:flex"
     )}>
-      {/* Logo */}
-      <div className="p-8 border-b border-border/50">
-        <Link href="/dashboard" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20 group-hover:scale-110 transition-transform">
-            <GraduationCap className="text-white h-6 w-6" />
+      {/* Mobile Close Button (only if onClose provided) */}
+      {onClose && (
+        <div className="flex justify-end p-4 lg:hidden">
+          <button onClick={onClose} className="p-2 rounded-xl hover:bg-secondary/80 transition-colors">
+            <X className="h-6 w-6" />
+          </button>
+        </div>
+      )}
+
+      {/* Workspace Switcher */}
+      <div className="px-4 py-3 border-b border-border/50">
+        <div className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-secondary/80 transition-all cursor-pointer group active:scale-[0.98]">
+          <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center text-white shrink-0 shadow-lg shadow-primary/20">
+            <GraduationCap className="h-4.5 w-4.5" />
           </div>
-          <span className="text-2xl font-black text-foreground tracking-tighter">Edyfra</span>
-        </Link>
+          <div className="flex-1 min-w-0">
+            <span className="text-xl font-black truncate tracking-tighter">Edyfra</span>
+          </div>
+          <ChevronsUpDown className="h-3.5 w-3.5 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
+        </div>
+      </div>
+
+      {/* Search */}
+      <div className="px-4 py-3">
+        <div className="relative group">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground group-focus-within:text-foreground transition-colors" />
+          <input 
+            type="text" 
+            placeholder="Find..." 
+            className="w-full bg-secondary/30 hover:bg-secondary/50 border border-border/50 rounded-lg py-1.5 pl-9 pr-8 text-[13px] focus:outline-none focus:ring-1 focus:ring-primary/20 focus:bg-secondary/50 transition-all placeholder:text-muted-foreground/60"
+          />
+          <kbd className="absolute right-2.5 top-1/2 -translate-y-1/2 h-4.5 px-1.5 rounded bg-background border border-border/50 text-[9px] font-bold text-muted-foreground/60 shadow-sm">F</kbd>
+        </div>
       </div>
 
       {/* Navigation */}
-        <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
+        <nav className="flex-1 px-3 py-2 space-y-0.5 overflow-y-auto scrollbar-none">
         {navItems.map(({ href, label, icon: Icon }) => (
           <Link
             key={href}
             href={href}
             onClick={onClose}
             className={cn(
-              "flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all duration-200",
+              "flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium transition-all duration-200 group relative",
               pathname === href
-                ? "bg-primary text-white shadow-xl shadow-primary/10"
-                : "text-muted-foreground hover:text-primary hover:bg-primary/5"
+                ? "bg-secondary text-foreground shadow-sm"
+                : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
             )}
           >
-            <Icon className="h-4 w-4" />
+            <Icon className={cn(
+              "h-4 w-4 transition-colors",
+              pathname === href ? "text-primary" : "text-muted-foreground group-hover:text-foreground"
+            )} />
             {label}
+            {pathname === href && (
+              <motion.div 
+                layoutId="active-nav"
+                className="absolute left-0 w-1 h-4 bg-primary rounded-r-full"
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              />
+            )}
           </Link>
         ))}
       </nav>
+
 
       {/* User section */}
       <div className="p-4 border-t border-border/50 space-y-4">
@@ -118,16 +157,16 @@ export default function DashboardSidebar({ user, onClose }: { user: User; onClos
            </div>
         </div>
 
-        <div className="flex items-center gap-3 px-3 py-3 rounded-2xl bg-secondary border border-border">
-          <Avatar className="w-10 h-10 rounded-xl shadow-lg shadow-primary/20">
-            <AvatarImage src={avatar || undefined} alt={displayName} className="rounded-xl object-cover" />
-            <AvatarFallback className="rounded-xl bg-primary text-white font-black text-sm">
+        <div className="flex items-center gap-3 px-2 py-2 rounded-xl bg-secondary/50 border border-border/50">
+          <Avatar className="w-8 h-8 rounded-lg shadow-sm">
+            <AvatarImage src={avatar || undefined} alt={displayName} className="rounded-lg object-cover" />
+            <AvatarFallback className="rounded-lg bg-primary text-white font-bold text-[10px]">
               {displayName?.[0]?.toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <div className="min-w-0">
-            <p className="text-[11px] font-black truncate text-foreground uppercase tracking-tight">{displayName}</p>
-            <button onClick={handleLogout} className="text-[9px] font-black text-muted-foreground hover:text-destructive flex items-center gap-1 transition-colors uppercase tracking-widest">
+          <div className="min-w-0 flex-1">
+            <p className="text-[12px] font-semibold truncate text-foreground tracking-tight">{displayName}</p>
+            <button onClick={handleLogout} className="text-[10px] font-medium text-muted-foreground hover:text-destructive flex items-center gap-1 transition-colors">
                <LogOut className="h-3 w-3" /> Sign Out
             </button>
           </div>

@@ -27,18 +27,15 @@ export function Navigation() {
 
   useEffect(() => {
     const handleScroll = () => {
-      requestAnimationFrame(() => {
-        setScrolled(window.scrollY > 20);
-      });
+      if (window.scrollY > 20) {
+        if (!scrolled) setScrolled(true);
+      } else {
+        if (scrolled) setScrolled(false);
+      }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
-    requestAnimationFrame(() => {
-      setScrolled(window.scrollY > 20);
-    });
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [scrolled]);
 
   useEffect(() => {
     setIsOpen(false);
@@ -73,10 +70,11 @@ export function Navigation() {
   const showBackButton = pathname !== "/" && !isOpen;
 
   return (
-    <nav
+    <>
+      <nav
       className={cn(
         "fixed top-0 w-full z-50 transition-all duration-300 border-b border-transparent",
-        scrolled ? "bg-background/80 backdrop-blur-xl h-14 sm:h-16 border-border shadow-sm" : "h-16 sm:h-20"
+        scrolled ? "bg-background/80 backdrop-blur-md h-14 sm:h-16 border-border shadow-sm" : "h-16 sm:h-20"
       )}
       aria-label="Main navigation"
     >
@@ -161,59 +159,91 @@ export function Navigation() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isOpen && (
+    </nav>
+
+    {/* Mobile Menu Sidebar Drawer */}
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[100] lg:hidden">
           <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ type: "spring", damping: 30, stiffness: 260 }}
-            className="fixed inset-0 w-full bg-background z-[60] p-4 sm:p-6 flex flex-col lg:hidden overflow-y-auto overscroll-y-contain"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={() => setIsOpen(false)}
+          />
+          <motion.div
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "tween", duration: 0.3, ease: "easeOut" }}
+            className="absolute inset-y-0 right-0 w-80 bg-background p-8 flex flex-col border-l border-border shadow-2xl z-[110]"
           >
-            <div className="flex items-center justify-between mb-8 sm:mb-12">
+            <div className="flex items-center justify-between mb-12">
               <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center shadow-lg">
-                  <GraduationCap className="h-5 w-5 text-white" />
+                <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-lg">
+                  <GraduationCap className="h-6 w-6 text-white" />
                 </div>
-                <span className="text-xl font-black tracking-tight text-foreground">
+                <span className="text-2xl font-black tracking-tight text-foreground">
                   Edyfra
                 </span>
               </Link>
-              <button onClick={() => setIsOpen(false)} className="p-2" aria-label="Close menu">
-                <X />
+              <button 
+                onClick={() => setIsOpen(false)} 
+                className="p-3 rounded-2xl hover:bg-secondary transition-colors"
+              >
+                <X className="h-6 w-6" />
               </button>
             </div>
 
-            <div className="flex-1 space-y-3 sm:space-y-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center justify-between text-xl sm:text-2xl font-black tracking-tight py-2 border-b border-border/50 group"
-                >
-                  {link.name}
-                  <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6 text-muted-foreground group-hover:text-primary transition-colors" />
-                </Link>
-              ))}
+            <div className="flex-1 overflow-y-auto">
+              <div className="flex flex-col gap-2 mb-10">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className={cn(
+                      "flex items-center justify-between py-4 px-6 rounded-2xl transition-all group",
+                      pathname === link.href ? "bg-primary/10 text-primary" : "hover:bg-secondary text-foreground hover:translate-x-1"
+                    )}
+                  >
+                    <span className="text-xl font-bold tracking-tight">{link.name}</span>
+                    <ChevronRight className={cn(
+                      "h-5 w-5 transition-all opacity-0 group-hover:opacity-100",
+                      pathname === link.href && "opacity-100"
+                    )} />
+                  </Link>
+                ))}
+              </div>
             </div>
 
-            <div className="pt-6 sm:pt-8 space-y-3 sm:space-y-4">
-              <Link href="/signup" onClick={() => setIsOpen(false)} className="block w-full">
-                <Button className="w-full h-12 sm:h-14 rounded-2xl font-bold text-base sm:text-lg bg-foreground text-background">
-                  Get Started
-                </Button>
-              </Link>
-              <Link href="/login" onClick={() => setIsOpen(false)} className="block w-full">
-                <Button variant="ghost" className="w-full h-12 sm:h-14 rounded-2xl font-semibold text-base sm:text-lg">
-                  Sign In
-                </Button>
-              </Link>
+            <div className="mt-auto space-y-4 pt-8 border-t border-border">
+              {user ? (
+                <Link href="/dashboard" onClick={() => setIsOpen(false)} className="block w-full">
+                  <Button className="w-full h-14 rounded-2xl font-bold text-lg bg-primary text-white hover:bg-primary/90 shadow-xl active:scale-[0.98] transition-all">
+                    Go to Dashboard
+                  </Button>
+                </Link>
+              ) : (
+                <>
+                  <Link href="/signup" onClick={() => setIsOpen(false)} className="block w-full">
+                    <Button className="w-full h-14 rounded-2xl font-bold text-lg bg-foreground text-background hover:bg-foreground/90 shadow-xl active:scale-[0.98] transition-all">
+                      Get Started
+                    </Button>
+                  </Link>
+                  <Link href="/login" onClick={() => setIsOpen(false)} className="block w-full">
+                    <Button variant="ghost" className="w-full h-14 rounded-2xl font-semibold text-lg hover:bg-secondary">
+                      Sign In
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </motion.div>
-        )}
+        </div>
+      )}
       </AnimatePresence>
-    </nav>
+    </>
   );
 }

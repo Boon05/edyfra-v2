@@ -15,7 +15,7 @@ export function AbstractAnimation() {
           rotate: [0, 90, 0],
         }}
         transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[400px] md:h-[400px] bg-primary/20 rounded-full blur-[80px] z-10"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[400px] md:h-[400px] bg-primary/20 rounded-full blur-[60px] z-10 will-change-transform"
       />
       
       <motion.div
@@ -25,7 +25,7 @@ export function AbstractAnimation() {
           rotate: [0, -90, 0],
         }}
         transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-        className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[250px] md:w-[350px] md:h-[350px] bg-emerald-500/10 rounded-full blur-[60px] z-10"
+        className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[250px] md:w-[350px] md:h-[350px] bg-emerald-500/10 rounded-full blur-[50px] z-10 will-change-transform"
       />
 
       <motion.div

@@ -18,6 +18,14 @@ const subjects = [
   "CRE",
   "IRE",
   "Art & Design",
+  "Medicine",
+  "Engineering",
+  "Law",
+  "Data Science",
+  "Psychology",
+  "Nursing",
+  "Software Engineering",
+  "Architecture",
 ];
 
 export function SubjectCoverage() {
@@ -39,8 +47,8 @@ export function SubjectCoverage() {
             Your subject is covered.
           </h2>
           <p className="text-muted-foreground font-medium text-lg">
-            Edyfra supports the full Kenyan curriculum — from KCPE through KCSE
-            and beyond.
+            Edyfra supports the full Kenyan curriculum — from KCPE through KCSE,
+            University level, and beyond.
           </p>
         </motion.div>
 

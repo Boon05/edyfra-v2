@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Button } from "@/components/ui/button";
 
 // 1. Antigravity-Safe Data Loading Hook
 export function useSafeUserData() {
@@ -109,7 +108,7 @@ export function useSessionCounter(userId: string) {
         if (!supabase) return;
 
         const { count, error } = await supabase
-          .from("Session")
+          .from("session")
           .select("*", { count: "exact", head: true })
           .or(`studentId.eq.${userId},partnerId.eq.${userId}`);
 

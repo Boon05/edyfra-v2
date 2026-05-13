@@ -66,7 +66,7 @@ export default function MobileNav({ user }: { user: User }) {
          </Button>
       </header>
 
-      {/* Full Screen Drawer */}
+      {/* Side Drawer */}
       <AnimatePresence>
         {isOpen && (
           <>
@@ -78,41 +78,19 @@ export default function MobileNav({ user }: { user: User }) {
               onClick={() => setIsOpen(false)}
             />
             <motion.div
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.96 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="fixed inset-0 w-full h-full bg-background z-[70] shadow-2xl overflow-y-auto overscroll-y-contain"
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "tween", duration: 0.3, ease: "easeOut" }}
+              className="fixed inset-y-0 left-0 w-80 bg-background z-[110] shadow-2xl overflow-hidden lg:hidden"
             >
-              <div className="sticky top-0 z-50 flex items-center justify-between p-4 border-b border-border bg-background">
-                <Link href="/dashboard" onClick={() => setIsOpen(false)} className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/20">
-                    <GraduationCap className="h-5 w-5" />
-                  </div>
-                  <span className="text-xl font-black text-foreground tracking-tighter">Edyfra</span>
-                </Link>
-                <div className="flex items-center gap-2">
-                  {isTutor && (
-                    <Link
-                      href="/tutor"
-                      onClick={() => setIsOpen(false)}
-                      className="p-2 rounded-xl bg-primary/10 text-primary hover:bg-primary/20 transition-all"
-                      aria-label="Tutor Dashboard"
-                    >
-                      <LayoutDashboard className="h-5 w-5" />
-                    </Link>
-                  )}
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    onClick={() => setIsOpen(false)}
-                    className="rounded-xl bg-secondary/50 hover:bg-secondary"
-                  >
-                    <X className="h-5 w-5" />
-                  </Button>
-                </div>
+              {/* Premium Glows */}
+              <div className="absolute top-0 left-0 w-full h-80 bg-primary/10 blur-[120px] -translate-y-1/2 -translate-x-1/2 pointer-events-none" />
+              <div className="absolute bottom-0 right-0 w-full h-80 bg-primary/5 blur-[120px] translate-y-1/2 translate-x-1/2 pointer-events-none" />
+
+              <div className="relative z-10 h-full">
+                <DashboardSidebar user={user} onClose={() => setIsOpen(false)} />
               </div>
-              <DashboardSidebar user={user} onClose={() => setIsOpen(false)} />
             </motion.div>
           </>
         )}

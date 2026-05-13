@@ -52,11 +52,11 @@ export default function RoleChoicePage() {
           className="space-y-6 text-center"
         >
           <div className="flex justify-center">
-             <Badge className="bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[10px] font-black uppercase tracking-[0.4em] backdrop-blur-md">
+             <Badge className="bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[10px] font-black uppercase tracking-widest backdrop-blur-md">
                Choose your path
              </Badge>
           </div>
-          <h1 className="text-6xl md:text-8xl font-black tracking-tightest leading-[0.9]">
+          <h1 className="text-4xl md:text-7xl lg:text-8xl font-black tracking-tightest leading-[0.9] text-foreground">
             What brings you <span className="text-primary">here?</span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto font-medium leading-relaxed">
@@ -77,13 +77,13 @@ export default function RoleChoicePage() {
               className="cursor-pointer border-border/50 hover:border-primary transition-all duration-700 rounded-[3.5rem] overflow-hidden bg-secondary/30 backdrop-blur-3xl shadow-2xl relative group-hover:scale-[1.02]"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-              <CardContent className="p-12 md:p-16 space-y-10 relative">
+              <CardContent className="p-8 md:p-16 space-y-10 relative">
                 <div className="w-24 h-24 rounded-[2rem] bg-primary text-white flex items-center justify-center shadow-2xl shadow-primary/20 group-hover:rotate-12 transition-transform duration-500">
                   <Users className="h-10 w-10" />
                 </div>
                 
                 <div className="space-y-4">
-                  <h3 className="text-4xl md:text-5xl font-black tracking-tightest text-white">I want to learn.</h3>
+                  <h3 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tightest text-foreground">I want to learn.</h3>
                   <p className="text-muted-foreground font-medium text-lg leading-relaxed">
                     Get matched with mentors who can help you understand tough topics and stay on track.
                   </p>
@@ -102,7 +102,7 @@ export default function RoleChoicePage() {
                   ))}
                 </div>
 
-                <Button className="w-full h-20 rounded-[2rem] font-black text-xs tracking-[0.3em] bg-white text-black hover:bg-primary hover:text-white transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-primary/30 uppercase">
+                <Button className="w-full h-16 rounded-2xl font-bold text-xs tracking-widest bg-foreground text-background hover:bg-primary hover:text-white transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-primary/30 uppercase">
                    Continue as a Student <ArrowRight className="h-4 w-4 ml-3" />
                 </Button>
               </CardContent>
@@ -121,14 +121,14 @@ export default function RoleChoicePage() {
               className="cursor-pointer border-border/50 hover:border-emerald-500 transition-all duration-700 rounded-[3.5rem] overflow-hidden bg-secondary/30 backdrop-blur-3xl shadow-2xl relative group-hover:scale-[1.02]"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-              <CardContent className="p-12 md:p-16 space-y-10 relative">
+              <CardContent className="p-8 md:p-16 space-y-10 relative">
                 <div className="w-24 h-24 rounded-[2rem] bg-emerald-600 text-white flex items-center justify-center shadow-2xl shadow-emerald-500/20 group-hover:-rotate-12 transition-transform duration-500">
                   <GraduationCap className="h-10 w-10" />
                 </div>
 
                 <div className="space-y-4">
-                   <div className="flex items-center gap-3">
-                     <h3 className="text-4xl md:text-5xl font-black tracking-tightest text-white">I want to teach.</h3>
+                   <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                     <h3 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tightest text-foreground">I want to teach.</h3>
                      <Badge className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20 px-3 py-1 text-[8px] font-black uppercase tracking-widest">Earn while helping</Badge>
                    </div>
                   <p className="text-muted-foreground font-medium text-lg leading-relaxed">
@@ -149,7 +149,7 @@ export default function RoleChoicePage() {
                   ))}
                 </div>
 
-                <Button className="w-full h-20 rounded-[2rem] font-black text-xs tracking-[0.3em] bg-emerald-600 hover:bg-emerald-700 text-white shadow-xl shadow-emerald-600/20 transition-all duration-500 uppercase">
+                <Button className="w-full h-16 rounded-2xl font-bold text-xs tracking-widest bg-emerald-600 hover:bg-emerald-700 text-white shadow-xl shadow-emerald-600/20 transition-all duration-500 uppercase">
                    Apply to Tutor <ArrowRight className="h-4 w-4 ml-3" />
                 </Button>
               </CardContent>
