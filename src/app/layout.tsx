@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeColorManager } from "@/components/theme-color-manager";
 import { ConditionalShell } from "@/components/conditional-shell";
 import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
+import { PushSubscriptionManager } from "@/components/push-subscription-manager";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -96,6 +97,7 @@ export default function RootLayout({
           <ThemeColorManager />
           <ConditionalShell>{children}</ConditionalShell>
           <ServiceWorkerRegister />
+          <PushSubscriptionManager />
           <Toaster richColors position="top-right" />
           <Analytics />
           <SpeedInsights />

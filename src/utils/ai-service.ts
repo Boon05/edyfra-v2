@@ -15,36 +15,49 @@ const openai = new OpenAI({
 const DEFAULT_MODEL = "meta-llama/llama-3-8b-instruct:free";
 
 export class AIService {
-  static async generateCompletion(prompt: string, model: string = DEFAULT_MODEL): Promise<string> {
-    if (!OPENROUTER_API_KEY) {
+  static async generateCompletion(
+    prompt: string, 
+    systemPrompt: string = "You are an expert educational assistant.",
+    model: string = DEFAULT_MODEL
+  ): Promise<string> {
+    if (!OPENROUTER_API_KEY || OPENROUTER_API_KEY === "missing-key") {
       console.warn("[AIService] OPENROUTER_API_KEY is missing. Returning fallback.");
-      return "AI automation requires an OpenRouter API Key in environment variables.";
+      return "AI services are currently offline. Please ensure your API key is configured.";
     }
 
     try {
       const completion = await openai.chat.completions.create({
         model,
-        messages: [{ role: "user", content: prompt }],
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: prompt }
+        ],
+        temperature: 0.7,
       });
 
       return completion.choices[0]?.message?.content || "";
     } catch (error) {
       console.error("[AIService] Generation error:", error);
-      throw error;
+      return "I'm having a bit of trouble thinking right now. Let's try again in a moment.";
     }
   }
 
-  static async generateJSON(prompt: string, schema?: any, model: string = DEFAULT_MODEL): Promise<any> {
-    const jsonPrompt = `${prompt}\n\nReturn ONLY valid JSON. Do not include markdown blocks like \`\`\`json.`;
+  static async generateJSON(
+    prompt: string, 
+    schema?: any, 
+    model: string = DEFAULT_MODEL
+  ): Promise<any> {
+    const systemPrompt = "You are a specialized assistant that returns ONLY valid JSON. No markdown, no commentary.";
     
     try {
-      const text = await this.generateCompletion(jsonPrompt, model);
-      // Try to parse the result as JSON
+      const text = await this.generateCompletion(prompt, systemPrompt, model);
+      // Clean potential markdown artifacts
       const cleaned = text.replace(/```json/g, "").replace(/```/g, "").trim();
       return JSON.parse(cleaned);
     } catch (error) {
       console.error("[AIService] JSON generation error:", error);
-      throw error;
+      // Fallback for JSON structure to prevent crashes
+      return schema || { error: "Failed to generate valid JSON" };
     }
   }
 }
