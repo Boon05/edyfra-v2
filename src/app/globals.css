@@ -3,6 +3,27 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ── iOS Safari green screen fix ── */
+/* backdrop-filter triggers a WebKit GPU compositing bug that renders the page
+   as a solid green screen. This forces a root compositing layer to prevent it. */
+html {
+  -webkit-backdrop-filter: blur(0px);
+  isolation: isolate;
+}
+
+/* On iOS, hide purely decorative large blurs and force solid backgrounds
+   for backdrop-filter elements to avoid GPU compositing conflicts */
+@supports (-webkit-touch-callout: none) {
+  [class*="ios-hidden"] {
+    display: none !important;
+  }
+
+  [class*="backdrop-blur-"] {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+}
+
 :root {
   --background: #ffffff;
   --foreground: #1d1d1f;

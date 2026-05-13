@@ -10,8 +10,8 @@ export function HomeHero() {
 
   return (
     <section className="relative min-h-[90vh] flex flex-col items-center justify-center text-center px-6 overflow-hidden pt-20 pb-0">
-      {/* Background blobs */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
+      {/* Background blobs — hidden on iOS (GPU compositing conflict) */}
+      <div className="absolute inset-0 z-0 pointer-events-none ios-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-primary/8 blur-[120px] rounded-full" />
         <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-violet-500/5 blur-[100px] rounded-full" />
       </div>

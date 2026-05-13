@@ -7,36 +7,38 @@ export function AbstractAnimation() {
     <div className="relative w-full h-[400px] md:h-[500px] overflow-hidden bg-background flex items-center justify-center border-y border-border/50">
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent z-0" />
       
-      {/* Dynamic Orbs */}
-      <motion.div
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.6, 0.3],
-          rotate: [0, 90, 0],
-        }}
-        transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[400px] md:h-[400px] bg-primary/20 rounded-full blur-[60px] z-10 will-change-transform"
-      />
-      
-      <motion.div
-        animate={{
-          scale: [1, 1.5, 1],
-          opacity: [0.2, 0.5, 0.2],
-          rotate: [0, -90, 0],
-        }}
-        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-        className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[250px] md:w-[350px] md:h-[350px] bg-emerald-500/10 rounded-full blur-[50px] z-10 will-change-transform"
-      />
+      {/* Dynamic Orbs — hidden on iOS to avoid GPU compositing conflicts */}
+      <div className="ios-hidden">
+        <motion.div
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.6, 0.3],
+            rotate: [0, 90, 0],
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[400px] md:h-[400px] bg-primary/20 rounded-full blur-[60px] z-10 will-change-transform"
+        />
+        
+        <motion.div
+          animate={{
+            scale: [1, 1.5, 1],
+            opacity: [0.2, 0.5, 0.2],
+            rotate: [0, -90, 0],
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+          className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[250px] md:w-[350px] md:h-[350px] bg-emerald-500/10 rounded-full blur-[50px] z-10 will-change-transform"
+        />
 
-      <motion.div
-        animate={{
-          scale: [1, 1.3, 1],
-          opacity: [0.2, 0.4, 0.2],
-          rotate: [0, 180, 0],
-        }}
-        transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-        className="absolute top-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-[200px] h-[200px] md:w-[300px] md:h-[300px] bg-purple-500/10 rounded-full blur-[70px] z-10"
-      />
+        <motion.div
+          animate={{
+            scale: [1, 1.3, 1],
+            opacity: [0.2, 0.4, 0.2],
+            rotate: [0, 180, 0],
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+          className="absolute top-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-[200px] h-[200px] md:w-[300px] md:h-[300px] bg-purple-500/10 rounded-full blur-[70px] z-10"
+        />
+      </div>
 
       {/* Grid Pattern */}
       <div 
@@ -56,20 +58,10 @@ export function AbstractAnimation() {
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.2 }}
-            animate={{
-              y: [0, -15, 0],
-            }}
-            style={{
-              transition: "all 3s ease-in-out"
-            }}
-            className="flex-1 max-w-[200px] aspect-square rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl shadow-2xl flex items-center justify-center relative overflow-hidden"
+            className="flex-1 max-w-[200px] aspect-square rounded-3xl border border-white/10 bg-white/5 shadow-2xl flex items-center justify-center relative overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent opacity-50" />
-            <motion.div 
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20 + i * 5, repeat: Infinity, ease: "linear" }}
-              className="w-16 h-16 rounded-2xl border-2 border-primary/30 rotate-45"
-            />
+            <div className="w-16 h-16 rounded-2xl border-2 border-primary/30 rotate-45" />
           </motion.div>
         ))}
       </div>
