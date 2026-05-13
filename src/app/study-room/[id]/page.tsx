@@ -92,7 +92,7 @@ export default function StudyRoomPage() {
   };
 
   if (loading) return (
-    <div className="h-screen flex flex-col items-center justify-center space-y-4 bg-background">
+    <div className="h-[100dvh] flex flex-col items-center justify-center space-y-4 bg-background">
       <Loader2 className="h-12 w-12 animate-spin text-primary" />
       <p className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground">Opening your study room...</p>
     </div>

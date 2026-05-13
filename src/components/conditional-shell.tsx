@@ -17,6 +17,7 @@ const APP_ROUTES = [
 ];
 
 export function ConditionalShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
   const normalizedPath = pathname?.toLowerCase() || "";
   const isAppRoute = APP_ROUTES.some(route => 
     normalizedPath === route.toLowerCase() || 
