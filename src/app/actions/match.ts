@@ -257,7 +257,7 @@ export async function forceAIFallback(requestId: string) {
     return { success: false, message: "Already matched or not found" };
   }
 
-  const roomId = `ai-${randomBytes(8).toString('hex')}`;
+  const roomId = `mash-${randomBytes(8).toString('hex')}`;
   const session = await prisma.session.create({
     data: {
       studentId: matchRequest.studentId,

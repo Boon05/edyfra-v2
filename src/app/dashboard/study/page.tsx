@@ -8,7 +8,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { createMatchRequest, forceAIFallback, checkMatchStatus } from "@/app/actions/match";
-import { Zap, Search, Users, Cpu, Loader2 } from "lucide-react";
+import { Zap, Search, Users, Cpu, Loader2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { createClient } from "@/utils/supabase/client";
 
@@ -174,7 +174,7 @@ export default function StudyPage() {
           Let&apos;s find you <br /> <span className="text-muted-foreground">some help.</span>
         </h1>
         <p className="text-muted-foreground text-lg md:text-xl font-medium max-w-2xl leading-relaxed">
-          Pick a subject and we&apos;ll find someone to help — a tutor, a study buddy, or Mash AI.
+          Pick a subject and we&apos;ll find someone to help — a tutor, a study buddy, or Mash AI. <span className="text-emerald-500">Mash AI is always available in your room.</span>
         </p>
       </div>
 
@@ -237,7 +237,7 @@ export default function StudyPage() {
                 </div>
                 <div className="space-y-4">
                   <h2 className="text-4xl md:text-5xl font-black tracking-tightest">Searching for a tutor...</h2>
-                  <p className="text-muted-foreground text-lg font-medium">Looking for someone who knows {formData.subject}.</p>
+                  <p className="text-muted-foreground text-lg font-medium">Looking for someone who knows {formData.subject}. <span className="text-emerald-500">Mash AI is already listening in your room.</span></p>
                   <div className="pt-6">
                      <span className="px-6 py-2 rounded-full bg-primary/10 text-primary font-black text-xs tracking-widest uppercase">{timer}s left</span>
                   </div>
@@ -261,7 +261,7 @@ export default function StudyPage() {
                 </div>
                 <div className="space-y-4">
                   <h2 className="text-4xl md:text-5xl font-black tracking-tightest text-blue-500">Searching for a study partner...</h2>
-                  <p className="text-muted-foreground text-lg font-medium">No tutor available — looking for a peer who can help with {formData.subject}.</p>
+                  <p className="text-muted-foreground text-lg font-medium">No tutor available — looking for a peer who can help with {formData.subject}. <span className="text-emerald-500">Mash AI is still listening.</span></p>
                   <div className="pt-6">
                      <span className="px-6 py-2 rounded-full bg-blue-500/10 text-blue-500 font-black text-xs tracking-widest uppercase">{timer}s left</span>
                   </div>
@@ -284,11 +284,11 @@ export default function StudyPage() {
                    </div>
                 </div>
                 <div className="space-y-4">
-                  <h2 className="text-4xl md:text-5xl font-black tracking-tightest text-emerald-500">Connecting you to Mash AI...</h2>
-                  <p className="text-muted-foreground text-lg font-medium">No one&apos;s available right now, but Mash AI is ready to step in.</p>
+                  <h2 className="text-4xl md:text-5xl font-black tracking-tightest text-emerald-500">Mash AI has you covered</h2>
+                  <p className="text-muted-foreground text-lg font-medium">No one&apos;s available right now — Mash AI will guide you through {formData.subject}.</p>
                   <div className="pt-6 flex justify-center gap-2">
-                     <Loader2 className="h-4 w-4 animate-spin text-emerald-500" />
-                     <span className="text-emerald-500 font-black text-xs tracking-widest uppercase">Connecting...</span>
+                     <Sparkles className="h-5 w-5 text-emerald-500" />
+                     <span className="text-emerald-500 font-black text-xs tracking-widest uppercase">AI Ready</span>
                   </div>
                 </div>
               </motion.div>

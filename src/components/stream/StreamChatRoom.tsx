@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback, useRef, useMemo } from "react";
 import { StreamChat } from "stream-chat";
 import {
   Chat,
@@ -24,7 +24,7 @@ import { getStreamToken, upsertStreamUser } from "@/app/actions/stream";
 
 import "stream-chat-react/dist/css/index.css";
 import { polyfillClipboard } from "@/utils/clipboard-polyfill";
-import { Loader2, RefreshCw, Video, VideoOff, Maximize2, X, GraduationCap } from "lucide-react";
+import { Loader2, RefreshCw, Video, VideoOff, Maximize2, X, GraduationCap, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import { cn } from "@/lib/utils";
@@ -56,6 +56,7 @@ export default function StreamChatRoom({
   memberIds,
   channelName,
   hideHeader,
+  mashAI,
 }: StreamChatRoomProps) {
   const [chatClient, setChatClient] = useState<StreamChat | null>(null);
   const [videoClient, setVideoClient] = useState<StreamVideoClient | null>(null);
@@ -132,10 +133,11 @@ export default function StreamChatRoom({
         console.warn("[StreamChatRoom] upsertStreamUser non-fatal:", upsertErr);
       }
 
-      // All members including self
+      // All members including self + Mash AI (always present for on-demand help)
       const allMembers = [
         userId,
         ...(memberIds?.filter((m) => m !== userId) || []),
+        "mash-ai",
       ];
 
       // Create or connect to the channel — watch() is idempotent
@@ -431,7 +433,11 @@ export default function StreamChatRoom({
                       {channelName || "Study Room"}
                     </h3>
                     <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-tighter">
-                      Active Session • {memberIds?.length || 1} Members
+                      {(memberIds?.length ?? 0) + 2} Members{mashAI?.tier !== "MASH" ? (
+                        <span className="ml-2 text-emerald-500">· <Sparkles className="inline h-3 w-3 -mt-0.5" /> @Mash AI</span>
+                      ) : (
+                        <span className="ml-2 text-emerald-500">· <Sparkles className="inline h-3 w-3 -mt-0.5" /> Mash AI</span>
+                      )}
                     </p>
                   </div>
                 </div>

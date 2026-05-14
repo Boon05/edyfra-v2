@@ -11,42 +11,58 @@ export async function POST(request: Request) {
     const payload = await request.json();
     const { type, message, cid } = payload;
 
-    // 1. Only handle new messages
+    // Only handle new messages
     if (type !== "message.new" || !message || !cid) {
       return NextResponse.json({ success: true, message: "Ignored event type" });
     }
 
-    // 2. Prevent infinite loops (ignore messages sent by mash-ai)
+    // Prevent infinite loops (ignore messages sent by mash-ai)
     if (message.user.id === "mash-ai") {
       return NextResponse.json({ success: true, message: "Ignored AI's own message" });
     }
 
-    // 3. Verify if this is an AI-tier session
-    // We check if the channel ID starts with 'mash-' or if the session is marked as MASH in DB
+    // Channel ID = session UUID (matches the DB session id)
     const channelId = cid.split(":")[1];
-    
-    // Quick check by ID prefix first
-    if (!channelId.startsWith("mash-")) {
-      return NextResponse.json({ success: true, message: "Not an AI session (prefix check)" });
-    }
 
-    // 4. Fetch session details for context (Subject/Topic)
-    const session = await prisma.session.findFirst({
-      where: { roomId: channelId, tier: "MASH" },
-      select: { subject: true, topic: true, studentId: true }
+    // Fetch session — Stream channel ID is the session UUID
+    const session = await prisma.session.findUnique({
+      where: { id: channelId },
+      select: { id: true, tier: true, subject: true, topic: true, studentId: true, partnerId: true }
     });
 
     if (!session) {
-      return NextResponse.json({ success: true, message: "No active MASH session found for this room" });
+      return NextResponse.json({ success: true, message: "No session found for this channel" });
     }
 
-    // 5. Generate AI Response
+    // Determine if AI should respond
+    let prompt = message.text || "";
+    let shouldRespond = false;
+
+    if (session.tier === "MASH") {
+      // AI-only session — auto-respond to every student message
+      shouldRespond = true;
+    } else {
+      // Human session — only respond when @mentioned
+      const mentionPattern = /@(?:Mash|AI|mash|ai|mash-ai)\b/;
+      const mention = prompt.match(mentionPattern);
+      if (mention) {
+        shouldRespond = true;
+        prompt = prompt.replace(mentionPattern, "").trim();
+      }
+    }
+
+    if (!shouldRespond || !prompt) {
+      return NextResponse.json({ success: true, message: "Skipped — no AI trigger" });
+    }
+
+    // Generate AI Response
     const systemPrompt = `
       You are Mash AI, a supportive and expert Kenyan tutor on the Edyfra platform.
       Session Context:
       - Subject: ${session.subject}
       - Topic: ${session.topic || "General"}
-      
+      - Session Type: ${session.tier === "MASH" ? "One-on-one AI tutoring" : "Study group with human participants"}
+
       Guidelines:
       - Be encouraging, professional, and clear.
       - Do NOT just give the final answer. Guide the student with questions and hints.
@@ -54,12 +70,13 @@ export async function POST(request: Request) {
       - If they ask something outside of ${session.subject}, gently remind them to stay on topic.
     `;
 
-    const aiResponse = await AIService.generateCompletion(message.text, systemPrompt);
+    const aiResponse = await AIService.generateCompletion(prompt, systemPrompt);
 
-    // 6. Post response back to Stream
+    // Ensure mash-ai user exists in Stream, then post response
     const client = StreamChat.getInstance(STREAM_KEY, STREAM_SECRET);
-    const channel = client.channel("messaging", channelId);
+    await client.upsertUser({ id: "mash-ai", name: "Mash AI", role: "user" });
 
+    const channel = client.channel("messaging", channelId);
     await channel.sendMessage({
       text: aiResponse,
       user_id: "mash-ai",
