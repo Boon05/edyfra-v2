@@ -75,7 +75,7 @@ model StudentProfile {
   studyStyle     String
   preferredTimes Json
   goals          String[]
-  user           User     @relation(fields: [userId], references: [id])
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model TutorProfile {
@@ -95,7 +95,7 @@ model TutorProfile {
   sessionRate1on1  Int?      @default(200) @map("session_rate_1on1")
   sessionRateGroup Int?      @default(100) @map("session_rate_group")
   payoutPhone      String?   @map("payout_phone")
-  user             User      @relation(fields: [userId], references: [id])
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model MatchRequest {
@@ -109,7 +109,7 @@ model MatchRequest {
   sessionId  String?
   createdAt  DateTime   @default(now())
   resolvedAt DateTime?
-  student    User       @relation(fields: [studentId], references: [id])
+  student    User       @relation(fields: [studentId], references: [id], onDelete: Cascade)
 }
 
 model Session {
@@ -131,7 +131,7 @@ model Session {
   messages      Message[]
   review        Review?
   partner       User?            @relation("TutorSessions", fields: [partnerId], references: [id])
-  student       User             @relation("StudentSessions", fields: [studentId], references: [id])
+  student       User             @relation("StudentSessions", fields: [studentId], references: [id], onDelete: Cascade)
   payments      SessionPayment[]
 }
 
@@ -143,7 +143,7 @@ model Message {
   isMash    Boolean  @default(false)
   flagged   Boolean  @default(false)
   createdAt DateTime @default(now())
-  sender    User?    @relation(fields: [senderId], references: [id])
+  sender    User?    @relation(fields: [senderId], references: [id], onDelete: SetNull)
   session   Session  @relation(fields: [sessionId], references: [id])
 }
 
@@ -181,7 +181,7 @@ model DailyChallengeAttempt {
   pointsEarned Int
   createdAt    DateTime       @default(now())
   challenge    DailyChallenge @relation(fields: [challengeId], references: [id])
-  user         User           @relation(fields: [userId], references: [id])
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, challengeId])
 }
@@ -219,7 +219,7 @@ model TutorApplication {
   reviewedAt DateTime?
   notes      String?
   createdAt  DateTime  @default(now())
-  user       User      @relation(fields: [userId], references: [id])
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Notification {
@@ -231,7 +231,7 @@ model Notification {
   actionUrl String?
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model FeedPost {
@@ -244,7 +244,7 @@ model FeedPost {
   likes     Int        @default(0)
   createdAt DateTime   @default(now())
   comments  Comment[]
-  user      User       @relation(fields: [userId], references: [id])
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   likedBy   PostLike[]
 }
 
@@ -254,7 +254,7 @@ model PostLike {
   userId    String
   createdAt DateTime @default(now())
   post      FeedPost @relation(fields: [postId], references: [id])
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([postId, userId])
 }
@@ -266,7 +266,7 @@ model Comment {
   content   String
   createdAt DateTime @default(now())
   post      FeedPost @relation(fields: [postId], references: [id])
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Achievement {
@@ -277,7 +277,7 @@ model Achievement {
   description String
   icon        String
   unlockedAt  DateTime @default(now())
-  user        User     @relation(fields: [userId], references: [id])
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, type])
 }
@@ -346,7 +346,7 @@ model UserCredits {
   balance   Int      @default(0)
   updatedAt DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model CreditTransaction {
@@ -358,7 +358,7 @@ model CreditTransaction {
   reference   String? // External reference like Paystack transaction ID
   createdAt   DateTime @default(now())
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([createdAt])
