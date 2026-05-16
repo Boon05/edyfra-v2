@@ -43,6 +43,11 @@ export default function TutorLayout({ children }: { children: React.ReactNode })
         return;
       }
 
+      if (role === "TUTOR" && !dbUser?.tutorProfile?.isVerified) {
+        router.push("/dashboard");
+        return;
+      }
+
       setUser(user);
       if (dbUser) setPoints(dbUser.points);
     } catch (error) {
