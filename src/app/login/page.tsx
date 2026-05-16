@@ -38,7 +38,7 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="flex flex-col items-center gap-4 text-center">
            <Link href="/" className="flex items-center gap-3 group mb-4">
-              <img src="/icon.png" alt="Edyfra Logo" className="w-9 h-9 rounded-xl shadow-lg object-cover" />
+              <img src="/image.png" alt="Edyfra Logo" className="w-9 h-9 rounded-xl shadow-lg object-cover" />
               <span className="text-3xl font-black text-foreground tracking-tighter">Edyfra</span>
            </Link>
            <h1 className="text-4xl font-black tracking-tightest">Welcome back.</h1>

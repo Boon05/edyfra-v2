@@ -48,7 +48,7 @@ export default function MobileNav({ user }: { user: User }) {
             </button>
           )}
           <Link href="/dashboard" className="flex items-center gap-2" onClick={() => setIsOpen(false)}>
-            <img src="/icon.png" alt="Edyfra Logo" className="w-9 h-9 rounded-xl shadow-lg object-cover" />
+            <img src="/image.png" alt="Edyfra Logo" className="w-9 h-9 rounded-xl shadow-lg object-cover" />
             <span className="text-lg sm:text-xl font-black text-foreground tracking-tighter">Edyfra</span>
           </Link>
         </div>
