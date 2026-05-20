@@ -124,8 +124,8 @@ export default function AdminSettingsPage() {
     <div className="space-y-12 animate-in fade-in duration-700">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-1">
-          <h1 className="text-5xl font-black tracking-tighter">System Config</h1>
-          <p className="text-muted-foreground text-sm font-bold tracking-widest uppercase italic">Master environment variables & platform gates.</p>
+          <h1 className="text-5xl font-black tracking-tighter">Platform Settings</h1>
+          <p className="text-muted-foreground text-sm font-bold tracking-widest uppercase italic">Manage global platform settings and AI configurations.</p>
         </div>
         <Button 
           onClick={handleSave} 
@@ -133,19 +133,19 @@ export default function AdminSettingsPage() {
           className="rounded-2xl font-black gap-2 h-14 px-10 shadow-2xl shadow-primary/40 bg-primary hover:bg-primary/90"
         >
           {saving ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-          DEPLOY CHANGES
+          SAVE SETTINGS
         </Button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Core Infrastructure */}
+        {/* General Settings */}
         <Card className="border-white/5 bg-white/[0.02] backdrop-blur-xl rounded-[2.5rem] overflow-hidden">
           <CardHeader className="p-10 border-b border-white/5">
             <div className="flex items-center gap-4 mb-2">
               <Globe className="h-6 w-6 text-primary" />
-              <CardTitle className="text-2xl font-black">Core Infrastructure</CardTitle>
+              <CardTitle className="text-2xl font-black">General Settings</CardTitle>
             </div>
-            <CardDescription>Global platform availability and access gates.</CardDescription>
+            <CardDescription>Control site availability and user registration.</CardDescription>
           </CardHeader>
           <CardContent className="p-10 space-y-8">
             <div className="flex items-center justify-between p-6 rounded-3xl bg-white/5 border border-white/5">
@@ -163,34 +163,34 @@ export default function AdminSettingsPage() {
               <Switch checked={registrationGate} onCheckedChange={setRegistrationGate} />
             </div>
             <div className="space-y-4">
-              <Label className="text-sm font-black uppercase tracking-widest">Primary Data Cluster</Label>
+              <Label className="text-sm font-black uppercase tracking-widest">Server Region</Label>
               <Select value={dataCluster} onValueChange={(value) => setDataCluster(value || 'eu-central')}>
                 <SelectTrigger className="h-14 rounded-2xl bg-white/5 border-white/10 font-bold">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="eu-central">EU Central (Frankfurt)</SelectItem>
-                  <SelectItem value="us-east">US East (N. Virginia)</SelectItem>
-                  <SelectItem value="af-south">AF South (Cape Town)</SelectItem>
+                  <SelectItem value="eu-central">Europe (Frankfurt)</SelectItem>
+                  <SelectItem value="us-east">North America (N. Virginia)</SelectItem>
+                  <SelectItem value="af-south">Africa (Cape Town)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </CardContent>
         </Card>
 
-        {/* Neural Engine (AI) Settings */}
+        {/* AI Configurations */}
         <Card className="border-white/5 bg-white/[0.02] backdrop-blur-xl rounded-[2.5rem] overflow-hidden">
           <CardHeader className="p-10 border-b border-white/5">
             <div className="flex items-center gap-4 mb-2">
               <Cpu className="h-6 w-6 text-purple-400" />
-              <CardTitle className="text-2xl font-black">Neural Engine</CardTitle>
+              <CardTitle className="text-2xl font-black">AI Configurations</CardTitle>
             </div>
-            <CardDescription>Configure AI matching and automated tutoring logic.</CardDescription>
+            <CardDescription>Manage API keys and AI features.</CardDescription>
           </CardHeader>
           <CardContent className="p-10 space-y-8">
             <div className="space-y-4 p-6 rounded-3xl bg-purple-500/5 border border-purple-500/20">
                <div className="flex items-center justify-between mb-4">
-                  <Label className="text-sm font-black uppercase tracking-widest text-purple-400">Google Gemini API Key</Label>
+                  <Label className="text-sm font-black uppercase tracking-widest text-purple-400">OpenRouter API Key</Label>
                   <Button 
                     variant="ghost" 
                     size="icon" 
@@ -207,7 +207,7 @@ export default function AdminSettingsPage() {
                  onChange={(e) => setGoogleAiKey(e.target.value)}
                  className="h-12 rounded-xl bg-black/40 border-white/10 font-mono text-xs tracking-widest"
                />
-               <p className="text-[10px] text-muted-foreground mt-3 italic">This key enables Mash AI across all study sessions. Updates are instant.</p>
+               <p className="text-[10px] text-muted-foreground mt-3 italic">This key connects your platform to OpenRouter for AI features.</p>
             </div>
 
             <div className="space-y-4">
@@ -293,14 +293,14 @@ export default function AdminSettingsPage() {
           </CardContent>
         </Card>
 
-        {/* Advanced Terminal */}
+        {/* System Tools */}
         <Card className="border-white/5 bg-black rounded-[2.5rem] overflow-hidden border-2 border-primary/20">
           <CardHeader className="p-10 bg-primary/5">
             <div className="flex items-center gap-4 mb-2">
               <Terminal className="h-6 w-6 text-primary" />
-              <CardTitle className="text-2xl font-black">Advanced Terminal</CardTitle>
+              <CardTitle className="text-2xl font-black">System Actions</CardTitle>
             </div>
-            <CardDescription className="text-primary/60">Dangerous operations. Execute with caution.</CardDescription>
+            <CardDescription className="text-primary/60">Administrative tools and cache management.</CardDescription>
           </CardHeader>
           <CardContent className="p-10 space-y-6">
               <div className="grid grid-cols-2 gap-4">
@@ -322,9 +322,9 @@ export default function AdminSettingsPage() {
                 <Button 
                   variant="outline" 
                   onClick={async () => {
-                    if (confirm("TERRIBLE WARNING: This will wipe ALL sessions. Proceed?")) {
+                    if (confirm("Are you sure you want to log out all users?")) {
                       await resetAllSessions();
-                      toast.success("Network Purge Complete");
+                      toast.success("All users logged out successfully");
                     }
                   }}
                   className="rounded-2xl h-20 border-white/5 bg-white/5 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/20 font-black text-xs tracking-widest flex flex-col gap-2"
@@ -360,20 +360,20 @@ export default function AdminSettingsPage() {
           </CardContent>
         </Card>
 
-        {/* God Mode & Dangerous Actions */}
+        {/* Administrator Actions */}
         <Card className="lg:col-span-2 border-red-500/20 bg-red-500/5 backdrop-blur-xl rounded-[2.5rem] overflow-hidden shadow-[0_0_50px_rgba(239,68,68,0.05)]">
           <CardHeader className="p-10 border-b border-red-500/10">
             <div className="flex items-center gap-4 mb-2">
-              <Skull className="h-6 w-6 text-red-500" />
-              <CardTitle className="text-2xl font-black text-red-500">God Mode</CardTitle>
+              <Shield className="h-6 w-6 text-red-500" />
+              <CardTitle className="text-2xl font-black text-red-500">Administrator Actions</CardTitle>
             </div>
-            <CardDescription className="text-red-400/80">Extreme danger. Actions here are immediate and irreversible.</CardDescription>
+            <CardDescription className="text-red-400/80">These actions are permanent and cannot be undone.</CardDescription>
           </CardHeader>
           <CardContent className="p-10 grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-4 p-6 rounded-3xl bg-black/40 border border-red-500/20">
                <div className="space-y-1">
-                 <Label className="text-lg font-black tracking-tight text-white">Eradicate User</Label>
-                 <p className="text-xs text-muted-foreground font-medium">Permanently delete a user via their ID.</p>
+                 <Label className="text-lg font-black tracking-tight text-white">Delete User</Label>
+                 <p className="text-xs text-muted-foreground font-medium">Permanently remove a user account from the platform.</p>
                </div>
                <div className="flex gap-2">
                  <Input 
@@ -388,23 +388,23 @@ export default function AdminSettingsPage() {
                    variant="destructive" 
                    className="rounded-xl px-6 font-black tracking-widest"
                  >
-                   {isDeleting ? <RefreshCw className="h-4 w-4 animate-spin" /> : "PURGE"}
+                   {isDeleting ? <RefreshCw className="h-4 w-4 animate-spin" /> : "DELETE"}
                  </Button>
                </div>
             </div>
 
             <div className="space-y-4 p-6 rounded-3xl bg-black/40 border border-red-500/20">
                <div className="space-y-1">
-                 <Label className="text-lg font-black tracking-tight text-white">Global Reset Protocol</Label>
-                 <p className="text-xs text-muted-foreground font-medium">Wipe all active study sessions and caches instantly.</p>
+                 <Label className="text-lg font-black tracking-tight text-white">Emergency Logout</Label>
+                 <p className="text-xs text-muted-foreground font-medium">Force all active users to log out immediately.</p>
                </div>
                <div className="flex gap-2">
                  <Button onClick={() => {
-                   if (confirm("Reset ALL sessions?")) {
-                     resetAllSessions().then(() => toast.success("Sessions annihilated."));
+                   if (confirm("Are you sure you want to force logout all users?")) {
+                     resetAllSessions().then(() => toast.success("All users have been logged out."));
                    }
                  }} variant="outline" className="flex-1 rounded-xl border-red-500/30 text-red-500 hover:bg-red-500/10 font-black">
-                   <Zap className="h-4 w-4 mr-2" /> KILL SESSIONS
+                   <Lock className="h-4 w-4 mr-2" /> FORCE LOGOUT
                  </Button>
                </div>
             </div>

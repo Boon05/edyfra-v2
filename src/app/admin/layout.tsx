@@ -82,7 +82,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   if (!adminUser) return null;
 
-  const navItems: NavItem[] = [
     { href: "/admin", label: "Overview", icon: LayoutDashboard },
     { href: "/admin/users", label: "User Management", icon: Users },
     { href: "/admin/tutors", label: "Tutor Management", icon: GraduationCap },
@@ -95,7 +94,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { href: "/admin/feedback", label: "Tutor Feedback", icon: MessageSquare },
     { href: "/admin/challenges", label: "AI Challenges", icon: Award },
     { href: "/admin/insights", label: "Site Insights", icon: TrendingUp },
-    { href: "/admin/ai-settings", label: "AI Engine", icon: Cpu },
     { href: "/admin/settings", label: "Settings", icon: Settings },
   ];
 
