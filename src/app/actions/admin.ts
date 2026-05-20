@@ -105,8 +105,25 @@ export async function deleteUser(userId: string) {
       return { error: "Cannot delete your own admin account" };
     }
 
-    // 1. Delete from Prisma first
-    await prisma.user.delete({ where: { id: userId } });
+    // 1. Delete associated records manually to satisfy Prisma foreign key constraints
+    // Since we don't have onDelete: Cascade enabled in schema.prisma, we must do this first.
+    await prisma.$transaction(async (tx) => {
+      // Delete profiles and user-specific metadata
+      await tx.studentProfile.deleteMany({ where: { userId } });
+      await tx.tutorProfile.deleteMany({ where: { userId } });
+      await tx.tutorApplication.deleteMany({ where: { userId } });
+      await tx.notification.deleteMany({ where: { userId } });
+      await tx.userPreferences.deleteMany({ where: { userId } });
+      await tx.userCredits.deleteMany({ where: { userId } });
+      await tx.achievement.deleteMany({ where: { userId } });
+      await tx.creditTransaction.deleteMany({ where: { userId } });
+      
+      // Delete match requests they started
+      await tx.matchRequest.deleteMany({ where: { studentId: userId } });
+      
+      // Finally, delete the user itself
+      await tx.user.delete({ where: { id: userId } });
+    });
 
     // 2. Try to delete from Supabase Auth (Requires Service Role Key)
     const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
