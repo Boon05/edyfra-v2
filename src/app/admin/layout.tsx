@@ -82,6 +82,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   if (!adminUser) return null;
 
+  const navItems: NavItem[] = [
     { href: "/admin", label: "Overview", icon: LayoutDashboard },
     { href: "/admin/users", label: "User Management", icon: Users },
     { href: "/admin/tutors", label: "Tutor Management", icon: GraduationCap },

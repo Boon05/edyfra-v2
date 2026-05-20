@@ -84,8 +84,8 @@ export default function InstitutionStudents() {
                 onChange={handleFileInput}
               />
               <label htmlFor="file-upload">
-                <Button asChild variant="secondary" className="bg-white/10 text-white hover:bg-white/20 cursor-pointer">
-                  <span>Browse Files</span>
+                <Button type="button" variant="secondary" className="bg-white/10 text-white hover:bg-white/20 cursor-pointer" onClick={() => document.getElementById('file-upload')?.click()}>
+                  Browse Files
                 </Button>
               </label>
             </div>
