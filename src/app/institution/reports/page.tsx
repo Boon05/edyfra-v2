@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { FileText, Download, ArrowUpRight, Calendar } from "lucide-react";
 
 const reports = [
@@ -56,11 +57,9 @@ const reports = [
 ];
 
 const categories = ["All", "Engagement", "Performance", "Tutors", "Resources", "Attendance"];
-const [activeCategory, setActiveCategory] = useState("All");
-
-import { useState } from "react";
 
 export default function ReportsPage() {
+  const [activeCategory, setActiveCategory] = useState("All");
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
