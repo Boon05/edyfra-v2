@@ -581,6 +581,45 @@ exports.Prisma.Newsletter_subscribersScalarFieldEnum = {
   source: 'source'
 };
 
+exports.Prisma.InstitutionScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  type: 'type',
+  code: 'code',
+  logo: 'logo',
+  branding: 'branding',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  isActive: 'isActive'
+};
+
+exports.Prisma.InstitutionStaffScalarFieldEnum = {
+  id: 'id',
+  institutionId: 'institutionId',
+  userId: 'userId',
+  email: 'email',
+  name: 'name',
+  role: 'role',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.InstitutionStudentScalarFieldEnum = {
+  id: 'id',
+  institutionId: 'institutionId',
+  userId: 'userId',
+  studentIdStr: 'studentIdStr',
+  classYear: 'classYear',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.InstitutionTutorScalarFieldEnum = {
+  id: 'id',
+  institutionId: 'institutionId',
+  userId: 'userId',
+  status: 'status',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -699,7 +738,11 @@ exports.Prisma.ModelName = {
   CurriculumTopic: 'CurriculumTopic',
   Resource: 'Resource',
   ResourcePurchase: 'ResourcePurchase',
-  newsletter_subscribers: 'newsletter_subscribers'
+  newsletter_subscribers: 'newsletter_subscribers',
+  Institution: 'Institution',
+  InstitutionStaff: 'InstitutionStaff',
+  InstitutionStudent: 'InstitutionStudent',
+  InstitutionTutor: 'InstitutionTutor'
 };
 
 /**

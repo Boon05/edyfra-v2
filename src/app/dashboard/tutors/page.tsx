@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { GraduationCap, Search, Clock, Loader2, Sparkles, MessageSquare, Users as UsersIcon } from "lucide-react";
+import { GraduationCap, Search, Clock, Loader2, Sparkles, MessageSquare, Users as UsersIcon, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
@@ -157,6 +157,38 @@ export default function TutorsPage() {
           </Select>
         </div>
       </div>
+
+      {/* Institution Tutors Priority Section (Mock for UI) */}
+      {!loading && !isUnauthorized && (
+        <div className="mb-12 space-y-6">
+          <div className="flex items-center gap-2">
+            <ShieldCheck className="h-5 w-5 text-emerald-500" />
+            <h2 className="text-lg font-bold text-foreground">Your Institution's Tutors</h2>
+            <span className="bg-emerald-500/10 text-emerald-500 text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-full">Fast Track</span>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { id: 101, name: "Dr. Sarah Wanjiku", subject: "Calculus", rating: 4.9 },
+              { id: 102, name: "Mr. David Ochieng", subject: "Physics", rating: 4.8 },
+            ].map((instTutor) => (
+              <div key={instTutor.id} className="bg-secondary/50 rounded-2xl p-4 border border-emerald-500/20 flex items-center justify-between group hover:bg-secondary transition-colors cursor-pointer">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center">
+                    <GraduationCap className="h-5 w-5 text-emerald-500" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-sm">{instTutor.name}</h4>
+                    <p className="text-xs text-muted-foreground">{instTutor.subject} • ⭐ {instTutor.rating}</p>
+                  </div>
+                </div>
+                <Button size="sm" variant="outline" className="opacity-0 group-hover:opacity-100 transition-opacity border-emerald-500/50 text-emerald-500 hover:bg-emerald-500 hover:text-white">
+                  Connect
+                </Button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {loading && tutors.length === 0 ? (
         <div className="flex items-center justify-center h-[500px]">

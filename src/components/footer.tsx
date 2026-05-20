@@ -175,15 +175,11 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="pt-12 border-t border-border flex flex-col md:flex-row justify-between items-center gap-8">
           <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
-            © {new Date().getFullYear()} Edyfra Platforms. All systems operational.
+            © {new Date().getFullYear()} Edyfra Platforms. All rights reserved.
           </p>
           <div className="flex items-center gap-8 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
              <Link href="/privacy" className="hover:text-primary transition-colors">Privacy & Cookies</Link>
              <Link href="/terms" className="hover:text-primary transition-colors">Terms & Security</Link>
-             <div className="flex items-center gap-2 px-3 py-1 bg-secondary rounded-full border border-border">
-                <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
-                <span className="text-green-500">Systems Active</span>
-             </div>
           </div>
         </div>
       </div>

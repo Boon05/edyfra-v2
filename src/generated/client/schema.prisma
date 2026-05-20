@@ -66,6 +66,8 @@ model User {
   creditTransactions       CreditTransaction[]
   sellerEarnings           SellerEarning[]
   pushSubscriptions        PushSubscription[]
+  institutionStudent       InstitutionStudent?
+  institutionTutors        InstitutionTutor[]
 }
 
 model StudentProfile {
@@ -650,4 +652,57 @@ enum resource_status {
   pending
   approved
   rejected
+}
+
+model Institution {
+  id        String   @id @default(cuid())
+  name      String
+  type      String   @default("HIGH_SCHOOL") // e.g., HIGH_SCHOOL, UNIVERSITY
+  code      String?  @unique
+  logo      String?
+  branding  Json     @default("{}") // Colors, custom text, etc.
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isActive  Boolean  @default(true)
+
+  staff    InstitutionStaff[]
+  students InstitutionStudent[]
+  tutors   InstitutionTutor[]
+}
+
+model InstitutionStaff {
+  id            String   @id @default(cuid())
+  institutionId String
+  userId        String?  @unique // Link to main User if they use the same auth
+  email         String   @unique
+  name          String
+  role          String   @default("ADMIN") // ADMIN, TEACHER, etc.
+  createdAt     DateTime @default(now())
+
+  institution Institution @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+}
+
+model InstitutionStudent {
+  id            String   @id @default(cuid())
+  institutionId String
+  userId        String   @unique
+  studentIdStr  String? // The school's internal student ID like "ADM/2021/001"
+  classYear     String?
+  createdAt     DateTime @default(now())
+
+  institution Institution @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model InstitutionTutor {
+  id            String   @id @default(cuid())
+  institutionId String
+  userId        String
+  status        String   @default("ACTIVE")
+  createdAt     DateTime @default(now())
+
+  institution Institution @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([institutionId, userId])
 }

@@ -13,6 +13,7 @@ import { createClient } from "@/utils/supabase/client";
 const navLinks = [
   { name: "Home", href: "/" },
   { name: "Features", href: "/features" },
+  { name: "Institution", href: "/institution" },
   { name: "Community", href: "/community" },
   { name: "Roadmap", href: "/roadmap" },
   { name: "News", href: "/news" },

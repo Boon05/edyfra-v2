@@ -208,6 +208,26 @@ export type ResourcePurchase = $Result.DefaultSelection<Prisma.$ResourcePurchase
  * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
  */
 export type newsletter_subscribers = $Result.DefaultSelection<Prisma.$newsletter_subscribersPayload>
+/**
+ * Model Institution
+ * 
+ */
+export type Institution = $Result.DefaultSelection<Prisma.$InstitutionPayload>
+/**
+ * Model InstitutionStaff
+ * 
+ */
+export type InstitutionStaff = $Result.DefaultSelection<Prisma.$InstitutionStaffPayload>
+/**
+ * Model InstitutionStudent
+ * 
+ */
+export type InstitutionStudent = $Result.DefaultSelection<Prisma.$InstitutionStudentPayload>
+/**
+ * Model InstitutionTutor
+ * 
+ */
+export type InstitutionTutor = $Result.DefaultSelection<Prisma.$InstitutionTutorPayload>
 
 /**
  * Enums
@@ -844,6 +864,46 @@ export class PrismaClient<
     * ```
     */
   get newsletter_subscribers(): Prisma.newsletter_subscribersDelegate<ExtArgs>;
+
+  /**
+   * `prisma.institution`: Exposes CRUD operations for the **Institution** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Institutions
+    * const institutions = await prisma.institution.findMany()
+    * ```
+    */
+  get institution(): Prisma.InstitutionDelegate<ExtArgs>;
+
+  /**
+   * `prisma.institutionStaff`: Exposes CRUD operations for the **InstitutionStaff** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InstitutionStaffs
+    * const institutionStaffs = await prisma.institutionStaff.findMany()
+    * ```
+    */
+  get institutionStaff(): Prisma.InstitutionStaffDelegate<ExtArgs>;
+
+  /**
+   * `prisma.institutionStudent`: Exposes CRUD operations for the **InstitutionStudent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InstitutionStudents
+    * const institutionStudents = await prisma.institutionStudent.findMany()
+    * ```
+    */
+  get institutionStudent(): Prisma.InstitutionStudentDelegate<ExtArgs>;
+
+  /**
+   * `prisma.institutionTutor`: Exposes CRUD operations for the **InstitutionTutor** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InstitutionTutors
+    * const institutionTutors = await prisma.institutionTutor.findMany()
+    * ```
+    */
+  get institutionTutor(): Prisma.InstitutionTutorDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -1323,7 +1383,11 @@ export namespace Prisma {
     CurriculumTopic: 'CurriculumTopic',
     Resource: 'Resource',
     ResourcePurchase: 'ResourcePurchase',
-    newsletter_subscribers: 'newsletter_subscribers'
+    newsletter_subscribers: 'newsletter_subscribers',
+    Institution: 'Institution',
+    InstitutionStaff: 'InstitutionStaff',
+    InstitutionStudent: 'InstitutionStudent',
+    InstitutionTutor: 'InstitutionTutor'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1339,7 +1403,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "studentProfile" | "tutorProfile" | "matchRequest" | "session" | "message" | "review" | "dailyChallenge" | "dailyChallengeAttempt" | "struggleGroup" | "groupMessage" | "tutorApplication" | "notification" | "feedPost" | "postLike" | "comment" | "achievement" | "platformSettings" | "aiConversation" | "report" | "announcement" | "newsArticle" | "userCredits" | "creditTransaction" | "testimonial" | "notificationSettings" | "pushSubscription" | "userPreferences" | "challenge" | "challengeCompletion" | "plan" | "payment" | "sessionPayment" | "tutorPayout" | "sellerEarning" | "curriculumTopic" | "resource" | "resourcePurchase" | "newsletter_subscribers"
+      modelProps: "user" | "studentProfile" | "tutorProfile" | "matchRequest" | "session" | "message" | "review" | "dailyChallenge" | "dailyChallengeAttempt" | "struggleGroup" | "groupMessage" | "tutorApplication" | "notification" | "feedPost" | "postLike" | "comment" | "achievement" | "platformSettings" | "aiConversation" | "report" | "announcement" | "newsArticle" | "userCredits" | "creditTransaction" | "testimonial" | "notificationSettings" | "pushSubscription" | "userPreferences" | "challenge" | "challengeCompletion" | "plan" | "payment" | "sessionPayment" | "tutorPayout" | "sellerEarning" | "curriculumTopic" | "resource" | "resourcePurchase" | "newsletter_subscribers" | "institution" | "institutionStaff" | "institutionStudent" | "institutionTutor"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -4073,6 +4137,286 @@ export namespace Prisma {
           }
         }
       }
+      Institution: {
+        payload: Prisma.$InstitutionPayload<ExtArgs>
+        fields: Prisma.InstitutionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InstitutionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InstitutionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionPayload>
+          }
+          findFirst: {
+            args: Prisma.InstitutionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InstitutionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionPayload>
+          }
+          findMany: {
+            args: Prisma.InstitutionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionPayload>[]
+          }
+          create: {
+            args: Prisma.InstitutionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionPayload>
+          }
+          createMany: {
+            args: Prisma.InstitutionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InstitutionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionPayload>[]
+          }
+          delete: {
+            args: Prisma.InstitutionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionPayload>
+          }
+          update: {
+            args: Prisma.InstitutionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionPayload>
+          }
+          deleteMany: {
+            args: Prisma.InstitutionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InstitutionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.InstitutionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionPayload>
+          }
+          aggregate: {
+            args: Prisma.InstitutionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInstitution>
+          }
+          groupBy: {
+            args: Prisma.InstitutionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InstitutionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InstitutionCountArgs<ExtArgs>
+            result: $Utils.Optional<InstitutionCountAggregateOutputType> | number
+          }
+        }
+      }
+      InstitutionStaff: {
+        payload: Prisma.$InstitutionStaffPayload<ExtArgs>
+        fields: Prisma.InstitutionStaffFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InstitutionStaffFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionStaffPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InstitutionStaffFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionStaffPayload>
+          }
+          findFirst: {
+            args: Prisma.InstitutionStaffFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionStaffPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InstitutionStaffFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionStaffPayload>
+          }
+          findMany: {
+            args: Prisma.InstitutionStaffFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionStaffPayload>[]
+          }
+          create: {
+            args: Prisma.InstitutionStaffCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionStaffPayload>
+          }
+          createMany: {
+            args: Prisma.InstitutionStaffCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InstitutionStaffCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionStaffPayload>[]
+          }
+          delete: {
+            args: Prisma.InstitutionStaffDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionStaffPayload>
+          }
+          update: {
+            args: Prisma.InstitutionStaffUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionStaffPayload>
+          }
+          deleteMany: {
+            args: Prisma.InstitutionStaffDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InstitutionStaffUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.InstitutionStaffUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionStaffPayload>
+          }
+          aggregate: {
+            args: Prisma.InstitutionStaffAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInstitutionStaff>
+          }
+          groupBy: {
+            args: Prisma.InstitutionStaffGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InstitutionStaffGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InstitutionStaffCountArgs<ExtArgs>
+            result: $Utils.Optional<InstitutionStaffCountAggregateOutputType> | number
+          }
+        }
+      }
+      InstitutionStudent: {
+        payload: Prisma.$InstitutionStudentPayload<ExtArgs>
+        fields: Prisma.InstitutionStudentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InstitutionStudentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionStudentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InstitutionStudentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionStudentPayload>
+          }
+          findFirst: {
+            args: Prisma.InstitutionStudentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionStudentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InstitutionStudentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionStudentPayload>
+          }
+          findMany: {
+            args: Prisma.InstitutionStudentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionStudentPayload>[]
+          }
+          create: {
+            args: Prisma.InstitutionStudentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionStudentPayload>
+          }
+          createMany: {
+            args: Prisma.InstitutionStudentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InstitutionStudentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionStudentPayload>[]
+          }
+          delete: {
+            args: Prisma.InstitutionStudentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionStudentPayload>
+          }
+          update: {
+            args: Prisma.InstitutionStudentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionStudentPayload>
+          }
+          deleteMany: {
+            args: Prisma.InstitutionStudentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InstitutionStudentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.InstitutionStudentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionStudentPayload>
+          }
+          aggregate: {
+            args: Prisma.InstitutionStudentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInstitutionStudent>
+          }
+          groupBy: {
+            args: Prisma.InstitutionStudentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InstitutionStudentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InstitutionStudentCountArgs<ExtArgs>
+            result: $Utils.Optional<InstitutionStudentCountAggregateOutputType> | number
+          }
+        }
+      }
+      InstitutionTutor: {
+        payload: Prisma.$InstitutionTutorPayload<ExtArgs>
+        fields: Prisma.InstitutionTutorFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InstitutionTutorFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionTutorPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InstitutionTutorFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionTutorPayload>
+          }
+          findFirst: {
+            args: Prisma.InstitutionTutorFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionTutorPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InstitutionTutorFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionTutorPayload>
+          }
+          findMany: {
+            args: Prisma.InstitutionTutorFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionTutorPayload>[]
+          }
+          create: {
+            args: Prisma.InstitutionTutorCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionTutorPayload>
+          }
+          createMany: {
+            args: Prisma.InstitutionTutorCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InstitutionTutorCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionTutorPayload>[]
+          }
+          delete: {
+            args: Prisma.InstitutionTutorDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionTutorPayload>
+          }
+          update: {
+            args: Prisma.InstitutionTutorUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionTutorPayload>
+          }
+          deleteMany: {
+            args: Prisma.InstitutionTutorDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InstitutionTutorUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.InstitutionTutorUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InstitutionTutorPayload>
+          }
+          aggregate: {
+            args: Prisma.InstitutionTutorAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInstitutionTutor>
+          }
+          groupBy: {
+            args: Prisma.InstitutionTutorGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InstitutionTutorGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InstitutionTutorCountArgs<ExtArgs>
+            result: $Utils.Optional<InstitutionTutorCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -4256,6 +4600,7 @@ export namespace Prisma {
     creditTransactions: number
     sellerEarnings: number
     pushSubscriptions: number
+    institutionTutors: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4281,6 +4626,7 @@ export namespace Prisma {
     creditTransactions?: boolean | UserCountOutputTypeCountCreditTransactionsArgs
     sellerEarnings?: boolean | UserCountOutputTypeCountSellerEarningsArgs
     pushSubscriptions?: boolean | UserCountOutputTypeCountPushSubscriptionsArgs
+    institutionTutors?: boolean | UserCountOutputTypeCountInstitutionTutorsArgs
   }
 
   // Custom InputTypes
@@ -4446,6 +4792,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountPushSubscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PushSubscriptionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountInstitutionTutorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InstitutionTutorWhereInput
   }
 
 
@@ -4659,6 +5012,55 @@ export namespace Prisma {
    */
   export type ResourceCountOutputTypeCountSellerEarningsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SellerEarningWhereInput
+  }
+
+
+  /**
+   * Count Type InstitutionCountOutputType
+   */
+
+  export type InstitutionCountOutputType = {
+    staff: number
+    students: number
+    tutors: number
+  }
+
+  export type InstitutionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    staff?: boolean | InstitutionCountOutputTypeCountStaffArgs
+    students?: boolean | InstitutionCountOutputTypeCountStudentsArgs
+    tutors?: boolean | InstitutionCountOutputTypeCountTutorsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * InstitutionCountOutputType without action
+   */
+  export type InstitutionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionCountOutputType
+     */
+    select?: InstitutionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * InstitutionCountOutputType without action
+   */
+  export type InstitutionCountOutputTypeCountStaffArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InstitutionStaffWhereInput
+  }
+
+  /**
+   * InstitutionCountOutputType without action
+   */
+  export type InstitutionCountOutputTypeCountStudentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InstitutionStudentWhereInput
+  }
+
+  /**
+   * InstitutionCountOutputType without action
+   */
+  export type InstitutionCountOutputTypeCountTutorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InstitutionTutorWhereInput
   }
 
 
@@ -5106,6 +5508,8 @@ export namespace Prisma {
     creditTransactions?: boolean | User$creditTransactionsArgs<ExtArgs>
     sellerEarnings?: boolean | User$sellerEarningsArgs<ExtArgs>
     pushSubscriptions?: boolean | User$pushSubscriptionsArgs<ExtArgs>
+    institutionStudent?: boolean | User$institutionStudentArgs<ExtArgs>
+    institutionTutors?: boolean | User$institutionTutorsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -5202,6 +5606,8 @@ export namespace Prisma {
     creditTransactions?: boolean | User$creditTransactionsArgs<ExtArgs>
     sellerEarnings?: boolean | User$sellerEarningsArgs<ExtArgs>
     pushSubscriptions?: boolean | User$pushSubscriptionsArgs<ExtArgs>
+    institutionStudent?: boolean | User$institutionStudentArgs<ExtArgs>
+    institutionTutors?: boolean | User$institutionTutorsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5235,6 +5641,8 @@ export namespace Prisma {
       creditTransactions: Prisma.$CreditTransactionPayload<ExtArgs>[]
       sellerEarnings: Prisma.$SellerEarningPayload<ExtArgs>[]
       pushSubscriptions: Prisma.$PushSubscriptionPayload<ExtArgs>[]
+      institutionStudent: Prisma.$InstitutionStudentPayload<ExtArgs> | null
+      institutionTutors: Prisma.$InstitutionTutorPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5657,6 +6065,8 @@ export namespace Prisma {
     creditTransactions<T extends User$creditTransactionsArgs<ExtArgs> = {}>(args?: Subset<T, User$creditTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CreditTransactionPayload<ExtArgs>, T, "findMany"> | Null>
     sellerEarnings<T extends User$sellerEarningsArgs<ExtArgs> = {}>(args?: Subset<T, User$sellerEarningsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SellerEarningPayload<ExtArgs>, T, "findMany"> | Null>
     pushSubscriptions<T extends User$pushSubscriptionsArgs<ExtArgs> = {}>(args?: Subset<T, User$pushSubscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PushSubscriptionPayload<ExtArgs>, T, "findMany"> | Null>
+    institutionStudent<T extends User$institutionStudentArgs<ExtArgs> = {}>(args?: Subset<T, User$institutionStudentArgs<ExtArgs>>): Prisma__InstitutionStudentClient<$Result.GetResult<Prisma.$InstitutionStudentPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    institutionTutors<T extends User$institutionTutorsArgs<ExtArgs> = {}>(args?: Subset<T, User$institutionTutorsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InstitutionTutorPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6527,6 +6937,41 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PushSubscriptionScalarFieldEnum | PushSubscriptionScalarFieldEnum[]
+  }
+
+  /**
+   * User.institutionStudent
+   */
+  export type User$institutionStudentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionStudent
+     */
+    select?: InstitutionStudentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionStudentInclude<ExtArgs> | null
+    where?: InstitutionStudentWhereInput
+  }
+
+  /**
+   * User.institutionTutors
+   */
+  export type User$institutionTutorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionTutor
+     */
+    select?: InstitutionTutorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionTutorInclude<ExtArgs> | null
+    where?: InstitutionTutorWhereInput
+    orderBy?: InstitutionTutorOrderByWithRelationInput | InstitutionTutorOrderByWithRelationInput[]
+    cursor?: InstitutionTutorWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InstitutionTutorScalarFieldEnum | InstitutionTutorScalarFieldEnum[]
   }
 
   /**
@@ -43850,6 +44295,3893 @@ export namespace Prisma {
 
 
   /**
+   * Model Institution
+   */
+
+  export type AggregateInstitution = {
+    _count: InstitutionCountAggregateOutputType | null
+    _min: InstitutionMinAggregateOutputType | null
+    _max: InstitutionMaxAggregateOutputType | null
+  }
+
+  export type InstitutionMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    type: string | null
+    code: string | null
+    logo: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    isActive: boolean | null
+  }
+
+  export type InstitutionMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    type: string | null
+    code: string | null
+    logo: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    isActive: boolean | null
+  }
+
+  export type InstitutionCountAggregateOutputType = {
+    id: number
+    name: number
+    type: number
+    code: number
+    logo: number
+    branding: number
+    createdAt: number
+    updatedAt: number
+    isActive: number
+    _all: number
+  }
+
+
+  export type InstitutionMinAggregateInputType = {
+    id?: true
+    name?: true
+    type?: true
+    code?: true
+    logo?: true
+    createdAt?: true
+    updatedAt?: true
+    isActive?: true
+  }
+
+  export type InstitutionMaxAggregateInputType = {
+    id?: true
+    name?: true
+    type?: true
+    code?: true
+    logo?: true
+    createdAt?: true
+    updatedAt?: true
+    isActive?: true
+  }
+
+  export type InstitutionCountAggregateInputType = {
+    id?: true
+    name?: true
+    type?: true
+    code?: true
+    logo?: true
+    branding?: true
+    createdAt?: true
+    updatedAt?: true
+    isActive?: true
+    _all?: true
+  }
+
+  export type InstitutionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Institution to aggregate.
+     */
+    where?: InstitutionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Institutions to fetch.
+     */
+    orderBy?: InstitutionOrderByWithRelationInput | InstitutionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InstitutionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Institutions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Institutions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Institutions
+    **/
+    _count?: true | InstitutionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InstitutionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InstitutionMaxAggregateInputType
+  }
+
+  export type GetInstitutionAggregateType<T extends InstitutionAggregateArgs> = {
+        [P in keyof T & keyof AggregateInstitution]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInstitution[P]>
+      : GetScalarType<T[P], AggregateInstitution[P]>
+  }
+
+
+
+
+  export type InstitutionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InstitutionWhereInput
+    orderBy?: InstitutionOrderByWithAggregationInput | InstitutionOrderByWithAggregationInput[]
+    by: InstitutionScalarFieldEnum[] | InstitutionScalarFieldEnum
+    having?: InstitutionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InstitutionCountAggregateInputType | true
+    _min?: InstitutionMinAggregateInputType
+    _max?: InstitutionMaxAggregateInputType
+  }
+
+  export type InstitutionGroupByOutputType = {
+    id: string
+    name: string
+    type: string
+    code: string | null
+    logo: string | null
+    branding: JsonValue
+    createdAt: Date
+    updatedAt: Date
+    isActive: boolean
+    _count: InstitutionCountAggregateOutputType | null
+    _min: InstitutionMinAggregateOutputType | null
+    _max: InstitutionMaxAggregateOutputType | null
+  }
+
+  type GetInstitutionGroupByPayload<T extends InstitutionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InstitutionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InstitutionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InstitutionGroupByOutputType[P]>
+            : GetScalarType<T[P], InstitutionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InstitutionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    type?: boolean
+    code?: boolean
+    logo?: boolean
+    branding?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    isActive?: boolean
+    staff?: boolean | Institution$staffArgs<ExtArgs>
+    students?: boolean | Institution$studentsArgs<ExtArgs>
+    tutors?: boolean | Institution$tutorsArgs<ExtArgs>
+    _count?: boolean | InstitutionCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["institution"]>
+
+  export type InstitutionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    type?: boolean
+    code?: boolean
+    logo?: boolean
+    branding?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    isActive?: boolean
+  }, ExtArgs["result"]["institution"]>
+
+  export type InstitutionSelectScalar = {
+    id?: boolean
+    name?: boolean
+    type?: boolean
+    code?: boolean
+    logo?: boolean
+    branding?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    isActive?: boolean
+  }
+
+  export type InstitutionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    staff?: boolean | Institution$staffArgs<ExtArgs>
+    students?: boolean | Institution$studentsArgs<ExtArgs>
+    tutors?: boolean | Institution$tutorsArgs<ExtArgs>
+    _count?: boolean | InstitutionCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type InstitutionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $InstitutionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Institution"
+    objects: {
+      staff: Prisma.$InstitutionStaffPayload<ExtArgs>[]
+      students: Prisma.$InstitutionStudentPayload<ExtArgs>[]
+      tutors: Prisma.$InstitutionTutorPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      type: string
+      code: string | null
+      logo: string | null
+      branding: Prisma.JsonValue
+      createdAt: Date
+      updatedAt: Date
+      isActive: boolean
+    }, ExtArgs["result"]["institution"]>
+    composites: {}
+  }
+
+  type InstitutionGetPayload<S extends boolean | null | undefined | InstitutionDefaultArgs> = $Result.GetResult<Prisma.$InstitutionPayload, S>
+
+  type InstitutionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<InstitutionFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: InstitutionCountAggregateInputType | true
+    }
+
+  export interface InstitutionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Institution'], meta: { name: 'Institution' } }
+    /**
+     * Find zero or one Institution that matches the filter.
+     * @param {InstitutionFindUniqueArgs} args - Arguments to find a Institution
+     * @example
+     * // Get one Institution
+     * const institution = await prisma.institution.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InstitutionFindUniqueArgs>(args: SelectSubset<T, InstitutionFindUniqueArgs<ExtArgs>>): Prisma__InstitutionClient<$Result.GetResult<Prisma.$InstitutionPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Institution that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {InstitutionFindUniqueOrThrowArgs} args - Arguments to find a Institution
+     * @example
+     * // Get one Institution
+     * const institution = await prisma.institution.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InstitutionFindUniqueOrThrowArgs>(args: SelectSubset<T, InstitutionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InstitutionClient<$Result.GetResult<Prisma.$InstitutionPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Institution that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionFindFirstArgs} args - Arguments to find a Institution
+     * @example
+     * // Get one Institution
+     * const institution = await prisma.institution.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InstitutionFindFirstArgs>(args?: SelectSubset<T, InstitutionFindFirstArgs<ExtArgs>>): Prisma__InstitutionClient<$Result.GetResult<Prisma.$InstitutionPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Institution that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionFindFirstOrThrowArgs} args - Arguments to find a Institution
+     * @example
+     * // Get one Institution
+     * const institution = await prisma.institution.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InstitutionFindFirstOrThrowArgs>(args?: SelectSubset<T, InstitutionFindFirstOrThrowArgs<ExtArgs>>): Prisma__InstitutionClient<$Result.GetResult<Prisma.$InstitutionPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Institutions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Institutions
+     * const institutions = await prisma.institution.findMany()
+     * 
+     * // Get first 10 Institutions
+     * const institutions = await prisma.institution.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const institutionWithIdOnly = await prisma.institution.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InstitutionFindManyArgs>(args?: SelectSubset<T, InstitutionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InstitutionPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Institution.
+     * @param {InstitutionCreateArgs} args - Arguments to create a Institution.
+     * @example
+     * // Create one Institution
+     * const Institution = await prisma.institution.create({
+     *   data: {
+     *     // ... data to create a Institution
+     *   }
+     * })
+     * 
+     */
+    create<T extends InstitutionCreateArgs>(args: SelectSubset<T, InstitutionCreateArgs<ExtArgs>>): Prisma__InstitutionClient<$Result.GetResult<Prisma.$InstitutionPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Institutions.
+     * @param {InstitutionCreateManyArgs} args - Arguments to create many Institutions.
+     * @example
+     * // Create many Institutions
+     * const institution = await prisma.institution.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InstitutionCreateManyArgs>(args?: SelectSubset<T, InstitutionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Institutions and returns the data saved in the database.
+     * @param {InstitutionCreateManyAndReturnArgs} args - Arguments to create many Institutions.
+     * @example
+     * // Create many Institutions
+     * const institution = await prisma.institution.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Institutions and only return the `id`
+     * const institutionWithIdOnly = await prisma.institution.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InstitutionCreateManyAndReturnArgs>(args?: SelectSubset<T, InstitutionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InstitutionPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Institution.
+     * @param {InstitutionDeleteArgs} args - Arguments to delete one Institution.
+     * @example
+     * // Delete one Institution
+     * const Institution = await prisma.institution.delete({
+     *   where: {
+     *     // ... filter to delete one Institution
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InstitutionDeleteArgs>(args: SelectSubset<T, InstitutionDeleteArgs<ExtArgs>>): Prisma__InstitutionClient<$Result.GetResult<Prisma.$InstitutionPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Institution.
+     * @param {InstitutionUpdateArgs} args - Arguments to update one Institution.
+     * @example
+     * // Update one Institution
+     * const institution = await prisma.institution.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InstitutionUpdateArgs>(args: SelectSubset<T, InstitutionUpdateArgs<ExtArgs>>): Prisma__InstitutionClient<$Result.GetResult<Prisma.$InstitutionPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Institutions.
+     * @param {InstitutionDeleteManyArgs} args - Arguments to filter Institutions to delete.
+     * @example
+     * // Delete a few Institutions
+     * const { count } = await prisma.institution.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InstitutionDeleteManyArgs>(args?: SelectSubset<T, InstitutionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Institutions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Institutions
+     * const institution = await prisma.institution.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InstitutionUpdateManyArgs>(args: SelectSubset<T, InstitutionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Institution.
+     * @param {InstitutionUpsertArgs} args - Arguments to update or create a Institution.
+     * @example
+     * // Update or create a Institution
+     * const institution = await prisma.institution.upsert({
+     *   create: {
+     *     // ... data to create a Institution
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Institution we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InstitutionUpsertArgs>(args: SelectSubset<T, InstitutionUpsertArgs<ExtArgs>>): Prisma__InstitutionClient<$Result.GetResult<Prisma.$InstitutionPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Institutions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionCountArgs} args - Arguments to filter Institutions to count.
+     * @example
+     * // Count the number of Institutions
+     * const count = await prisma.institution.count({
+     *   where: {
+     *     // ... the filter for the Institutions we want to count
+     *   }
+     * })
+    **/
+    count<T extends InstitutionCountArgs>(
+      args?: Subset<T, InstitutionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InstitutionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Institution.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InstitutionAggregateArgs>(args: Subset<T, InstitutionAggregateArgs>): Prisma.PrismaPromise<GetInstitutionAggregateType<T>>
+
+    /**
+     * Group by Institution.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InstitutionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InstitutionGroupByArgs['orderBy'] }
+        : { orderBy?: InstitutionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InstitutionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInstitutionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Institution model
+   */
+  readonly fields: InstitutionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Institution.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InstitutionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    staff<T extends Institution$staffArgs<ExtArgs> = {}>(args?: Subset<T, Institution$staffArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InstitutionStaffPayload<ExtArgs>, T, "findMany"> | Null>
+    students<T extends Institution$studentsArgs<ExtArgs> = {}>(args?: Subset<T, Institution$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InstitutionStudentPayload<ExtArgs>, T, "findMany"> | Null>
+    tutors<T extends Institution$tutorsArgs<ExtArgs> = {}>(args?: Subset<T, Institution$tutorsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InstitutionTutorPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Institution model
+   */ 
+  interface InstitutionFieldRefs {
+    readonly id: FieldRef<"Institution", 'String'>
+    readonly name: FieldRef<"Institution", 'String'>
+    readonly type: FieldRef<"Institution", 'String'>
+    readonly code: FieldRef<"Institution", 'String'>
+    readonly logo: FieldRef<"Institution", 'String'>
+    readonly branding: FieldRef<"Institution", 'Json'>
+    readonly createdAt: FieldRef<"Institution", 'DateTime'>
+    readonly updatedAt: FieldRef<"Institution", 'DateTime'>
+    readonly isActive: FieldRef<"Institution", 'Boolean'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Institution findUnique
+   */
+  export type InstitutionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Institution
+     */
+    select?: InstitutionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionInclude<ExtArgs> | null
+    /**
+     * Filter, which Institution to fetch.
+     */
+    where: InstitutionWhereUniqueInput
+  }
+
+  /**
+   * Institution findUniqueOrThrow
+   */
+  export type InstitutionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Institution
+     */
+    select?: InstitutionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionInclude<ExtArgs> | null
+    /**
+     * Filter, which Institution to fetch.
+     */
+    where: InstitutionWhereUniqueInput
+  }
+
+  /**
+   * Institution findFirst
+   */
+  export type InstitutionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Institution
+     */
+    select?: InstitutionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionInclude<ExtArgs> | null
+    /**
+     * Filter, which Institution to fetch.
+     */
+    where?: InstitutionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Institutions to fetch.
+     */
+    orderBy?: InstitutionOrderByWithRelationInput | InstitutionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Institutions.
+     */
+    cursor?: InstitutionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Institutions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Institutions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Institutions.
+     */
+    distinct?: InstitutionScalarFieldEnum | InstitutionScalarFieldEnum[]
+  }
+
+  /**
+   * Institution findFirstOrThrow
+   */
+  export type InstitutionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Institution
+     */
+    select?: InstitutionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionInclude<ExtArgs> | null
+    /**
+     * Filter, which Institution to fetch.
+     */
+    where?: InstitutionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Institutions to fetch.
+     */
+    orderBy?: InstitutionOrderByWithRelationInput | InstitutionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Institutions.
+     */
+    cursor?: InstitutionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Institutions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Institutions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Institutions.
+     */
+    distinct?: InstitutionScalarFieldEnum | InstitutionScalarFieldEnum[]
+  }
+
+  /**
+   * Institution findMany
+   */
+  export type InstitutionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Institution
+     */
+    select?: InstitutionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionInclude<ExtArgs> | null
+    /**
+     * Filter, which Institutions to fetch.
+     */
+    where?: InstitutionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Institutions to fetch.
+     */
+    orderBy?: InstitutionOrderByWithRelationInput | InstitutionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Institutions.
+     */
+    cursor?: InstitutionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Institutions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Institutions.
+     */
+    skip?: number
+    distinct?: InstitutionScalarFieldEnum | InstitutionScalarFieldEnum[]
+  }
+
+  /**
+   * Institution create
+   */
+  export type InstitutionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Institution
+     */
+    select?: InstitutionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Institution.
+     */
+    data: XOR<InstitutionCreateInput, InstitutionUncheckedCreateInput>
+  }
+
+  /**
+   * Institution createMany
+   */
+  export type InstitutionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Institutions.
+     */
+    data: InstitutionCreateManyInput | InstitutionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Institution createManyAndReturn
+   */
+  export type InstitutionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Institution
+     */
+    select?: InstitutionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Institutions.
+     */
+    data: InstitutionCreateManyInput | InstitutionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Institution update
+   */
+  export type InstitutionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Institution
+     */
+    select?: InstitutionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Institution.
+     */
+    data: XOR<InstitutionUpdateInput, InstitutionUncheckedUpdateInput>
+    /**
+     * Choose, which Institution to update.
+     */
+    where: InstitutionWhereUniqueInput
+  }
+
+  /**
+   * Institution updateMany
+   */
+  export type InstitutionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Institutions.
+     */
+    data: XOR<InstitutionUpdateManyMutationInput, InstitutionUncheckedUpdateManyInput>
+    /**
+     * Filter which Institutions to update
+     */
+    where?: InstitutionWhereInput
+  }
+
+  /**
+   * Institution upsert
+   */
+  export type InstitutionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Institution
+     */
+    select?: InstitutionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Institution to update in case it exists.
+     */
+    where: InstitutionWhereUniqueInput
+    /**
+     * In case the Institution found by the `where` argument doesn't exist, create a new Institution with this data.
+     */
+    create: XOR<InstitutionCreateInput, InstitutionUncheckedCreateInput>
+    /**
+     * In case the Institution was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InstitutionUpdateInput, InstitutionUncheckedUpdateInput>
+  }
+
+  /**
+   * Institution delete
+   */
+  export type InstitutionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Institution
+     */
+    select?: InstitutionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionInclude<ExtArgs> | null
+    /**
+     * Filter which Institution to delete.
+     */
+    where: InstitutionWhereUniqueInput
+  }
+
+  /**
+   * Institution deleteMany
+   */
+  export type InstitutionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Institutions to delete
+     */
+    where?: InstitutionWhereInput
+  }
+
+  /**
+   * Institution.staff
+   */
+  export type Institution$staffArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionStaff
+     */
+    select?: InstitutionStaffSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionStaffInclude<ExtArgs> | null
+    where?: InstitutionStaffWhereInput
+    orderBy?: InstitutionStaffOrderByWithRelationInput | InstitutionStaffOrderByWithRelationInput[]
+    cursor?: InstitutionStaffWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InstitutionStaffScalarFieldEnum | InstitutionStaffScalarFieldEnum[]
+  }
+
+  /**
+   * Institution.students
+   */
+  export type Institution$studentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionStudent
+     */
+    select?: InstitutionStudentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionStudentInclude<ExtArgs> | null
+    where?: InstitutionStudentWhereInput
+    orderBy?: InstitutionStudentOrderByWithRelationInput | InstitutionStudentOrderByWithRelationInput[]
+    cursor?: InstitutionStudentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InstitutionStudentScalarFieldEnum | InstitutionStudentScalarFieldEnum[]
+  }
+
+  /**
+   * Institution.tutors
+   */
+  export type Institution$tutorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionTutor
+     */
+    select?: InstitutionTutorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionTutorInclude<ExtArgs> | null
+    where?: InstitutionTutorWhereInput
+    orderBy?: InstitutionTutorOrderByWithRelationInput | InstitutionTutorOrderByWithRelationInput[]
+    cursor?: InstitutionTutorWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InstitutionTutorScalarFieldEnum | InstitutionTutorScalarFieldEnum[]
+  }
+
+  /**
+   * Institution without action
+   */
+  export type InstitutionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Institution
+     */
+    select?: InstitutionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model InstitutionStaff
+   */
+
+  export type AggregateInstitutionStaff = {
+    _count: InstitutionStaffCountAggregateOutputType | null
+    _min: InstitutionStaffMinAggregateOutputType | null
+    _max: InstitutionStaffMaxAggregateOutputType | null
+  }
+
+  export type InstitutionStaffMinAggregateOutputType = {
+    id: string | null
+    institutionId: string | null
+    userId: string | null
+    email: string | null
+    name: string | null
+    role: string | null
+    createdAt: Date | null
+  }
+
+  export type InstitutionStaffMaxAggregateOutputType = {
+    id: string | null
+    institutionId: string | null
+    userId: string | null
+    email: string | null
+    name: string | null
+    role: string | null
+    createdAt: Date | null
+  }
+
+  export type InstitutionStaffCountAggregateOutputType = {
+    id: number
+    institutionId: number
+    userId: number
+    email: number
+    name: number
+    role: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type InstitutionStaffMinAggregateInputType = {
+    id?: true
+    institutionId?: true
+    userId?: true
+    email?: true
+    name?: true
+    role?: true
+    createdAt?: true
+  }
+
+  export type InstitutionStaffMaxAggregateInputType = {
+    id?: true
+    institutionId?: true
+    userId?: true
+    email?: true
+    name?: true
+    role?: true
+    createdAt?: true
+  }
+
+  export type InstitutionStaffCountAggregateInputType = {
+    id?: true
+    institutionId?: true
+    userId?: true
+    email?: true
+    name?: true
+    role?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type InstitutionStaffAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InstitutionStaff to aggregate.
+     */
+    where?: InstitutionStaffWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InstitutionStaffs to fetch.
+     */
+    orderBy?: InstitutionStaffOrderByWithRelationInput | InstitutionStaffOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InstitutionStaffWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InstitutionStaffs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InstitutionStaffs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned InstitutionStaffs
+    **/
+    _count?: true | InstitutionStaffCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InstitutionStaffMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InstitutionStaffMaxAggregateInputType
+  }
+
+  export type GetInstitutionStaffAggregateType<T extends InstitutionStaffAggregateArgs> = {
+        [P in keyof T & keyof AggregateInstitutionStaff]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInstitutionStaff[P]>
+      : GetScalarType<T[P], AggregateInstitutionStaff[P]>
+  }
+
+
+
+
+  export type InstitutionStaffGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InstitutionStaffWhereInput
+    orderBy?: InstitutionStaffOrderByWithAggregationInput | InstitutionStaffOrderByWithAggregationInput[]
+    by: InstitutionStaffScalarFieldEnum[] | InstitutionStaffScalarFieldEnum
+    having?: InstitutionStaffScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InstitutionStaffCountAggregateInputType | true
+    _min?: InstitutionStaffMinAggregateInputType
+    _max?: InstitutionStaffMaxAggregateInputType
+  }
+
+  export type InstitutionStaffGroupByOutputType = {
+    id: string
+    institutionId: string
+    userId: string | null
+    email: string
+    name: string
+    role: string
+    createdAt: Date
+    _count: InstitutionStaffCountAggregateOutputType | null
+    _min: InstitutionStaffMinAggregateOutputType | null
+    _max: InstitutionStaffMaxAggregateOutputType | null
+  }
+
+  type GetInstitutionStaffGroupByPayload<T extends InstitutionStaffGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InstitutionStaffGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InstitutionStaffGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InstitutionStaffGroupByOutputType[P]>
+            : GetScalarType<T[P], InstitutionStaffGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InstitutionStaffSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    institutionId?: boolean
+    userId?: boolean
+    email?: boolean
+    name?: boolean
+    role?: boolean
+    createdAt?: boolean
+    institution?: boolean | InstitutionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["institutionStaff"]>
+
+  export type InstitutionStaffSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    institutionId?: boolean
+    userId?: boolean
+    email?: boolean
+    name?: boolean
+    role?: boolean
+    createdAt?: boolean
+    institution?: boolean | InstitutionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["institutionStaff"]>
+
+  export type InstitutionStaffSelectScalar = {
+    id?: boolean
+    institutionId?: boolean
+    userId?: boolean
+    email?: boolean
+    name?: boolean
+    role?: boolean
+    createdAt?: boolean
+  }
+
+  export type InstitutionStaffInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    institution?: boolean | InstitutionDefaultArgs<ExtArgs>
+  }
+  export type InstitutionStaffIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    institution?: boolean | InstitutionDefaultArgs<ExtArgs>
+  }
+
+  export type $InstitutionStaffPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InstitutionStaff"
+    objects: {
+      institution: Prisma.$InstitutionPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      institutionId: string
+      userId: string | null
+      email: string
+      name: string
+      role: string
+      createdAt: Date
+    }, ExtArgs["result"]["institutionStaff"]>
+    composites: {}
+  }
+
+  type InstitutionStaffGetPayload<S extends boolean | null | undefined | InstitutionStaffDefaultArgs> = $Result.GetResult<Prisma.$InstitutionStaffPayload, S>
+
+  type InstitutionStaffCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<InstitutionStaffFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: InstitutionStaffCountAggregateInputType | true
+    }
+
+  export interface InstitutionStaffDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InstitutionStaff'], meta: { name: 'InstitutionStaff' } }
+    /**
+     * Find zero or one InstitutionStaff that matches the filter.
+     * @param {InstitutionStaffFindUniqueArgs} args - Arguments to find a InstitutionStaff
+     * @example
+     * // Get one InstitutionStaff
+     * const institutionStaff = await prisma.institutionStaff.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InstitutionStaffFindUniqueArgs>(args: SelectSubset<T, InstitutionStaffFindUniqueArgs<ExtArgs>>): Prisma__InstitutionStaffClient<$Result.GetResult<Prisma.$InstitutionStaffPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one InstitutionStaff that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {InstitutionStaffFindUniqueOrThrowArgs} args - Arguments to find a InstitutionStaff
+     * @example
+     * // Get one InstitutionStaff
+     * const institutionStaff = await prisma.institutionStaff.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InstitutionStaffFindUniqueOrThrowArgs>(args: SelectSubset<T, InstitutionStaffFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InstitutionStaffClient<$Result.GetResult<Prisma.$InstitutionStaffPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first InstitutionStaff that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionStaffFindFirstArgs} args - Arguments to find a InstitutionStaff
+     * @example
+     * // Get one InstitutionStaff
+     * const institutionStaff = await prisma.institutionStaff.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InstitutionStaffFindFirstArgs>(args?: SelectSubset<T, InstitutionStaffFindFirstArgs<ExtArgs>>): Prisma__InstitutionStaffClient<$Result.GetResult<Prisma.$InstitutionStaffPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first InstitutionStaff that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionStaffFindFirstOrThrowArgs} args - Arguments to find a InstitutionStaff
+     * @example
+     * // Get one InstitutionStaff
+     * const institutionStaff = await prisma.institutionStaff.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InstitutionStaffFindFirstOrThrowArgs>(args?: SelectSubset<T, InstitutionStaffFindFirstOrThrowArgs<ExtArgs>>): Prisma__InstitutionStaffClient<$Result.GetResult<Prisma.$InstitutionStaffPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more InstitutionStaffs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionStaffFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all InstitutionStaffs
+     * const institutionStaffs = await prisma.institutionStaff.findMany()
+     * 
+     * // Get first 10 InstitutionStaffs
+     * const institutionStaffs = await prisma.institutionStaff.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const institutionStaffWithIdOnly = await prisma.institutionStaff.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InstitutionStaffFindManyArgs>(args?: SelectSubset<T, InstitutionStaffFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InstitutionStaffPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a InstitutionStaff.
+     * @param {InstitutionStaffCreateArgs} args - Arguments to create a InstitutionStaff.
+     * @example
+     * // Create one InstitutionStaff
+     * const InstitutionStaff = await prisma.institutionStaff.create({
+     *   data: {
+     *     // ... data to create a InstitutionStaff
+     *   }
+     * })
+     * 
+     */
+    create<T extends InstitutionStaffCreateArgs>(args: SelectSubset<T, InstitutionStaffCreateArgs<ExtArgs>>): Prisma__InstitutionStaffClient<$Result.GetResult<Prisma.$InstitutionStaffPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many InstitutionStaffs.
+     * @param {InstitutionStaffCreateManyArgs} args - Arguments to create many InstitutionStaffs.
+     * @example
+     * // Create many InstitutionStaffs
+     * const institutionStaff = await prisma.institutionStaff.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InstitutionStaffCreateManyArgs>(args?: SelectSubset<T, InstitutionStaffCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many InstitutionStaffs and returns the data saved in the database.
+     * @param {InstitutionStaffCreateManyAndReturnArgs} args - Arguments to create many InstitutionStaffs.
+     * @example
+     * // Create many InstitutionStaffs
+     * const institutionStaff = await prisma.institutionStaff.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many InstitutionStaffs and only return the `id`
+     * const institutionStaffWithIdOnly = await prisma.institutionStaff.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InstitutionStaffCreateManyAndReturnArgs>(args?: SelectSubset<T, InstitutionStaffCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InstitutionStaffPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a InstitutionStaff.
+     * @param {InstitutionStaffDeleteArgs} args - Arguments to delete one InstitutionStaff.
+     * @example
+     * // Delete one InstitutionStaff
+     * const InstitutionStaff = await prisma.institutionStaff.delete({
+     *   where: {
+     *     // ... filter to delete one InstitutionStaff
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InstitutionStaffDeleteArgs>(args: SelectSubset<T, InstitutionStaffDeleteArgs<ExtArgs>>): Prisma__InstitutionStaffClient<$Result.GetResult<Prisma.$InstitutionStaffPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one InstitutionStaff.
+     * @param {InstitutionStaffUpdateArgs} args - Arguments to update one InstitutionStaff.
+     * @example
+     * // Update one InstitutionStaff
+     * const institutionStaff = await prisma.institutionStaff.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InstitutionStaffUpdateArgs>(args: SelectSubset<T, InstitutionStaffUpdateArgs<ExtArgs>>): Prisma__InstitutionStaffClient<$Result.GetResult<Prisma.$InstitutionStaffPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more InstitutionStaffs.
+     * @param {InstitutionStaffDeleteManyArgs} args - Arguments to filter InstitutionStaffs to delete.
+     * @example
+     * // Delete a few InstitutionStaffs
+     * const { count } = await prisma.institutionStaff.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InstitutionStaffDeleteManyArgs>(args?: SelectSubset<T, InstitutionStaffDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InstitutionStaffs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionStaffUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many InstitutionStaffs
+     * const institutionStaff = await prisma.institutionStaff.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InstitutionStaffUpdateManyArgs>(args: SelectSubset<T, InstitutionStaffUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one InstitutionStaff.
+     * @param {InstitutionStaffUpsertArgs} args - Arguments to update or create a InstitutionStaff.
+     * @example
+     * // Update or create a InstitutionStaff
+     * const institutionStaff = await prisma.institutionStaff.upsert({
+     *   create: {
+     *     // ... data to create a InstitutionStaff
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the InstitutionStaff we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InstitutionStaffUpsertArgs>(args: SelectSubset<T, InstitutionStaffUpsertArgs<ExtArgs>>): Prisma__InstitutionStaffClient<$Result.GetResult<Prisma.$InstitutionStaffPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of InstitutionStaffs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionStaffCountArgs} args - Arguments to filter InstitutionStaffs to count.
+     * @example
+     * // Count the number of InstitutionStaffs
+     * const count = await prisma.institutionStaff.count({
+     *   where: {
+     *     // ... the filter for the InstitutionStaffs we want to count
+     *   }
+     * })
+    **/
+    count<T extends InstitutionStaffCountArgs>(
+      args?: Subset<T, InstitutionStaffCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InstitutionStaffCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a InstitutionStaff.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionStaffAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InstitutionStaffAggregateArgs>(args: Subset<T, InstitutionStaffAggregateArgs>): Prisma.PrismaPromise<GetInstitutionStaffAggregateType<T>>
+
+    /**
+     * Group by InstitutionStaff.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionStaffGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InstitutionStaffGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InstitutionStaffGroupByArgs['orderBy'] }
+        : { orderBy?: InstitutionStaffGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InstitutionStaffGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInstitutionStaffGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the InstitutionStaff model
+   */
+  readonly fields: InstitutionStaffFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for InstitutionStaff.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InstitutionStaffClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    institution<T extends InstitutionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InstitutionDefaultArgs<ExtArgs>>): Prisma__InstitutionClient<$Result.GetResult<Prisma.$InstitutionPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the InstitutionStaff model
+   */ 
+  interface InstitutionStaffFieldRefs {
+    readonly id: FieldRef<"InstitutionStaff", 'String'>
+    readonly institutionId: FieldRef<"InstitutionStaff", 'String'>
+    readonly userId: FieldRef<"InstitutionStaff", 'String'>
+    readonly email: FieldRef<"InstitutionStaff", 'String'>
+    readonly name: FieldRef<"InstitutionStaff", 'String'>
+    readonly role: FieldRef<"InstitutionStaff", 'String'>
+    readonly createdAt: FieldRef<"InstitutionStaff", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * InstitutionStaff findUnique
+   */
+  export type InstitutionStaffFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionStaff
+     */
+    select?: InstitutionStaffSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionStaffInclude<ExtArgs> | null
+    /**
+     * Filter, which InstitutionStaff to fetch.
+     */
+    where: InstitutionStaffWhereUniqueInput
+  }
+
+  /**
+   * InstitutionStaff findUniqueOrThrow
+   */
+  export type InstitutionStaffFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionStaff
+     */
+    select?: InstitutionStaffSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionStaffInclude<ExtArgs> | null
+    /**
+     * Filter, which InstitutionStaff to fetch.
+     */
+    where: InstitutionStaffWhereUniqueInput
+  }
+
+  /**
+   * InstitutionStaff findFirst
+   */
+  export type InstitutionStaffFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionStaff
+     */
+    select?: InstitutionStaffSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionStaffInclude<ExtArgs> | null
+    /**
+     * Filter, which InstitutionStaff to fetch.
+     */
+    where?: InstitutionStaffWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InstitutionStaffs to fetch.
+     */
+    orderBy?: InstitutionStaffOrderByWithRelationInput | InstitutionStaffOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InstitutionStaffs.
+     */
+    cursor?: InstitutionStaffWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InstitutionStaffs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InstitutionStaffs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InstitutionStaffs.
+     */
+    distinct?: InstitutionStaffScalarFieldEnum | InstitutionStaffScalarFieldEnum[]
+  }
+
+  /**
+   * InstitutionStaff findFirstOrThrow
+   */
+  export type InstitutionStaffFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionStaff
+     */
+    select?: InstitutionStaffSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionStaffInclude<ExtArgs> | null
+    /**
+     * Filter, which InstitutionStaff to fetch.
+     */
+    where?: InstitutionStaffWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InstitutionStaffs to fetch.
+     */
+    orderBy?: InstitutionStaffOrderByWithRelationInput | InstitutionStaffOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InstitutionStaffs.
+     */
+    cursor?: InstitutionStaffWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InstitutionStaffs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InstitutionStaffs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InstitutionStaffs.
+     */
+    distinct?: InstitutionStaffScalarFieldEnum | InstitutionStaffScalarFieldEnum[]
+  }
+
+  /**
+   * InstitutionStaff findMany
+   */
+  export type InstitutionStaffFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionStaff
+     */
+    select?: InstitutionStaffSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionStaffInclude<ExtArgs> | null
+    /**
+     * Filter, which InstitutionStaffs to fetch.
+     */
+    where?: InstitutionStaffWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InstitutionStaffs to fetch.
+     */
+    orderBy?: InstitutionStaffOrderByWithRelationInput | InstitutionStaffOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing InstitutionStaffs.
+     */
+    cursor?: InstitutionStaffWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InstitutionStaffs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InstitutionStaffs.
+     */
+    skip?: number
+    distinct?: InstitutionStaffScalarFieldEnum | InstitutionStaffScalarFieldEnum[]
+  }
+
+  /**
+   * InstitutionStaff create
+   */
+  export type InstitutionStaffCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionStaff
+     */
+    select?: InstitutionStaffSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionStaffInclude<ExtArgs> | null
+    /**
+     * The data needed to create a InstitutionStaff.
+     */
+    data: XOR<InstitutionStaffCreateInput, InstitutionStaffUncheckedCreateInput>
+  }
+
+  /**
+   * InstitutionStaff createMany
+   */
+  export type InstitutionStaffCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many InstitutionStaffs.
+     */
+    data: InstitutionStaffCreateManyInput | InstitutionStaffCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InstitutionStaff createManyAndReturn
+   */
+  export type InstitutionStaffCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionStaff
+     */
+    select?: InstitutionStaffSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many InstitutionStaffs.
+     */
+    data: InstitutionStaffCreateManyInput | InstitutionStaffCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionStaffIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InstitutionStaff update
+   */
+  export type InstitutionStaffUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionStaff
+     */
+    select?: InstitutionStaffSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionStaffInclude<ExtArgs> | null
+    /**
+     * The data needed to update a InstitutionStaff.
+     */
+    data: XOR<InstitutionStaffUpdateInput, InstitutionStaffUncheckedUpdateInput>
+    /**
+     * Choose, which InstitutionStaff to update.
+     */
+    where: InstitutionStaffWhereUniqueInput
+  }
+
+  /**
+   * InstitutionStaff updateMany
+   */
+  export type InstitutionStaffUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update InstitutionStaffs.
+     */
+    data: XOR<InstitutionStaffUpdateManyMutationInput, InstitutionStaffUncheckedUpdateManyInput>
+    /**
+     * Filter which InstitutionStaffs to update
+     */
+    where?: InstitutionStaffWhereInput
+  }
+
+  /**
+   * InstitutionStaff upsert
+   */
+  export type InstitutionStaffUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionStaff
+     */
+    select?: InstitutionStaffSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionStaffInclude<ExtArgs> | null
+    /**
+     * The filter to search for the InstitutionStaff to update in case it exists.
+     */
+    where: InstitutionStaffWhereUniqueInput
+    /**
+     * In case the InstitutionStaff found by the `where` argument doesn't exist, create a new InstitutionStaff with this data.
+     */
+    create: XOR<InstitutionStaffCreateInput, InstitutionStaffUncheckedCreateInput>
+    /**
+     * In case the InstitutionStaff was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InstitutionStaffUpdateInput, InstitutionStaffUncheckedUpdateInput>
+  }
+
+  /**
+   * InstitutionStaff delete
+   */
+  export type InstitutionStaffDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionStaff
+     */
+    select?: InstitutionStaffSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionStaffInclude<ExtArgs> | null
+    /**
+     * Filter which InstitutionStaff to delete.
+     */
+    where: InstitutionStaffWhereUniqueInput
+  }
+
+  /**
+   * InstitutionStaff deleteMany
+   */
+  export type InstitutionStaffDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InstitutionStaffs to delete
+     */
+    where?: InstitutionStaffWhereInput
+  }
+
+  /**
+   * InstitutionStaff without action
+   */
+  export type InstitutionStaffDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionStaff
+     */
+    select?: InstitutionStaffSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionStaffInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model InstitutionStudent
+   */
+
+  export type AggregateInstitutionStudent = {
+    _count: InstitutionStudentCountAggregateOutputType | null
+    _min: InstitutionStudentMinAggregateOutputType | null
+    _max: InstitutionStudentMaxAggregateOutputType | null
+  }
+
+  export type InstitutionStudentMinAggregateOutputType = {
+    id: string | null
+    institutionId: string | null
+    userId: string | null
+    studentIdStr: string | null
+    classYear: string | null
+    createdAt: Date | null
+  }
+
+  export type InstitutionStudentMaxAggregateOutputType = {
+    id: string | null
+    institutionId: string | null
+    userId: string | null
+    studentIdStr: string | null
+    classYear: string | null
+    createdAt: Date | null
+  }
+
+  export type InstitutionStudentCountAggregateOutputType = {
+    id: number
+    institutionId: number
+    userId: number
+    studentIdStr: number
+    classYear: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type InstitutionStudentMinAggregateInputType = {
+    id?: true
+    institutionId?: true
+    userId?: true
+    studentIdStr?: true
+    classYear?: true
+    createdAt?: true
+  }
+
+  export type InstitutionStudentMaxAggregateInputType = {
+    id?: true
+    institutionId?: true
+    userId?: true
+    studentIdStr?: true
+    classYear?: true
+    createdAt?: true
+  }
+
+  export type InstitutionStudentCountAggregateInputType = {
+    id?: true
+    institutionId?: true
+    userId?: true
+    studentIdStr?: true
+    classYear?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type InstitutionStudentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InstitutionStudent to aggregate.
+     */
+    where?: InstitutionStudentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InstitutionStudents to fetch.
+     */
+    orderBy?: InstitutionStudentOrderByWithRelationInput | InstitutionStudentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InstitutionStudentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InstitutionStudents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InstitutionStudents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned InstitutionStudents
+    **/
+    _count?: true | InstitutionStudentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InstitutionStudentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InstitutionStudentMaxAggregateInputType
+  }
+
+  export type GetInstitutionStudentAggregateType<T extends InstitutionStudentAggregateArgs> = {
+        [P in keyof T & keyof AggregateInstitutionStudent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInstitutionStudent[P]>
+      : GetScalarType<T[P], AggregateInstitutionStudent[P]>
+  }
+
+
+
+
+  export type InstitutionStudentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InstitutionStudentWhereInput
+    orderBy?: InstitutionStudentOrderByWithAggregationInput | InstitutionStudentOrderByWithAggregationInput[]
+    by: InstitutionStudentScalarFieldEnum[] | InstitutionStudentScalarFieldEnum
+    having?: InstitutionStudentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InstitutionStudentCountAggregateInputType | true
+    _min?: InstitutionStudentMinAggregateInputType
+    _max?: InstitutionStudentMaxAggregateInputType
+  }
+
+  export type InstitutionStudentGroupByOutputType = {
+    id: string
+    institutionId: string
+    userId: string
+    studentIdStr: string | null
+    classYear: string | null
+    createdAt: Date
+    _count: InstitutionStudentCountAggregateOutputType | null
+    _min: InstitutionStudentMinAggregateOutputType | null
+    _max: InstitutionStudentMaxAggregateOutputType | null
+  }
+
+  type GetInstitutionStudentGroupByPayload<T extends InstitutionStudentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InstitutionStudentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InstitutionStudentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InstitutionStudentGroupByOutputType[P]>
+            : GetScalarType<T[P], InstitutionStudentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InstitutionStudentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    institutionId?: boolean
+    userId?: boolean
+    studentIdStr?: boolean
+    classYear?: boolean
+    createdAt?: boolean
+    institution?: boolean | InstitutionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["institutionStudent"]>
+
+  export type InstitutionStudentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    institutionId?: boolean
+    userId?: boolean
+    studentIdStr?: boolean
+    classYear?: boolean
+    createdAt?: boolean
+    institution?: boolean | InstitutionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["institutionStudent"]>
+
+  export type InstitutionStudentSelectScalar = {
+    id?: boolean
+    institutionId?: boolean
+    userId?: boolean
+    studentIdStr?: boolean
+    classYear?: boolean
+    createdAt?: boolean
+  }
+
+  export type InstitutionStudentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    institution?: boolean | InstitutionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type InstitutionStudentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    institution?: boolean | InstitutionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $InstitutionStudentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InstitutionStudent"
+    objects: {
+      institution: Prisma.$InstitutionPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      institutionId: string
+      userId: string
+      studentIdStr: string | null
+      classYear: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["institutionStudent"]>
+    composites: {}
+  }
+
+  type InstitutionStudentGetPayload<S extends boolean | null | undefined | InstitutionStudentDefaultArgs> = $Result.GetResult<Prisma.$InstitutionStudentPayload, S>
+
+  type InstitutionStudentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<InstitutionStudentFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: InstitutionStudentCountAggregateInputType | true
+    }
+
+  export interface InstitutionStudentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InstitutionStudent'], meta: { name: 'InstitutionStudent' } }
+    /**
+     * Find zero or one InstitutionStudent that matches the filter.
+     * @param {InstitutionStudentFindUniqueArgs} args - Arguments to find a InstitutionStudent
+     * @example
+     * // Get one InstitutionStudent
+     * const institutionStudent = await prisma.institutionStudent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InstitutionStudentFindUniqueArgs>(args: SelectSubset<T, InstitutionStudentFindUniqueArgs<ExtArgs>>): Prisma__InstitutionStudentClient<$Result.GetResult<Prisma.$InstitutionStudentPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one InstitutionStudent that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {InstitutionStudentFindUniqueOrThrowArgs} args - Arguments to find a InstitutionStudent
+     * @example
+     * // Get one InstitutionStudent
+     * const institutionStudent = await prisma.institutionStudent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InstitutionStudentFindUniqueOrThrowArgs>(args: SelectSubset<T, InstitutionStudentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InstitutionStudentClient<$Result.GetResult<Prisma.$InstitutionStudentPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first InstitutionStudent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionStudentFindFirstArgs} args - Arguments to find a InstitutionStudent
+     * @example
+     * // Get one InstitutionStudent
+     * const institutionStudent = await prisma.institutionStudent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InstitutionStudentFindFirstArgs>(args?: SelectSubset<T, InstitutionStudentFindFirstArgs<ExtArgs>>): Prisma__InstitutionStudentClient<$Result.GetResult<Prisma.$InstitutionStudentPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first InstitutionStudent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionStudentFindFirstOrThrowArgs} args - Arguments to find a InstitutionStudent
+     * @example
+     * // Get one InstitutionStudent
+     * const institutionStudent = await prisma.institutionStudent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InstitutionStudentFindFirstOrThrowArgs>(args?: SelectSubset<T, InstitutionStudentFindFirstOrThrowArgs<ExtArgs>>): Prisma__InstitutionStudentClient<$Result.GetResult<Prisma.$InstitutionStudentPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more InstitutionStudents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionStudentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all InstitutionStudents
+     * const institutionStudents = await prisma.institutionStudent.findMany()
+     * 
+     * // Get first 10 InstitutionStudents
+     * const institutionStudents = await prisma.institutionStudent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const institutionStudentWithIdOnly = await prisma.institutionStudent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InstitutionStudentFindManyArgs>(args?: SelectSubset<T, InstitutionStudentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InstitutionStudentPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a InstitutionStudent.
+     * @param {InstitutionStudentCreateArgs} args - Arguments to create a InstitutionStudent.
+     * @example
+     * // Create one InstitutionStudent
+     * const InstitutionStudent = await prisma.institutionStudent.create({
+     *   data: {
+     *     // ... data to create a InstitutionStudent
+     *   }
+     * })
+     * 
+     */
+    create<T extends InstitutionStudentCreateArgs>(args: SelectSubset<T, InstitutionStudentCreateArgs<ExtArgs>>): Prisma__InstitutionStudentClient<$Result.GetResult<Prisma.$InstitutionStudentPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many InstitutionStudents.
+     * @param {InstitutionStudentCreateManyArgs} args - Arguments to create many InstitutionStudents.
+     * @example
+     * // Create many InstitutionStudents
+     * const institutionStudent = await prisma.institutionStudent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InstitutionStudentCreateManyArgs>(args?: SelectSubset<T, InstitutionStudentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many InstitutionStudents and returns the data saved in the database.
+     * @param {InstitutionStudentCreateManyAndReturnArgs} args - Arguments to create many InstitutionStudents.
+     * @example
+     * // Create many InstitutionStudents
+     * const institutionStudent = await prisma.institutionStudent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many InstitutionStudents and only return the `id`
+     * const institutionStudentWithIdOnly = await prisma.institutionStudent.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InstitutionStudentCreateManyAndReturnArgs>(args?: SelectSubset<T, InstitutionStudentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InstitutionStudentPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a InstitutionStudent.
+     * @param {InstitutionStudentDeleteArgs} args - Arguments to delete one InstitutionStudent.
+     * @example
+     * // Delete one InstitutionStudent
+     * const InstitutionStudent = await prisma.institutionStudent.delete({
+     *   where: {
+     *     // ... filter to delete one InstitutionStudent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InstitutionStudentDeleteArgs>(args: SelectSubset<T, InstitutionStudentDeleteArgs<ExtArgs>>): Prisma__InstitutionStudentClient<$Result.GetResult<Prisma.$InstitutionStudentPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one InstitutionStudent.
+     * @param {InstitutionStudentUpdateArgs} args - Arguments to update one InstitutionStudent.
+     * @example
+     * // Update one InstitutionStudent
+     * const institutionStudent = await prisma.institutionStudent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InstitutionStudentUpdateArgs>(args: SelectSubset<T, InstitutionStudentUpdateArgs<ExtArgs>>): Prisma__InstitutionStudentClient<$Result.GetResult<Prisma.$InstitutionStudentPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more InstitutionStudents.
+     * @param {InstitutionStudentDeleteManyArgs} args - Arguments to filter InstitutionStudents to delete.
+     * @example
+     * // Delete a few InstitutionStudents
+     * const { count } = await prisma.institutionStudent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InstitutionStudentDeleteManyArgs>(args?: SelectSubset<T, InstitutionStudentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InstitutionStudents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionStudentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many InstitutionStudents
+     * const institutionStudent = await prisma.institutionStudent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InstitutionStudentUpdateManyArgs>(args: SelectSubset<T, InstitutionStudentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one InstitutionStudent.
+     * @param {InstitutionStudentUpsertArgs} args - Arguments to update or create a InstitutionStudent.
+     * @example
+     * // Update or create a InstitutionStudent
+     * const institutionStudent = await prisma.institutionStudent.upsert({
+     *   create: {
+     *     // ... data to create a InstitutionStudent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the InstitutionStudent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InstitutionStudentUpsertArgs>(args: SelectSubset<T, InstitutionStudentUpsertArgs<ExtArgs>>): Prisma__InstitutionStudentClient<$Result.GetResult<Prisma.$InstitutionStudentPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of InstitutionStudents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionStudentCountArgs} args - Arguments to filter InstitutionStudents to count.
+     * @example
+     * // Count the number of InstitutionStudents
+     * const count = await prisma.institutionStudent.count({
+     *   where: {
+     *     // ... the filter for the InstitutionStudents we want to count
+     *   }
+     * })
+    **/
+    count<T extends InstitutionStudentCountArgs>(
+      args?: Subset<T, InstitutionStudentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InstitutionStudentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a InstitutionStudent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionStudentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InstitutionStudentAggregateArgs>(args: Subset<T, InstitutionStudentAggregateArgs>): Prisma.PrismaPromise<GetInstitutionStudentAggregateType<T>>
+
+    /**
+     * Group by InstitutionStudent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionStudentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InstitutionStudentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InstitutionStudentGroupByArgs['orderBy'] }
+        : { orderBy?: InstitutionStudentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InstitutionStudentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInstitutionStudentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the InstitutionStudent model
+   */
+  readonly fields: InstitutionStudentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for InstitutionStudent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InstitutionStudentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    institution<T extends InstitutionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InstitutionDefaultArgs<ExtArgs>>): Prisma__InstitutionClient<$Result.GetResult<Prisma.$InstitutionPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the InstitutionStudent model
+   */ 
+  interface InstitutionStudentFieldRefs {
+    readonly id: FieldRef<"InstitutionStudent", 'String'>
+    readonly institutionId: FieldRef<"InstitutionStudent", 'String'>
+    readonly userId: FieldRef<"InstitutionStudent", 'String'>
+    readonly studentIdStr: FieldRef<"InstitutionStudent", 'String'>
+    readonly classYear: FieldRef<"InstitutionStudent", 'String'>
+    readonly createdAt: FieldRef<"InstitutionStudent", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * InstitutionStudent findUnique
+   */
+  export type InstitutionStudentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionStudent
+     */
+    select?: InstitutionStudentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionStudentInclude<ExtArgs> | null
+    /**
+     * Filter, which InstitutionStudent to fetch.
+     */
+    where: InstitutionStudentWhereUniqueInput
+  }
+
+  /**
+   * InstitutionStudent findUniqueOrThrow
+   */
+  export type InstitutionStudentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionStudent
+     */
+    select?: InstitutionStudentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionStudentInclude<ExtArgs> | null
+    /**
+     * Filter, which InstitutionStudent to fetch.
+     */
+    where: InstitutionStudentWhereUniqueInput
+  }
+
+  /**
+   * InstitutionStudent findFirst
+   */
+  export type InstitutionStudentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionStudent
+     */
+    select?: InstitutionStudentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionStudentInclude<ExtArgs> | null
+    /**
+     * Filter, which InstitutionStudent to fetch.
+     */
+    where?: InstitutionStudentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InstitutionStudents to fetch.
+     */
+    orderBy?: InstitutionStudentOrderByWithRelationInput | InstitutionStudentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InstitutionStudents.
+     */
+    cursor?: InstitutionStudentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InstitutionStudents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InstitutionStudents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InstitutionStudents.
+     */
+    distinct?: InstitutionStudentScalarFieldEnum | InstitutionStudentScalarFieldEnum[]
+  }
+
+  /**
+   * InstitutionStudent findFirstOrThrow
+   */
+  export type InstitutionStudentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionStudent
+     */
+    select?: InstitutionStudentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionStudentInclude<ExtArgs> | null
+    /**
+     * Filter, which InstitutionStudent to fetch.
+     */
+    where?: InstitutionStudentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InstitutionStudents to fetch.
+     */
+    orderBy?: InstitutionStudentOrderByWithRelationInput | InstitutionStudentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InstitutionStudents.
+     */
+    cursor?: InstitutionStudentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InstitutionStudents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InstitutionStudents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InstitutionStudents.
+     */
+    distinct?: InstitutionStudentScalarFieldEnum | InstitutionStudentScalarFieldEnum[]
+  }
+
+  /**
+   * InstitutionStudent findMany
+   */
+  export type InstitutionStudentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionStudent
+     */
+    select?: InstitutionStudentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionStudentInclude<ExtArgs> | null
+    /**
+     * Filter, which InstitutionStudents to fetch.
+     */
+    where?: InstitutionStudentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InstitutionStudents to fetch.
+     */
+    orderBy?: InstitutionStudentOrderByWithRelationInput | InstitutionStudentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing InstitutionStudents.
+     */
+    cursor?: InstitutionStudentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InstitutionStudents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InstitutionStudents.
+     */
+    skip?: number
+    distinct?: InstitutionStudentScalarFieldEnum | InstitutionStudentScalarFieldEnum[]
+  }
+
+  /**
+   * InstitutionStudent create
+   */
+  export type InstitutionStudentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionStudent
+     */
+    select?: InstitutionStudentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionStudentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a InstitutionStudent.
+     */
+    data: XOR<InstitutionStudentCreateInput, InstitutionStudentUncheckedCreateInput>
+  }
+
+  /**
+   * InstitutionStudent createMany
+   */
+  export type InstitutionStudentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many InstitutionStudents.
+     */
+    data: InstitutionStudentCreateManyInput | InstitutionStudentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InstitutionStudent createManyAndReturn
+   */
+  export type InstitutionStudentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionStudent
+     */
+    select?: InstitutionStudentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many InstitutionStudents.
+     */
+    data: InstitutionStudentCreateManyInput | InstitutionStudentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionStudentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InstitutionStudent update
+   */
+  export type InstitutionStudentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionStudent
+     */
+    select?: InstitutionStudentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionStudentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a InstitutionStudent.
+     */
+    data: XOR<InstitutionStudentUpdateInput, InstitutionStudentUncheckedUpdateInput>
+    /**
+     * Choose, which InstitutionStudent to update.
+     */
+    where: InstitutionStudentWhereUniqueInput
+  }
+
+  /**
+   * InstitutionStudent updateMany
+   */
+  export type InstitutionStudentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update InstitutionStudents.
+     */
+    data: XOR<InstitutionStudentUpdateManyMutationInput, InstitutionStudentUncheckedUpdateManyInput>
+    /**
+     * Filter which InstitutionStudents to update
+     */
+    where?: InstitutionStudentWhereInput
+  }
+
+  /**
+   * InstitutionStudent upsert
+   */
+  export type InstitutionStudentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionStudent
+     */
+    select?: InstitutionStudentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionStudentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the InstitutionStudent to update in case it exists.
+     */
+    where: InstitutionStudentWhereUniqueInput
+    /**
+     * In case the InstitutionStudent found by the `where` argument doesn't exist, create a new InstitutionStudent with this data.
+     */
+    create: XOR<InstitutionStudentCreateInput, InstitutionStudentUncheckedCreateInput>
+    /**
+     * In case the InstitutionStudent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InstitutionStudentUpdateInput, InstitutionStudentUncheckedUpdateInput>
+  }
+
+  /**
+   * InstitutionStudent delete
+   */
+  export type InstitutionStudentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionStudent
+     */
+    select?: InstitutionStudentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionStudentInclude<ExtArgs> | null
+    /**
+     * Filter which InstitutionStudent to delete.
+     */
+    where: InstitutionStudentWhereUniqueInput
+  }
+
+  /**
+   * InstitutionStudent deleteMany
+   */
+  export type InstitutionStudentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InstitutionStudents to delete
+     */
+    where?: InstitutionStudentWhereInput
+  }
+
+  /**
+   * InstitutionStudent without action
+   */
+  export type InstitutionStudentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionStudent
+     */
+    select?: InstitutionStudentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionStudentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model InstitutionTutor
+   */
+
+  export type AggregateInstitutionTutor = {
+    _count: InstitutionTutorCountAggregateOutputType | null
+    _min: InstitutionTutorMinAggregateOutputType | null
+    _max: InstitutionTutorMaxAggregateOutputType | null
+  }
+
+  export type InstitutionTutorMinAggregateOutputType = {
+    id: string | null
+    institutionId: string | null
+    userId: string | null
+    status: string | null
+    createdAt: Date | null
+  }
+
+  export type InstitutionTutorMaxAggregateOutputType = {
+    id: string | null
+    institutionId: string | null
+    userId: string | null
+    status: string | null
+    createdAt: Date | null
+  }
+
+  export type InstitutionTutorCountAggregateOutputType = {
+    id: number
+    institutionId: number
+    userId: number
+    status: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type InstitutionTutorMinAggregateInputType = {
+    id?: true
+    institutionId?: true
+    userId?: true
+    status?: true
+    createdAt?: true
+  }
+
+  export type InstitutionTutorMaxAggregateInputType = {
+    id?: true
+    institutionId?: true
+    userId?: true
+    status?: true
+    createdAt?: true
+  }
+
+  export type InstitutionTutorCountAggregateInputType = {
+    id?: true
+    institutionId?: true
+    userId?: true
+    status?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type InstitutionTutorAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InstitutionTutor to aggregate.
+     */
+    where?: InstitutionTutorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InstitutionTutors to fetch.
+     */
+    orderBy?: InstitutionTutorOrderByWithRelationInput | InstitutionTutorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InstitutionTutorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InstitutionTutors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InstitutionTutors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned InstitutionTutors
+    **/
+    _count?: true | InstitutionTutorCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InstitutionTutorMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InstitutionTutorMaxAggregateInputType
+  }
+
+  export type GetInstitutionTutorAggregateType<T extends InstitutionTutorAggregateArgs> = {
+        [P in keyof T & keyof AggregateInstitutionTutor]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInstitutionTutor[P]>
+      : GetScalarType<T[P], AggregateInstitutionTutor[P]>
+  }
+
+
+
+
+  export type InstitutionTutorGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InstitutionTutorWhereInput
+    orderBy?: InstitutionTutorOrderByWithAggregationInput | InstitutionTutorOrderByWithAggregationInput[]
+    by: InstitutionTutorScalarFieldEnum[] | InstitutionTutorScalarFieldEnum
+    having?: InstitutionTutorScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InstitutionTutorCountAggregateInputType | true
+    _min?: InstitutionTutorMinAggregateInputType
+    _max?: InstitutionTutorMaxAggregateInputType
+  }
+
+  export type InstitutionTutorGroupByOutputType = {
+    id: string
+    institutionId: string
+    userId: string
+    status: string
+    createdAt: Date
+    _count: InstitutionTutorCountAggregateOutputType | null
+    _min: InstitutionTutorMinAggregateOutputType | null
+    _max: InstitutionTutorMaxAggregateOutputType | null
+  }
+
+  type GetInstitutionTutorGroupByPayload<T extends InstitutionTutorGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InstitutionTutorGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InstitutionTutorGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InstitutionTutorGroupByOutputType[P]>
+            : GetScalarType<T[P], InstitutionTutorGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InstitutionTutorSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    institutionId?: boolean
+    userId?: boolean
+    status?: boolean
+    createdAt?: boolean
+    institution?: boolean | InstitutionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["institutionTutor"]>
+
+  export type InstitutionTutorSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    institutionId?: boolean
+    userId?: boolean
+    status?: boolean
+    createdAt?: boolean
+    institution?: boolean | InstitutionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["institutionTutor"]>
+
+  export type InstitutionTutorSelectScalar = {
+    id?: boolean
+    institutionId?: boolean
+    userId?: boolean
+    status?: boolean
+    createdAt?: boolean
+  }
+
+  export type InstitutionTutorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    institution?: boolean | InstitutionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type InstitutionTutorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    institution?: boolean | InstitutionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $InstitutionTutorPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InstitutionTutor"
+    objects: {
+      institution: Prisma.$InstitutionPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      institutionId: string
+      userId: string
+      status: string
+      createdAt: Date
+    }, ExtArgs["result"]["institutionTutor"]>
+    composites: {}
+  }
+
+  type InstitutionTutorGetPayload<S extends boolean | null | undefined | InstitutionTutorDefaultArgs> = $Result.GetResult<Prisma.$InstitutionTutorPayload, S>
+
+  type InstitutionTutorCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<InstitutionTutorFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: InstitutionTutorCountAggregateInputType | true
+    }
+
+  export interface InstitutionTutorDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InstitutionTutor'], meta: { name: 'InstitutionTutor' } }
+    /**
+     * Find zero or one InstitutionTutor that matches the filter.
+     * @param {InstitutionTutorFindUniqueArgs} args - Arguments to find a InstitutionTutor
+     * @example
+     * // Get one InstitutionTutor
+     * const institutionTutor = await prisma.institutionTutor.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InstitutionTutorFindUniqueArgs>(args: SelectSubset<T, InstitutionTutorFindUniqueArgs<ExtArgs>>): Prisma__InstitutionTutorClient<$Result.GetResult<Prisma.$InstitutionTutorPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one InstitutionTutor that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {InstitutionTutorFindUniqueOrThrowArgs} args - Arguments to find a InstitutionTutor
+     * @example
+     * // Get one InstitutionTutor
+     * const institutionTutor = await prisma.institutionTutor.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InstitutionTutorFindUniqueOrThrowArgs>(args: SelectSubset<T, InstitutionTutorFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InstitutionTutorClient<$Result.GetResult<Prisma.$InstitutionTutorPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first InstitutionTutor that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionTutorFindFirstArgs} args - Arguments to find a InstitutionTutor
+     * @example
+     * // Get one InstitutionTutor
+     * const institutionTutor = await prisma.institutionTutor.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InstitutionTutorFindFirstArgs>(args?: SelectSubset<T, InstitutionTutorFindFirstArgs<ExtArgs>>): Prisma__InstitutionTutorClient<$Result.GetResult<Prisma.$InstitutionTutorPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first InstitutionTutor that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionTutorFindFirstOrThrowArgs} args - Arguments to find a InstitutionTutor
+     * @example
+     * // Get one InstitutionTutor
+     * const institutionTutor = await prisma.institutionTutor.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InstitutionTutorFindFirstOrThrowArgs>(args?: SelectSubset<T, InstitutionTutorFindFirstOrThrowArgs<ExtArgs>>): Prisma__InstitutionTutorClient<$Result.GetResult<Prisma.$InstitutionTutorPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more InstitutionTutors that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionTutorFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all InstitutionTutors
+     * const institutionTutors = await prisma.institutionTutor.findMany()
+     * 
+     * // Get first 10 InstitutionTutors
+     * const institutionTutors = await prisma.institutionTutor.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const institutionTutorWithIdOnly = await prisma.institutionTutor.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InstitutionTutorFindManyArgs>(args?: SelectSubset<T, InstitutionTutorFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InstitutionTutorPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a InstitutionTutor.
+     * @param {InstitutionTutorCreateArgs} args - Arguments to create a InstitutionTutor.
+     * @example
+     * // Create one InstitutionTutor
+     * const InstitutionTutor = await prisma.institutionTutor.create({
+     *   data: {
+     *     // ... data to create a InstitutionTutor
+     *   }
+     * })
+     * 
+     */
+    create<T extends InstitutionTutorCreateArgs>(args: SelectSubset<T, InstitutionTutorCreateArgs<ExtArgs>>): Prisma__InstitutionTutorClient<$Result.GetResult<Prisma.$InstitutionTutorPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many InstitutionTutors.
+     * @param {InstitutionTutorCreateManyArgs} args - Arguments to create many InstitutionTutors.
+     * @example
+     * // Create many InstitutionTutors
+     * const institutionTutor = await prisma.institutionTutor.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InstitutionTutorCreateManyArgs>(args?: SelectSubset<T, InstitutionTutorCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many InstitutionTutors and returns the data saved in the database.
+     * @param {InstitutionTutorCreateManyAndReturnArgs} args - Arguments to create many InstitutionTutors.
+     * @example
+     * // Create many InstitutionTutors
+     * const institutionTutor = await prisma.institutionTutor.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many InstitutionTutors and only return the `id`
+     * const institutionTutorWithIdOnly = await prisma.institutionTutor.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InstitutionTutorCreateManyAndReturnArgs>(args?: SelectSubset<T, InstitutionTutorCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InstitutionTutorPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a InstitutionTutor.
+     * @param {InstitutionTutorDeleteArgs} args - Arguments to delete one InstitutionTutor.
+     * @example
+     * // Delete one InstitutionTutor
+     * const InstitutionTutor = await prisma.institutionTutor.delete({
+     *   where: {
+     *     // ... filter to delete one InstitutionTutor
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InstitutionTutorDeleteArgs>(args: SelectSubset<T, InstitutionTutorDeleteArgs<ExtArgs>>): Prisma__InstitutionTutorClient<$Result.GetResult<Prisma.$InstitutionTutorPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one InstitutionTutor.
+     * @param {InstitutionTutorUpdateArgs} args - Arguments to update one InstitutionTutor.
+     * @example
+     * // Update one InstitutionTutor
+     * const institutionTutor = await prisma.institutionTutor.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InstitutionTutorUpdateArgs>(args: SelectSubset<T, InstitutionTutorUpdateArgs<ExtArgs>>): Prisma__InstitutionTutorClient<$Result.GetResult<Prisma.$InstitutionTutorPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more InstitutionTutors.
+     * @param {InstitutionTutorDeleteManyArgs} args - Arguments to filter InstitutionTutors to delete.
+     * @example
+     * // Delete a few InstitutionTutors
+     * const { count } = await prisma.institutionTutor.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InstitutionTutorDeleteManyArgs>(args?: SelectSubset<T, InstitutionTutorDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InstitutionTutors.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionTutorUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many InstitutionTutors
+     * const institutionTutor = await prisma.institutionTutor.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InstitutionTutorUpdateManyArgs>(args: SelectSubset<T, InstitutionTutorUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one InstitutionTutor.
+     * @param {InstitutionTutorUpsertArgs} args - Arguments to update or create a InstitutionTutor.
+     * @example
+     * // Update or create a InstitutionTutor
+     * const institutionTutor = await prisma.institutionTutor.upsert({
+     *   create: {
+     *     // ... data to create a InstitutionTutor
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the InstitutionTutor we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InstitutionTutorUpsertArgs>(args: SelectSubset<T, InstitutionTutorUpsertArgs<ExtArgs>>): Prisma__InstitutionTutorClient<$Result.GetResult<Prisma.$InstitutionTutorPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of InstitutionTutors.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionTutorCountArgs} args - Arguments to filter InstitutionTutors to count.
+     * @example
+     * // Count the number of InstitutionTutors
+     * const count = await prisma.institutionTutor.count({
+     *   where: {
+     *     // ... the filter for the InstitutionTutors we want to count
+     *   }
+     * })
+    **/
+    count<T extends InstitutionTutorCountArgs>(
+      args?: Subset<T, InstitutionTutorCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InstitutionTutorCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a InstitutionTutor.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionTutorAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InstitutionTutorAggregateArgs>(args: Subset<T, InstitutionTutorAggregateArgs>): Prisma.PrismaPromise<GetInstitutionTutorAggregateType<T>>
+
+    /**
+     * Group by InstitutionTutor.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InstitutionTutorGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InstitutionTutorGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InstitutionTutorGroupByArgs['orderBy'] }
+        : { orderBy?: InstitutionTutorGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InstitutionTutorGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInstitutionTutorGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the InstitutionTutor model
+   */
+  readonly fields: InstitutionTutorFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for InstitutionTutor.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InstitutionTutorClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    institution<T extends InstitutionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InstitutionDefaultArgs<ExtArgs>>): Prisma__InstitutionClient<$Result.GetResult<Prisma.$InstitutionPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the InstitutionTutor model
+   */ 
+  interface InstitutionTutorFieldRefs {
+    readonly id: FieldRef<"InstitutionTutor", 'String'>
+    readonly institutionId: FieldRef<"InstitutionTutor", 'String'>
+    readonly userId: FieldRef<"InstitutionTutor", 'String'>
+    readonly status: FieldRef<"InstitutionTutor", 'String'>
+    readonly createdAt: FieldRef<"InstitutionTutor", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * InstitutionTutor findUnique
+   */
+  export type InstitutionTutorFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionTutor
+     */
+    select?: InstitutionTutorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionTutorInclude<ExtArgs> | null
+    /**
+     * Filter, which InstitutionTutor to fetch.
+     */
+    where: InstitutionTutorWhereUniqueInput
+  }
+
+  /**
+   * InstitutionTutor findUniqueOrThrow
+   */
+  export type InstitutionTutorFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionTutor
+     */
+    select?: InstitutionTutorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionTutorInclude<ExtArgs> | null
+    /**
+     * Filter, which InstitutionTutor to fetch.
+     */
+    where: InstitutionTutorWhereUniqueInput
+  }
+
+  /**
+   * InstitutionTutor findFirst
+   */
+  export type InstitutionTutorFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionTutor
+     */
+    select?: InstitutionTutorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionTutorInclude<ExtArgs> | null
+    /**
+     * Filter, which InstitutionTutor to fetch.
+     */
+    where?: InstitutionTutorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InstitutionTutors to fetch.
+     */
+    orderBy?: InstitutionTutorOrderByWithRelationInput | InstitutionTutorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InstitutionTutors.
+     */
+    cursor?: InstitutionTutorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InstitutionTutors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InstitutionTutors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InstitutionTutors.
+     */
+    distinct?: InstitutionTutorScalarFieldEnum | InstitutionTutorScalarFieldEnum[]
+  }
+
+  /**
+   * InstitutionTutor findFirstOrThrow
+   */
+  export type InstitutionTutorFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionTutor
+     */
+    select?: InstitutionTutorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionTutorInclude<ExtArgs> | null
+    /**
+     * Filter, which InstitutionTutor to fetch.
+     */
+    where?: InstitutionTutorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InstitutionTutors to fetch.
+     */
+    orderBy?: InstitutionTutorOrderByWithRelationInput | InstitutionTutorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InstitutionTutors.
+     */
+    cursor?: InstitutionTutorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InstitutionTutors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InstitutionTutors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InstitutionTutors.
+     */
+    distinct?: InstitutionTutorScalarFieldEnum | InstitutionTutorScalarFieldEnum[]
+  }
+
+  /**
+   * InstitutionTutor findMany
+   */
+  export type InstitutionTutorFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionTutor
+     */
+    select?: InstitutionTutorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionTutorInclude<ExtArgs> | null
+    /**
+     * Filter, which InstitutionTutors to fetch.
+     */
+    where?: InstitutionTutorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InstitutionTutors to fetch.
+     */
+    orderBy?: InstitutionTutorOrderByWithRelationInput | InstitutionTutorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing InstitutionTutors.
+     */
+    cursor?: InstitutionTutorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InstitutionTutors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InstitutionTutors.
+     */
+    skip?: number
+    distinct?: InstitutionTutorScalarFieldEnum | InstitutionTutorScalarFieldEnum[]
+  }
+
+  /**
+   * InstitutionTutor create
+   */
+  export type InstitutionTutorCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionTutor
+     */
+    select?: InstitutionTutorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionTutorInclude<ExtArgs> | null
+    /**
+     * The data needed to create a InstitutionTutor.
+     */
+    data: XOR<InstitutionTutorCreateInput, InstitutionTutorUncheckedCreateInput>
+  }
+
+  /**
+   * InstitutionTutor createMany
+   */
+  export type InstitutionTutorCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many InstitutionTutors.
+     */
+    data: InstitutionTutorCreateManyInput | InstitutionTutorCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InstitutionTutor createManyAndReturn
+   */
+  export type InstitutionTutorCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionTutor
+     */
+    select?: InstitutionTutorSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many InstitutionTutors.
+     */
+    data: InstitutionTutorCreateManyInput | InstitutionTutorCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionTutorIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InstitutionTutor update
+   */
+  export type InstitutionTutorUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionTutor
+     */
+    select?: InstitutionTutorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionTutorInclude<ExtArgs> | null
+    /**
+     * The data needed to update a InstitutionTutor.
+     */
+    data: XOR<InstitutionTutorUpdateInput, InstitutionTutorUncheckedUpdateInput>
+    /**
+     * Choose, which InstitutionTutor to update.
+     */
+    where: InstitutionTutorWhereUniqueInput
+  }
+
+  /**
+   * InstitutionTutor updateMany
+   */
+  export type InstitutionTutorUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update InstitutionTutors.
+     */
+    data: XOR<InstitutionTutorUpdateManyMutationInput, InstitutionTutorUncheckedUpdateManyInput>
+    /**
+     * Filter which InstitutionTutors to update
+     */
+    where?: InstitutionTutorWhereInput
+  }
+
+  /**
+   * InstitutionTutor upsert
+   */
+  export type InstitutionTutorUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionTutor
+     */
+    select?: InstitutionTutorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionTutorInclude<ExtArgs> | null
+    /**
+     * The filter to search for the InstitutionTutor to update in case it exists.
+     */
+    where: InstitutionTutorWhereUniqueInput
+    /**
+     * In case the InstitutionTutor found by the `where` argument doesn't exist, create a new InstitutionTutor with this data.
+     */
+    create: XOR<InstitutionTutorCreateInput, InstitutionTutorUncheckedCreateInput>
+    /**
+     * In case the InstitutionTutor was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InstitutionTutorUpdateInput, InstitutionTutorUncheckedUpdateInput>
+  }
+
+  /**
+   * InstitutionTutor delete
+   */
+  export type InstitutionTutorDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionTutor
+     */
+    select?: InstitutionTutorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionTutorInclude<ExtArgs> | null
+    /**
+     * Filter which InstitutionTutor to delete.
+     */
+    where: InstitutionTutorWhereUniqueInput
+  }
+
+  /**
+   * InstitutionTutor deleteMany
+   */
+  export type InstitutionTutorDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InstitutionTutors to delete
+     */
+    where?: InstitutionTutorWhereInput
+  }
+
+  /**
+   * InstitutionTutor without action
+   */
+  export type InstitutionTutorDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InstitutionTutor
+     */
+    select?: InstitutionTutorSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InstitutionTutorInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -44439,6 +48771,57 @@ export namespace Prisma {
   export type Newsletter_subscribersScalarFieldEnum = (typeof Newsletter_subscribersScalarFieldEnum)[keyof typeof Newsletter_subscribersScalarFieldEnum]
 
 
+  export const InstitutionScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    type: 'type',
+    code: 'code',
+    logo: 'logo',
+    branding: 'branding',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    isActive: 'isActive'
+  };
+
+  export type InstitutionScalarFieldEnum = (typeof InstitutionScalarFieldEnum)[keyof typeof InstitutionScalarFieldEnum]
+
+
+  export const InstitutionStaffScalarFieldEnum: {
+    id: 'id',
+    institutionId: 'institutionId',
+    userId: 'userId',
+    email: 'email',
+    name: 'name',
+    role: 'role',
+    createdAt: 'createdAt'
+  };
+
+  export type InstitutionStaffScalarFieldEnum = (typeof InstitutionStaffScalarFieldEnum)[keyof typeof InstitutionStaffScalarFieldEnum]
+
+
+  export const InstitutionStudentScalarFieldEnum: {
+    id: 'id',
+    institutionId: 'institutionId',
+    userId: 'userId',
+    studentIdStr: 'studentIdStr',
+    classYear: 'classYear',
+    createdAt: 'createdAt'
+  };
+
+  export type InstitutionStudentScalarFieldEnum = (typeof InstitutionStudentScalarFieldEnum)[keyof typeof InstitutionStudentScalarFieldEnum]
+
+
+  export const InstitutionTutorScalarFieldEnum: {
+    id: 'id',
+    institutionId: 'institutionId',
+    userId: 'userId',
+    status: 'status',
+    createdAt: 'createdAt'
+  };
+
+  export type InstitutionTutorScalarFieldEnum = (typeof InstitutionTutorScalarFieldEnum)[keyof typeof InstitutionTutorScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -44743,6 +49126,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionListRelationFilter
     sellerEarnings?: SellerEarningListRelationFilter
     pushSubscriptions?: PushSubscriptionListRelationFilter
+    institutionStudent?: XOR<InstitutionStudentNullableRelationFilter, InstitutionStudentWhereInput> | null
+    institutionTutors?: InstitutionTutorListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -44802,6 +49187,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionOrderByRelationAggregateInput
     sellerEarnings?: SellerEarningOrderByRelationAggregateInput
     pushSubscriptions?: PushSubscriptionOrderByRelationAggregateInput
+    institutionStudent?: InstitutionStudentOrderByWithRelationInput
+    institutionTutors?: InstitutionTutorOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -44864,6 +49251,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionListRelationFilter
     sellerEarnings?: SellerEarningListRelationFilter
     pushSubscriptions?: PushSubscriptionListRelationFilter
+    institutionStudent?: XOR<InstitutionStudentNullableRelationFilter, InstitutionStudentWhereInput> | null
+    institutionTutors?: InstitutionTutorListRelationFilter
   }, "id" | "email" | "phone">
 
   export type UserOrderByWithAggregationInput = {
@@ -47704,6 +52093,274 @@ export namespace Prisma {
     source?: StringWithAggregatesFilter<"newsletter_subscribers"> | string
   }
 
+  export type InstitutionWhereInput = {
+    AND?: InstitutionWhereInput | InstitutionWhereInput[]
+    OR?: InstitutionWhereInput[]
+    NOT?: InstitutionWhereInput | InstitutionWhereInput[]
+    id?: StringFilter<"Institution"> | string
+    name?: StringFilter<"Institution"> | string
+    type?: StringFilter<"Institution"> | string
+    code?: StringNullableFilter<"Institution"> | string | null
+    logo?: StringNullableFilter<"Institution"> | string | null
+    branding?: JsonFilter<"Institution">
+    createdAt?: DateTimeFilter<"Institution"> | Date | string
+    updatedAt?: DateTimeFilter<"Institution"> | Date | string
+    isActive?: BoolFilter<"Institution"> | boolean
+    staff?: InstitutionStaffListRelationFilter
+    students?: InstitutionStudentListRelationFilter
+    tutors?: InstitutionTutorListRelationFilter
+  }
+
+  export type InstitutionOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    type?: SortOrder
+    code?: SortOrderInput | SortOrder
+    logo?: SortOrderInput | SortOrder
+    branding?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    isActive?: SortOrder
+    staff?: InstitutionStaffOrderByRelationAggregateInput
+    students?: InstitutionStudentOrderByRelationAggregateInput
+    tutors?: InstitutionTutorOrderByRelationAggregateInput
+  }
+
+  export type InstitutionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    code?: string
+    AND?: InstitutionWhereInput | InstitutionWhereInput[]
+    OR?: InstitutionWhereInput[]
+    NOT?: InstitutionWhereInput | InstitutionWhereInput[]
+    name?: StringFilter<"Institution"> | string
+    type?: StringFilter<"Institution"> | string
+    logo?: StringNullableFilter<"Institution"> | string | null
+    branding?: JsonFilter<"Institution">
+    createdAt?: DateTimeFilter<"Institution"> | Date | string
+    updatedAt?: DateTimeFilter<"Institution"> | Date | string
+    isActive?: BoolFilter<"Institution"> | boolean
+    staff?: InstitutionStaffListRelationFilter
+    students?: InstitutionStudentListRelationFilter
+    tutors?: InstitutionTutorListRelationFilter
+  }, "id" | "code">
+
+  export type InstitutionOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    type?: SortOrder
+    code?: SortOrderInput | SortOrder
+    logo?: SortOrderInput | SortOrder
+    branding?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    isActive?: SortOrder
+    _count?: InstitutionCountOrderByAggregateInput
+    _max?: InstitutionMaxOrderByAggregateInput
+    _min?: InstitutionMinOrderByAggregateInput
+  }
+
+  export type InstitutionScalarWhereWithAggregatesInput = {
+    AND?: InstitutionScalarWhereWithAggregatesInput | InstitutionScalarWhereWithAggregatesInput[]
+    OR?: InstitutionScalarWhereWithAggregatesInput[]
+    NOT?: InstitutionScalarWhereWithAggregatesInput | InstitutionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Institution"> | string
+    name?: StringWithAggregatesFilter<"Institution"> | string
+    type?: StringWithAggregatesFilter<"Institution"> | string
+    code?: StringNullableWithAggregatesFilter<"Institution"> | string | null
+    logo?: StringNullableWithAggregatesFilter<"Institution"> | string | null
+    branding?: JsonWithAggregatesFilter<"Institution">
+    createdAt?: DateTimeWithAggregatesFilter<"Institution"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Institution"> | Date | string
+    isActive?: BoolWithAggregatesFilter<"Institution"> | boolean
+  }
+
+  export type InstitutionStaffWhereInput = {
+    AND?: InstitutionStaffWhereInput | InstitutionStaffWhereInput[]
+    OR?: InstitutionStaffWhereInput[]
+    NOT?: InstitutionStaffWhereInput | InstitutionStaffWhereInput[]
+    id?: StringFilter<"InstitutionStaff"> | string
+    institutionId?: StringFilter<"InstitutionStaff"> | string
+    userId?: StringNullableFilter<"InstitutionStaff"> | string | null
+    email?: StringFilter<"InstitutionStaff"> | string
+    name?: StringFilter<"InstitutionStaff"> | string
+    role?: StringFilter<"InstitutionStaff"> | string
+    createdAt?: DateTimeFilter<"InstitutionStaff"> | Date | string
+    institution?: XOR<InstitutionRelationFilter, InstitutionWhereInput>
+  }
+
+  export type InstitutionStaffOrderByWithRelationInput = {
+    id?: SortOrder
+    institutionId?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    email?: SortOrder
+    name?: SortOrder
+    role?: SortOrder
+    createdAt?: SortOrder
+    institution?: InstitutionOrderByWithRelationInput
+  }
+
+  export type InstitutionStaffWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    email?: string
+    AND?: InstitutionStaffWhereInput | InstitutionStaffWhereInput[]
+    OR?: InstitutionStaffWhereInput[]
+    NOT?: InstitutionStaffWhereInput | InstitutionStaffWhereInput[]
+    institutionId?: StringFilter<"InstitutionStaff"> | string
+    name?: StringFilter<"InstitutionStaff"> | string
+    role?: StringFilter<"InstitutionStaff"> | string
+    createdAt?: DateTimeFilter<"InstitutionStaff"> | Date | string
+    institution?: XOR<InstitutionRelationFilter, InstitutionWhereInput>
+  }, "id" | "userId" | "email">
+
+  export type InstitutionStaffOrderByWithAggregationInput = {
+    id?: SortOrder
+    institutionId?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    email?: SortOrder
+    name?: SortOrder
+    role?: SortOrder
+    createdAt?: SortOrder
+    _count?: InstitutionStaffCountOrderByAggregateInput
+    _max?: InstitutionStaffMaxOrderByAggregateInput
+    _min?: InstitutionStaffMinOrderByAggregateInput
+  }
+
+  export type InstitutionStaffScalarWhereWithAggregatesInput = {
+    AND?: InstitutionStaffScalarWhereWithAggregatesInput | InstitutionStaffScalarWhereWithAggregatesInput[]
+    OR?: InstitutionStaffScalarWhereWithAggregatesInput[]
+    NOT?: InstitutionStaffScalarWhereWithAggregatesInput | InstitutionStaffScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"InstitutionStaff"> | string
+    institutionId?: StringWithAggregatesFilter<"InstitutionStaff"> | string
+    userId?: StringNullableWithAggregatesFilter<"InstitutionStaff"> | string | null
+    email?: StringWithAggregatesFilter<"InstitutionStaff"> | string
+    name?: StringWithAggregatesFilter<"InstitutionStaff"> | string
+    role?: StringWithAggregatesFilter<"InstitutionStaff"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"InstitutionStaff"> | Date | string
+  }
+
+  export type InstitutionStudentWhereInput = {
+    AND?: InstitutionStudentWhereInput | InstitutionStudentWhereInput[]
+    OR?: InstitutionStudentWhereInput[]
+    NOT?: InstitutionStudentWhereInput | InstitutionStudentWhereInput[]
+    id?: StringFilter<"InstitutionStudent"> | string
+    institutionId?: StringFilter<"InstitutionStudent"> | string
+    userId?: StringFilter<"InstitutionStudent"> | string
+    studentIdStr?: StringNullableFilter<"InstitutionStudent"> | string | null
+    classYear?: StringNullableFilter<"InstitutionStudent"> | string | null
+    createdAt?: DateTimeFilter<"InstitutionStudent"> | Date | string
+    institution?: XOR<InstitutionRelationFilter, InstitutionWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type InstitutionStudentOrderByWithRelationInput = {
+    id?: SortOrder
+    institutionId?: SortOrder
+    userId?: SortOrder
+    studentIdStr?: SortOrderInput | SortOrder
+    classYear?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    institution?: InstitutionOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type InstitutionStudentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: InstitutionStudentWhereInput | InstitutionStudentWhereInput[]
+    OR?: InstitutionStudentWhereInput[]
+    NOT?: InstitutionStudentWhereInput | InstitutionStudentWhereInput[]
+    institutionId?: StringFilter<"InstitutionStudent"> | string
+    studentIdStr?: StringNullableFilter<"InstitutionStudent"> | string | null
+    classYear?: StringNullableFilter<"InstitutionStudent"> | string | null
+    createdAt?: DateTimeFilter<"InstitutionStudent"> | Date | string
+    institution?: XOR<InstitutionRelationFilter, InstitutionWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id" | "userId">
+
+  export type InstitutionStudentOrderByWithAggregationInput = {
+    id?: SortOrder
+    institutionId?: SortOrder
+    userId?: SortOrder
+    studentIdStr?: SortOrderInput | SortOrder
+    classYear?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: InstitutionStudentCountOrderByAggregateInput
+    _max?: InstitutionStudentMaxOrderByAggregateInput
+    _min?: InstitutionStudentMinOrderByAggregateInput
+  }
+
+  export type InstitutionStudentScalarWhereWithAggregatesInput = {
+    AND?: InstitutionStudentScalarWhereWithAggregatesInput | InstitutionStudentScalarWhereWithAggregatesInput[]
+    OR?: InstitutionStudentScalarWhereWithAggregatesInput[]
+    NOT?: InstitutionStudentScalarWhereWithAggregatesInput | InstitutionStudentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"InstitutionStudent"> | string
+    institutionId?: StringWithAggregatesFilter<"InstitutionStudent"> | string
+    userId?: StringWithAggregatesFilter<"InstitutionStudent"> | string
+    studentIdStr?: StringNullableWithAggregatesFilter<"InstitutionStudent"> | string | null
+    classYear?: StringNullableWithAggregatesFilter<"InstitutionStudent"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"InstitutionStudent"> | Date | string
+  }
+
+  export type InstitutionTutorWhereInput = {
+    AND?: InstitutionTutorWhereInput | InstitutionTutorWhereInput[]
+    OR?: InstitutionTutorWhereInput[]
+    NOT?: InstitutionTutorWhereInput | InstitutionTutorWhereInput[]
+    id?: StringFilter<"InstitutionTutor"> | string
+    institutionId?: StringFilter<"InstitutionTutor"> | string
+    userId?: StringFilter<"InstitutionTutor"> | string
+    status?: StringFilter<"InstitutionTutor"> | string
+    createdAt?: DateTimeFilter<"InstitutionTutor"> | Date | string
+    institution?: XOR<InstitutionRelationFilter, InstitutionWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type InstitutionTutorOrderByWithRelationInput = {
+    id?: SortOrder
+    institutionId?: SortOrder
+    userId?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    institution?: InstitutionOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type InstitutionTutorWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    institutionId_userId?: InstitutionTutorInstitutionIdUserIdCompoundUniqueInput
+    AND?: InstitutionTutorWhereInput | InstitutionTutorWhereInput[]
+    OR?: InstitutionTutorWhereInput[]
+    NOT?: InstitutionTutorWhereInput | InstitutionTutorWhereInput[]
+    institutionId?: StringFilter<"InstitutionTutor"> | string
+    userId?: StringFilter<"InstitutionTutor"> | string
+    status?: StringFilter<"InstitutionTutor"> | string
+    createdAt?: DateTimeFilter<"InstitutionTutor"> | Date | string
+    institution?: XOR<InstitutionRelationFilter, InstitutionWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id" | "institutionId_userId">
+
+  export type InstitutionTutorOrderByWithAggregationInput = {
+    id?: SortOrder
+    institutionId?: SortOrder
+    userId?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    _count?: InstitutionTutorCountOrderByAggregateInput
+    _max?: InstitutionTutorMaxOrderByAggregateInput
+    _min?: InstitutionTutorMinOrderByAggregateInput
+  }
+
+  export type InstitutionTutorScalarWhereWithAggregatesInput = {
+    AND?: InstitutionTutorScalarWhereWithAggregatesInput | InstitutionTutorScalarWhereWithAggregatesInput[]
+    OR?: InstitutionTutorScalarWhereWithAggregatesInput[]
+    NOT?: InstitutionTutorScalarWhereWithAggregatesInput | InstitutionTutorScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"InstitutionTutor"> | string
+    institutionId?: StringWithAggregatesFilter<"InstitutionTutor"> | string
+    userId?: StringWithAggregatesFilter<"InstitutionTutor"> | string
+    status?: StringWithAggregatesFilter<"InstitutionTutor"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"InstitutionTutor"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -47761,6 +52418,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -47820,6 +52479,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -47879,6 +52540,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -47938,6 +52601,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -51025,6 +55690,286 @@ export namespace Prisma {
     source?: StringFieldUpdateOperationsInput | string
   }
 
+  export type InstitutionCreateInput = {
+    id?: string
+    name: string
+    type?: string
+    code?: string | null
+    logo?: string | null
+    branding?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    isActive?: boolean
+    staff?: InstitutionStaffCreateNestedManyWithoutInstitutionInput
+    students?: InstitutionStudentCreateNestedManyWithoutInstitutionInput
+    tutors?: InstitutionTutorCreateNestedManyWithoutInstitutionInput
+  }
+
+  export type InstitutionUncheckedCreateInput = {
+    id?: string
+    name: string
+    type?: string
+    code?: string | null
+    logo?: string | null
+    branding?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    isActive?: boolean
+    staff?: InstitutionStaffUncheckedCreateNestedManyWithoutInstitutionInput
+    students?: InstitutionStudentUncheckedCreateNestedManyWithoutInstitutionInput
+    tutors?: InstitutionTutorUncheckedCreateNestedManyWithoutInstitutionInput
+  }
+
+  export type InstitutionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    branding?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    staff?: InstitutionStaffUpdateManyWithoutInstitutionNestedInput
+    students?: InstitutionStudentUpdateManyWithoutInstitutionNestedInput
+    tutors?: InstitutionTutorUpdateManyWithoutInstitutionNestedInput
+  }
+
+  export type InstitutionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    branding?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    staff?: InstitutionStaffUncheckedUpdateManyWithoutInstitutionNestedInput
+    students?: InstitutionStudentUncheckedUpdateManyWithoutInstitutionNestedInput
+    tutors?: InstitutionTutorUncheckedUpdateManyWithoutInstitutionNestedInput
+  }
+
+  export type InstitutionCreateManyInput = {
+    id?: string
+    name: string
+    type?: string
+    code?: string | null
+    logo?: string | null
+    branding?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    isActive?: boolean
+  }
+
+  export type InstitutionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    branding?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type InstitutionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    branding?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type InstitutionStaffCreateInput = {
+    id?: string
+    userId?: string | null
+    email: string
+    name: string
+    role?: string
+    createdAt?: Date | string
+    institution: InstitutionCreateNestedOneWithoutStaffInput
+  }
+
+  export type InstitutionStaffUncheckedCreateInput = {
+    id?: string
+    institutionId: string
+    userId?: string | null
+    email: string
+    name: string
+    role?: string
+    createdAt?: Date | string
+  }
+
+  export type InstitutionStaffUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    institution?: InstitutionUpdateOneRequiredWithoutStaffNestedInput
+  }
+
+  export type InstitutionStaffUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    institutionId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InstitutionStaffCreateManyInput = {
+    id?: string
+    institutionId: string
+    userId?: string | null
+    email: string
+    name: string
+    role?: string
+    createdAt?: Date | string
+  }
+
+  export type InstitutionStaffUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InstitutionStaffUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    institutionId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InstitutionStudentCreateInput = {
+    id?: string
+    studentIdStr?: string | null
+    classYear?: string | null
+    createdAt?: Date | string
+    institution: InstitutionCreateNestedOneWithoutStudentsInput
+    user: UserCreateNestedOneWithoutInstitutionStudentInput
+  }
+
+  export type InstitutionStudentUncheckedCreateInput = {
+    id?: string
+    institutionId: string
+    userId: string
+    studentIdStr?: string | null
+    classYear?: string | null
+    createdAt?: Date | string
+  }
+
+  export type InstitutionStudentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentIdStr?: NullableStringFieldUpdateOperationsInput | string | null
+    classYear?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    institution?: InstitutionUpdateOneRequiredWithoutStudentsNestedInput
+    user?: UserUpdateOneRequiredWithoutInstitutionStudentNestedInput
+  }
+
+  export type InstitutionStudentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    institutionId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    studentIdStr?: NullableStringFieldUpdateOperationsInput | string | null
+    classYear?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InstitutionStudentCreateManyInput = {
+    id?: string
+    institutionId: string
+    userId: string
+    studentIdStr?: string | null
+    classYear?: string | null
+    createdAt?: Date | string
+  }
+
+  export type InstitutionStudentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentIdStr?: NullableStringFieldUpdateOperationsInput | string | null
+    classYear?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InstitutionStudentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    institutionId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    studentIdStr?: NullableStringFieldUpdateOperationsInput | string | null
+    classYear?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InstitutionTutorCreateInput = {
+    id?: string
+    status?: string
+    createdAt?: Date | string
+    institution: InstitutionCreateNestedOneWithoutTutorsInput
+    user: UserCreateNestedOneWithoutInstitutionTutorsInput
+  }
+
+  export type InstitutionTutorUncheckedCreateInput = {
+    id?: string
+    institutionId: string
+    userId: string
+    status?: string
+    createdAt?: Date | string
+  }
+
+  export type InstitutionTutorUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    institution?: InstitutionUpdateOneRequiredWithoutTutorsNestedInput
+    user?: UserUpdateOneRequiredWithoutInstitutionTutorsNestedInput
+  }
+
+  export type InstitutionTutorUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    institutionId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InstitutionTutorCreateManyInput = {
+    id?: string
+    institutionId: string
+    userId: string
+    status?: string
+    createdAt?: Date | string
+  }
+
+  export type InstitutionTutorUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InstitutionTutorUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    institutionId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -51288,6 +56233,17 @@ export namespace Prisma {
     none?: PushSubscriptionWhereInput
   }
 
+  export type InstitutionStudentNullableRelationFilter = {
+    is?: InstitutionStudentWhereInput | null
+    isNot?: InstitutionStudentWhereInput | null
+  }
+
+  export type InstitutionTutorListRelationFilter = {
+    every?: InstitutionTutorWhereInput
+    some?: InstitutionTutorWhereInput
+    none?: InstitutionTutorWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -51366,6 +56322,10 @@ export namespace Prisma {
   }
 
   export type PushSubscriptionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type InstitutionTutorOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -53369,6 +58329,151 @@ export namespace Prisma {
     source?: SortOrder
   }
 
+  export type InstitutionStaffListRelationFilter = {
+    every?: InstitutionStaffWhereInput
+    some?: InstitutionStaffWhereInput
+    none?: InstitutionStaffWhereInput
+  }
+
+  export type InstitutionStudentListRelationFilter = {
+    every?: InstitutionStudentWhereInput
+    some?: InstitutionStudentWhereInput
+    none?: InstitutionStudentWhereInput
+  }
+
+  export type InstitutionStaffOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type InstitutionStudentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type InstitutionCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    type?: SortOrder
+    code?: SortOrder
+    logo?: SortOrder
+    branding?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    isActive?: SortOrder
+  }
+
+  export type InstitutionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    type?: SortOrder
+    code?: SortOrder
+    logo?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    isActive?: SortOrder
+  }
+
+  export type InstitutionMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    type?: SortOrder
+    code?: SortOrder
+    logo?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    isActive?: SortOrder
+  }
+
+  export type InstitutionRelationFilter = {
+    is?: InstitutionWhereInput
+    isNot?: InstitutionWhereInput
+  }
+
+  export type InstitutionStaffCountOrderByAggregateInput = {
+    id?: SortOrder
+    institutionId?: SortOrder
+    userId?: SortOrder
+    email?: SortOrder
+    name?: SortOrder
+    role?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type InstitutionStaffMaxOrderByAggregateInput = {
+    id?: SortOrder
+    institutionId?: SortOrder
+    userId?: SortOrder
+    email?: SortOrder
+    name?: SortOrder
+    role?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type InstitutionStaffMinOrderByAggregateInput = {
+    id?: SortOrder
+    institutionId?: SortOrder
+    userId?: SortOrder
+    email?: SortOrder
+    name?: SortOrder
+    role?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type InstitutionStudentCountOrderByAggregateInput = {
+    id?: SortOrder
+    institutionId?: SortOrder
+    userId?: SortOrder
+    studentIdStr?: SortOrder
+    classYear?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type InstitutionStudentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    institutionId?: SortOrder
+    userId?: SortOrder
+    studentIdStr?: SortOrder
+    classYear?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type InstitutionStudentMinOrderByAggregateInput = {
+    id?: SortOrder
+    institutionId?: SortOrder
+    userId?: SortOrder
+    studentIdStr?: SortOrder
+    classYear?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type InstitutionTutorInstitutionIdUserIdCompoundUniqueInput = {
+    institutionId: string
+    userId: string
+  }
+
+  export type InstitutionTutorCountOrderByAggregateInput = {
+    id?: SortOrder
+    institutionId?: SortOrder
+    userId?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type InstitutionTutorMaxOrderByAggregateInput = {
+    id?: SortOrder
+    institutionId?: SortOrder
+    userId?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type InstitutionTutorMinOrderByAggregateInput = {
+    id?: SortOrder
+    institutionId?: SortOrder
+    userId?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type AchievementCreateNestedManyWithoutUserInput = {
     create?: XOR<AchievementCreateWithoutUserInput, AchievementUncheckedCreateWithoutUserInput> | AchievementCreateWithoutUserInput[] | AchievementUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AchievementCreateOrConnectWithoutUserInput | AchievementCreateOrConnectWithoutUserInput[]
@@ -53547,6 +58652,19 @@ export namespace Prisma {
     connect?: PushSubscriptionWhereUniqueInput | PushSubscriptionWhereUniqueInput[]
   }
 
+  export type InstitutionStudentCreateNestedOneWithoutUserInput = {
+    create?: XOR<InstitutionStudentCreateWithoutUserInput, InstitutionStudentUncheckedCreateWithoutUserInput>
+    connectOrCreate?: InstitutionStudentCreateOrConnectWithoutUserInput
+    connect?: InstitutionStudentWhereUniqueInput
+  }
+
+  export type InstitutionTutorCreateNestedManyWithoutUserInput = {
+    create?: XOR<InstitutionTutorCreateWithoutUserInput, InstitutionTutorUncheckedCreateWithoutUserInput> | InstitutionTutorCreateWithoutUserInput[] | InstitutionTutorUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: InstitutionTutorCreateOrConnectWithoutUserInput | InstitutionTutorCreateOrConnectWithoutUserInput[]
+    createMany?: InstitutionTutorCreateManyUserInputEnvelope
+    connect?: InstitutionTutorWhereUniqueInput | InstitutionTutorWhereUniqueInput[]
+  }
+
   export type AchievementUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AchievementCreateWithoutUserInput, AchievementUncheckedCreateWithoutUserInput> | AchievementCreateWithoutUserInput[] | AchievementUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AchievementCreateOrConnectWithoutUserInput | AchievementCreateOrConnectWithoutUserInput[]
@@ -53723,6 +58841,19 @@ export namespace Prisma {
     connectOrCreate?: PushSubscriptionCreateOrConnectWithoutUserInput | PushSubscriptionCreateOrConnectWithoutUserInput[]
     createMany?: PushSubscriptionCreateManyUserInputEnvelope
     connect?: PushSubscriptionWhereUniqueInput | PushSubscriptionWhereUniqueInput[]
+  }
+
+  export type InstitutionStudentUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<InstitutionStudentCreateWithoutUserInput, InstitutionStudentUncheckedCreateWithoutUserInput>
+    connectOrCreate?: InstitutionStudentCreateOrConnectWithoutUserInput
+    connect?: InstitutionStudentWhereUniqueInput
+  }
+
+  export type InstitutionTutorUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<InstitutionTutorCreateWithoutUserInput, InstitutionTutorUncheckedCreateWithoutUserInput> | InstitutionTutorCreateWithoutUserInput[] | InstitutionTutorUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: InstitutionTutorCreateOrConnectWithoutUserInput | InstitutionTutorCreateOrConnectWithoutUserInput[]
+    createMany?: InstitutionTutorCreateManyUserInputEnvelope
+    connect?: InstitutionTutorWhereUniqueInput | InstitutionTutorWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -54125,6 +59256,30 @@ export namespace Prisma {
     deleteMany?: PushSubscriptionScalarWhereInput | PushSubscriptionScalarWhereInput[]
   }
 
+  export type InstitutionStudentUpdateOneWithoutUserNestedInput = {
+    create?: XOR<InstitutionStudentCreateWithoutUserInput, InstitutionStudentUncheckedCreateWithoutUserInput>
+    connectOrCreate?: InstitutionStudentCreateOrConnectWithoutUserInput
+    upsert?: InstitutionStudentUpsertWithoutUserInput
+    disconnect?: InstitutionStudentWhereInput | boolean
+    delete?: InstitutionStudentWhereInput | boolean
+    connect?: InstitutionStudentWhereUniqueInput
+    update?: XOR<XOR<InstitutionStudentUpdateToOneWithWhereWithoutUserInput, InstitutionStudentUpdateWithoutUserInput>, InstitutionStudentUncheckedUpdateWithoutUserInput>
+  }
+
+  export type InstitutionTutorUpdateManyWithoutUserNestedInput = {
+    create?: XOR<InstitutionTutorCreateWithoutUserInput, InstitutionTutorUncheckedCreateWithoutUserInput> | InstitutionTutorCreateWithoutUserInput[] | InstitutionTutorUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: InstitutionTutorCreateOrConnectWithoutUserInput | InstitutionTutorCreateOrConnectWithoutUserInput[]
+    upsert?: InstitutionTutorUpsertWithWhereUniqueWithoutUserInput | InstitutionTutorUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: InstitutionTutorCreateManyUserInputEnvelope
+    set?: InstitutionTutorWhereUniqueInput | InstitutionTutorWhereUniqueInput[]
+    disconnect?: InstitutionTutorWhereUniqueInput | InstitutionTutorWhereUniqueInput[]
+    delete?: InstitutionTutorWhereUniqueInput | InstitutionTutorWhereUniqueInput[]
+    connect?: InstitutionTutorWhereUniqueInput | InstitutionTutorWhereUniqueInput[]
+    update?: InstitutionTutorUpdateWithWhereUniqueWithoutUserInput | InstitutionTutorUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: InstitutionTutorUpdateManyWithWhereWithoutUserInput | InstitutionTutorUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: InstitutionTutorScalarWhereInput | InstitutionTutorScalarWhereInput[]
+  }
+
   export type AchievementUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AchievementCreateWithoutUserInput, AchievementUncheckedCreateWithoutUserInput> | AchievementCreateWithoutUserInput[] | AchievementUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AchievementCreateOrConnectWithoutUserInput | AchievementCreateOrConnectWithoutUserInput[]
@@ -54471,6 +59626,30 @@ export namespace Prisma {
     update?: PushSubscriptionUpdateWithWhereUniqueWithoutUserInput | PushSubscriptionUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: PushSubscriptionUpdateManyWithWhereWithoutUserInput | PushSubscriptionUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: PushSubscriptionScalarWhereInput | PushSubscriptionScalarWhereInput[]
+  }
+
+  export type InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<InstitutionStudentCreateWithoutUserInput, InstitutionStudentUncheckedCreateWithoutUserInput>
+    connectOrCreate?: InstitutionStudentCreateOrConnectWithoutUserInput
+    upsert?: InstitutionStudentUpsertWithoutUserInput
+    disconnect?: InstitutionStudentWhereInput | boolean
+    delete?: InstitutionStudentWhereInput | boolean
+    connect?: InstitutionStudentWhereUniqueInput
+    update?: XOR<XOR<InstitutionStudentUpdateToOneWithWhereWithoutUserInput, InstitutionStudentUpdateWithoutUserInput>, InstitutionStudentUncheckedUpdateWithoutUserInput>
+  }
+
+  export type InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<InstitutionTutorCreateWithoutUserInput, InstitutionTutorUncheckedCreateWithoutUserInput> | InstitutionTutorCreateWithoutUserInput[] | InstitutionTutorUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: InstitutionTutorCreateOrConnectWithoutUserInput | InstitutionTutorCreateOrConnectWithoutUserInput[]
+    upsert?: InstitutionTutorUpsertWithWhereUniqueWithoutUserInput | InstitutionTutorUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: InstitutionTutorCreateManyUserInputEnvelope
+    set?: InstitutionTutorWhereUniqueInput | InstitutionTutorWhereUniqueInput[]
+    disconnect?: InstitutionTutorWhereUniqueInput | InstitutionTutorWhereUniqueInput[]
+    delete?: InstitutionTutorWhereUniqueInput | InstitutionTutorWhereUniqueInput[]
+    connect?: InstitutionTutorWhereUniqueInput | InstitutionTutorWhereUniqueInput[]
+    update?: InstitutionTutorUpdateWithWhereUniqueWithoutUserInput | InstitutionTutorUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: InstitutionTutorUpdateManyWithWhereWithoutUserInput | InstitutionTutorUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: InstitutionTutorScalarWhereInput | InstitutionTutorScalarWhereInput[]
   }
 
   export type StudentProfileCreatesubjectsInput = {
@@ -55516,6 +60695,202 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutResourcePurchasesInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutResourcePurchasesInput, UserUpdateWithoutResourcePurchasesInput>, UserUncheckedUpdateWithoutResourcePurchasesInput>
+  }
+
+  export type InstitutionStaffCreateNestedManyWithoutInstitutionInput = {
+    create?: XOR<InstitutionStaffCreateWithoutInstitutionInput, InstitutionStaffUncheckedCreateWithoutInstitutionInput> | InstitutionStaffCreateWithoutInstitutionInput[] | InstitutionStaffUncheckedCreateWithoutInstitutionInput[]
+    connectOrCreate?: InstitutionStaffCreateOrConnectWithoutInstitutionInput | InstitutionStaffCreateOrConnectWithoutInstitutionInput[]
+    createMany?: InstitutionStaffCreateManyInstitutionInputEnvelope
+    connect?: InstitutionStaffWhereUniqueInput | InstitutionStaffWhereUniqueInput[]
+  }
+
+  export type InstitutionStudentCreateNestedManyWithoutInstitutionInput = {
+    create?: XOR<InstitutionStudentCreateWithoutInstitutionInput, InstitutionStudentUncheckedCreateWithoutInstitutionInput> | InstitutionStudentCreateWithoutInstitutionInput[] | InstitutionStudentUncheckedCreateWithoutInstitutionInput[]
+    connectOrCreate?: InstitutionStudentCreateOrConnectWithoutInstitutionInput | InstitutionStudentCreateOrConnectWithoutInstitutionInput[]
+    createMany?: InstitutionStudentCreateManyInstitutionInputEnvelope
+    connect?: InstitutionStudentWhereUniqueInput | InstitutionStudentWhereUniqueInput[]
+  }
+
+  export type InstitutionTutorCreateNestedManyWithoutInstitutionInput = {
+    create?: XOR<InstitutionTutorCreateWithoutInstitutionInput, InstitutionTutorUncheckedCreateWithoutInstitutionInput> | InstitutionTutorCreateWithoutInstitutionInput[] | InstitutionTutorUncheckedCreateWithoutInstitutionInput[]
+    connectOrCreate?: InstitutionTutorCreateOrConnectWithoutInstitutionInput | InstitutionTutorCreateOrConnectWithoutInstitutionInput[]
+    createMany?: InstitutionTutorCreateManyInstitutionInputEnvelope
+    connect?: InstitutionTutorWhereUniqueInput | InstitutionTutorWhereUniqueInput[]
+  }
+
+  export type InstitutionStaffUncheckedCreateNestedManyWithoutInstitutionInput = {
+    create?: XOR<InstitutionStaffCreateWithoutInstitutionInput, InstitutionStaffUncheckedCreateWithoutInstitutionInput> | InstitutionStaffCreateWithoutInstitutionInput[] | InstitutionStaffUncheckedCreateWithoutInstitutionInput[]
+    connectOrCreate?: InstitutionStaffCreateOrConnectWithoutInstitutionInput | InstitutionStaffCreateOrConnectWithoutInstitutionInput[]
+    createMany?: InstitutionStaffCreateManyInstitutionInputEnvelope
+    connect?: InstitutionStaffWhereUniqueInput | InstitutionStaffWhereUniqueInput[]
+  }
+
+  export type InstitutionStudentUncheckedCreateNestedManyWithoutInstitutionInput = {
+    create?: XOR<InstitutionStudentCreateWithoutInstitutionInput, InstitutionStudentUncheckedCreateWithoutInstitutionInput> | InstitutionStudentCreateWithoutInstitutionInput[] | InstitutionStudentUncheckedCreateWithoutInstitutionInput[]
+    connectOrCreate?: InstitutionStudentCreateOrConnectWithoutInstitutionInput | InstitutionStudentCreateOrConnectWithoutInstitutionInput[]
+    createMany?: InstitutionStudentCreateManyInstitutionInputEnvelope
+    connect?: InstitutionStudentWhereUniqueInput | InstitutionStudentWhereUniqueInput[]
+  }
+
+  export type InstitutionTutorUncheckedCreateNestedManyWithoutInstitutionInput = {
+    create?: XOR<InstitutionTutorCreateWithoutInstitutionInput, InstitutionTutorUncheckedCreateWithoutInstitutionInput> | InstitutionTutorCreateWithoutInstitutionInput[] | InstitutionTutorUncheckedCreateWithoutInstitutionInput[]
+    connectOrCreate?: InstitutionTutorCreateOrConnectWithoutInstitutionInput | InstitutionTutorCreateOrConnectWithoutInstitutionInput[]
+    createMany?: InstitutionTutorCreateManyInstitutionInputEnvelope
+    connect?: InstitutionTutorWhereUniqueInput | InstitutionTutorWhereUniqueInput[]
+  }
+
+  export type InstitutionStaffUpdateManyWithoutInstitutionNestedInput = {
+    create?: XOR<InstitutionStaffCreateWithoutInstitutionInput, InstitutionStaffUncheckedCreateWithoutInstitutionInput> | InstitutionStaffCreateWithoutInstitutionInput[] | InstitutionStaffUncheckedCreateWithoutInstitutionInput[]
+    connectOrCreate?: InstitutionStaffCreateOrConnectWithoutInstitutionInput | InstitutionStaffCreateOrConnectWithoutInstitutionInput[]
+    upsert?: InstitutionStaffUpsertWithWhereUniqueWithoutInstitutionInput | InstitutionStaffUpsertWithWhereUniqueWithoutInstitutionInput[]
+    createMany?: InstitutionStaffCreateManyInstitutionInputEnvelope
+    set?: InstitutionStaffWhereUniqueInput | InstitutionStaffWhereUniqueInput[]
+    disconnect?: InstitutionStaffWhereUniqueInput | InstitutionStaffWhereUniqueInput[]
+    delete?: InstitutionStaffWhereUniqueInput | InstitutionStaffWhereUniqueInput[]
+    connect?: InstitutionStaffWhereUniqueInput | InstitutionStaffWhereUniqueInput[]
+    update?: InstitutionStaffUpdateWithWhereUniqueWithoutInstitutionInput | InstitutionStaffUpdateWithWhereUniqueWithoutInstitutionInput[]
+    updateMany?: InstitutionStaffUpdateManyWithWhereWithoutInstitutionInput | InstitutionStaffUpdateManyWithWhereWithoutInstitutionInput[]
+    deleteMany?: InstitutionStaffScalarWhereInput | InstitutionStaffScalarWhereInput[]
+  }
+
+  export type InstitutionStudentUpdateManyWithoutInstitutionNestedInput = {
+    create?: XOR<InstitutionStudentCreateWithoutInstitutionInput, InstitutionStudentUncheckedCreateWithoutInstitutionInput> | InstitutionStudentCreateWithoutInstitutionInput[] | InstitutionStudentUncheckedCreateWithoutInstitutionInput[]
+    connectOrCreate?: InstitutionStudentCreateOrConnectWithoutInstitutionInput | InstitutionStudentCreateOrConnectWithoutInstitutionInput[]
+    upsert?: InstitutionStudentUpsertWithWhereUniqueWithoutInstitutionInput | InstitutionStudentUpsertWithWhereUniqueWithoutInstitutionInput[]
+    createMany?: InstitutionStudentCreateManyInstitutionInputEnvelope
+    set?: InstitutionStudentWhereUniqueInput | InstitutionStudentWhereUniqueInput[]
+    disconnect?: InstitutionStudentWhereUniqueInput | InstitutionStudentWhereUniqueInput[]
+    delete?: InstitutionStudentWhereUniqueInput | InstitutionStudentWhereUniqueInput[]
+    connect?: InstitutionStudentWhereUniqueInput | InstitutionStudentWhereUniqueInput[]
+    update?: InstitutionStudentUpdateWithWhereUniqueWithoutInstitutionInput | InstitutionStudentUpdateWithWhereUniqueWithoutInstitutionInput[]
+    updateMany?: InstitutionStudentUpdateManyWithWhereWithoutInstitutionInput | InstitutionStudentUpdateManyWithWhereWithoutInstitutionInput[]
+    deleteMany?: InstitutionStudentScalarWhereInput | InstitutionStudentScalarWhereInput[]
+  }
+
+  export type InstitutionTutorUpdateManyWithoutInstitutionNestedInput = {
+    create?: XOR<InstitutionTutorCreateWithoutInstitutionInput, InstitutionTutorUncheckedCreateWithoutInstitutionInput> | InstitutionTutorCreateWithoutInstitutionInput[] | InstitutionTutorUncheckedCreateWithoutInstitutionInput[]
+    connectOrCreate?: InstitutionTutorCreateOrConnectWithoutInstitutionInput | InstitutionTutorCreateOrConnectWithoutInstitutionInput[]
+    upsert?: InstitutionTutorUpsertWithWhereUniqueWithoutInstitutionInput | InstitutionTutorUpsertWithWhereUniqueWithoutInstitutionInput[]
+    createMany?: InstitutionTutorCreateManyInstitutionInputEnvelope
+    set?: InstitutionTutorWhereUniqueInput | InstitutionTutorWhereUniqueInput[]
+    disconnect?: InstitutionTutorWhereUniqueInput | InstitutionTutorWhereUniqueInput[]
+    delete?: InstitutionTutorWhereUniqueInput | InstitutionTutorWhereUniqueInput[]
+    connect?: InstitutionTutorWhereUniqueInput | InstitutionTutorWhereUniqueInput[]
+    update?: InstitutionTutorUpdateWithWhereUniqueWithoutInstitutionInput | InstitutionTutorUpdateWithWhereUniqueWithoutInstitutionInput[]
+    updateMany?: InstitutionTutorUpdateManyWithWhereWithoutInstitutionInput | InstitutionTutorUpdateManyWithWhereWithoutInstitutionInput[]
+    deleteMany?: InstitutionTutorScalarWhereInput | InstitutionTutorScalarWhereInput[]
+  }
+
+  export type InstitutionStaffUncheckedUpdateManyWithoutInstitutionNestedInput = {
+    create?: XOR<InstitutionStaffCreateWithoutInstitutionInput, InstitutionStaffUncheckedCreateWithoutInstitutionInput> | InstitutionStaffCreateWithoutInstitutionInput[] | InstitutionStaffUncheckedCreateWithoutInstitutionInput[]
+    connectOrCreate?: InstitutionStaffCreateOrConnectWithoutInstitutionInput | InstitutionStaffCreateOrConnectWithoutInstitutionInput[]
+    upsert?: InstitutionStaffUpsertWithWhereUniqueWithoutInstitutionInput | InstitutionStaffUpsertWithWhereUniqueWithoutInstitutionInput[]
+    createMany?: InstitutionStaffCreateManyInstitutionInputEnvelope
+    set?: InstitutionStaffWhereUniqueInput | InstitutionStaffWhereUniqueInput[]
+    disconnect?: InstitutionStaffWhereUniqueInput | InstitutionStaffWhereUniqueInput[]
+    delete?: InstitutionStaffWhereUniqueInput | InstitutionStaffWhereUniqueInput[]
+    connect?: InstitutionStaffWhereUniqueInput | InstitutionStaffWhereUniqueInput[]
+    update?: InstitutionStaffUpdateWithWhereUniqueWithoutInstitutionInput | InstitutionStaffUpdateWithWhereUniqueWithoutInstitutionInput[]
+    updateMany?: InstitutionStaffUpdateManyWithWhereWithoutInstitutionInput | InstitutionStaffUpdateManyWithWhereWithoutInstitutionInput[]
+    deleteMany?: InstitutionStaffScalarWhereInput | InstitutionStaffScalarWhereInput[]
+  }
+
+  export type InstitutionStudentUncheckedUpdateManyWithoutInstitutionNestedInput = {
+    create?: XOR<InstitutionStudentCreateWithoutInstitutionInput, InstitutionStudentUncheckedCreateWithoutInstitutionInput> | InstitutionStudentCreateWithoutInstitutionInput[] | InstitutionStudentUncheckedCreateWithoutInstitutionInput[]
+    connectOrCreate?: InstitutionStudentCreateOrConnectWithoutInstitutionInput | InstitutionStudentCreateOrConnectWithoutInstitutionInput[]
+    upsert?: InstitutionStudentUpsertWithWhereUniqueWithoutInstitutionInput | InstitutionStudentUpsertWithWhereUniqueWithoutInstitutionInput[]
+    createMany?: InstitutionStudentCreateManyInstitutionInputEnvelope
+    set?: InstitutionStudentWhereUniqueInput | InstitutionStudentWhereUniqueInput[]
+    disconnect?: InstitutionStudentWhereUniqueInput | InstitutionStudentWhereUniqueInput[]
+    delete?: InstitutionStudentWhereUniqueInput | InstitutionStudentWhereUniqueInput[]
+    connect?: InstitutionStudentWhereUniqueInput | InstitutionStudentWhereUniqueInput[]
+    update?: InstitutionStudentUpdateWithWhereUniqueWithoutInstitutionInput | InstitutionStudentUpdateWithWhereUniqueWithoutInstitutionInput[]
+    updateMany?: InstitutionStudentUpdateManyWithWhereWithoutInstitutionInput | InstitutionStudentUpdateManyWithWhereWithoutInstitutionInput[]
+    deleteMany?: InstitutionStudentScalarWhereInput | InstitutionStudentScalarWhereInput[]
+  }
+
+  export type InstitutionTutorUncheckedUpdateManyWithoutInstitutionNestedInput = {
+    create?: XOR<InstitutionTutorCreateWithoutInstitutionInput, InstitutionTutorUncheckedCreateWithoutInstitutionInput> | InstitutionTutorCreateWithoutInstitutionInput[] | InstitutionTutorUncheckedCreateWithoutInstitutionInput[]
+    connectOrCreate?: InstitutionTutorCreateOrConnectWithoutInstitutionInput | InstitutionTutorCreateOrConnectWithoutInstitutionInput[]
+    upsert?: InstitutionTutorUpsertWithWhereUniqueWithoutInstitutionInput | InstitutionTutorUpsertWithWhereUniqueWithoutInstitutionInput[]
+    createMany?: InstitutionTutorCreateManyInstitutionInputEnvelope
+    set?: InstitutionTutorWhereUniqueInput | InstitutionTutorWhereUniqueInput[]
+    disconnect?: InstitutionTutorWhereUniqueInput | InstitutionTutorWhereUniqueInput[]
+    delete?: InstitutionTutorWhereUniqueInput | InstitutionTutorWhereUniqueInput[]
+    connect?: InstitutionTutorWhereUniqueInput | InstitutionTutorWhereUniqueInput[]
+    update?: InstitutionTutorUpdateWithWhereUniqueWithoutInstitutionInput | InstitutionTutorUpdateWithWhereUniqueWithoutInstitutionInput[]
+    updateMany?: InstitutionTutorUpdateManyWithWhereWithoutInstitutionInput | InstitutionTutorUpdateManyWithWhereWithoutInstitutionInput[]
+    deleteMany?: InstitutionTutorScalarWhereInput | InstitutionTutorScalarWhereInput[]
+  }
+
+  export type InstitutionCreateNestedOneWithoutStaffInput = {
+    create?: XOR<InstitutionCreateWithoutStaffInput, InstitutionUncheckedCreateWithoutStaffInput>
+    connectOrCreate?: InstitutionCreateOrConnectWithoutStaffInput
+    connect?: InstitutionWhereUniqueInput
+  }
+
+  export type InstitutionUpdateOneRequiredWithoutStaffNestedInput = {
+    create?: XOR<InstitutionCreateWithoutStaffInput, InstitutionUncheckedCreateWithoutStaffInput>
+    connectOrCreate?: InstitutionCreateOrConnectWithoutStaffInput
+    upsert?: InstitutionUpsertWithoutStaffInput
+    connect?: InstitutionWhereUniqueInput
+    update?: XOR<XOR<InstitutionUpdateToOneWithWhereWithoutStaffInput, InstitutionUpdateWithoutStaffInput>, InstitutionUncheckedUpdateWithoutStaffInput>
+  }
+
+  export type InstitutionCreateNestedOneWithoutStudentsInput = {
+    create?: XOR<InstitutionCreateWithoutStudentsInput, InstitutionUncheckedCreateWithoutStudentsInput>
+    connectOrCreate?: InstitutionCreateOrConnectWithoutStudentsInput
+    connect?: InstitutionWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutInstitutionStudentInput = {
+    create?: XOR<UserCreateWithoutInstitutionStudentInput, UserUncheckedCreateWithoutInstitutionStudentInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInstitutionStudentInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type InstitutionUpdateOneRequiredWithoutStudentsNestedInput = {
+    create?: XOR<InstitutionCreateWithoutStudentsInput, InstitutionUncheckedCreateWithoutStudentsInput>
+    connectOrCreate?: InstitutionCreateOrConnectWithoutStudentsInput
+    upsert?: InstitutionUpsertWithoutStudentsInput
+    connect?: InstitutionWhereUniqueInput
+    update?: XOR<XOR<InstitutionUpdateToOneWithWhereWithoutStudentsInput, InstitutionUpdateWithoutStudentsInput>, InstitutionUncheckedUpdateWithoutStudentsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutInstitutionStudentNestedInput = {
+    create?: XOR<UserCreateWithoutInstitutionStudentInput, UserUncheckedCreateWithoutInstitutionStudentInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInstitutionStudentInput
+    upsert?: UserUpsertWithoutInstitutionStudentInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInstitutionStudentInput, UserUpdateWithoutInstitutionStudentInput>, UserUncheckedUpdateWithoutInstitutionStudentInput>
+  }
+
+  export type InstitutionCreateNestedOneWithoutTutorsInput = {
+    create?: XOR<InstitutionCreateWithoutTutorsInput, InstitutionUncheckedCreateWithoutTutorsInput>
+    connectOrCreate?: InstitutionCreateOrConnectWithoutTutorsInput
+    connect?: InstitutionWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutInstitutionTutorsInput = {
+    create?: XOR<UserCreateWithoutInstitutionTutorsInput, UserUncheckedCreateWithoutInstitutionTutorsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInstitutionTutorsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type InstitutionUpdateOneRequiredWithoutTutorsNestedInput = {
+    create?: XOR<InstitutionCreateWithoutTutorsInput, InstitutionUncheckedCreateWithoutTutorsInput>
+    connectOrCreate?: InstitutionCreateOrConnectWithoutTutorsInput
+    upsert?: InstitutionUpsertWithoutTutorsInput
+    connect?: InstitutionWhereUniqueInput
+    update?: XOR<XOR<InstitutionUpdateToOneWithWhereWithoutTutorsInput, InstitutionUpdateWithoutTutorsInput>, InstitutionUncheckedUpdateWithoutTutorsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutInstitutionTutorsNestedInput = {
+    create?: XOR<UserCreateWithoutInstitutionTutorsInput, UserUncheckedCreateWithoutInstitutionTutorsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInstitutionTutorsInput
+    upsert?: UserUpsertWithoutInstitutionTutorsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInstitutionTutorsInput, UserUpdateWithoutInstitutionTutorsInput>, UserUncheckedUpdateWithoutInstitutionTutorsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -56813,6 +62188,51 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type InstitutionStudentCreateWithoutUserInput = {
+    id?: string
+    studentIdStr?: string | null
+    classYear?: string | null
+    createdAt?: Date | string
+    institution: InstitutionCreateNestedOneWithoutStudentsInput
+  }
+
+  export type InstitutionStudentUncheckedCreateWithoutUserInput = {
+    id?: string
+    institutionId: string
+    studentIdStr?: string | null
+    classYear?: string | null
+    createdAt?: Date | string
+  }
+
+  export type InstitutionStudentCreateOrConnectWithoutUserInput = {
+    where: InstitutionStudentWhereUniqueInput
+    create: XOR<InstitutionStudentCreateWithoutUserInput, InstitutionStudentUncheckedCreateWithoutUserInput>
+  }
+
+  export type InstitutionTutorCreateWithoutUserInput = {
+    id?: string
+    status?: string
+    createdAt?: Date | string
+    institution: InstitutionCreateNestedOneWithoutTutorsInput
+  }
+
+  export type InstitutionTutorUncheckedCreateWithoutUserInput = {
+    id?: string
+    institutionId: string
+    status?: string
+    createdAt?: Date | string
+  }
+
+  export type InstitutionTutorCreateOrConnectWithoutUserInput = {
+    where: InstitutionTutorWhereUniqueInput
+    create: XOR<InstitutionTutorCreateWithoutUserInput, InstitutionTutorUncheckedCreateWithoutUserInput>
+  }
+
+  export type InstitutionTutorCreateManyUserInputEnvelope = {
+    data: InstitutionTutorCreateManyUserInput | InstitutionTutorCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AchievementUpsertWithWhereUniqueWithoutUserInput = {
     where: AchievementWhereUniqueInput
     update: XOR<AchievementUpdateWithoutUserInput, AchievementUncheckedUpdateWithoutUserInput>
@@ -57574,6 +62994,60 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"PushSubscription"> | Date | string
   }
 
+  export type InstitutionStudentUpsertWithoutUserInput = {
+    update: XOR<InstitutionStudentUpdateWithoutUserInput, InstitutionStudentUncheckedUpdateWithoutUserInput>
+    create: XOR<InstitutionStudentCreateWithoutUserInput, InstitutionStudentUncheckedCreateWithoutUserInput>
+    where?: InstitutionStudentWhereInput
+  }
+
+  export type InstitutionStudentUpdateToOneWithWhereWithoutUserInput = {
+    where?: InstitutionStudentWhereInput
+    data: XOR<InstitutionStudentUpdateWithoutUserInput, InstitutionStudentUncheckedUpdateWithoutUserInput>
+  }
+
+  export type InstitutionStudentUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentIdStr?: NullableStringFieldUpdateOperationsInput | string | null
+    classYear?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    institution?: InstitutionUpdateOneRequiredWithoutStudentsNestedInput
+  }
+
+  export type InstitutionStudentUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    institutionId?: StringFieldUpdateOperationsInput | string
+    studentIdStr?: NullableStringFieldUpdateOperationsInput | string | null
+    classYear?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InstitutionTutorUpsertWithWhereUniqueWithoutUserInput = {
+    where: InstitutionTutorWhereUniqueInput
+    update: XOR<InstitutionTutorUpdateWithoutUserInput, InstitutionTutorUncheckedUpdateWithoutUserInput>
+    create: XOR<InstitutionTutorCreateWithoutUserInput, InstitutionTutorUncheckedCreateWithoutUserInput>
+  }
+
+  export type InstitutionTutorUpdateWithWhereUniqueWithoutUserInput = {
+    where: InstitutionTutorWhereUniqueInput
+    data: XOR<InstitutionTutorUpdateWithoutUserInput, InstitutionTutorUncheckedUpdateWithoutUserInput>
+  }
+
+  export type InstitutionTutorUpdateManyWithWhereWithoutUserInput = {
+    where: InstitutionTutorScalarWhereInput
+    data: XOR<InstitutionTutorUpdateManyMutationInput, InstitutionTutorUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type InstitutionTutorScalarWhereInput = {
+    AND?: InstitutionTutorScalarWhereInput | InstitutionTutorScalarWhereInput[]
+    OR?: InstitutionTutorScalarWhereInput[]
+    NOT?: InstitutionTutorScalarWhereInput | InstitutionTutorScalarWhereInput[]
+    id?: StringFilter<"InstitutionTutor"> | string
+    institutionId?: StringFilter<"InstitutionTutor"> | string
+    userId?: StringFilter<"InstitutionTutor"> | string
+    status?: StringFilter<"InstitutionTutor"> | string
+    createdAt?: DateTimeFilter<"InstitutionTutor"> | Date | string
+  }
+
   export type UserCreateWithoutStudentProfileInput = {
     id?: string
     email: string
@@ -57630,6 +63104,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutStudentProfileInput = {
@@ -57688,6 +63164,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutStudentProfileInput = {
@@ -57762,6 +63240,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStudentProfileInput = {
@@ -57820,6 +63300,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutTutorProfileInput = {
@@ -57878,6 +63360,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTutorProfileInput = {
@@ -57936,6 +63420,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTutorProfileInput = {
@@ -58010,6 +63496,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTutorProfileInput = {
@@ -58068,6 +63556,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutMatchRequestsInput = {
@@ -58126,6 +63616,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMatchRequestsInput = {
@@ -58184,6 +63676,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMatchRequestsInput = {
@@ -58258,6 +63752,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMatchRequestsInput = {
@@ -58316,6 +63812,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MessageCreateWithoutSessionInput = {
@@ -58425,6 +63923,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsAsTutorInput = {
@@ -58483,6 +63983,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsAsTutorInput = {
@@ -58546,6 +64048,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsAsStudentInput = {
@@ -58604,6 +64108,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsAsStudentInput = {
@@ -58759,6 +64265,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsAsTutorInput = {
@@ -58817,6 +64325,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutSessionsAsStudentInput = {
@@ -58886,6 +64396,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsAsStudentInput = {
@@ -58944,6 +64456,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SessionPaymentUpsertWithWhereUniqueWithoutSessionInput = {
@@ -59018,6 +64532,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMessagesInput = {
@@ -59076,6 +64592,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMessagesInput = {
@@ -59195,6 +64713,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessagesInput = {
@@ -59253,6 +64773,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SessionUpsertWithoutMessagesInput = {
@@ -59362,6 +64884,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReviewsRecvInput = {
@@ -59420,6 +64944,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReviewsRecvInput = {
@@ -59483,6 +65009,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReviewsGivenInput = {
@@ -59541,6 +65069,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReviewsGivenInput = {
@@ -59660,6 +65190,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewsRecvInput = {
@@ -59718,6 +65250,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutReviewsGivenInput = {
@@ -59787,6 +65321,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewsGivenInput = {
@@ -59845,6 +65381,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SessionUpsertWithoutReviewInput = {
@@ -60025,6 +65563,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutChallengesInput = {
@@ -60083,6 +65623,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutChallengesInput = {
@@ -60192,6 +65734,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutChallengesInput = {
@@ -60250,6 +65794,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupMessageCreateWithoutGroupInput = {
@@ -60423,6 +65969,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTutorApplicationInput = {
@@ -60481,6 +66029,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTutorApplicationInput = {
@@ -60555,6 +66105,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTutorApplicationInput = {
@@ -60613,6 +66165,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutNotificationsInput = {
@@ -60671,6 +66225,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -60729,6 +66285,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -60803,6 +66361,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -60861,6 +66421,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CommentCreateWithoutPostInput = {
@@ -60943,6 +66505,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFeedPostsInput = {
@@ -61001,6 +66565,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFeedPostsInput = {
@@ -61113,6 +66679,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFeedPostsInput = {
@@ -61171,6 +66739,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PostLikeUpsertWithWhereUniqueWithoutPostInput = {
@@ -61274,6 +66844,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPostLikesInput = {
@@ -61332,6 +66904,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPostLikesInput = {
@@ -61441,6 +67015,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostLikesInput = {
@@ -61499,6 +67075,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type FeedPostCreateWithoutCommentsInput = {
@@ -61586,6 +67164,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommentsInput = {
@@ -61644,6 +67224,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommentsInput = {
@@ -61753,6 +67335,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -61811,6 +67395,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAchievementsInput = {
@@ -61869,6 +67455,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAchievementsInput = {
@@ -61927,6 +67515,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAchievementsInput = {
@@ -62001,6 +67591,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAchievementsInput = {
@@ -62059,6 +67651,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutNewsArticlesInput = {
@@ -62117,6 +67711,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNewsArticlesInput = {
@@ -62175,6 +67771,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNewsArticlesInput = {
@@ -62249,6 +67847,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNewsArticlesInput = {
@@ -62307,6 +67907,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutUserCreditsInput = {
@@ -62365,6 +67967,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserCreditsInput = {
@@ -62423,6 +68027,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserCreditsInput = {
@@ -62497,6 +68103,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserCreditsInput = {
@@ -62555,6 +68163,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCreditTransactionsInput = {
@@ -62613,6 +68223,8 @@ export namespace Prisma {
     userCredits?: UserCreditsCreateNestedOneWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreditTransactionsInput = {
@@ -62671,6 +68283,8 @@ export namespace Prisma {
     userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreditTransactionsInput = {
@@ -62745,6 +68359,8 @@ export namespace Prisma {
     userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreditTransactionsInput = {
@@ -62803,6 +68419,8 @@ export namespace Prisma {
     userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPushSubscriptionsInput = {
@@ -62861,6 +68479,8 @@ export namespace Prisma {
     userCredits?: UserCreditsCreateNestedOneWithoutUserInput
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPushSubscriptionsInput = {
@@ -62919,6 +68539,8 @@ export namespace Prisma {
     userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPushSubscriptionsInput = {
@@ -62993,6 +68615,8 @@ export namespace Prisma {
     userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPushSubscriptionsInput = {
@@ -63051,6 +68675,8 @@ export namespace Prisma {
     userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ChallengeCompletionCreateWithoutChallengeInput = {
@@ -63232,6 +68858,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPaymentsInput = {
@@ -63290,6 +68918,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPaymentsInput = {
@@ -63364,6 +68994,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPaymentsInput = {
@@ -63422,6 +69054,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SessionCreateWithoutPaymentsInput = {
@@ -63525,6 +69159,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionPaymentsAsStudentInput = {
@@ -63583,6 +69219,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionPaymentsAsStudentInput = {
@@ -63646,6 +69284,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionPaymentsAsTutorInput = {
@@ -63704,6 +69344,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionPaymentsAsTutorInput = {
@@ -63829,6 +69471,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionPaymentsAsStudentInput = {
@@ -63887,6 +69531,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutSessionPaymentsAsTutorInput = {
@@ -63956,6 +69602,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionPaymentsAsTutorInput = {
@@ -64014,6 +69662,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPayoutsInput = {
@@ -64072,6 +69722,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPayoutsInput = {
@@ -64130,6 +69782,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPayoutsInput = {
@@ -64204,6 +69858,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPayoutsInput = {
@@ -64262,6 +69918,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ResourceCreateWithoutSellerEarningsInput = {
@@ -64361,6 +70019,8 @@ export namespace Prisma {
     userCredits?: UserCreditsCreateNestedOneWithoutUserInput
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSellerEarningsInput = {
@@ -64419,6 +70079,8 @@ export namespace Prisma {
     userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSellerEarningsInput = {
@@ -64540,6 +70202,8 @@ export namespace Prisma {
     userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSellerEarningsInput = {
@@ -64598,6 +70262,8 @@ export namespace Prisma {
     userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ResourcePurchaseCreateWithoutResourceInput = {
@@ -64714,6 +70380,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutResourcesInput = {
@@ -64772,6 +70440,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutResourcesInput = {
@@ -64878,6 +70548,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutResourcesInput = {
@@ -64936,6 +70608,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ResourceCreateWithoutPurchasesInput = {
@@ -65035,6 +70709,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutResourcePurchasesInput = {
@@ -65093,6 +70769,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
     sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutResourcePurchasesInput = {
@@ -65214,6 +70892,8 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutResourcePurchasesInput = {
@@ -65272,6 +70952,887 @@ export namespace Prisma {
     creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
     sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type InstitutionStaffCreateWithoutInstitutionInput = {
+    id?: string
+    userId?: string | null
+    email: string
+    name: string
+    role?: string
+    createdAt?: Date | string
+  }
+
+  export type InstitutionStaffUncheckedCreateWithoutInstitutionInput = {
+    id?: string
+    userId?: string | null
+    email: string
+    name: string
+    role?: string
+    createdAt?: Date | string
+  }
+
+  export type InstitutionStaffCreateOrConnectWithoutInstitutionInput = {
+    where: InstitutionStaffWhereUniqueInput
+    create: XOR<InstitutionStaffCreateWithoutInstitutionInput, InstitutionStaffUncheckedCreateWithoutInstitutionInput>
+  }
+
+  export type InstitutionStaffCreateManyInstitutionInputEnvelope = {
+    data: InstitutionStaffCreateManyInstitutionInput | InstitutionStaffCreateManyInstitutionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type InstitutionStudentCreateWithoutInstitutionInput = {
+    id?: string
+    studentIdStr?: string | null
+    classYear?: string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutInstitutionStudentInput
+  }
+
+  export type InstitutionStudentUncheckedCreateWithoutInstitutionInput = {
+    id?: string
+    userId: string
+    studentIdStr?: string | null
+    classYear?: string | null
+    createdAt?: Date | string
+  }
+
+  export type InstitutionStudentCreateOrConnectWithoutInstitutionInput = {
+    where: InstitutionStudentWhereUniqueInput
+    create: XOR<InstitutionStudentCreateWithoutInstitutionInput, InstitutionStudentUncheckedCreateWithoutInstitutionInput>
+  }
+
+  export type InstitutionStudentCreateManyInstitutionInputEnvelope = {
+    data: InstitutionStudentCreateManyInstitutionInput | InstitutionStudentCreateManyInstitutionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type InstitutionTutorCreateWithoutInstitutionInput = {
+    id?: string
+    status?: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutInstitutionTutorsInput
+  }
+
+  export type InstitutionTutorUncheckedCreateWithoutInstitutionInput = {
+    id?: string
+    userId: string
+    status?: string
+    createdAt?: Date | string
+  }
+
+  export type InstitutionTutorCreateOrConnectWithoutInstitutionInput = {
+    where: InstitutionTutorWhereUniqueInput
+    create: XOR<InstitutionTutorCreateWithoutInstitutionInput, InstitutionTutorUncheckedCreateWithoutInstitutionInput>
+  }
+
+  export type InstitutionTutorCreateManyInstitutionInputEnvelope = {
+    data: InstitutionTutorCreateManyInstitutionInput | InstitutionTutorCreateManyInstitutionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type InstitutionStaffUpsertWithWhereUniqueWithoutInstitutionInput = {
+    where: InstitutionStaffWhereUniqueInput
+    update: XOR<InstitutionStaffUpdateWithoutInstitutionInput, InstitutionStaffUncheckedUpdateWithoutInstitutionInput>
+    create: XOR<InstitutionStaffCreateWithoutInstitutionInput, InstitutionStaffUncheckedCreateWithoutInstitutionInput>
+  }
+
+  export type InstitutionStaffUpdateWithWhereUniqueWithoutInstitutionInput = {
+    where: InstitutionStaffWhereUniqueInput
+    data: XOR<InstitutionStaffUpdateWithoutInstitutionInput, InstitutionStaffUncheckedUpdateWithoutInstitutionInput>
+  }
+
+  export type InstitutionStaffUpdateManyWithWhereWithoutInstitutionInput = {
+    where: InstitutionStaffScalarWhereInput
+    data: XOR<InstitutionStaffUpdateManyMutationInput, InstitutionStaffUncheckedUpdateManyWithoutInstitutionInput>
+  }
+
+  export type InstitutionStaffScalarWhereInput = {
+    AND?: InstitutionStaffScalarWhereInput | InstitutionStaffScalarWhereInput[]
+    OR?: InstitutionStaffScalarWhereInput[]
+    NOT?: InstitutionStaffScalarWhereInput | InstitutionStaffScalarWhereInput[]
+    id?: StringFilter<"InstitutionStaff"> | string
+    institutionId?: StringFilter<"InstitutionStaff"> | string
+    userId?: StringNullableFilter<"InstitutionStaff"> | string | null
+    email?: StringFilter<"InstitutionStaff"> | string
+    name?: StringFilter<"InstitutionStaff"> | string
+    role?: StringFilter<"InstitutionStaff"> | string
+    createdAt?: DateTimeFilter<"InstitutionStaff"> | Date | string
+  }
+
+  export type InstitutionStudentUpsertWithWhereUniqueWithoutInstitutionInput = {
+    where: InstitutionStudentWhereUniqueInput
+    update: XOR<InstitutionStudentUpdateWithoutInstitutionInput, InstitutionStudentUncheckedUpdateWithoutInstitutionInput>
+    create: XOR<InstitutionStudentCreateWithoutInstitutionInput, InstitutionStudentUncheckedCreateWithoutInstitutionInput>
+  }
+
+  export type InstitutionStudentUpdateWithWhereUniqueWithoutInstitutionInput = {
+    where: InstitutionStudentWhereUniqueInput
+    data: XOR<InstitutionStudentUpdateWithoutInstitutionInput, InstitutionStudentUncheckedUpdateWithoutInstitutionInput>
+  }
+
+  export type InstitutionStudentUpdateManyWithWhereWithoutInstitutionInput = {
+    where: InstitutionStudentScalarWhereInput
+    data: XOR<InstitutionStudentUpdateManyMutationInput, InstitutionStudentUncheckedUpdateManyWithoutInstitutionInput>
+  }
+
+  export type InstitutionStudentScalarWhereInput = {
+    AND?: InstitutionStudentScalarWhereInput | InstitutionStudentScalarWhereInput[]
+    OR?: InstitutionStudentScalarWhereInput[]
+    NOT?: InstitutionStudentScalarWhereInput | InstitutionStudentScalarWhereInput[]
+    id?: StringFilter<"InstitutionStudent"> | string
+    institutionId?: StringFilter<"InstitutionStudent"> | string
+    userId?: StringFilter<"InstitutionStudent"> | string
+    studentIdStr?: StringNullableFilter<"InstitutionStudent"> | string | null
+    classYear?: StringNullableFilter<"InstitutionStudent"> | string | null
+    createdAt?: DateTimeFilter<"InstitutionStudent"> | Date | string
+  }
+
+  export type InstitutionTutorUpsertWithWhereUniqueWithoutInstitutionInput = {
+    where: InstitutionTutorWhereUniqueInput
+    update: XOR<InstitutionTutorUpdateWithoutInstitutionInput, InstitutionTutorUncheckedUpdateWithoutInstitutionInput>
+    create: XOR<InstitutionTutorCreateWithoutInstitutionInput, InstitutionTutorUncheckedCreateWithoutInstitutionInput>
+  }
+
+  export type InstitutionTutorUpdateWithWhereUniqueWithoutInstitutionInput = {
+    where: InstitutionTutorWhereUniqueInput
+    data: XOR<InstitutionTutorUpdateWithoutInstitutionInput, InstitutionTutorUncheckedUpdateWithoutInstitutionInput>
+  }
+
+  export type InstitutionTutorUpdateManyWithWhereWithoutInstitutionInput = {
+    where: InstitutionTutorScalarWhereInput
+    data: XOR<InstitutionTutorUpdateManyMutationInput, InstitutionTutorUncheckedUpdateManyWithoutInstitutionInput>
+  }
+
+  export type InstitutionCreateWithoutStaffInput = {
+    id?: string
+    name: string
+    type?: string
+    code?: string | null
+    logo?: string | null
+    branding?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    isActive?: boolean
+    students?: InstitutionStudentCreateNestedManyWithoutInstitutionInput
+    tutors?: InstitutionTutorCreateNestedManyWithoutInstitutionInput
+  }
+
+  export type InstitutionUncheckedCreateWithoutStaffInput = {
+    id?: string
+    name: string
+    type?: string
+    code?: string | null
+    logo?: string | null
+    branding?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    isActive?: boolean
+    students?: InstitutionStudentUncheckedCreateNestedManyWithoutInstitutionInput
+    tutors?: InstitutionTutorUncheckedCreateNestedManyWithoutInstitutionInput
+  }
+
+  export type InstitutionCreateOrConnectWithoutStaffInput = {
+    where: InstitutionWhereUniqueInput
+    create: XOR<InstitutionCreateWithoutStaffInput, InstitutionUncheckedCreateWithoutStaffInput>
+  }
+
+  export type InstitutionUpsertWithoutStaffInput = {
+    update: XOR<InstitutionUpdateWithoutStaffInput, InstitutionUncheckedUpdateWithoutStaffInput>
+    create: XOR<InstitutionCreateWithoutStaffInput, InstitutionUncheckedCreateWithoutStaffInput>
+    where?: InstitutionWhereInput
+  }
+
+  export type InstitutionUpdateToOneWithWhereWithoutStaffInput = {
+    where?: InstitutionWhereInput
+    data: XOR<InstitutionUpdateWithoutStaffInput, InstitutionUncheckedUpdateWithoutStaffInput>
+  }
+
+  export type InstitutionUpdateWithoutStaffInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    branding?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    students?: InstitutionStudentUpdateManyWithoutInstitutionNestedInput
+    tutors?: InstitutionTutorUpdateManyWithoutInstitutionNestedInput
+  }
+
+  export type InstitutionUncheckedUpdateWithoutStaffInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    branding?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    students?: InstitutionStudentUncheckedUpdateManyWithoutInstitutionNestedInput
+    tutors?: InstitutionTutorUncheckedUpdateManyWithoutInstitutionNestedInput
+  }
+
+  export type InstitutionCreateWithoutStudentsInput = {
+    id?: string
+    name: string
+    type?: string
+    code?: string | null
+    logo?: string | null
+    branding?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    isActive?: boolean
+    staff?: InstitutionStaffCreateNestedManyWithoutInstitutionInput
+    tutors?: InstitutionTutorCreateNestedManyWithoutInstitutionInput
+  }
+
+  export type InstitutionUncheckedCreateWithoutStudentsInput = {
+    id?: string
+    name: string
+    type?: string
+    code?: string | null
+    logo?: string | null
+    branding?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    isActive?: boolean
+    staff?: InstitutionStaffUncheckedCreateNestedManyWithoutInstitutionInput
+    tutors?: InstitutionTutorUncheckedCreateNestedManyWithoutInstitutionInput
+  }
+
+  export type InstitutionCreateOrConnectWithoutStudentsInput = {
+    where: InstitutionWhereUniqueInput
+    create: XOR<InstitutionCreateWithoutStudentsInput, InstitutionUncheckedCreateWithoutStudentsInput>
+  }
+
+  export type UserCreateWithoutInstitutionStudentInput = {
+    id?: string
+    email: string
+    phone?: string | null
+    name: string
+    avatar?: string | null
+    gender?: $Enums.Gender | null
+    role?: $Enums.Role
+    educationLevel?: $Enums.EduLevel | null
+    formYear?: number | null
+    county: string
+    points?: number
+    tier?: $Enums.Tier
+    streakDays?: number
+    lastActiveAt?: Date | string | null
+    isUnder18?: boolean
+    strikes?: number
+    createdAt?: Date | string
+    bio?: string | null
+    settings?: JsonNullValueInput | InputJsonValue
+    curriculum?: string | null
+    dailyMessageCount?: number
+    dailySearchCount?: number
+    lastCountReset?: Date | string | null
+    subscriptionTier?: string | null
+    banned?: boolean
+    suspended?: boolean
+    plan?: string
+    planStartedAt?: Date | string | null
+    planExpiresAt?: Date | string | null
+    planBillingCycle?: string | null
+    achievements?: AchievementCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
+    challenges?: DailyChallengeAttemptCreateNestedManyWithoutUserInput
+    feedPosts?: FeedPostCreateNestedManyWithoutUserInput
+    messages?: MessageCreateNestedManyWithoutSenderInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    postLikes?: PostLikeCreateNestedManyWithoutUserInput
+    reviewsRecv?: ReviewCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
+    sessionsAsTutor?: SessionCreateNestedManyWithoutPartnerInput
+    sessionsAsStudent?: SessionCreateNestedManyWithoutStudentInput
+    studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
+    tutorApplication?: TutorApplicationCreateNestedOneWithoutUserInput
+    tutorProfile?: TutorProfileCreateNestedOneWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    resourcePurchases?: ResourcePurchaseCreateNestedManyWithoutUserInput
+    resources?: ResourceCreateNestedManyWithoutSellerInput
+    sessionPaymentsAsStudent?: SessionPaymentCreateNestedManyWithoutStudentInput
+    sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
+    payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
+    matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionTutors?: InstitutionTutorCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutInstitutionStudentInput = {
+    id?: string
+    email: string
+    phone?: string | null
+    name: string
+    avatar?: string | null
+    gender?: $Enums.Gender | null
+    role?: $Enums.Role
+    educationLevel?: $Enums.EduLevel | null
+    formYear?: number | null
+    county: string
+    points?: number
+    tier?: $Enums.Tier
+    streakDays?: number
+    lastActiveAt?: Date | string | null
+    isUnder18?: boolean
+    strikes?: number
+    createdAt?: Date | string
+    bio?: string | null
+    settings?: JsonNullValueInput | InputJsonValue
+    curriculum?: string | null
+    dailyMessageCount?: number
+    dailySearchCount?: number
+    lastCountReset?: Date | string | null
+    subscriptionTier?: string | null
+    banned?: boolean
+    suspended?: boolean
+    plan?: string
+    planStartedAt?: Date | string | null
+    planExpiresAt?: Date | string | null
+    planBillingCycle?: string | null
+    achievements?: AchievementUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+    challenges?: DailyChallengeAttemptUncheckedCreateNestedManyWithoutUserInput
+    feedPosts?: FeedPostUncheckedCreateNestedManyWithoutUserInput
+    messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    postLikes?: PostLikeUncheckedCreateNestedManyWithoutUserInput
+    reviewsRecv?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
+    sessionsAsTutor?: SessionUncheckedCreateNestedManyWithoutPartnerInput
+    sessionsAsStudent?: SessionUncheckedCreateNestedManyWithoutStudentInput
+    studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
+    tutorApplication?: TutorApplicationUncheckedCreateNestedOneWithoutUserInput
+    tutorProfile?: TutorProfileUncheckedCreateNestedOneWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    resourcePurchases?: ResourcePurchaseUncheckedCreateNestedManyWithoutUserInput
+    resources?: ResourceUncheckedCreateNestedManyWithoutSellerInput
+    sessionPaymentsAsStudent?: SessionPaymentUncheckedCreateNestedManyWithoutStudentInput
+    sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
+    payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
+    matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionTutors?: InstitutionTutorUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutInstitutionStudentInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutInstitutionStudentInput, UserUncheckedCreateWithoutInstitutionStudentInput>
+  }
+
+  export type InstitutionUpsertWithoutStudentsInput = {
+    update: XOR<InstitutionUpdateWithoutStudentsInput, InstitutionUncheckedUpdateWithoutStudentsInput>
+    create: XOR<InstitutionCreateWithoutStudentsInput, InstitutionUncheckedCreateWithoutStudentsInput>
+    where?: InstitutionWhereInput
+  }
+
+  export type InstitutionUpdateToOneWithWhereWithoutStudentsInput = {
+    where?: InstitutionWhereInput
+    data: XOR<InstitutionUpdateWithoutStudentsInput, InstitutionUncheckedUpdateWithoutStudentsInput>
+  }
+
+  export type InstitutionUpdateWithoutStudentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    branding?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    staff?: InstitutionStaffUpdateManyWithoutInstitutionNestedInput
+    tutors?: InstitutionTutorUpdateManyWithoutInstitutionNestedInput
+  }
+
+  export type InstitutionUncheckedUpdateWithoutStudentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    branding?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    staff?: InstitutionStaffUncheckedUpdateManyWithoutInstitutionNestedInput
+    tutors?: InstitutionTutorUncheckedUpdateManyWithoutInstitutionNestedInput
+  }
+
+  export type UserUpsertWithoutInstitutionStudentInput = {
+    update: XOR<UserUpdateWithoutInstitutionStudentInput, UserUncheckedUpdateWithoutInstitutionStudentInput>
+    create: XOR<UserCreateWithoutInstitutionStudentInput, UserUncheckedCreateWithoutInstitutionStudentInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutInstitutionStudentInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutInstitutionStudentInput, UserUncheckedUpdateWithoutInstitutionStudentInput>
+  }
+
+  export type UserUpdateWithoutInstitutionStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    educationLevel?: NullableEnumEduLevelFieldUpdateOperationsInput | $Enums.EduLevel | null
+    formYear?: NullableIntFieldUpdateOperationsInput | number | null
+    county?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    tier?: EnumTierFieldUpdateOperationsInput | $Enums.Tier
+    streakDays?: IntFieldUpdateOperationsInput | number
+    lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isUnder18?: BoolFieldUpdateOperationsInput | boolean
+    strikes?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    settings?: JsonNullValueInput | InputJsonValue
+    curriculum?: NullableStringFieldUpdateOperationsInput | string | null
+    dailyMessageCount?: IntFieldUpdateOperationsInput | number
+    dailySearchCount?: IntFieldUpdateOperationsInput | number
+    lastCountReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionTier?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    suspended?: BoolFieldUpdateOperationsInput | boolean
+    plan?: StringFieldUpdateOperationsInput | string
+    planStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planBillingCycle?: NullableStringFieldUpdateOperationsInput | string | null
+    achievements?: AchievementUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
+    challenges?: DailyChallengeAttemptUpdateManyWithoutUserNestedInput
+    feedPosts?: FeedPostUpdateManyWithoutUserNestedInput
+    messages?: MessageUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    postLikes?: PostLikeUpdateManyWithoutUserNestedInput
+    reviewsRecv?: ReviewUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
+    sessionsAsTutor?: SessionUpdateManyWithoutPartnerNestedInput
+    sessionsAsStudent?: SessionUpdateManyWithoutStudentNestedInput
+    studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
+    tutorApplication?: TutorApplicationUpdateOneWithoutUserNestedInput
+    tutorProfile?: TutorProfileUpdateOneWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    resourcePurchases?: ResourcePurchaseUpdateManyWithoutUserNestedInput
+    resources?: ResourceUpdateManyWithoutSellerNestedInput
+    sessionPaymentsAsStudent?: SessionPaymentUpdateManyWithoutStudentNestedInput
+    sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
+    payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
+    matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutInstitutionStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    educationLevel?: NullableEnumEduLevelFieldUpdateOperationsInput | $Enums.EduLevel | null
+    formYear?: NullableIntFieldUpdateOperationsInput | number | null
+    county?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    tier?: EnumTierFieldUpdateOperationsInput | $Enums.Tier
+    streakDays?: IntFieldUpdateOperationsInput | number
+    lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isUnder18?: BoolFieldUpdateOperationsInput | boolean
+    strikes?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    settings?: JsonNullValueInput | InputJsonValue
+    curriculum?: NullableStringFieldUpdateOperationsInput | string | null
+    dailyMessageCount?: IntFieldUpdateOperationsInput | number
+    dailySearchCount?: IntFieldUpdateOperationsInput | number
+    lastCountReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionTier?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    suspended?: BoolFieldUpdateOperationsInput | boolean
+    plan?: StringFieldUpdateOperationsInput | string
+    planStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planBillingCycle?: NullableStringFieldUpdateOperationsInput | string | null
+    achievements?: AchievementUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    challenges?: DailyChallengeAttemptUncheckedUpdateManyWithoutUserNestedInput
+    feedPosts?: FeedPostUncheckedUpdateManyWithoutUserNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    postLikes?: PostLikeUncheckedUpdateManyWithoutUserNestedInput
+    reviewsRecv?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    sessionsAsTutor?: SessionUncheckedUpdateManyWithoutPartnerNestedInput
+    sessionsAsStudent?: SessionUncheckedUpdateManyWithoutStudentNestedInput
+    studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
+    tutorApplication?: TutorApplicationUncheckedUpdateOneWithoutUserNestedInput
+    tutorProfile?: TutorProfileUncheckedUpdateOneWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    resourcePurchases?: ResourcePurchaseUncheckedUpdateManyWithoutUserNestedInput
+    resources?: ResourceUncheckedUpdateManyWithoutSellerNestedInput
+    sessionPaymentsAsStudent?: SessionPaymentUncheckedUpdateManyWithoutStudentNestedInput
+    sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
+    payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
+    matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionTutors?: InstitutionTutorUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type InstitutionCreateWithoutTutorsInput = {
+    id?: string
+    name: string
+    type?: string
+    code?: string | null
+    logo?: string | null
+    branding?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    isActive?: boolean
+    staff?: InstitutionStaffCreateNestedManyWithoutInstitutionInput
+    students?: InstitutionStudentCreateNestedManyWithoutInstitutionInput
+  }
+
+  export type InstitutionUncheckedCreateWithoutTutorsInput = {
+    id?: string
+    name: string
+    type?: string
+    code?: string | null
+    logo?: string | null
+    branding?: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    isActive?: boolean
+    staff?: InstitutionStaffUncheckedCreateNestedManyWithoutInstitutionInput
+    students?: InstitutionStudentUncheckedCreateNestedManyWithoutInstitutionInput
+  }
+
+  export type InstitutionCreateOrConnectWithoutTutorsInput = {
+    where: InstitutionWhereUniqueInput
+    create: XOR<InstitutionCreateWithoutTutorsInput, InstitutionUncheckedCreateWithoutTutorsInput>
+  }
+
+  export type UserCreateWithoutInstitutionTutorsInput = {
+    id?: string
+    email: string
+    phone?: string | null
+    name: string
+    avatar?: string | null
+    gender?: $Enums.Gender | null
+    role?: $Enums.Role
+    educationLevel?: $Enums.EduLevel | null
+    formYear?: number | null
+    county: string
+    points?: number
+    tier?: $Enums.Tier
+    streakDays?: number
+    lastActiveAt?: Date | string | null
+    isUnder18?: boolean
+    strikes?: number
+    createdAt?: Date | string
+    bio?: string | null
+    settings?: JsonNullValueInput | InputJsonValue
+    curriculum?: string | null
+    dailyMessageCount?: number
+    dailySearchCount?: number
+    lastCountReset?: Date | string | null
+    subscriptionTier?: string | null
+    banned?: boolean
+    suspended?: boolean
+    plan?: string
+    planStartedAt?: Date | string | null
+    planExpiresAt?: Date | string | null
+    planBillingCycle?: string | null
+    achievements?: AchievementCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
+    challenges?: DailyChallengeAttemptCreateNestedManyWithoutUserInput
+    feedPosts?: FeedPostCreateNestedManyWithoutUserInput
+    messages?: MessageCreateNestedManyWithoutSenderInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    postLikes?: PostLikeCreateNestedManyWithoutUserInput
+    reviewsRecv?: ReviewCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
+    sessionsAsTutor?: SessionCreateNestedManyWithoutPartnerInput
+    sessionsAsStudent?: SessionCreateNestedManyWithoutStudentInput
+    studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
+    tutorApplication?: TutorApplicationCreateNestedOneWithoutUserInput
+    tutorProfile?: TutorProfileCreateNestedOneWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    resourcePurchases?: ResourcePurchaseCreateNestedManyWithoutUserInput
+    resources?: ResourceCreateNestedManyWithoutSellerInput
+    sessionPaymentsAsStudent?: SessionPaymentCreateNestedManyWithoutStudentInput
+    sessionPaymentsAsTutor?: SessionPaymentCreateNestedManyWithoutTutorInput
+    payouts?: TutorPayoutCreateNestedManyWithoutTutorInput
+    matchRequests?: MatchRequestCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningCreateNestedManyWithoutSellerInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutInstitutionTutorsInput = {
+    id?: string
+    email: string
+    phone?: string | null
+    name: string
+    avatar?: string | null
+    gender?: $Enums.Gender | null
+    role?: $Enums.Role
+    educationLevel?: $Enums.EduLevel | null
+    formYear?: number | null
+    county: string
+    points?: number
+    tier?: $Enums.Tier
+    streakDays?: number
+    lastActiveAt?: Date | string | null
+    isUnder18?: boolean
+    strikes?: number
+    createdAt?: Date | string
+    bio?: string | null
+    settings?: JsonNullValueInput | InputJsonValue
+    curriculum?: string | null
+    dailyMessageCount?: number
+    dailySearchCount?: number
+    lastCountReset?: Date | string | null
+    subscriptionTier?: string | null
+    banned?: boolean
+    suspended?: boolean
+    plan?: string
+    planStartedAt?: Date | string | null
+    planExpiresAt?: Date | string | null
+    planBillingCycle?: string | null
+    achievements?: AchievementUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+    challenges?: DailyChallengeAttemptUncheckedCreateNestedManyWithoutUserInput
+    feedPosts?: FeedPostUncheckedCreateNestedManyWithoutUserInput
+    messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    postLikes?: PostLikeUncheckedCreateNestedManyWithoutUserInput
+    reviewsRecv?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
+    sessionsAsTutor?: SessionUncheckedCreateNestedManyWithoutPartnerInput
+    sessionsAsStudent?: SessionUncheckedCreateNestedManyWithoutStudentInput
+    studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
+    tutorApplication?: TutorApplicationUncheckedCreateNestedOneWithoutUserInput
+    tutorProfile?: TutorProfileUncheckedCreateNestedOneWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    resourcePurchases?: ResourcePurchaseUncheckedCreateNestedManyWithoutUserInput
+    resources?: ResourceUncheckedCreateNestedManyWithoutSellerInput
+    sessionPaymentsAsStudent?: SessionPaymentUncheckedCreateNestedManyWithoutStudentInput
+    sessionPaymentsAsTutor?: SessionPaymentUncheckedCreateNestedManyWithoutTutorInput
+    payouts?: TutorPayoutUncheckedCreateNestedManyWithoutTutorInput
+    matchRequests?: MatchRequestUncheckedCreateNestedManyWithoutStudentInput
+    newsArticles?: NewsArticleUncheckedCreateNestedManyWithoutAuthorInput
+    userCredits?: UserCreditsUncheckedCreateNestedOneWithoutUserInput
+    creditTransactions?: CreditTransactionUncheckedCreateNestedManyWithoutUserInput
+    sellerEarnings?: SellerEarningUncheckedCreateNestedManyWithoutSellerInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    institutionStudent?: InstitutionStudentUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutInstitutionTutorsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutInstitutionTutorsInput, UserUncheckedCreateWithoutInstitutionTutorsInput>
+  }
+
+  export type InstitutionUpsertWithoutTutorsInput = {
+    update: XOR<InstitutionUpdateWithoutTutorsInput, InstitutionUncheckedUpdateWithoutTutorsInput>
+    create: XOR<InstitutionCreateWithoutTutorsInput, InstitutionUncheckedCreateWithoutTutorsInput>
+    where?: InstitutionWhereInput
+  }
+
+  export type InstitutionUpdateToOneWithWhereWithoutTutorsInput = {
+    where?: InstitutionWhereInput
+    data: XOR<InstitutionUpdateWithoutTutorsInput, InstitutionUncheckedUpdateWithoutTutorsInput>
+  }
+
+  export type InstitutionUpdateWithoutTutorsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    branding?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    staff?: InstitutionStaffUpdateManyWithoutInstitutionNestedInput
+    students?: InstitutionStudentUpdateManyWithoutInstitutionNestedInput
+  }
+
+  export type InstitutionUncheckedUpdateWithoutTutorsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    branding?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    staff?: InstitutionStaffUncheckedUpdateManyWithoutInstitutionNestedInput
+    students?: InstitutionStudentUncheckedUpdateManyWithoutInstitutionNestedInput
+  }
+
+  export type UserUpsertWithoutInstitutionTutorsInput = {
+    update: XOR<UserUpdateWithoutInstitutionTutorsInput, UserUncheckedUpdateWithoutInstitutionTutorsInput>
+    create: XOR<UserCreateWithoutInstitutionTutorsInput, UserUncheckedCreateWithoutInstitutionTutorsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutInstitutionTutorsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutInstitutionTutorsInput, UserUncheckedUpdateWithoutInstitutionTutorsInput>
+  }
+
+  export type UserUpdateWithoutInstitutionTutorsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    educationLevel?: NullableEnumEduLevelFieldUpdateOperationsInput | $Enums.EduLevel | null
+    formYear?: NullableIntFieldUpdateOperationsInput | number | null
+    county?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    tier?: EnumTierFieldUpdateOperationsInput | $Enums.Tier
+    streakDays?: IntFieldUpdateOperationsInput | number
+    lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isUnder18?: BoolFieldUpdateOperationsInput | boolean
+    strikes?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    settings?: JsonNullValueInput | InputJsonValue
+    curriculum?: NullableStringFieldUpdateOperationsInput | string | null
+    dailyMessageCount?: IntFieldUpdateOperationsInput | number
+    dailySearchCount?: IntFieldUpdateOperationsInput | number
+    lastCountReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionTier?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    suspended?: BoolFieldUpdateOperationsInput | boolean
+    plan?: StringFieldUpdateOperationsInput | string
+    planStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planBillingCycle?: NullableStringFieldUpdateOperationsInput | string | null
+    achievements?: AchievementUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
+    challenges?: DailyChallengeAttemptUpdateManyWithoutUserNestedInput
+    feedPosts?: FeedPostUpdateManyWithoutUserNestedInput
+    messages?: MessageUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    postLikes?: PostLikeUpdateManyWithoutUserNestedInput
+    reviewsRecv?: ReviewUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
+    sessionsAsTutor?: SessionUpdateManyWithoutPartnerNestedInput
+    sessionsAsStudent?: SessionUpdateManyWithoutStudentNestedInput
+    studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
+    tutorApplication?: TutorApplicationUpdateOneWithoutUserNestedInput
+    tutorProfile?: TutorProfileUpdateOneWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    resourcePurchases?: ResourcePurchaseUpdateManyWithoutUserNestedInput
+    resources?: ResourceUpdateManyWithoutSellerNestedInput
+    sessionPaymentsAsStudent?: SessionPaymentUpdateManyWithoutStudentNestedInput
+    sessionPaymentsAsTutor?: SessionPaymentUpdateManyWithoutTutorNestedInput
+    payouts?: TutorPayoutUpdateManyWithoutTutorNestedInput
+    matchRequests?: MatchRequestUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUpdateManyWithoutSellerNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutInstitutionTutorsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    educationLevel?: NullableEnumEduLevelFieldUpdateOperationsInput | $Enums.EduLevel | null
+    formYear?: NullableIntFieldUpdateOperationsInput | number | null
+    county?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    tier?: EnumTierFieldUpdateOperationsInput | $Enums.Tier
+    streakDays?: IntFieldUpdateOperationsInput | number
+    lastActiveAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isUnder18?: BoolFieldUpdateOperationsInput | boolean
+    strikes?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    settings?: JsonNullValueInput | InputJsonValue
+    curriculum?: NullableStringFieldUpdateOperationsInput | string | null
+    dailyMessageCount?: IntFieldUpdateOperationsInput | number
+    dailySearchCount?: IntFieldUpdateOperationsInput | number
+    lastCountReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionTier?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: BoolFieldUpdateOperationsInput | boolean
+    suspended?: BoolFieldUpdateOperationsInput | boolean
+    plan?: StringFieldUpdateOperationsInput | string
+    planStartedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    planBillingCycle?: NullableStringFieldUpdateOperationsInput | string | null
+    achievements?: AchievementUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    challenges?: DailyChallengeAttemptUncheckedUpdateManyWithoutUserNestedInput
+    feedPosts?: FeedPostUncheckedUpdateManyWithoutUserNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    postLikes?: PostLikeUncheckedUpdateManyWithoutUserNestedInput
+    reviewsRecv?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    sessionsAsTutor?: SessionUncheckedUpdateManyWithoutPartnerNestedInput
+    sessionsAsStudent?: SessionUncheckedUpdateManyWithoutStudentNestedInput
+    studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
+    tutorApplication?: TutorApplicationUncheckedUpdateOneWithoutUserNestedInput
+    tutorProfile?: TutorProfileUncheckedUpdateOneWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    resourcePurchases?: ResourcePurchaseUncheckedUpdateManyWithoutUserNestedInput
+    resources?: ResourceUncheckedUpdateManyWithoutSellerNestedInput
+    sessionPaymentsAsStudent?: SessionPaymentUncheckedUpdateManyWithoutStudentNestedInput
+    sessionPaymentsAsTutor?: SessionPaymentUncheckedUpdateManyWithoutTutorNestedInput
+    payouts?: TutorPayoutUncheckedUpdateManyWithoutTutorNestedInput
+    matchRequests?: MatchRequestUncheckedUpdateManyWithoutStudentNestedInput
+    newsArticles?: NewsArticleUncheckedUpdateManyWithoutAuthorNestedInput
+    userCredits?: UserCreditsUncheckedUpdateOneWithoutUserNestedInput
+    creditTransactions?: CreditTransactionUncheckedUpdateManyWithoutUserNestedInput
+    sellerEarnings?: SellerEarningUncheckedUpdateManyWithoutSellerNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    institutionStudent?: InstitutionStudentUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type AchievementCreateManyUserInput = {
@@ -65511,6 +72072,13 @@ export namespace Prisma {
     endpoint: string
     p256dh: string
     auth: string
+    createdAt?: Date | string
+  }
+
+  export type InstitutionTutorCreateManyUserInput = {
+    id?: string
+    institutionId: string
+    status?: string
     createdAt?: Date | string
   }
 
@@ -66254,6 +72822,27 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type InstitutionTutorUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    institution?: InstitutionUpdateOneRequiredWithoutTutorsNestedInput
+  }
+
+  export type InstitutionTutorUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    institutionId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InstitutionTutorUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    institutionId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type MessageCreateManySessionInput = {
     id?: string
     senderId?: string | null
@@ -66558,6 +73147,102 @@ export namespace Prisma {
     createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type InstitutionStaffCreateManyInstitutionInput = {
+    id?: string
+    userId?: string | null
+    email: string
+    name: string
+    role?: string
+    createdAt?: Date | string
+  }
+
+  export type InstitutionStudentCreateManyInstitutionInput = {
+    id?: string
+    userId: string
+    studentIdStr?: string | null
+    classYear?: string | null
+    createdAt?: Date | string
+  }
+
+  export type InstitutionTutorCreateManyInstitutionInput = {
+    id?: string
+    userId: string
+    status?: string
+    createdAt?: Date | string
+  }
+
+  export type InstitutionStaffUpdateWithoutInstitutionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InstitutionStaffUncheckedUpdateWithoutInstitutionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InstitutionStaffUncheckedUpdateManyWithoutInstitutionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InstitutionStudentUpdateWithoutInstitutionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentIdStr?: NullableStringFieldUpdateOperationsInput | string | null
+    classYear?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutInstitutionStudentNestedInput
+  }
+
+  export type InstitutionStudentUncheckedUpdateWithoutInstitutionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    studentIdStr?: NullableStringFieldUpdateOperationsInput | string | null
+    classYear?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InstitutionStudentUncheckedUpdateManyWithoutInstitutionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    studentIdStr?: NullableStringFieldUpdateOperationsInput | string | null
+    classYear?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InstitutionTutorUpdateWithoutInstitutionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutInstitutionTutorsNestedInput
+  }
+
+  export type InstitutionTutorUncheckedUpdateWithoutInstitutionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InstitutionTutorUncheckedUpdateManyWithoutInstitutionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
 
 
   /**
@@ -66591,6 +73276,10 @@ export namespace Prisma {
      * @deprecated Use ResourceCountOutputTypeDefaultArgs instead
      */
     export type ResourceCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ResourceCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use InstitutionCountOutputTypeDefaultArgs instead
+     */
+    export type InstitutionCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = InstitutionCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use UserDefaultArgs instead
      */
@@ -66747,6 +73436,22 @@ export namespace Prisma {
      * @deprecated Use newsletter_subscribersDefaultArgs instead
      */
     export type newsletter_subscribersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = newsletter_subscribersDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use InstitutionDefaultArgs instead
+     */
+    export type InstitutionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = InstitutionDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use InstitutionStaffDefaultArgs instead
+     */
+    export type InstitutionStaffArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = InstitutionStaffDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use InstitutionStudentDefaultArgs instead
+     */
+    export type InstitutionStudentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = InstitutionStudentDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use InstitutionTutorDefaultArgs instead
+     */
+    export type InstitutionTutorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = InstitutionTutorDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany
