@@ -38,8 +38,13 @@ export async function createMatchRequest(data: { subject: string; topic: string 
     }
 
     const limited = await withRateLimit("createMatchRequest", user.id, async () => {
-      // Ensure Prisma User record exists for this exact Supabase ID
+      // Find by Supabase ID first, then by email (user may exist with different ID)
       let prismaUser = await prisma.user.findUnique({ where: { id: user.id } });
+
+      if (!prismaUser && user.email) {
+        prismaUser = await prisma.user.findFirst({ where: { email: user.email } });
+      }
+
       if (!prismaUser) {
         const meta = user.user_metadata || {};
         prismaUser = await prisma.user.create({
