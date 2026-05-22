@@ -32,23 +32,25 @@ export default function InstitutionStudents() {
   };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8 bg-[#111111] min-h-full">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6 sm:space-y-8 bg-[#111111] min-h-full">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/10">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">
+          <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
             Student Management
           </h1>
-          <p className="text-white/50 text-sm mt-1">Manage your institution's roster and synchronize data.</p>
+          <p className="text-white/50 text-xs sm:text-sm mt-1">Manage your institution's roster and synchronize data.</p>
         </div>
-        <div className="flex items-center gap-3">
-          <Button variant="outline" className="bg-transparent border-white/20 text-white hover:bg-white/10">
-            <Download className="h-4 w-4 mr-2" />
-            Template
+        <div className="flex items-center gap-2 sm:gap-3">
+          <Button variant="outline" size="sm" className="bg-transparent border-white/20 text-white hover:bg-white/10 text-xs sm:text-sm h-9 sm:h-10">
+            <Download className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
+            <span className="hidden sm:inline">Template</span>
+            <span className="sm:hidden">CSV</span>
           </Button>
-          <Button className="bg-indigo-600 hover:bg-indigo-700 text-white">
-            <UserPlus className="h-4 w-4 mr-2" />
-            Add Student
+          <Button size="sm" className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm h-9 sm:h-10">
+            <UserPlus className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
+            <span className="hidden sm:inline">Add Student</span>
+            <span className="sm:hidden">Add</span>
           </Button>
         </div>
       </div>

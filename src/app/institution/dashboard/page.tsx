@@ -71,20 +71,22 @@ const announcements = [
 
 export default function InstitutionDashboard() {
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8 bg-[#111111] min-h-full">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6 sm:space-y-8 bg-[#111111] min-h-full">
       {/* Header */}
-      <div className="flex items-center justify-between pb-6 border-b border-white/10">
-        <h1 className="text-2xl font-bold text-white tracking-tight">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
+        <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
           Overview — May 2026
         </h1>
-        <div className="flex items-center gap-3">
-          <Button variant="outline" className="bg-transparent border-white/20 text-white hover:bg-white/10">
-            <Download className="h-4 w-4 mr-2" />
-            Export Report
+        <div className="flex items-center gap-2 sm:gap-3">
+          <Button variant="outline" size="sm" className="bg-transparent border-white/20 text-white hover:bg-white/10 text-xs sm:text-sm h-9 sm:h-10">
+            <Download className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
+            <span className="hidden sm:inline">Export Report</span>
+            <span className="sm:hidden">Export</span>
           </Button>
-          <Button className="bg-indigo-600 hover:bg-indigo-700 text-white">
-            <Plus className="h-4 w-4 mr-2" />
-            Announce
+          <Button size="sm" className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm h-9 sm:h-10">
+            <Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
+            <span className="hidden sm:inline">Announce</span>
+            <span className="sm:hidden">New</span>
           </Button>
         </div>
       </div>

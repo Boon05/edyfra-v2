@@ -160,6 +160,28 @@ export default function StreamChatRoom({
       setChannel(c);
       setChatClient(client);
 
+      // ─── Client-side @mash handler (fallback when webhook is not configured) ─
+      c.on("message.new", async (event) => {
+        const msg = event.message;
+        if (!msg || msg.user?.id === "mash-ai") return;
+
+        const text = msg.text || "";
+        const mentionRegex = /@(?:Mash|AI|mash|ai|mash-ai|MASH)\b/;
+        if (!mentionRegex.test(text)) return;
+
+        // Debounce: avoid duplicate calls if multiple clients detect the same message
+        const { handleMashMention } = await import("@/app/actions/stream");
+        handleMashMention(
+          channelId,
+          text,
+          mashAI?.subject || "General",
+          mashAI?.topic,
+          mashAI?.tier
+        ).catch((err) =>
+          console.warn("[StreamChatRoom] handleMashMention error:", err)
+        );
+      });
+
       // Auto-detect active call for this channel
       const vc = videoClientRef.current;
       if (vc) {

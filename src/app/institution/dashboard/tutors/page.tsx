@@ -31,19 +31,20 @@ export default function InstitutionTutors() {
   };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8 bg-[#111111] min-h-full">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6 sm:space-y-8 bg-[#111111] min-h-full">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/10">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">
+          <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
             Institution Tutor Roster
           </h1>
-          <p className="text-white/50 text-sm mt-1">Select and approve specific Edyfra tutors for your students.</p>
+          <p className="text-white/50 text-xs sm:text-sm mt-1">Select and approve specific Edyfra tutors for your students.</p>
         </div>
         <div className="flex items-center gap-3">
-          <Button className="bg-indigo-600 hover:bg-indigo-700 text-white">
-            <Plus className="h-4 w-4 mr-2" />
-            Invite External Tutor
+          <Button size="sm" className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm h-9 sm:h-10">
+            <Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
+            <span className="hidden sm:inline">Invite External Tutor</span>
+            <span className="sm:hidden">Invite</span>
           </Button>
         </div>
       </div>
