@@ -222,23 +222,29 @@ export default function TutorSettingsPage() {
   })();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-background to-secondary/20">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+    <div className="min-h-screen bg-gradient-to-b from-background via-secondary/10 to-primary/5 relative overflow-hidden">
+      {/* Dynamic background glow */}
+      <div className="absolute top-0 left-0 w-full h-[500px] bg-primary/10 blur-[120px] rounded-full -translate-y-1/2 pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[800px] h-[800px] bg-blue-500/5 blur-[150px] rounded-full translate-y-1/3 translate-x-1/3 pointer-events-none" />
+      
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 z-10">
 
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 text-sm text-muted-foreground mb-2">
+        <div className="mb-10">
+          <div className="flex items-center gap-3 text-sm text-primary mb-3 uppercase tracking-widest font-black">
             <span>Dashboard</span>
-            <ChevronRight className="h-3 w-3" />
-            <span className="text-foreground font-semibold">Settings</span>
+            <ChevronRight className="h-4 w-4" />
+            <span className="text-foreground">Settings</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Settings</h1>
-          <p className="text-muted-foreground mt-1">Customize your profile, preferences, and account</p>
+          <h1 className="text-4xl sm:text-5xl font-black tracking-tightest">Settings</h1>
+          <p className="text-muted-foreground mt-2 text-lg font-medium">Customize your profile, preferences, and account</p>
         </div>
 
         {/* Profile Summary Card */}
-        <Card className="mb-8 border-border/50 bg-gradient-to-br from-primary/5 via-background to-background shadow-sm">
-          <CardContent className="p-6 sm:p-8">
+        <Card className="mb-10 border-border/30 bg-background/40 backdrop-blur-2xl shadow-2xl shadow-primary/5 rounded-[2.5rem] relative overflow-hidden group">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-blue-500/5 opacity-50" />
+          <div className="absolute right-0 top-0 w-64 h-64 bg-primary/10 blur-[80px] group-hover:bg-primary/20 transition-all duration-700 pointer-events-none" />
+          <CardContent className="relative p-8 sm:p-10">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
               <div className="relative group">
                 <Avatar className="h-20 w-20 sm:h-24 sm:w-24 border-4 border-background shadow-xl ring-2 ring-primary/20">
@@ -279,22 +285,29 @@ export default function TutorSettingsPage() {
         {/* Desktop: Sidebar + Content */}
         <div className="flex gap-8">
           {/* Sidebar Nav */}
-          <aside className="hidden lg:block w-56 shrink-0">
-            <nav className="sticky top-24 space-y-1">
+          <aside className="hidden lg:block w-64 shrink-0">
+            <nav className="sticky top-24 space-y-2">
               {SIDEBAR_ITEMS.map((item) => {
                 const Icon = item.icon;
+                const isActive = activeTab === item.id;
                 return (
                   <button
                     key={item.id}
                     onClick={() => setActiveTab(item.id)}
-                    className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all text-left ${
-                      activeTab === item.id
-                        ? "bg-primary text-white shadow-md shadow-primary/20"
-                        : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+                    className={`relative w-full flex items-center gap-3 px-5 py-3.5 rounded-2xl text-sm font-bold transition-all duration-300 overflow-hidden group text-left ${
+                      isActive
+                        ? "text-primary shadow-xl shadow-primary/10 bg-background border border-border/50"
+                        : "text-muted-foreground hover:text-foreground hover:bg-secondary/40 border border-transparent"
                     }`}
                   >
-                    <Icon className="h-4 w-4" />
-                    {item.label}
+                    {isActive && (
+                      <span className="absolute inset-0 bg-primary/5 rounded-2xl transition-transform duration-300" />
+                    )}
+                    {isActive && (
+                      <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-8 bg-primary rounded-r-full shadow-[0_0_10px_rgba(var(--primary),0.5)]" />
+                    )}
+                    <Icon className={`h-5 w-5 transition-transform duration-300 ${isActive ? "scale-110" : "group-hover:scale-110"}`} />
+                    <span className="relative z-10">{item.label}</span>
                   </button>
                 );
               })}
@@ -326,7 +339,7 @@ export default function TutorSettingsPage() {
 
             {/* PROFILE */}
             {activeTab === "profile" && (
-              <Card className="border-border/50 shadow-sm">
+              <Card className="border-border/30 bg-background/60 backdrop-blur-xl shadow-xl shadow-primary/5 overflow-hidden rounded-[2rem] transition-all duration-500 hover:shadow-2xl hover:border-primary/20">
                 <CardHeader className="p-6 sm:p-8 border-b border-border/50 bg-gradient-to-r from-primary/5 to-transparent">
                   <div className="flex items-center gap-3">
                     <div className="p-2 rounded-xl bg-primary/10">
@@ -428,7 +441,7 @@ export default function TutorSettingsPage() {
 
             {/* AVAILABILITY */}
             {activeTab === "availability" && (
-              <Card className="border-border/50 shadow-sm">
+              <Card className="border-border/30 bg-background/60 backdrop-blur-xl shadow-xl shadow-primary/5 overflow-hidden rounded-[2rem] transition-all duration-500 hover:shadow-2xl hover:border-primary/20">
                 <CardHeader className="p-6 sm:p-8 border-b border-border/50 bg-gradient-to-r from-primary/5 to-transparent">
                   <div className="flex items-center gap-3">
                     <div className="p-2 rounded-xl bg-primary/10">
@@ -500,7 +513,7 @@ export default function TutorSettingsPage() {
 
             {/* NOTIFICATIONS */}
             {activeTab === "notifications" && (
-              <Card className="border-border/50 shadow-sm">
+              <Card className="border-border/30 bg-background/60 backdrop-blur-xl shadow-xl shadow-primary/5 overflow-hidden rounded-[2rem] transition-all duration-500 hover:shadow-2xl hover:border-primary/20">
                 <CardHeader className="p-6 sm:p-8 border-b border-border/50 bg-gradient-to-r from-primary/5 to-transparent">
                   <div className="flex items-center gap-3">
                     <div className="p-2 rounded-xl bg-primary/10">
@@ -533,7 +546,7 @@ export default function TutorSettingsPage() {
 
             {/* SESSIONS */}
             {activeTab === "sessions" && (
-              <Card className="border-border/50 shadow-sm">
+              <Card className="border-border/30 bg-background/60 backdrop-blur-xl shadow-xl shadow-primary/5 overflow-hidden rounded-[2rem] transition-all duration-500 hover:shadow-2xl hover:border-primary/20">
                 <CardHeader className="p-6 sm:p-8 border-b border-border/50 bg-gradient-to-r from-primary/5 to-transparent">
                   <div className="flex items-center gap-3">
                     <div className="p-2 rounded-xl bg-primary/10">
@@ -575,7 +588,7 @@ export default function TutorSettingsPage() {
 
             {/* MASH */}
             {activeTab === "mash" && (
-              <Card className="border-border/50 shadow-sm">
+              <Card className="border-border/30 bg-background/60 backdrop-blur-xl shadow-xl shadow-primary/5 overflow-hidden rounded-[2rem] transition-all duration-500 hover:shadow-2xl hover:border-primary/20">
                 <CardHeader className="p-6 sm:p-8 border-b border-border/50 bg-gradient-to-r from-primary/5 to-transparent">
                   <div className="flex items-center gap-3">
                     <div className="p-2 rounded-xl bg-primary/10">

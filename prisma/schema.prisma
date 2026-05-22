@@ -70,6 +70,8 @@ model User {
   institutionMembers       InstitutionMember[]
   uploadedDocuments        InstitutionDocument[]
   pushSubscriptions        PushSubscription[]
+
+  @@index([role])
 }
 
 model StudentProfile {
@@ -100,6 +102,8 @@ model TutorProfile {
   sessionRateGroup Int?      @default(100) @map("session_rate_group")
   payoutPhone      String?   @map("payout_phone")
   user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([isVerified])
 }
 
 model MatchRequest {
@@ -114,6 +118,10 @@ model MatchRequest {
   createdAt  DateTime   @default(now())
   resolvedAt DateTime?
   student    User       @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@index([subject])
+  @@index([sessionId])
+  @@index([createdAt])
 }
 
 model Session {
@@ -137,6 +145,10 @@ model Session {
   partner       User?            @relation("TutorSessions", fields: [partnerId], references: [id])
   student       User             @relation("StudentSessions", fields: [studentId], references: [id], onDelete: Cascade)
   payments      SessionPayment[]
+
+  @@index([status])
+  @@index([studentId])
+  @@index([partnerId])
 }
 
 model Message {
