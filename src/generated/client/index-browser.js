@@ -581,6 +581,45 @@ exports.Prisma.Newsletter_subscribersScalarFieldEnum = {
   source: 'source'
 };
 
+exports.Prisma.InstitutionScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code',
+  description: 'description',
+  logo: 'logo',
+  banner: 'banner',
+  location: 'location',
+  email: 'email',
+  phone: 'phone',
+  website: 'website',
+  verified: 'verified',
+  plan: 'plan',
+  allowedDomains: 'allowedDomains',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InstitutionMemberScalarFieldEnum = {
+  id: 'id',
+  institutionId: 'institutionId',
+  userId: 'userId',
+  role: 'role',
+  status: 'status',
+  joinedAt: 'joinedAt'
+};
+
+exports.Prisma.InstitutionDocumentScalarFieldEnum = {
+  id: 'id',
+  institutionId: 'institutionId',
+  title: 'title',
+  description: 'description',
+  filePath: 'filePath',
+  fileType: 'fileType',
+  fileSize: 'fileSize',
+  uploadedBy: 'uploadedBy',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -660,6 +699,13 @@ exports.AppStatus = exports.$Enums.AppStatus = {
   REJECTED: 'REJECTED'
 };
 
+exports.InstitutionRole = exports.$Enums.InstitutionRole = {
+  INSTITUTION_ADMIN: 'INSTITUTION_ADMIN',
+  DEPARTMENT_HEAD: 'DEPARTMENT_HEAD',
+  INSTRUCTOR: 'INSTRUCTOR',
+  STUDENT: 'STUDENT'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   StudentProfile: 'StudentProfile',
@@ -699,7 +745,10 @@ exports.Prisma.ModelName = {
   CurriculumTopic: 'CurriculumTopic',
   Resource: 'Resource',
   ResourcePurchase: 'ResourcePurchase',
-  newsletter_subscribers: 'newsletter_subscribers'
+  newsletter_subscribers: 'newsletter_subscribers',
+  Institution: 'Institution',
+  InstitutionMember: 'InstitutionMember',
+  InstitutionDocument: 'InstitutionDocument'
 };
 
 /**
