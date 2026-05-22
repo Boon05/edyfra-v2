@@ -11,6 +11,7 @@ import { randomBytes } from "crypto";
 import { executeSmartMatching, sweepAndAIFallback } from "./match-algorithm";
 import { StreamChat } from "stream-chat";
 import { notifyUser } from "@/app/actions/notifications";
+import { getUserData } from "@/app/actions/user";
 
 const STREAM_KEY = process.env.NEXT_PUBLIC_STREAM_KEY!;
 const STREAM_SECRET = process.env.STREAM_SECRET!;
@@ -34,6 +35,9 @@ export async function createMatchRequest(data: { subject: string; topic: string 
     if (!user) {
       return { success: false, error: "Please sign in to start matching." };
     }
+
+    // Ensure Prisma User record exists before creating FK reference
+    await getUserData();
 
     const matchRequest = await prisma.matchRequest.create({
       data: {
