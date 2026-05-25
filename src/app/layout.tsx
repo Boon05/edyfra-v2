@@ -9,7 +9,7 @@ import { ThemeColorManager } from "@/components/theme-color-manager";
 import { ConditionalShell } from "@/components/conditional-shell";
 import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
 import { PushSubscriptionManager } from "@/components/push-subscription-manager";
-import Script from "next/script";
+import { AssistLoopWidget } from "@/components/assistloop-widget";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -100,15 +100,7 @@ export default function RootLayout({
           <Toaster richColors position="top-right" />
           <Analytics />
           <SpeedInsights />
-          <Script
-            src="https://assistloop.ai/assistloop-widget.js"
-            strategy="afterInteractive"
-            onLoad={() => {
-              (window as any).AssistLoopWidget.init({
-                agentId: "61719134-d7b6-4998-9750-c92b8b6dca1b",
-              });
-            }}
-          />
+          <AssistLoopWidget />
         </ThemeProvider>
       </body>
     </html>
